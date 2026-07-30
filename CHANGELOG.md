@@ -20,6 +20,12 @@ development. Until the release process is approved, changes remain under
 - Current sprint and strategic roadmap.
 - Sprint methodology and universal Definition of Done.
 - Evidence-based Chief Architect review template.
+- Repository standards defining path ownership, artifact policy, generated
+  content, dependencies, configuration, and hygiene.
+- Language-independent engineering standards for interfaces, state, failure
+  behavior, security, testing, observability, and maintainability.
+- Documentation standards defining canonical ownership, evidence categories,
+  style, navigation, review, and drift prevention.
 
 ### Changed
 
@@ -27,6 +33,8 @@ development. Until the release process is approved, changes remain under
   overview and onboarding path.
 - Updated canonical navigation and status for the working-methodology
   checkpoint.
+- Centralized branch policy in the Git workflow and documentation ownership in
+  the documentation standards to prevent duplicated rules.
 
 ### Security
 

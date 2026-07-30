@@ -23,6 +23,12 @@ searchable, linkable, and version controlled.
   carryover, and closure.
 - [Definition of Done](DEFINITION_OF_DONE.md) defines the universal finish
   line.
+- [Repository Standards](REPOSITORY_STANDARDS.md) defines paths, artifact
+  policy, generated content, dependencies, and repository hygiene.
+- [Engineering Standards](ENGINEERING_STANDARDS.md) defines
+  language-independent engineering quality.
+- [Documentation Standards](DOCUMENTATION_STANDARDS.md) defines canonical
+  ownership, evidence labels, writing, navigation, review, and maintenance.
 - [Chief Architect Review Template](reviews/ARCHITECT_REVIEW_TEMPLATE.md)
   defines the evidence and formal decision required at significant
   checkpoints.
@@ -67,8 +73,6 @@ Unsupported statements must not be presented as established truth.
 The approved Genesis plan will add substantive documents for:
 
 - Architecture and architecture principles
-- Repository and engineering standards
-- Documentation standards
 - Testing, security, operations, and release philosophy
 - AI collaboration and the AI memory contract
 - Data ownership

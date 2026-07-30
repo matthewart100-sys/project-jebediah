@@ -79,9 +79,9 @@ checkpoints:
 
 - Planning and contribution workflow: contribution guide, Git workflow, sprint
   process, current sprint, roadmap, Definition of Done, and Chief Architect
-  review template
+  review template — complete through approved pull request #2
 - Engineering documentation standards: repository, engineering, and
-  documentation standards
+  documentation standards — in progress
 
 Later milestones will add AI collaboration and memory contracts, architecture
 and ADR guidance, data ownership, the Digital Twin position paper, lifecycle
