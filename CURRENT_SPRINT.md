@@ -1,6 +1,6 @@
 # Current Sprint
 
-## Genesis Sprint 1: Working Methodology
+## Genesis Sprint 2: AI Onboarding and Memory
 
 **Target window:** 2026-07-30 through 2026-08-12
 
@@ -8,15 +8,15 @@
 
 ## Sprint goal
 
-Establish the permanent planning, contribution, and engineering methodology
-that all remaining Project Genesis work must follow.
+Make GitHub sufficient for a new AI contributor to orient, collaborate, act
+within authority, and preserve durable project memory without bootstrap files
+or prior chat history.
 
 ## Context
 
-The first Genesis checkpoint established the project mission, current status,
-documentation hierarchy, and approved implementation plan. This sprint makes
-that foundation operational by defining how work is selected, reviewed,
-completed, and tracked.
+Genesis Sprint 1 established the working methodology through pull requests #2
+and #3. This sprint applies that methodology to the human-and-AI engineering
+model described by the bootstrap requirements.
 
 The two-week window is a planning default, not permission to sacrifice quality.
 The sprint closes when its accepted outcomes are complete or when remaining
@@ -24,31 +24,19 @@ work is explicitly carried forward.
 
 ## Committed scope
 
-### Checkpoint A: Planning and contribution workflow
-
-- Contribution guide
-- Git workflow and branching strategy
-- Sprint methodology
-- Current sprint
-- Roadmap
-- Universal Definition of Done
-- Chief Architect review template
-- Canonical navigation, status, plan, and changelog updates
-
-### Checkpoint B: Engineering documentation standards
-
-- Repository standards
-- Engineering standards
-- Documentation standards
-- Cross-document ownership and maintenance rules
-
-Each checkpoint is delivered as a separate, reviewable pull request.
+- Tool-agnostic AI onboarding in `AGENTS.md`
+- Codex Lead Engineer operations in `CODEX_BOOTSTRAP.md`
+- Role, authority, review, and handoff rules in `.ai/COLLABORATION.md`
+- Durable memory layers and promotion rules in
+  `docs/AI_MEMORY_CONTRACT.md`
+- Canonical navigation, ownership, status, plan, and changelog updates
+- Durable ownership for accepted Chief Architect follow-up recommendations
 
 ## Non-goals
 
 - Application or infrastructure implementation
-- JCS design or implementation
-- Collector design
+- Architecture, ADR, JCS, collector, or Digital Twin design
+- Data ownership decisions
 - API, schema, protocol, language, or framework selection
 - Deployment changes to the reported home-lab environment
 - GitHub Actions enforcement, which belongs to a later Genesis milestone
@@ -56,17 +44,17 @@ Each checkpoint is delivered as a separate, reviewable pull request.
 
 ## Acceptance criteria
 
-- A contributor can determine how to select, branch, commit, validate, review,
-  merge, and close work.
-- `CURRENT_SPRINT.md` identifies one active goal and bounded scope.
-- `ROADMAP.md` distinguishes strategic sequence from schedules or promises.
-- The Definition of Done applies across documentation, code, architecture,
-  infrastructure, and security changes.
-- Chief Architect reviews are based on actual artifacts and produce an
-  explicit recorded decision.
-- Checkpoint A and Checkpoint B each pass documentation validation and receive
-  the required review.
-- Status, navigation, plan, and changelog remain consistent.
+- A new AI can reconstruct project context from the repository alone.
+- Tool-agnostic rules and Codex-specific operations have distinct owners.
+- Human maintainer, Chief Architect, Lead Engineer, and future-agent
+  responsibilities are explicit.
+- Durable information has a defined promotion path into reviewed GitHub
+  artifacts.
+- AI guidance links to existing standards and the Definition of Done instead
+  of creating weaker copies.
+- The Chief Architect receives the exact artifacts and records an explicit
+  decision.
+- Status, navigation, ownership, plan, and changelog remain consistent.
 
 ## Work status
 
@@ -74,8 +62,10 @@ Each checkpoint is delivered as a separate, reviewable pull request.
 | --- | --- | --- |
 | Genesis source-of-truth checkpoint | Complete | Pull request #1 merged into `main` |
 | Checkpoint A: planning and contribution workflow | Complete | Pull request #2 approved by the Chief Architect and merged |
-| Checkpoint B: engineering documentation standards | In progress | Active bounded feature branch |
-| Milestone 3: AI onboarding and memory | Pending | Starts after Sprint 1 methodology is accepted |
+| Checkpoint B: engineering documentation standards | Complete | Pull request #3 approved by the Chief Architect and merged |
+| Genesis Sprint 1 | Complete | Both working-methodology checkpoints accepted |
+| Milestone 3: AI onboarding and memory | In progress | Bounded Sprint 2 feature branch |
+| Milestone 4: architecture and information boundaries | Pending | Starts after Sprint 2 is accepted |
 
 ## Dependencies
 
@@ -88,10 +78,10 @@ Each checkpoint is delivered as a separate, reviewable pull request.
 
 | Risk | Response |
 | --- | --- |
-| Process documentation becomes bureaucracy | Require each rule to protect traceability, safety, quality, or maintainability. |
-| Sprint scope expands into architecture | Enforce the non-goals and require an ADR trigger assessment. |
-| Documentation duplicates the Genesis plan | Give each operational document one clear responsibility and link instead of copying. |
-| Calendar pressure lowers quality | Carry work forward explicitly rather than declaring incomplete work done. |
+| Tool-specific behavior leaks into universal guidance | Keep Codex operations in `CODEX_BOOTSTRAP.md` and shared invariants in `AGENTS.md`. |
+| AI guidance duplicates existing policy | Assign one owner per concept and link to standards and the Definition of Done. |
+| Chat decisions remain ephemeral | Promote decisions and recommendations through the AI memory contract. |
+| Role language implies AI authority | Keep final maintainer authority and formal architecture review boundaries explicit. |
 | Reviews rely on summaries | Require actual artifacts in the Chief Architect evidence package. |
 
 ## Update rule

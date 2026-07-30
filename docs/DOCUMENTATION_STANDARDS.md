@@ -48,7 +48,10 @@ to the [Definition of Done](DEFINITION_OF_DONE.md).
 | Architecture principles | Planned `docs/ARCHITECTURE_PRINCIPLES.md` |
 | Current architecture | Planned `docs/ARCHITECTURE.md` |
 | Architecture decisions | Planned `docs/adr/` |
-| AI memory policy | Planned `docs/AI_MEMORY_CONTRACT.md` |
+| Tool-agnostic AI onboarding | `AGENTS.md` |
+| Codex operations | `CODEX_BOOTSTRAP.md` |
+| Human and AI collaboration | `.ai/COLLABORATION.md` |
+| AI memory policy | `docs/AI_MEMORY_CONTRACT.md` |
 | Data ownership categories | Planned `docs/DATA_OWNERSHIP.md` |
 | Digital Twin intent | Planned `docs/design/DIGITAL_TWIN_POSITION.md` |
 | Security policy | Planned `SECURITY.md` |

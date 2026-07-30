@@ -29,6 +29,14 @@ searchable, linkable, and version controlled.
   language-independent engineering quality.
 - [Documentation Standards](DOCUMENTATION_STANDARDS.md) defines canonical
   ownership, evidence labels, writing, navigation, review, and maintenance.
+- [AI Entry Point](../AGENTS.md) defines the mandatory orientation and
+  invariants shared by every AI contributor.
+- [Codex Bootstrap](../CODEX_BOOTSTRAP.md) defines Codex-specific Lead
+  Engineer operations.
+- [AI Collaboration Standard](../.ai/COLLABORATION.md) defines human and AI
+  roles, authority, review, and handoff behavior.
+- [AI Memory Contract](AI_MEMORY_CONTRACT.md) defines durable memory layers,
+  promotion rules, session recovery, and prohibited content.
 - [Chief Architect Review Template](reviews/ARCHITECT_REVIEW_TEMPLATE.md)
   defines the evidence and formal decision required at significant
   checkpoints.
@@ -74,7 +82,6 @@ The approved Genesis plan will add substantive documents for:
 
 - Architecture and architecture principles
 - Testing, security, operations, and release philosophy
-- AI collaboration and the AI memory contract
 - Data ownership
 - Digital Twin intent
 - ADR governance with foundational, system, and implementation decision levels

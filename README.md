@@ -22,6 +22,10 @@ fill gaps silently.
 
 ## Start here
 
+AI contributors begin with [AGENTS.md](AGENTS.md). Codex also follows the
+tool-specific operating checklist in
+[CODEX_BOOTSTRAP.md](CODEX_BOOTSTRAP.md).
+
 1. Read the [mission and manifesto](docs/MISSION_AND_MANIFESTO.md).
 2. Review the [current project status](PROJECT_STATUS.md).
 3. Read the [current sprint](CURRENT_SPRINT.md) and [roadmap](ROADMAP.md).
@@ -31,10 +35,10 @@ fill gaps silently.
 6. Read the approved [Project Genesis implementation plan](docs/genesis/PROJECT_GENESIS_PLAN.md).
 7. Review the [changelog](CHANGELOG.md) for repository history.
 
-Additional contributor, architecture, sprint, security, operations, release,
-and AI-collaboration documents will be delivered through the reviewable
-milestones defined in the Genesis plan. A document is added only when it
-contains substantive guidance; empty placeholders are not accepted.
+Additional architecture, security, operations, and release documents will be
+delivered through the reviewable milestones defined in the Genesis plan. A
+document is added only when it contains substantive guidance; empty
+placeholders are not accepted.
 
 ## Preserved design intent
 

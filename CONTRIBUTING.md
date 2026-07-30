@@ -120,6 +120,13 @@ durable summary on `main`, so it must accurately describe the full change.
 
 ## AI-assisted contributions
 
+AI contributors begin with the tool-agnostic
+[AI entry point](AGENTS.md). Codex also follows its
+[operational checklist](CODEX_BOOTSTRAP.md). Collaboration roles and handoffs
+are owned by the [AI Collaboration Standard](.ai/COLLABORATION.md), and
+durable information is governed by the
+[AI Memory Contract](docs/AI_MEMORY_CONTRACT.md).
+
 AI contributors follow the same quality bar as humans. They must:
 
 - Establish context from the repository before acting.
