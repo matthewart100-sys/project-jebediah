@@ -27,6 +27,8 @@ and is reviewed through pull requests.
 - Project Genesis is the active phase.
 - No Project Jebediah application code has been implemented in this
   repository.
+- The first Genesis source-of-truth checkpoint was approved by the Chief
+  Architect and merged through pull request #1.
 - The onboarding ZIP, PDFs, and prior conversations are not authoritative
   project memory.
 
@@ -72,18 +74,17 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-The first Genesis checkpoint establishes:
+Genesis Sprint 1 is establishing the working methodology in two bounded
+checkpoints:
 
-- The project entry point
-- Mission and manifesto
-- Documentation hierarchy
-- Current status
-- The revised, approved implementation plan
-- Changelog
+- Planning and contribution workflow: contribution guide, Git workflow, sprint
+  process, current sprint, roadmap, Definition of Done, and Chief Architect
+  review template
+- Engineering documentation standards: repository, engineering, and
+  documentation standards
 
-Later checkpoints will add engineering and repository standards, Git and sprint
-processes, AI collaboration and memory contracts, architecture and ADR
-guidance, data ownership, the Digital Twin position paper, lifecycle
+Later milestones will add AI collaboration and memory contracts, architecture
+and ADR guidance, data ownership, the Digital Twin position paper, lifecycle
 philosophies, GitHub quality enforcement, and the Phase 0 release audit.
 
 ## Phase 0 exit criteria

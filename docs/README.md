@@ -12,6 +12,20 @@ searchable, linkable, and version controlled.
   Phase 0 organization, delivery order, risks, and acceptance criteria.
 - [Project Status](../PROJECT_STATUS.md) distinguishes current truth from
   reported facts, assumptions, and unresolved questions.
+- [Current Sprint](../CURRENT_SPRINT.md) defines the active goal, bounded
+  scope, and acceptance criteria.
+- [Roadmap](../ROADMAP.md) preserves the strategic sequence and phase gates.
+- [Contribution Guide](../CONTRIBUTING.md) defines how contributors prepare,
+  validate, review, and merge work.
+- [Git Workflow](GIT_WORKFLOW.md) defines branches, commits, pull requests, and
+  merge policy.
+- [Sprint Process](SPRINT_PROCESS.md) defines planning, execution, review,
+  carryover, and closure.
+- [Definition of Done](DEFINITION_OF_DONE.md) defines the universal finish
+  line.
+- [Chief Architect Review Template](reviews/ARCHITECT_REVIEW_TEMPLATE.md)
+  defines the evidence and formal decision required at significant
+  checkpoints.
 - [Changelog](../CHANGELOG.md) records notable repository changes and releases.
 - [Repository README](../README.md) is the primary entry point.
 
@@ -54,8 +68,7 @@ The approved Genesis plan will add substantive documents for:
 
 - Architecture and architecture principles
 - Repository and engineering standards
-- Git workflow and sprint methodology
-- Documentation standards and Definition of Done
+- Documentation standards
 - Testing, security, operations, and release philosophy
 - AI collaboration and the AI memory contract
 - Data ownership

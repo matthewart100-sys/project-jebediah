@@ -112,6 +112,8 @@ The target foundation is:
 |   |   `-- COMPONENT_REGISTRY.md
 |   |-- genesis/
 |   |   `-- PROJECT_GENESIS_PLAN.md
+|   |-- reviews/
+|   |   `-- ARCHITECT_REVIEW_TEMPLATE.md
 |   `-- adr/
 |       |-- README.md
 |       `-- 0000-template.md
@@ -275,6 +277,8 @@ exists, and where canonical information belongs.
 - Add repository, engineering, Git, sprint, and documentation standards.
 - Add `CONTRIBUTING.md`, `CURRENT_SPRINT.md`, `ROADMAP.md`, and the Definition
   of Done.
+- Add an evidence-based Chief Architect review template and use it at
+  significant checkpoints.
 
 **Acceptance:** all later Phase 0 work can follow documented rules.
 
@@ -362,3 +366,18 @@ sequence of pull requests. Work pauses after logical checkpoints for maintainer
 and Chief Architect review. A later milestone may not silently revise an
 earlier architectural constraint; it must update the plan or record an ADR as
 appropriate.
+
+Every Chief Architect checkpoint includes an accessible diff, patch, or exact
+changed files. The formal decision and accepted recommendations are promoted
+into the pull request or canonical project documents instead of remaining only
+in conversation history.
+
+## 12. Execution status
+
+| Milestone | Status | Evidence |
+| --- | --- | --- |
+| Milestone 0: approval and workspace alignment | Complete | Local checkout aligned to GitHub and feature-branch workflow established |
+| Milestone 1: source-of-truth entry points | Complete | Pull request #1 approved by the Chief Architect and squash-merged |
+| Milestone 2A: planning and contribution workflow | In progress | Active bounded feature branch |
+| Milestone 2B: engineering documentation standards | Pending | Begins after Milestone 2A review |
+| Milestones 3 through 7 | Pending | Sequenced after working methodology |
