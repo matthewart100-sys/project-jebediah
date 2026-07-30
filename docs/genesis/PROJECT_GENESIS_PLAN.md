@@ -1,7 +1,9 @@
 # Project Genesis Phase 0 Implementation Plan
 
-**Status:** Approved after minor revisions  
-**Approved by:** Chief Architect review in the Project Jebediah ChatGPT project  
+**Status:** Approved after minor revisions
+
+**Approved by:** Chief Architect review in the Project Jebediah ChatGPT project
+
 **Execution model:** Sequential, reviewable pull-request checkpoints
 
 ## 1. Objective

@@ -1,7 +1,9 @@
 # Project Status
 
-**Phase:** Project Genesis (Phase 0)  
-**Status:** Engineering foundation in progress  
+**Phase:** Project Genesis (Phase 0)
+
+**Status:** Engineering foundation in progress
+
 **Last reviewed:** 2026-07-30
 
 ## Summary
