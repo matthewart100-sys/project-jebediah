@@ -16,11 +16,17 @@ development. Until the release process is approved, changes remain under
 - Source-of-truth documentation hierarchy and project entry point.
 - Current-status model separating verified facts, reported facts, working
   assumptions, and open questions.
+- Contribution guide and short-lived branch workflow.
+- Current sprint and strategic roadmap.
+- Sprint methodology and universal Definition of Done.
+- Evidence-based Chief Architect review template.
 
 ### Changed
 
 - Replaced the initial one-line README with a substantive Project Jebediah
   overview and onboarding path.
+- Updated canonical navigation and status for the working-methodology
+  checkpoint.
 
 ### Security
 

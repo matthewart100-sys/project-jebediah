@@ -24,9 +24,12 @@ fill gaps silently.
 
 1. Read the [mission and manifesto](docs/MISSION_AND_MANIFESTO.md).
 2. Review the [current project status](PROJECT_STATUS.md).
-3. Use the [documentation index](docs/README.md) to find canonical guidance.
-4. Read the approved [Project Genesis implementation plan](docs/genesis/PROJECT_GENESIS_PLAN.md).
-5. Review the [changelog](CHANGELOG.md) for repository history.
+3. Read the [current sprint](CURRENT_SPRINT.md) and [roadmap](ROADMAP.md).
+4. Use the [documentation index](docs/README.md) to find canonical guidance.
+5. Read the [contribution guide](CONTRIBUTING.md) before changing the
+   repository.
+6. Read the approved [Project Genesis implementation plan](docs/genesis/PROJECT_GENESIS_PLAN.md).
+7. Review the [changelog](CHANGELOG.md) for repository history.
 
 Additional contributor, architecture, sprint, security, operations, release,
 and AI-collaboration documents will be delivered through the reviewable
@@ -66,3 +69,7 @@ Project Genesis is documentation and governance work only. All changes must be
 made on short-lived feature branches, reviewed through pull requests, and
 delivered in small, understandable commits. No application implementation may
 begin until the relevant architecture and decision records have been approved.
+
+The [Git workflow](docs/GIT_WORKFLOW.md) defines the branch and review
+lifecycle. The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to
+every change.
