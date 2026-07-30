@@ -391,3 +391,6 @@ milestone that owns their subject:
 | Distinguish repository ownership from component ownership. | Milestone 4 defines component ownership in `docs/reference/COMPONENT_REGISTRY.md` without changing repository-path ownership. |
 | Link interface guidance to the approved current architecture. | Milestone 4 updates `docs/ENGINEERING_STANDARDS.md` when `docs/ARCHITECTURE.md` exists. |
 | Define canonical ownership for shared terminology. | Milestone 4 assigns terminology to `docs/reference/GLOSSARY.md` and cross-references architecture and ADR governance. |
+| Connect durable memory promotion to architecture decision governance. | Milestone 4 adds reciprocal links between `docs/AI_MEMORY_CONTRACT.md` and the ADR framework. |
+| Illustrate how ephemeral context becomes durable project memory. | Milestone 7 uses the clean-room onboarding audit to add a concise lifecycle example to `docs/AI_MEMORY_CONTRACT.md` if it improves correct application. |
+| Route project-specific terms to the glossary from AI onboarding. | Milestone 4 links `AGENTS.md` to `docs/reference/GLOSSARY.md` after the glossary exists. |
