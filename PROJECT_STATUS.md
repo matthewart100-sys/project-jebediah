@@ -29,6 +29,9 @@ and is reviewed through pull requests.
   repository.
 - The first Genesis source-of-truth checkpoint was approved by the Chief
   Architect and merged through pull request #1.
+- Genesis Sprint 1 established the planning, contribution, repository,
+  engineering, and documentation methodology through approved pull requests
+  #2 and #3.
 - The onboarding ZIP, PDFs, and prior conversations are not authoritative
   project memory.
 
@@ -74,18 +77,17 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Genesis Sprint 1 is establishing the working methodology in two bounded
-checkpoints:
+Genesis Sprint 2 is establishing AI onboarding and durable memory:
 
-- Planning and contribution workflow: contribution guide, Git workflow, sprint
-  process, current sprint, roadmap, Definition of Done, and Chief Architect
-  review template — complete through approved pull request #2
-- Engineering documentation standards: repository, engineering, and
-  documentation standards — in progress
+- A tool-agnostic entry point for every AI contributor
+- Codex-specific Lead Engineer operations
+- Human, Chief Architect, Lead Engineer, and future-agent collaboration rules
+- A contract for promoting durable information into GitHub
+- Canonical tracking of accepted architectural recommendations
 
-Later milestones will add AI collaboration and memory contracts, architecture
-and ADR guidance, data ownership, the Digital Twin position paper, lifecycle
-philosophies, GitHub quality enforcement, and the Phase 0 release audit.
+Later milestones will add architecture and ADR guidance, data ownership, the
+Digital Twin position paper, lifecycle philosophies, GitHub quality
+enforcement, and the Phase 0 release audit.
 
 ## Phase 0 exit criteria
 

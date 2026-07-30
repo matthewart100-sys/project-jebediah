@@ -26,6 +26,11 @@ development. Until the release process is approved, changes remain under
   behavior, security, testing, observability, and maintainability.
 - Documentation standards defining canonical ownership, evidence categories,
   style, navigation, review, and drift prevention.
+- Tool-agnostic AI onboarding and project invariants.
+- Codex-specific Lead Engineer operating guidance.
+- Human and AI collaboration roles, authority, review, and handoff rules.
+- AI memory contract defining durable memory, ephemeral context, promotion,
+  recovery, and sensitive-content boundaries.
 
 ### Changed
 
@@ -35,6 +40,10 @@ development. Until the release process is approved, changes remain under
   checkpoint.
 - Centralized branch policy in the Git workflow and documentation ownership in
   the documentation standards to prevent duplicated rules.
+- Closed Genesis Sprint 1 after both working-methodology checkpoints were
+  approved and opened Genesis Sprint 2 for AI onboarding and memory.
+- Added canonical navigation and ownership for AI contributors and durable
+  memory.
 
 ### Security
 

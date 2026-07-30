@@ -374,5 +374,23 @@ in conversation history.
 | Milestone 0: approval and workspace alignment | Complete | Local checkout aligned to GitHub and feature-branch workflow established |
 | Milestone 1: source-of-truth entry points | Complete | Pull request #1 approved by the Chief Architect and squash-merged |
 | Milestone 2A: planning and contribution workflow | Complete | Pull request #2 approved by the Chief Architect and squash-merged |
-| Milestone 2B: engineering documentation standards | In progress | Active bounded feature branch |
-| Milestones 3 through 7 | Pending | Sequenced after working methodology |
+| Milestone 2B: engineering documentation standards | Complete | Pull request #3 approved by the Chief Architect and squash-merged |
+| Milestone 3: AI onboarding and memory | In progress | Genesis Sprint 2 bounded feature branch |
+| Milestones 4 through 7 | Pending | Sequenced after AI onboarding and memory |
+
+## 13. Accepted follow-up recommendations
+
+Chief Architect recommendations that are non-blocking for one checkpoint still
+become durable work. The following items are accepted and assigned to the
+milestone that owns their subject:
+
+| Recommendation | Canonical owner and resolution |
+| --- | --- |
+| Cross-reference the Git workflow to ADR requirements. | Milestone 4 updates `docs/GIT_WORKFLOW.md` when the ADR framework exists. |
+| Link AI collaboration guidance to the Definition of Done instead of duplicating it. | Milestone 3 links `.ai/COLLABORATION.md` and `CODEX_BOOTSTRAP.md` to `docs/DEFINITION_OF_DONE.md`. |
+| Distinguish repository ownership from component ownership. | Milestone 4 defines component ownership in `docs/reference/COMPONENT_REGISTRY.md` without changing repository-path ownership. |
+| Link interface guidance to the approved current architecture. | Milestone 4 updates `docs/ENGINEERING_STANDARDS.md` when `docs/ARCHITECTURE.md` exists. |
+| Define canonical ownership for shared terminology. | Milestone 4 assigns terminology to `docs/reference/GLOSSARY.md` and cross-references architecture and ADR governance. |
+| Connect durable memory promotion to architecture decision governance. | Milestone 4 adds reciprocal links between `docs/AI_MEMORY_CONTRACT.md` and the ADR framework. |
+| Illustrate how ephemeral context becomes durable project memory. | Milestone 7 uses the clean-room onboarding audit to add a concise lifecycle example to `docs/AI_MEMORY_CONTRACT.md` if it improves correct application. |
+| Route project-specific terms to the glossary from AI onboarding. | Milestone 4 links `AGENTS.md` to `docs/reference/GLOSSARY.md` after the glossary exists. |
