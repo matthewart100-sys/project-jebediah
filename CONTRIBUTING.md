@@ -17,9 +17,12 @@ Read these documents in order:
 3. [Project Status](PROJECT_STATUS.md)
 4. [Current Sprint](CURRENT_SPRINT.md)
 5. [Roadmap](ROADMAP.md)
-6. [Git Workflow](docs/GIT_WORKFLOW.md)
-7. [Definition of Done](docs/DEFINITION_OF_DONE.md)
-8. Any architecture, standards, or ADR documents relevant to the proposed
+6. [Repository Standards](docs/REPOSITORY_STANDARDS.md)
+7. [Engineering Standards](docs/ENGINEERING_STANDARDS.md)
+8. [Documentation Standards](docs/DOCUMENTATION_STANDARDS.md)
+9. [Git Workflow](docs/GIT_WORKFLOW.md)
+10. [Definition of Done](docs/DEFINITION_OF_DONE.md)
+11. Any architecture or ADR documents relevant to the proposed
    change
 
 If a required document does not yet exist, treat that absence as a project
@@ -43,20 +46,12 @@ public issue.
 
 ## Branches
 
-Never perform feature work directly on `main`.
+Never perform feature work directly on `main`. Use a short-lived branch from an
+up-to-date `main` representing one reviewable outcome.
 
-Use a short-lived branch from an up-to-date `main`:
-
-- `feature/<topic>` for user-visible capability
-- `fix/<topic>` for defect correction
-- `docs/<topic>` for documentation-only work
-- `chore/<topic>` for maintenance
-- `agent/<topic>` for work performed by an automated engineering agent
-
-Branch names use lowercase words separated by hyphens. One branch should
-represent one reviewable outcome.
-
-See the [Git Workflow](docs/GIT_WORKFLOW.md) for the complete lifecycle.
+The [Git Workflow](docs/GIT_WORKFLOW.md) is the canonical owner for branch
+prefixes, naming, synchronization, and lifecycle. This guide deliberately does
+not duplicate those rules.
 
 ## Commits
 

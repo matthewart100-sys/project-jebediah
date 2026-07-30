@@ -73,8 +73,8 @@ Each checkpoint is delivered as a separate, reviewable pull request.
 | Work item | State | Evidence |
 | --- | --- | --- |
 | Genesis source-of-truth checkpoint | Complete | Pull request #1 merged into `main` |
-| Checkpoint A: planning and contribution workflow | In progress | Active feature branch and draft pull request |
-| Checkpoint B: engineering documentation standards | Pending | Begins after Checkpoint A review |
+| Checkpoint A: planning and contribution workflow | Complete | Pull request #2 approved by the Chief Architect and merged |
+| Checkpoint B: engineering documentation standards | In progress | Active bounded feature branch |
 | Milestone 3: AI onboarding and memory | Pending | Starts after Sprint 1 methodology is accepted |
 
 ## Dependencies

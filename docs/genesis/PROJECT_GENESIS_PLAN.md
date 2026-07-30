@@ -236,19 +236,14 @@ conflict.
 
 ## 7. Git and delivery strategy
 
-- `main` remains stable and authoritative.
-- Work occurs on short-lived feature branches and through pull requests.
-- Agent branches follow the active tool's documented prefix and identify one
-  coherent outcome.
-- Commits are small, logical, and understandable.
-- Conventional Commit-style prefixes are used once the Git workflow is
-  accepted.
-- Pull requests are draft by default during execution checkpoints and are
-  squash-merged after review.
-- Force pushes and deletion of `main` are prohibited.
-- Required quality checks are enabled after the workflow exists.
-- Mandatory independent approval is deferred while the repository has one
-  maintainer, because a maintainer cannot approve their own pull request.
+The [Git Workflow](../GIT_WORKFLOW.md) is the canonical owner for branches,
+commits, pull requests, protection, merge policy, and cleanup. The
+[Contribution Guide](../../CONTRIBUTING.md) owns contributor onboarding, and
+the [Definition of Done](../DEFINITION_OF_DONE.md) owns completion criteria.
+
+Project Genesis adds one milestone-specific constraint: execute the plan
+through bounded, short-lived pull-request checkpoints, provide actual artifacts
+to the Chief Architect, and merge only after the required formal decision.
 
 ## 8. Implementation milestones
 
@@ -378,6 +373,6 @@ in conversation history.
 | --- | --- | --- |
 | Milestone 0: approval and workspace alignment | Complete | Local checkout aligned to GitHub and feature-branch workflow established |
 | Milestone 1: source-of-truth entry points | Complete | Pull request #1 approved by the Chief Architect and squash-merged |
-| Milestone 2A: planning and contribution workflow | In progress | Active bounded feature branch |
-| Milestone 2B: engineering documentation standards | Pending | Begins after Milestone 2A review |
+| Milestone 2A: planning and contribution workflow | Complete | Pull request #2 approved by the Chief Architect and squash-merged |
+| Milestone 2B: engineering documentation standards | In progress | Active bounded feature branch |
 | Milestones 3 through 7 | Pending | Sequenced after working methodology |
