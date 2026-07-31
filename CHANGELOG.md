@@ -16,7 +16,8 @@ development. Changes not assigned to a published version remain under
 - Updated the documentation workflow's immutable `actions/checkout` pin from
   `v4` to official `v7.0.1` to use the maintained Node 24 action runtime
   without changing permissions, triggers, validation, or the required check
-  name.
+  name; pull-request and merged-`main` checks passed without annotations and
+  branch protection remained unchanged.
 
 ## [0.1.0] - 2026-07-30
 

@@ -65,6 +65,13 @@ reviewed pull requests.
   [`v0.1.0` engineering-foundation release](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0)
   was published at `2026-07-31T02:00:05Z` with the reviewed notes and no
   attached artifacts.
+- Official `actions/checkout` release `v7.0.1` uses Node 24 at verified commit
+  `3d3c42e5aac5ba805825da76410c181273ba90b1`.
+- Pull request #14 updated only that immutable pin and merged at
+  `901764375d7a81f99f1ce9ccfd7f2c25a0fcf349`.
+- GitHub Actions run `30598348588` succeeded on that exact `main` commit with
+  no check annotations; branch protection still requires the same strict
+  `documentation-quality` context and its prior controls.
 - GitHub API read-back on 2026-07-30 confirms that private vulnerability
   reporting is enabled.
 - GitHub API read-back on 2026-07-30 confirms that `main` requires pull
@@ -115,12 +122,9 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Phase 1 begins with JCS discovery and specification planning. The current work
-must:
+Phase 1 is performing JCS discovery and specification planning. The current
+work must:
 
-- Complete the surgical `actions/checkout` immutable-pin update and verify the
-  unchanged `documentation-quality` contract on the pull request and merged
-  `main`.
 - Identify the evidence and decisions needed to resolve what JCS stands for,
   owns, and guarantees.
 - Separate verified facts, reported facts, assumptions, and open questions.

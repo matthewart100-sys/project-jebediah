@@ -106,8 +106,8 @@ comment.
 | --- | --- | --- |
 | Project Genesis Phase 0 foundation | Complete | Pull requests #1 through #12, tag `v0.1.0`, and the verified GitHub release |
 | Checkpoint A: Project Genesis closeout | Complete | This reviewed post-publication closeout records the tag, release, verification, and transition |
-| Checkpoint B: documentation-workflow maintenance | In progress | Official `actions/checkout` `v7.0.1` commit and Node 24 metadata verified; pull-request and merged-main validation remain |
-| Checkpoint C: JCS definition implementation plan | Pending | Begins after workflow maintenance; specification waits for plan approval |
+| Checkpoint B: documentation-workflow maintenance | Complete | Pull request #14 merged at `901764375d7a81f99f1ce9ccfd7f2c25a0fcf349`; PR and `main` checks passed without annotations; branch protection is unchanged |
+| Checkpoint C: JCS definition implementation plan | In progress | Canonical reread and requirements gathering may begin; specification waits for plan approval |
 
 ## Dependencies
 

@@ -317,9 +317,10 @@ attached artifacts.
 
 ### Carryover
 
-- The pinned `actions/checkout` revision emits a Node 20 deprecation warning
-  while GitHub forces it to Node 24. The first post-release workflow
-  maintenance checkpoint owns a reviewed immutable-pin update.
+- The pinned `actions/checkout` revision emitted a Node 20 deprecation warning
+  while GitHub forced it to Node 24. This carryover was resolved after release
+  through pull request #14 using the official verified `v7.0.1` Node 24
+  revision; pull-request and merged-main checks passed without annotations.
 - JCS meaning, responsibility, authority, and guarantees remain deliberately
   unresolved for Phase 1 specification.
 - Application, infrastructure, data classification, threat-model, license,
