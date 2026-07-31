@@ -9,6 +9,7 @@ description = "Collector 1.0 contract foundation for Project Jebediah"
 requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.0,<3.0",
+    "qdrant-client>=1.0",
 ]
 
 [dependency-groups]
