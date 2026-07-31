@@ -31,16 +31,17 @@ tool-specific operating checklist in
 3. Read the [current sprint](CURRENT_SPRINT.md) and [roadmap](ROADMAP.md).
 4. Understand the [architecture principles](docs/ARCHITECTURE_PRINCIPLES.md)
    and [current conceptual architecture](docs/ARCHITECTURE.md).
-5. Use the [documentation index](docs/README.md) to find canonical guidance.
-6. Read the [contribution guide](CONTRIBUTING.md) before changing the
+5. Apply [data ownership](docs/DATA_OWNERSHIP.md) to information-bearing work.
+6. Use the [documentation index](docs/README.md) to find canonical guidance.
+7. Read the [contribution guide](CONTRIBUTING.md) before changing the
    repository.
-7. Read the approved [Project Genesis implementation plan](docs/genesis/PROJECT_GENESIS_PLAN.md).
-8. Review the [changelog](CHANGELOG.md) for repository history.
+8. Read the approved [Project Genesis implementation plan](docs/genesis/PROJECT_GENESIS_PLAN.md).
+9. Review the [changelog](CHANGELOG.md) for repository history.
 
-Additional data, design, security, operations, and release documents will be
-delivered through the reviewable milestones defined in the Genesis plan. A
-document is added only when it contains substantive guidance; empty
-placeholders are not accepted.
+Additional security, operations, and release documents will be delivered
+through the reviewable milestones defined in the Genesis plan. A document is
+added only when it contains substantive guidance; empty placeholders are not
+accepted.
 
 ## Preserved design intent
 

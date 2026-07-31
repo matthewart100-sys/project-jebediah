@@ -38,6 +38,10 @@ searchable, linkable, and version controlled.
 - [Glossary](reference/GLOSSARY.md) owns shared project terminology.
 - [Component Registry](reference/COMPONENT_REGISTRY.md) tracks component
   identity, maturity, responsibility, and component ownership.
+- [Data Ownership](DATA_OWNERSHIP.md) defines authoritative, cached, derived,
+  and temporary information plus lifecycle responsibility.
+- [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) defines the
+  concept's purpose, exclusions, relationships, and implementation gates.
 - [AI Entry Point](../AGENTS.md) defines the mandatory orientation and
   invariants shared by every AI contributor.
 - [Codex Bootstrap](../CODEX_BOOTSTRAP.md) defines Codex-specific Lead
@@ -90,8 +94,6 @@ Unsupported statements must not be presented as established truth.
 The approved Genesis plan will add substantive documents for:
 
 - Testing, security, operations, and release philosophy
-- Data ownership
-- Digital Twin intent
 
 These paths are documented in the Genesis plan. They are not created until
 their content is ready for review.

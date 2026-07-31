@@ -376,8 +376,8 @@ in conversation history.
 | Milestone 2A: planning and contribution workflow | Complete | Pull request #2 approved by the Chief Architect and squash-merged |
 | Milestone 2B: engineering documentation standards | Complete | Pull request #3 approved by the Chief Architect and squash-merged |
 | Milestone 3: AI onboarding and memory | Complete | Pull request #4 approved by the Chief Architect and squash-merged |
-| Milestone 4A: architecture and decision governance | In progress | Genesis Sprint 3 bounded feature branch |
-| Milestone 4B: data ownership and Digital Twin position | Pending | Starts after architecture and decision governance |
+| Milestone 4A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and squash-merged |
+| Milestone 4B: data ownership and Digital Twin position | In progress | Genesis Sprint 3 bounded feature branch |
 | Milestones 5 through 7 | Pending | Sequenced after architecture and information boundaries |
 
 ## 13. Accepted follow-up recommendations
@@ -399,3 +399,6 @@ milestone that owns their subject:
 | Add lightweight traceability across principles, ADRs, current architecture, and component specifications as those artifacts grow. | The Phase 1 JCS specification checkpoint evaluates a substantive `docs/reference/ARCHITECTURE_TRACEABILITY.md`; it is created only when real ADR and specification relationships exist to index. |
 | Make ADR supersession, affected components, and affected architecture sections easy to navigate. | `docs/adr/README.md` adds a cross-reference index when the repository contains multiple numbered ADRs. |
 | Explain how conceptual architecture becomes implementation architecture without weakening governance. | The Phase 1 JCS specification checkpoint adds architecture-evolution guidance before concrete component implementation design begins. |
+| Add worked information-lifecycle examples once concrete components exist. | The Phase 1 JCS specification checkpoint adds one or two evidence-based examples to `docs/DATA_OWNERSHIP.md` after real authoritative, cached, derived, and temporary mappings exist. |
+| Catalog concrete information domains, authority, derivatives, consumers, and retention ownership. | The Phase 1 JCS specification checkpoint creates `docs/reference/DATA_CATALOG.md` only when approved mappings provide substantive entries. |
+| Reuse the Digital Twin acceptance questions for consistent proposal review. | The first Digital Twin specification extracts the questions from `docs/design/DIGITAL_TWIN_POSITION.md` into its review checklist without duplicating the canonical position. |

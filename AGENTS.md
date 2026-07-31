@@ -34,7 +34,8 @@ Before substantive work, read:
 12. `docs/AI_MEMORY_CONTRACT.md`
 13. `.ai/COLLABORATION.md`
 14. The [project glossary](docs/reference/GLOSSARY.md)
-15. Architecture documents and ADRs relevant to the task
+15. `docs/DATA_OWNERSHIP.md`
+16. Architecture, design, component, and ADR documents relevant to the task
 
 Then inspect the actual repository state, current branch, uncommitted changes,
 and relevant GitHub issue or pull request.

@@ -107,8 +107,9 @@ convenient.
 - Retention and deletion behavior follow data classification and ownership.
 - Time-dependent state records timestamps and clock assumptions.
 
-The future data ownership document will provide project-wide categories.
-Subsystem implementation must not preempt that decision.
+The [Data Ownership](DATA_OWNERSHIP.md) document defines project-wide
+categories and responsibilities. Subsystem specifications must map concrete
+information before implementation.
 
 ## Errors and failure behavior
 
