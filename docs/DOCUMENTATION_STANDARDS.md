@@ -174,8 +174,15 @@ Terms such as "simple," "secure," "scalable," "production-ready," or
 - Avoid trailing whitespace and manual HTML unless Markdown cannot express the
   requirement accessibly.
 
-The later documentation workflow will enforce agreed formatting
-automatically.
+Run `python scripts/validate_docs.py` locally. The `documentation-quality`
+GitHub Actions job applies the same repository-owned checks to pull requests
+and pushes to `main`. Its current checks cover required canonical files,
+Markdown structure, balanced fences, local link targets, final newlines,
+trailing whitespace, common sensitive values, and prohibited runtime,
+bootstrap, or archive artifacts.
+
+Automation enforces deterministic structure. It does not determine whether a
+document is accurate, appropriately scoped, or architecturally sound.
 
 ## Links and navigation
 

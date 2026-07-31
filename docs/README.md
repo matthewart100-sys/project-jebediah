@@ -63,6 +63,9 @@ searchable, linkable, and version controlled.
   checkpoints.
 - [Changelog](../CHANGELOG.md) records notable repository changes and releases.
 - [Repository README](../README.md) is the primary entry point.
+- [`scripts/validate_docs.py`](../scripts/validate_docs.py) implements the
+  repository-owned documentation and hygiene checks run locally and by GitHub
+  Actions.
 
 Only documents that exist and contain substantive guidance are linked here.
 This index will grow as each approved Genesis milestone is completed.
@@ -99,9 +102,9 @@ Unsupported statements must not be presented as established truth.
 
 ## Planned permanent documentation
 
-The approved Genesis plan will add GitHub enforcement and any substantive
-reference material required by later implementation. Empty policy placeholders
-are not created.
+The approved Genesis plan will complete GitHub control-plane enforcement and
+add any substantive reference material required by later implementation.
+Empty policy placeholders are not created.
 
 These paths are documented in the Genesis plan. They are not created until
 their content is ready for review.

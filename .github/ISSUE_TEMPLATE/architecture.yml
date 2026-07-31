@@ -1,0 +1,86 @@
+name: Architecture decision proposal
+description: Frame a durable decision for the appropriate ADR and review level.
+title: "architecture: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This form starts decision work; it does not replace an ADR. Review the
+        architecture principles and ADR process before submitting.
+  - type: textarea
+    id: decision
+    attributes:
+      label: Decision problem
+      description: What durable decision is required, and what is blocked without it?
+    validations:
+      required: true
+  - type: dropdown
+    id: review_level
+    attributes:
+      label: Proposed review level
+      options:
+        - Foundational
+        - System
+        - Implementation
+        - Uncertain
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and uncertainty
+      description: |
+        Separate verified facts, reported facts, working assumptions, and open
+        questions that constrain the decision.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and non-goals
+      description: Define the decision boundary and what remains undecided.
+    validations:
+      required: true
+  - type: textarea
+    id: ownership
+    attributes:
+      label: Components, interfaces, and owners
+      description: Identify affected boundaries and current owners without inventing them.
+    validations:
+      required: true
+  - type: textarea
+    id: lifecycle
+    attributes:
+      label: Lifecycle consequences
+      description: |
+        Address data authority, security, testing, failure, operations,
+        recovery, compatibility, and release consequences.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and tradeoffs
+      description: Compare viable options, including delay or no change.
+    validations:
+      required: true
+  - type: textarea
+    id: review_artifacts
+    attributes:
+      label: Proposed ADR and review artifacts
+      description: |
+        Name the ADR or design artifact to create, the intended reviewers, and
+        the evidence required for a decision.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I reviewed the architecture principles, current architecture, and ADR process.
+          required: true
+        - label: I distinguished current truth from the desired decision.
+          required: true
+        - label: I removed sensitive infrastructure and security details.
+          required: true

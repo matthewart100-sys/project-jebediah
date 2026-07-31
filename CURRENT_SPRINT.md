@@ -1,6 +1,6 @@
 # Current Sprint
 
-## Genesis Sprint 4: Lifecycle Philosophies
+## Genesis Sprint 5: GitHub Enforcement
 
 **Target window:** 2026-07-30 through 2026-08-12
 
@@ -8,97 +8,115 @@
 
 ## Sprint goal
 
-Define how Project Jebediah will validate, secure, operate, recover, and release
-future capabilities before implementation begins.
+Convert approved repository, documentation, security, and Git standards into
+proportionate GitHub enforcement that a sole maintainer can use without
+bypassing the documented review lifecycle.
 
 ## Context
 
-Pull requests #5 and #6 completed architecture and information boundaries.
-Future subsystem work now needs lifecycle expectations that translate those
-boundaries into evidence, protection, operation, recovery, and release gates.
+Pull requests #7 and #8 completed the testing, security, operations, release,
+and repository-hygiene foundation. The repository now defines what evidence a
+change needs, but GitHub does not yet enforce a documentation-quality check,
+structured contribution intake, private vulnerability reporting, or
+protection of `main`.
 
-The two-week window is a planning default. Each checkpoint requires
-substantive guidance and evidence-based review.
+GitHub API evidence collected on 2026-07-30 confirms that private
+vulnerability reporting is disabled and `main` is unprotected. Sprint 5
+closes those verified gaps in two reviewable checkpoints.
 
 ## Committed scope
 
-### Checkpoint A: Testing and security
+### Checkpoint A: Repository-owned quality gate
 
-- Risk-based, technology-neutral testing philosophy
-- Deterministic, component, contract, integration, end-to-end, recovery,
-  security, and documentation evidence
-- AI and probabilistic evaluation
-- Safe vulnerability reporting for the currently verified GitHub state
-- Public-repository, trust, secret, data, AI, supply-chain, incident, and
-  review boundaries
+- A maintained, standard-library documentation and repository validator
+- A least-privilege GitHub Actions workflow using immutable action revisions
+- A pull-request template aligned with the Definition of Done and evidence
+  categories
+- Structured bug, feature, and architecture issue forms
+- A safe issue chooser route to the canonical security policy
+- Canonical documentation integration
 
-### Checkpoint B: Operations, release, and repository hygiene
+### Checkpoint B: Verified GitHub control plane
 
-- Operations, health, observability, backup, restore, rollback, runbook, and
-  incident philosophy
-- Pre-1.0 versioning, release readiness, tagging, notes, artifacts, deployment,
-  verification, rollback, and deprecation
-- `.editorconfig`, `.gitattributes`, and `.gitignore`
-- Canonical integration and Sprint 4 closure
+- Successful execution of the documentation-quality workflow on `main`
+- Enabled and verified GitHub private vulnerability reporting
+- Proportionate protection for `main` requiring pull requests and the
+  documentation-quality check without requiring an impossible independent
+  approval
+- Blocked force pushes and branch deletion
+- Required conversation resolution where supported
+- Canonical records of the effective settings and verification evidence
 
-Each checkpoint is a separate pull request and Chief Architect review.
+Each checkpoint uses a separate pull request and Chief Architect review.
+Control-plane changes occur only after Checkpoint A is merged and its check
+name is verified.
 
 ## Non-goals
 
-- Application or infrastructure implementation
-- Home-lab reconfiguration, audit, penetration test, or incident simulation
-- Selection of language, test framework, scanner, secret manager, monitoring
-  stack, deployment tool, or artifact registry
-- GitHub Actions and branch-protection enforcement, which belong to Milestone 6
-- Enabling GitHub private vulnerability reporting before the security policy
-  and Milestone 6 configuration are reviewed
-- Creating a release before all Phase 0 exit criteria pass
+- Application, service, schema, Digital Twin, or infrastructure implementation
+- Home-lab changes or disclosure of private operational details
+- Selecting a product language, build system, dependency manager, or general
+  test framework
+- Dependency, container, infrastructure, or model scanning before those
+  artifact classes exist
+- Requiring approval from a second maintainer who does not exist
+- Creating the `v0.1.0` release before the Milestone 7 audit
 
 ## Acceptance criteria
 
-- Test selection follows risk and owned boundaries rather than a universal
-  coverage number.
-- Deterministic and probabilistic behavior have appropriate distinct evidence.
-- Failure, recovery, security, data, workflow, AI, and documentation testing
-  are covered.
-- Vulnerability reporting is safe and accurate for the verified current
-  GitHub configuration.
-- Security guidance covers the full lifecycle without exposing or inventing
-  private infrastructure.
-- Operations and release guidance defines readiness, recovery, and ownership
-  without selecting tools.
-- Repository hygiene configuration is minimal, explained, and consistent.
-- Exact artifacts receive explicit Chief Architect decisions.
+- Contributors can invoke one documented local command for the automated
+  repository checks.
+- The workflow runs for pull requests and pushes to `main`, uses read-only
+  repository permission, and pins third-party actions to immutable revisions.
+- The validator checks canonical files, Markdown structure and local links,
+  common sensitive values, bootstrap or runtime artifacts, and repository
+  hygiene without adding a runtime dependency.
+- Pull-request and issue templates request useful evidence without treating
+  templates as substitutes for review.
+- Private vulnerability reporting is enabled and the security policy points
+  to an actually verified private route.
+- `main` requires pull requests, conversation resolution, and the successful
+  documentation-quality check while blocking force pushes and deletion.
+- The effective GitHub settings are read back after configuration and recorded
+  without secrets.
+- Exact artifacts and proposed control settings receive explicit Chief
+  Architect decisions.
 
 ## Work status
 
 | Work item | State | Evidence |
 | --- | --- | --- |
-| Milestone 4A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and merged |
-| Milestone 4B: information and Digital Twin boundaries | Complete | Pull request #6 approved by the Chief Architect and merged |
-| Checkpoint A: testing and security | Complete | Pull request #7 approved by the Chief Architect and merged |
-| Checkpoint B: operations, release, and repository hygiene | In progress | Bounded Sprint 4 feature branch |
-| Milestone 6: GitHub enforcement | Pending | Starts after Sprint 4 closes |
+| Milestone 5A: testing and security | Complete | Pull request #7 approved by the Chief Architect and merged |
+| Milestone 5B: operations, release, and repository hygiene | Complete | Pull request #8 approved by the Chief Architect and merged |
+| Checkpoint A: repository-owned quality gate | In progress | Bounded Sprint 5 feature branch |
+| Checkpoint B: verified GitHub control plane | Pending | Begins after Checkpoint A passes on `main` |
+| Milestone 7: Genesis audit and release | Pending | Begins after GitHub enforcement is verified |
 
 ## Dependencies
 
-- Current architecture, data ownership, and ADR governance remain
-  authoritative.
-- The security policy reports actual repository capability rather than desired
-  settings.
-- Operations and release work builds on accepted testing and security gates.
-- Chief Architect review receives exact artifacts and validation.
+- The [Git Workflow](docs/GIT_WORKFLOW.md) owns the intended branch policy.
+- The [Security Policy](SECURITY.md) owns the vulnerability-reporting route.
+- The [Repository Standards](docs/REPOSITORY_STANDARDS.md) and
+  [Documentation Standards](docs/DOCUMENTATION_STANDARDS.md) own automated
+  repository rules.
+- The `documentation-quality` check must exist successfully on `main` before
+  it becomes required protection.
+- The authenticated repository owner must retain GitHub administration
+  permission for control-plane configuration.
+- Chief Architect review receives the exact artifacts, proposed settings, and
+  sanitized verification evidence.
 
 ## Risks
 
 | Risk | Response |
 | --- | --- |
-| Testing policy selects tools prematurely | Define evidence types and risk, leaving framework choice to component architecture. |
-| Security reporting invents a private channel | Record verified GitHub capability and a no-detail interim contact request. |
-| Security policy claims controls that do not exist | Separate current maturity and known gaps from future requirements. |
-| Testing becomes a coverage-number exercise | Prohibit a universal threshold and require risk-based assertions. |
-| Operations promises unverified recovery | Require restore evidence before calling a backup usable. |
-| Release process permits an incomplete foundation release | Keep `v0.1.0` behind all Genesis exit and review gates. |
+| A quality script becomes an accidental application stack | Use Python standard library only and limit it to repository policy. |
+| A pattern scan claims to prove the repository has no secrets | Describe it as a common-pattern guard and retain human review. |
+| Protection locks out the sole maintainer | Require pull requests and checks with zero required approving reviews. |
+| A required check name is guessed incorrectly | Merge the workflow, observe its successful check name, then configure protection. |
+| Security reports are directed to a route that does not exist | Enable, read back, and test the GitHub private-reporting capability before updating the policy. |
+| Templates create bureaucratic noise | Require only information needed for reproduction, decisions, risk, and evidence. |
+| Mutable action tags introduce supply-chain drift | Resolve supported tags to full commit revisions and retain version comments. |
 
 ## Update rule
 

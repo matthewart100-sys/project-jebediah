@@ -306,12 +306,22 @@ operational, and release expectations.
 
 ### Milestone 6: GitHub enforcement
 
-- Add pull-request and issue templates.
-- Add a documentation quality workflow with pinned dependencies.
-- Validate Markdown, relative links, formatting, and repository hygiene.
-- Configure `main` protection after checks pass.
+- Checkpoint A adds pull-request and issue templates, a maintained
+  standard-library validator, and a least-privilege documentation-quality
+  workflow with immutable action revisions.
+- Checkpoint A validates required canonical files, Markdown structure and
+  relative links, common sensitive values, prohibited runtime or bootstrap
+  artifacts, and repository hygiene.
+- Checkpoint B enables and verifies private vulnerability reporting.
+- Checkpoint B configures `main` protection only after the workflow succeeds
+  on `main`, then reads back and records the effective settings.
+- Protection requires pull requests, conversation resolution, and the
+  documentation-quality check; blocks force pushes and deletion; and does not
+  require an independent approval unavailable to the sole maintainer.
 
-**Acceptance:** practical standards have automated enforcement.
+**Acceptance:** practical standards have automated enforcement, security
+reports have a verified private route, and actual GitHub settings match
+canonical policy.
 
 ### Milestone 7: Genesis audit and release
 
@@ -379,8 +389,10 @@ in conversation history.
 | Milestone 4A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and squash-merged |
 | Milestone 4B: data ownership and Digital Twin position | Complete | Pull request #6 approved by the Chief Architect and squash-merged |
 | Milestone 5A: testing and security | Complete | Pull request #7 approved by the Chief Architect and squash-merged |
-| Milestone 5B: operations, release, and repository hygiene | In progress | Genesis Sprint 4 bounded feature branch |
-| Milestones 6 and 7 | Pending | Sequenced after lifecycle philosophies |
+| Milestone 5B: operations, release, and repository hygiene | Complete | Pull request #8 approved by the Chief Architect and squash-merged |
+| Milestone 6A: repository-owned quality gate | In progress | Genesis Sprint 5 bounded feature branch |
+| Milestone 6B: verified GitHub control plane | Pending | Begins after the quality workflow succeeds on `main` |
+| Milestone 7: Genesis audit and release | Pending | Sequenced after verified GitHub enforcement |
 
 ## 13. Accepted follow-up recommendations
 
@@ -410,3 +422,7 @@ milestone that owns their subject:
 | Make real runbooks discoverable by component, owner, and recovery procedure. | The first approved operational runbook creates a lightweight `docs/runbooks/README.md` index and links to `docs/OPERATIONS_PHILOSOPHY.md` instead of duplicating policy. |
 | Apply release gates consistently without rewriting them in every release pull request. | Milestone 7 derives a substantive release checklist from `docs/RELEASE_PROCESS.md` for the `v0.1.0` foundation release. |
 | Standardize operational status language after real evidence exists. | The first operational implementation checkpoint defines evidence-based status terms in `docs/reference/GLOSSARY.md` and applies them to runbooks and status surfaces. |
+| Keep future required status-check names deterministic. | The checkpoint that introduces a second required GitHub check establishes a concise naming convention in `docs/GIT_WORKFLOW.md` before changing protection. |
+| Make required workflow ownership discoverable once multiple workflows exist. | After at least two required workflows exist, the owning checkpoint evaluates a concise `docs/reference/GITHUB_CHECKS.md` mapping each check to its owner and canonical purpose; it is not created before substantive entries exist. |
+| Keep documentation validation lightweight as implementation begins. | The first Phase 1 implementation checkpoint reviews `scripts/validate_docs.py` scope and adds implementation-specific evidence through separate purpose-built workflows rather than turning `documentation-quality` into a catch-all pipeline. |
+| Revisit administrator protection bypass when repository governance matures. | The first applicable checkpoint reassesses `enforce_admins` when a second maintainer joins, governance authority changes, or production releases begin, and records the verified decision in Git workflow and status documentation. |

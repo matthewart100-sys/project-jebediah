@@ -51,6 +51,14 @@ development. Until the release process is approved, changes remain under
   tags, deployment separation, verification, rollback, and `v0.1.0`.
 - Minimal editor, Git text/binary, and ignore configuration implementing
   repository hygiene policy.
+- Standard-library documentation and repository validator with one local
+  invocation.
+- Least-privilege GitHub Actions documentation-quality workflow using
+  immutable action revisions.
+- Pull-request template aligned with evidence categories, lifecycle review,
+  and the Definition of Done.
+- Structured bug, feature, and architecture issue forms plus a safe security
+  reporting route.
 
 ### Changed
 
@@ -76,6 +84,8 @@ development. Until the release process is approved, changes remain under
   philosophies.
 - Integrated operations and release requirements with engineering, security,
   testing, completion criteria, onboarding, and canonical navigation.
+- Closed Genesis Sprint 4 after both lifecycle checkpoints were approved and
+  opened Genesis Sprint 5 for GitHub enforcement.
 
 ### Security
 
