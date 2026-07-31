@@ -118,6 +118,9 @@ addresses, sensitive topology, or personal data during that audit.
 Phase 1 begins with JCS discovery and specification planning. The current work
 must:
 
+- Complete the surgical `actions/checkout` immutable-pin update and verify the
+  unchanged `documentation-quality` contract on the pull request and merged
+  `main`.
 - Identify the evidence and decisions needed to resolve what JCS stands for,
   owns, and guarantees.
 - Separate verified facts, reported facts, assumptions, and open questions.
