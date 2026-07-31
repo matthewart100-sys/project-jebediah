@@ -18,6 +18,10 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Refined the JCS C1 framing gate to require an explicit proceed, revise,
+  defer, or remove outcome; preserved the no-JCS baseline; and kept conceptual
+  evidence gaps as architectural questions while draft PR #18 remains
+  unmerged and C2 remains blocked.
 - Recorded verified `v0.1.0` publication, closed Project Genesis Phase 0, and
   opened Phase 1 JCS specification planning without authorizing
   implementation.

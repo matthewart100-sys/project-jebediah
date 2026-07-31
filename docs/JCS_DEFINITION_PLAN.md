@@ -285,6 +285,23 @@ must satisfy its gate before dependent work begins.
 **Gate:** Do not make information authority or interfaces binding until the
 responsibility decision is accepted.
 
+#### Permitted C1 outcome states
+
+C1 discovery does not assume that JCS should advance. The framing review must
+record exactly one proposed next-state recommendation:
+
+| Outcome | Meaning | Required evidence and next gate |
+| --- | --- | --- |
+| Proceed toward specification | A candidate problem and responsibility are supported well enough to evaluate information and consumer boundaries. | Maintainer-reviewed purpose, named consumer/problem relationship, candidate responsibility, boundary evidence, and Chief Architect authorization for a bounded C2 scope; no JCS decision is accepted by this outcome. |
+| Revise problem framing | The alternatives or evidence model are incomplete or biased. | Exact framing defect, owner, and revision criteria; remain in C1. |
+| Defer JCS | No current evidence justifies investing in a component decision, but the preserved concept may be reconsidered after named evidence appears. | Deferral reason, triggering evidence, roadmap and sprint impact, and continued **Named** maturity; no dependent work. |
+| Remove JCS | Evidence shows the named subsystem is unnecessary or harmful to the approved architecture. | Maintainer decision, Chief Architect review, ADR assessment, and consistent updates to roadmap, architecture, glossary, registry, status, sprint, and changelog. |
+
+The no-JCS baseline remains credible through every later milestone until an
+accepted decision establishes otherwise. An unresolved evidence gap remains
+an architectural question with an owner and gate; it must not be relabeled as
+ordinary backlog work merely to advance the milestone.
+
 ### Milestone C2: define information and consumer boundaries
 
 **Artifacts:**
