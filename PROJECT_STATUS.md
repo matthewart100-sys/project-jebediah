@@ -4,7 +4,7 @@
 
 **Status:** Project Genesis complete; JCS specification planning
 
-**Last reviewed:** 2026-07-30
+**Last reviewed:** 2026-07-31
 
 ## Summary
 
@@ -72,6 +72,11 @@ reviewed pull requests.
 - GitHub Actions run `30598348588` succeeded on that exact `main` commit with
   no check annotations; branch protection still requires the same strict
   `documentation-quality` context and its prior controls.
+- Pull request #15 recorded that verification, closed the workflow-maintenance
+  checkpoint, and merged at
+  `4086a6c8195226ef237bfa11d6fac0e9fa4edfff`.
+- GitHub Actions run `30633931649` succeeded on that exact `main` commit with
+  no annotations; branch protection read-back remained unchanged.
 - GitHub API read-back on 2026-07-30 confirms that private vulnerability
   reporting is enabled.
 - GitHub API read-back on 2026-07-30 confirms that `main` requires pull
@@ -122,8 +127,11 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Phase 1 is performing JCS discovery and specification planning. The current
-work must:
+Phase 1 is performing JCS discovery and specification planning. The proposed
+[JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md) maps the
+current work to evidence, owners, decisions, milestones, risks, review gates,
+and acceptance criteria. It must receive approval before specification work.
+The current work must:
 
 - Identify the evidence and decisions needed to resolve what JCS stands for,
   owns, and guarantees.
@@ -133,7 +141,7 @@ work must:
   requirements will receive canonical ownership.
 - Identify alternatives and decisions that may require Foundational or System
   ADRs without selecting them prematurely.
-- Produce and approve the JCS definition implementation plan before creating a
+- Review and approve the JCS definition implementation plan before creating a
   JCS specification.
 
 No JCS, collector, application, infrastructure, workflow, or schema

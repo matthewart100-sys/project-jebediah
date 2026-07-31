@@ -8,6 +8,13 @@ development. Changes not assigned to a published version remain under
 
 ## Unreleased
 
+### Added
+
+- Proposed the JCS definition implementation plan with repository-backed
+  requirements, evidence and maturity separation, documentation ownership,
+  decision inventory, implementation order, review gates, dependencies,
+  risks, validation, and acceptance criteria without defining JCS.
+
 ### Changed
 
 - Recorded verified `v0.1.0` publication, closed Project Genesis Phase 0, and

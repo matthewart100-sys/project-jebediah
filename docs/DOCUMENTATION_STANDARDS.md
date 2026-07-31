@@ -44,6 +44,7 @@ to the [Definition of Done](DEFINITION_OF_DONE.md).
 | Language-independent engineering quality | `docs/ENGINEERING_STANDARDS.md` |
 | Documentation policy | `docs/DOCUMENTATION_STANDARDS.md` |
 | Project Genesis execution | `docs/genesis/PROJECT_GENESIS_PLAN.md` |
+| JCS definition phase execution | `docs/JCS_DEFINITION_PLAN.md` |
 | Chief Architect review evidence and decision | `docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md` |
 | Architecture principles | `docs/ARCHITECTURE_PRINCIPLES.md` |
 | Current architecture | `docs/ARCHITECTURE.md` |
