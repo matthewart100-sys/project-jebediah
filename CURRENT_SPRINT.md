@@ -102,6 +102,12 @@ definition framing only.
 - The C0 closeout is merged before `docs/JCS_SPECIFICATION.md` is created.
 - The specification proposal is substantive rather than a placeholder and
   remains visibly **Proposed** and non-authoritative.
+- The framing review recommends exactly one C1 outcome: proceed toward
+  specification, revise problem framing, defer JCS, or remove JCS.
+- The no-JCS baseline remains visible until an accepted decision establishes a
+  component responsibility.
+- Missing purpose, consumer, boundary, and failure-consequence evidence remains
+  first-class architectural questions rather than backlog items.
 - JCS-01 through JCS-10 remain questions until their required evidence and
   decisions exist.
 - Alternatives include retaining the current undefined state when it is a
@@ -122,8 +128,8 @@ definition framing only.
 | --- | --- | --- |
 | Milestone C0: JCS definition implementation plan | Complete | Pull request #16 approved at `53504ba7865e02235b3ddcf5228b40ca972b7d68`, merged at `b785bbc71421da84568f2d2be00d877d4e67bdb6`, and passed merged-main run `30634584406` without annotations |
 | Checkpoint A: C0 lifecycle closeout | In progress | This bounded change activates the plan, records evidence, closes Sprint 1, and opens Sprint 2 |
-| Checkpoint B: C1 requirements and alternatives | Pending | Begins only after Checkpoint A merges; proposed specification and proposed ADRs only |
-| Checkpoint C: C1 framing review | Pending | Requires the complete C1 proposed artifact set and exact-head validation |
+| Checkpoint B: C1 requirements and alternatives | In progress | Draft PR #18 at `5dea1aea6e8b264b74c05b063157f72e863fff54` contains the complete first proposal; explicit maintainer purpose remains unknown |
+| Checkpoint C: C1 framing review | In progress | Chief Architect approved continued C1 work without merge, kept PR #18 draft, and blocked C2 pending maintainer review and a candidate direction |
 
 ## Dependencies
 
@@ -138,6 +144,9 @@ definition framing only.
   or human authority.
 - Responsibility framing precedes information authority, consumer contracts,
   and interface requirements.
+- Milestone C2 requires a maintainer-reviewed candidate purpose and
+  responsibility plus explicit Chief Architect authorization; a complete
+  alternatives document alone is insufficient.
 - The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to each
   checkpoint.
 
@@ -152,6 +161,8 @@ definition framing only.
 | Bootstrap products bias the conceptual contract. | Treat them as reported facts only and defer all product and deployment selection. |
 | An ADR bundles several independent decisions. | Split choices by responsibility, authority, interface, or trust consequence when reviewers cannot assess them coherently. |
 | Maintainer intent remains only in chat. | Promote it into the proposed specification with evidence category and gate before depending on it. |
+| The existence of a specification file makes JCS feel inevitable. | Preserve proceed, revise, defer, remove, and no-JCS outcomes until an accepted decision closes them. |
+| Evidence gaps are converted into low-visibility backlog work. | Keep each gap in the decision register with its consequence, owner, and gate. |
 | Review of a stale or partial artifact authorizes dependent work. | Require exact head, complete files, passing checks, and explicit recommendation dispositions. |
 
 ## Update and close rules
