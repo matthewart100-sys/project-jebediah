@@ -5,10 +5,11 @@
 **Candidate base:** `main` at
 `7e33fd001004be407f5cecbacc26bef0dcf6cab8`
 
-**Audit candidate:** `d118507` plus the clean-room evidence update
+**Reviewed candidate:** pull request #11 at
+`20b1f559f3a396d9c59e63030337c7fc48f4c63f`
 
-**Status:** Audit and clean-room review passed; pull-request validation and
-Chief Architect approval pending
+**Status:** Approved by the Chief Architect and merged to `main` at
+`5c92b5920341c954e51452ff8760ea4aaef3e5bc`
 
 **Started:** 2026-07-30
 
@@ -290,10 +291,10 @@ onboarding blocker.
 ## Release readiness conclusion
 
 The topic, consistency, and clean-room audits pass after the listed
-corrections. Release remains blocked until:
+corrections. Pull request #11 passed local and GitHub validation, received
+exact-commit Chief Architect approval, and merged to `main`.
 
-1. The audit pull request passes local and GitHub validation.
-2. The Chief Architect approves the exact audit artifacts.
-3. The separate release checkpoint finalizes every required checklist row,
-   changelog version, status, roadmap, sprint outcome, and public release
-   record.
+The separate release checkpoint must still finalize the release checklist,
+changelog version, status, roadmap, sprint outcome, public wording, and
+publication evidence. Audit approval does not authorize or imply that the
+`v0.1.0` tag or GitHub release already exists.

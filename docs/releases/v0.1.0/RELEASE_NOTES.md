@@ -1,7 +1,5 @@
 # Project Jebediah v0.1.0 Release Notes
 
-**Status:** Draft for foundation audit
-
 ## Engineering-foundation release
 
 `v0.1.0` is an engineering-foundation release. It does **not** contain a
@@ -30,21 +28,41 @@ future Project Jebediah work can begin safely.
 - Project Genesis audit, clean-room onboarding evidence, and release
   readiness record
 
+## Release identity
+
+- **Release type:** Foundation and documentation
+- **Release owner and withdrawal authority:** Repository maintainer
+  `matthewart100-sys`
+- **Included history:** Initial repository baseline through the immutable
+  `v0.1.0` tag target
+- **Published artifacts:** Reviewed Git commit, annotated Git tag, and GitHub
+  release record
+- **Binary, container, model, schema, migration, and deployment artifacts:**
+  None
+
 ## Start here
 
-1. Read the [repository README](../../../README.md).
-2. Follow the [AI entry point](../../../AGENTS.md) when joining as an AI.
-3. Review [Project Status](../../../PROJECT_STATUS.md), the
-   [Current Sprint](../../../CURRENT_SPRINT.md), and the
-   [Roadmap](../../../ROADMAP.md).
-4. Use the [documentation index](../../README.md) for architecture,
-   standards, lifecycle, and governance.
-5. Read the [Contribution Guide](../../../CONTRIBUTING.md) before proposing a
-   change.
+1. Read the
+   [repository README](https://github.com/matthewart100-sys/project-jebediah/blob/v0.1.0/README.md).
+2. Follow the
+   [AI entry point](https://github.com/matthewart100-sys/project-jebediah/blob/v0.1.0/AGENTS.md)
+   when joining as an AI.
+3. Review
+   [Project Status](https://github.com/matthewart100-sys/project-jebediah/blob/v0.1.0/PROJECT_STATUS.md),
+   the
+   [Current Sprint](https://github.com/matthewart100-sys/project-jebediah/blob/v0.1.0/CURRENT_SPRINT.md),
+   and the
+   [Roadmap](https://github.com/matthewart100-sys/project-jebediah/blob/v0.1.0/ROADMAP.md).
+4. Use the
+   [documentation index](https://github.com/matthewart100-sys/project-jebediah/blob/v0.1.0/docs/README.md)
+   for architecture, standards, lifecycle, and governance.
+5. Read the
+   [Contribution Guide](https://github.com/matthewart100-sys/project-jebediah/blob/v0.1.0/CONTRIBUTING.md)
+   before proposing a change.
 
 ## Verification
 
-The final release requires:
+Publication requires:
 
 - Complete Project Genesis requirements mapping
 - Cross-document and repository-structure audit

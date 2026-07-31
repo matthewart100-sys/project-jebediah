@@ -97,6 +97,21 @@ A release candidate must:
 An exception records impact, owner, compensating control, and resolution. A
 deadline alone does not justify an unsafe release.
 
+### Reader-centered release validation
+
+A foundation release, major documentation release, or significant lifecycle
+transition must include proportionate clean-room validation. Give a fresh
+reader the canonical entry point without relying on the author's explanation,
+conversation history, or unpromoted bootstrap material. Test whether the
+reader can reconstruct the release's purpose, current reality, authority,
+boundaries, operating process, and next gate.
+
+Record the exact material supplied, questions, wrong inferences, navigation
+failures, corrections, and material test limitations. Repeated friction is
+evidence for improving canonical documentation. A routine correction or
+low-risk patch does not require a full clean-room exercise unless its scope or
+reader impact makes one necessary.
+
 ## Version selection
 
 1. Identify the last release and full reviewed commit range.

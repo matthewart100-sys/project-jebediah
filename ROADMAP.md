@@ -24,7 +24,7 @@ next phase depends on it.
 **Objective:** Establish the permanent engineering foundation before software
 implementation.
 
-**Status:** In progress
+**Status:** Foundation audit complete; `v0.1.0` release gate in progress
 
 Required outcomes:
 
