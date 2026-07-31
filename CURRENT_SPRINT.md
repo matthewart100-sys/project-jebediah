@@ -76,8 +76,8 @@ Each checkpoint is a separate pull request and Chief Architect review.
 | --- | --- | --- |
 | Milestone 4A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and merged |
 | Milestone 4B: information and Digital Twin boundaries | Complete | Pull request #6 approved by the Chief Architect and merged |
-| Checkpoint A: testing and security | In progress | Bounded Sprint 4 feature branch |
-| Checkpoint B: operations, release, and repository hygiene | Pending | Starts after Checkpoint A approval |
+| Checkpoint A: testing and security | Complete | Pull request #7 approved by the Chief Architect and merged |
+| Checkpoint B: operations, release, and repository hygiene | In progress | Bounded Sprint 4 feature branch |
 | Milestone 6: GitHub enforcement | Pending | Starts after Sprint 4 closes |
 
 ## Dependencies

@@ -90,6 +90,21 @@ Operational work is done when:
 - Backup and restore impact is considered.
 - Changes are safe to repeat or explicitly guarded when not idempotent.
 - Runbooks and project status are updated.
+- Operational readiness follows the
+  [Operations Philosophy](OPERATIONS_PHILOSOPHY.md).
+
+## Release changes
+
+Release work is done when:
+
+- The version and included reviewed commit range are explicit.
+- Changelog and release notes describe scope and compatibility.
+- Required test, security, recovery, artifact, and documentation evidence
+  passes.
+- Artifacts identify source and provenance without secrets.
+- Deployment, rollback, forward recovery, and withdrawal are understood.
+- Tag and GitHub release targets are verified and immutable.
+- The [Release Process](RELEASE_PROCESS.md) is satisfied.
 
 ## Security-sensitive changes
 

@@ -37,7 +37,9 @@ Before substantive work, read:
 15. `docs/DATA_OWNERSHIP.md`
 16. `docs/TESTING_PHILOSOPHY.md`
 17. `SECURITY.md`
-18. Architecture, design, component, and ADR documents relevant to the task
+18. `docs/OPERATIONS_PHILOSOPHY.md`
+19. `docs/RELEASE_PROCESS.md`
+20. Architecture, design, component, and ADR documents relevant to the task
 
 Then inspect the actual repository state, current branch, uncommitted changes,
 and relevant GitHub issue or pull request.

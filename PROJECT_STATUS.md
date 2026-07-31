@@ -39,6 +39,8 @@ and is reviewed through pull requests.
   approved pull request #5.
 - Milestone 4B established information ownership and the Digital Twin position
   through approved pull request #6.
+- Milestone 5A established testing and security governance through approved
+  pull request #7.
 - The onboarding ZIP, PDFs, and prior conversations are not authoritative
   project memory.
 
@@ -84,10 +86,10 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Genesis Sprint 4 is establishing lifecycle governance in two checkpoints:
+Genesis Sprint 4 is completing its lifecycle-governance checkpoint:
 
-- Risk-based testing philosophy and public security policy
-- Operations philosophy, release process, and repository hygiene configuration
+- Testing and security is complete through pull request #7.
+- Operations, release, and repository hygiene are in progress.
 
 No application or infrastructure implementation is authorized. Later
 milestones will add GitHub quality enforcement and the Phase 0 release audit.

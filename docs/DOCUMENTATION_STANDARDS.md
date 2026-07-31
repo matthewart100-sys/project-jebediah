@@ -58,8 +58,8 @@ to the [Definition of Done](DEFINITION_OF_DONE.md).
 | Digital Twin intent | `docs/design/DIGITAL_TWIN_POSITION.md` |
 | Security policy | `SECURITY.md` |
 | Testing philosophy | `docs/TESTING_PHILOSOPHY.md` |
-| Operations philosophy | Planned `docs/OPERATIONS_PHILOSOPHY.md` |
-| Release process | Planned `docs/RELEASE_PROCESS.md` |
+| Operations philosophy | `docs/OPERATIONS_PHILOSOPHY.md` |
+| Release process | `docs/RELEASE_PROCESS.md` |
 
 When a document needs a concept owned elsewhere, summarize only the local
 implication and link to the owner. Do not create a second policy.

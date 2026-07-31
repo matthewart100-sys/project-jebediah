@@ -378,8 +378,8 @@ in conversation history.
 | Milestone 3: AI onboarding and memory | Complete | Pull request #4 approved by the Chief Architect and squash-merged |
 | Milestone 4A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and squash-merged |
 | Milestone 4B: data ownership and Digital Twin position | Complete | Pull request #6 approved by the Chief Architect and squash-merged |
-| Milestone 5A: testing and security | In progress | Genesis Sprint 4 bounded feature branch |
-| Milestone 5B: operations, release, and repository hygiene | Pending | Starts after testing and security |
+| Milestone 5A: testing and security | Complete | Pull request #7 approved by the Chief Architect and squash-merged |
+| Milestone 5B: operations, release, and repository hygiene | In progress | Genesis Sprint 4 bounded feature branch |
 | Milestones 6 and 7 | Pending | Sequenced after lifecycle philosophies |
 
 ## 13. Accepted follow-up recommendations

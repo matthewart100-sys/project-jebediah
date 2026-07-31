@@ -45,6 +45,12 @@ development. Until the release process is approved, changes remain under
   tests, AI evaluations, recovery, security, fixtures, flakiness, and review.
 - Public security policy defining safe vulnerability reporting, trust and
   repository boundaries, core controls, secure lifecycle, and Phase 0 gaps.
+- Operations philosophy covering ownership, health, observability, change,
+  deployment, backup, restore, incidents, capacity, continuity, and readiness.
+- Release process covering pre-1.0 versioning, readiness, changelog, artifacts,
+  tags, deployment separation, verification, rollback, and `v0.1.0`.
+- Minimal editor, Git text/binary, and ignore configuration implementing
+  repository hygiene policy.
 
 ### Changed
 
@@ -68,6 +74,8 @@ development. Until the release process is approved, changes remain under
 - Closed Genesis Sprint 3 after both architecture and information-boundary
   checkpoints were approved and opened Genesis Sprint 4 for lifecycle
   philosophies.
+- Integrated operations and release requirements with engineering, security,
+  testing, completion criteria, onboarding, and canonical navigation.
 
 ### Security
 

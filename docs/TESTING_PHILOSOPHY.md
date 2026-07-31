@@ -302,7 +302,8 @@ results, omissions, and environment limitations.
 
 Run stable required checks on reviewed `main`. Release candidates add
 end-to-end, migration, rollback, recovery, artifact, and post-deployment
-verification appropriate to their contents.
+verification appropriate to their contents under the
+[Release Process](RELEASE_PROCESS.md).
 
 ## Failure triage
 
