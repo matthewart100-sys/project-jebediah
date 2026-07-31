@@ -302,6 +302,26 @@ accepted decision establishes otherwise. An unresolved evidence gap remains
 an architectural question with an owner and gate; it must not be relabeled as
 ordinary backlog work merely to advance the milestone.
 
+#### C1 outcome record
+
+When C1 reaches a proposed conclusion, record the result in this form:
+
+| Field | Required content |
+| --- | --- |
+| C1 outcome | Proceed toward specification, revise problem framing, defer JCS, or remove JCS |
+| Evidence | Repository and maintainer evidence that supports the outcome, with assumptions and limits |
+| Decision owner | Maintainer authority and required Chief Architect review |
+| Review identity | Exact pull request, base, head, validation, and formal decision |
+| Next authorized milestone | The smallest work explicitly permitted after the outcome |
+| Why not yet | Why each blocked alternative or later milestone remains blocked |
+| Remaining risks | Owned uncertainty, consequence, and resolution gate |
+
+Keep outcome wording and state synchronized across this plan,
+`CURRENT_SPRINT.md`, `PROJECT_STATUS.md`, and the proposed JCS specification.
+Update the changelog when an outcome becomes delivered project history. A C1
+transition records not only what may proceed, but why every non-selected path
+and later milestone may not proceed yet.
+
 ### Milestone C2: define information and consumer boundaries
 
 **Artifacts:**
