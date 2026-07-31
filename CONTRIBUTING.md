@@ -25,8 +25,10 @@ Read these documents in order:
 11. [Architecture Principles](docs/ARCHITECTURE_PRINCIPLES.md)
 12. [Current Architecture](docs/ARCHITECTURE.md)
 13. [Data Ownership](docs/DATA_OWNERSHIP.md)
-14. [ADR Process](docs/adr/README.md)
-15. Any component, design, security, operations, or ADR documents relevant to
+14. [Testing Philosophy](docs/TESTING_PHILOSOPHY.md)
+15. [Security Policy](SECURITY.md)
+16. [ADR Process](docs/adr/README.md)
+17. Any component, design, operations, or ADR documents relevant to
     the proposed change
 
 If a required document does not yet exist, treat that absence as a project

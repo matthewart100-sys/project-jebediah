@@ -35,7 +35,9 @@ Before substantive work, read:
 13. `.ai/COLLABORATION.md`
 14. The [project glossary](docs/reference/GLOSSARY.md)
 15. `docs/DATA_OWNERSHIP.md`
-16. Architecture, design, component, and ADR documents relevant to the task
+16. `docs/TESTING_PHILOSOPHY.md`
+17. `SECURITY.md`
+18. Architecture, design, component, and ADR documents relevant to the task
 
 Then inspect the actual repository state, current branch, uncommitted changes,
 and relevant GitHub issue or pull request.

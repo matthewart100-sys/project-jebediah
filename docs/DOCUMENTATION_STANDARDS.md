@@ -56,8 +56,8 @@ to the [Definition of Done](DEFINITION_OF_DONE.md).
 | AI memory policy | `docs/AI_MEMORY_CONTRACT.md` |
 | Data ownership categories | `docs/DATA_OWNERSHIP.md` |
 | Digital Twin intent | `docs/design/DIGITAL_TWIN_POSITION.md` |
-| Security policy | Planned `SECURITY.md` |
-| Testing philosophy | Planned `docs/TESTING_PHILOSOPHY.md` |
+| Security policy | `SECURITY.md` |
+| Testing philosophy | `docs/TESTING_PHILOSOPHY.md` |
 | Operations philosophy | Planned `docs/OPERATIONS_PHILOSOPHY.md` |
 | Release process | Planned `docs/RELEASE_PROCESS.md` |
 

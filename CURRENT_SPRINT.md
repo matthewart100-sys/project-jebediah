@@ -1,6 +1,6 @@
 # Current Sprint
 
-## Genesis Sprint 3: Architecture and Information Boundaries
+## Genesis Sprint 4: Lifecycle Philosophies
 
 **Target window:** 2026-07-30 through 2026-08-12
 
@@ -8,94 +8,97 @@
 
 ## Sprint goal
 
-Preserve Project Jebediah's conceptual design intent, establish a formal
-decision process, and define information boundaries without inventing
-implementation architecture.
+Define how Project Jebediah will validate, secure, operate, recover, and release
+future capabilities before implementation begins.
 
 ## Context
 
-Pull request #4 completed AI onboarding and durable memory. The repository can
-now orient future contributors and promote decisions safely. This sprint uses
-that foundation to describe the current conceptual architecture and the gates
-that must precede JCS, collectors, data use, and the Digital Twin.
+Pull requests #5 and #6 completed architecture and information boundaries.
+Future subsystem work now needs lifecycle expectations that translate those
+boundaries into evidence, protection, operation, recovery, and release gates.
 
-The two-week window is a planning default. Evidence quality and architectural
-review determine completion.
+The two-week window is a planning default. Each checkpoint requires
+substantive guidance and evidence-based review.
 
 ## Committed scope
 
-### Checkpoint A: Architecture and decision governance
+### Checkpoint A: Testing and security
 
-- Architecture principles
-- Current conceptual architecture
-- Shared glossary
-- Component registry with component ownership distinct from repository
-  ownership
-- Foundational, System, and Implementation ADR process and template
-- Accepted interface, Git, memory, and terminology cross-references
+- Risk-based, technology-neutral testing philosophy
+- Deterministic, component, contract, integration, end-to-end, recovery,
+  security, and documentation evidence
+- AI and probabilistic evaluation
+- Safe vulnerability reporting for the currently verified GitHub state
+- Public-repository, trust, secret, data, AI, supply-chain, incident, and
+  review boundaries
 
-### Checkpoint B: Information and Digital Twin boundaries
+### Checkpoint B: Operations, release, and repository hygiene
 
-- Authoritative, cached, derived, and temporary information categories
-- Ownership, provenance, freshness, retention, and conflict expectations
-- Digital Twin purpose, exclusions, conceptual relationships, and deferrals
-- Architecture, glossary, registry, status, and navigation updates
+- Operations, health, observability, backup, restore, rollback, runbook, and
+  incident philosophy
+- Pre-1.0 versioning, release readiness, tagging, notes, artifacts, deployment,
+  verification, rollback, and deprecation
+- `.editorconfig`, `.gitattributes`, and `.gitignore`
+- Canonical integration and Sprint 4 closure
 
 Each checkpoint is a separate pull request and Chief Architect review.
 
 ## Non-goals
 
 - Application or infrastructure implementation
-- Verification or reconfiguration of the reported home lab
-- Definition or implementation of JCS
-- Collector, Knowledge Graph, Automation, or Reasoning Engine design
-- API, schema, protocol, language, framework, database, model, or deployment
-  selection
-- Assigning reported products to permanent component responsibilities
+- Home-lab reconfiguration, audit, penetration test, or incident simulation
+- Selection of language, test framework, scanner, secret manager, monitoring
+  stack, deployment tool, or artifact registry
+- GitHub Actions and branch-protection enforcement, which belong to Milestone 6
+- Enabling GitHub private vulnerability reporting before the security policy
+  and Milestone 6 configuration are reviewed
+- Creating a release before all Phase 0 exit criteria pass
 
 ## Acceptance criteria
 
-- Architecture documents use verified facts, reported facts, working
-  assumptions, and open questions correctly.
-- Principles constrain decisions without selecting technology.
-- Current architecture explains context, layers, boundaries, named future
-  subsystems, and deliberate unknowns.
-- The glossary owns shared terms without creating architecture.
-- The component registry distinguishes component ownership from
-  repository-path ownership and does not claim reported products are verified.
-- ADR triggers, levels, lifecycle, evidence, supersession, and documentation
-  coupling are actionable.
-- Checkpoint B establishes information and Digital Twin boundaries before
-  Phase 1 design.
+- Test selection follows risk and owned boundaries rather than a universal
+  coverage number.
+- Deterministic and probabilistic behavior have appropriate distinct evidence.
+- Failure, recovery, security, data, workflow, AI, and documentation testing
+  are covered.
+- Vulnerability reporting is safe and accurate for the verified current
+  GitHub configuration.
+- Security guidance covers the full lifecycle without exposing or inventing
+  private infrastructure.
+- Operations and release guidance defines readiness, recovery, and ownership
+  without selecting tools.
+- Repository hygiene configuration is minimal, explained, and consistent.
 - Exact artifacts receive explicit Chief Architect decisions.
 
 ## Work status
 
 | Work item | State | Evidence |
 | --- | --- | --- |
-| Milestone 3: AI onboarding and memory | Complete | Pull request #4 approved by the Chief Architect and merged |
-| Checkpoint A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and merged |
-| Checkpoint B: information and Digital Twin boundaries | In progress | Bounded Sprint 3 feature branch |
-| Milestone 5: lifecycle philosophies | Pending | Starts after Sprint 3 closes |
+| Milestone 4A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and merged |
+| Milestone 4B: information and Digital Twin boundaries | Complete | Pull request #6 approved by the Chief Architect and merged |
+| Checkpoint A: testing and security | In progress | Bounded Sprint 4 feature branch |
+| Checkpoint B: operations, release, and repository hygiene | Pending | Starts after Checkpoint A approval |
+| Milestone 6: GitHub enforcement | Pending | Starts after Sprint 4 closes |
 
 ## Dependencies
 
-- The approved mission, roadmap, standards, and AI memory contract remain
+- Current architecture, data ownership, and ADR governance remain
   authoritative.
+- The security policy reports actual repository capability rather than desired
+  settings.
+- Operations and release work builds on accepted testing and security gates.
 - Chief Architect review receives exact artifacts and validation.
-- Data ownership and Digital Twin work builds on accepted Checkpoint A terms.
-- JCS remains undefined until Phase 1.
 
 ## Risks
 
 | Risk | Response |
 | --- | --- |
-| Reported infrastructure is presented as verified | Label every reported product and require a sanitized audit. |
-| Named subsystems acquire invented contracts | Record only preserved intent, current gate, and unresolved responsibility. |
-| Principles become slogans | Give each principle an architectural consequence and application rule. |
-| ADRs become bureaucracy | Trigger them only for lasting decisions with material consequences. |
-| Registry ownership conflicts with repository ownership | Define component lifecycle ownership separately and link to repository standards. |
-| Data or Digital Twin detail leaks into Checkpoint A | Defer their categorical definitions to Checkpoint B. |
+| Testing policy selects tools prematurely | Define evidence types and risk, leaving framework choice to component architecture. |
+| Security reporting invents a private channel | Record verified GitHub capability and a no-detail interim contact request. |
+| Security policy claims controls that do not exist | Separate current maturity and known gaps from future requirements. |
+| Testing becomes a coverage-number exercise | Prohibit a universal threshold and require risk-based assertions. |
+| Operations promises unverified recovery | Require restore evidence before calling a backup usable. |
+| Release process permits an incomplete foundation release | Keep `v0.1.0` behind all Genesis exit and review gates. |
 
 ## Update rule
 

@@ -37,6 +37,8 @@ and is reviewed through pull requests.
 - Milestone 4A established architecture principles, current conceptual
   architecture, terminology, component ownership, and ADR governance through
   approved pull request #5.
+- Milestone 4B established information ownership and the Digital Twin position
+  through approved pull request #6.
 - The onboarding ZIP, PDFs, and prior conversations are not authoritative
   project memory.
 
@@ -82,15 +84,13 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Genesis Sprint 3 is completing its information-boundary checkpoint:
+Genesis Sprint 4 is establishing lifecycle governance in two checkpoints:
 
-- Architecture and decision governance is complete through pull request #5.
-- Data ownership categories, lifecycle rules, and the Digital Twin position
-  are in progress.
+- Risk-based testing philosophy and public security policy
+- Operations philosophy, release process, and repository hygiene configuration
 
 No application or infrastructure implementation is authorized. Later
-milestones will add lifecycle philosophies, GitHub quality enforcement, and
-the Phase 0 release audit.
+milestones will add GitHub quality enforcement and the Phase 0 release audit.
 
 ## Phase 0 exit criteria
 

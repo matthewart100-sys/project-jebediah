@@ -42,6 +42,10 @@ searchable, linkable, and version controlled.
   and temporary information plus lifecycle responsibility.
 - [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) defines the
   concept's purpose, exclusions, relationships, and implementation gates.
+- [Testing Philosophy](TESTING_PHILOSOPHY.md) defines risk-based evidence
+  layers, deterministic testing, AI evaluation, recovery testing, and review.
+- [Security Policy](../SECURITY.md) defines safe vulnerability reporting,
+  public-repository boundaries, controls, and current security gaps.
 - [AI Entry Point](../AGENTS.md) defines the mandatory orientation and
   invariants shared by every AI contributor.
 - [Codex Bootstrap](../CODEX_BOOTSTRAP.md) defines Codex-specific Lead
@@ -93,7 +97,7 @@ Unsupported statements must not be presented as established truth.
 
 The approved Genesis plan will add substantive documents for:
 
-- Testing, security, operations, and release philosophy
+- Operations and release philosophy
 
 These paths are documented in the Genesis plan. They are not created until
 their content is ready for review.

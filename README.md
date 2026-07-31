@@ -38,10 +38,9 @@ tool-specific operating checklist in
 8. Read the approved [Project Genesis implementation plan](docs/genesis/PROJECT_GENESIS_PLAN.md).
 9. Review the [changelog](CHANGELOG.md) for repository history.
 
-Additional security, operations, and release documents will be delivered
-through the reviewable milestones defined in the Genesis plan. A document is
-added only when it contains substantive guidance; empty placeholders are not
-accepted.
+Additional operations and release documents will be delivered through the
+reviewable milestones defined in the Genesis plan. A document is added only
+when it contains substantive guidance; empty placeholders are not accepted.
 
 ## Preserved design intent
 

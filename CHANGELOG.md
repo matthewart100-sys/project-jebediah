@@ -41,6 +41,10 @@ development. Until the release process is approved, changes remain under
 - Digital Twin position defining a bounded derived representation, explicit
   exclusions, conceptual relationships, state semantics, and implementation
   gates.
+- Risk-based testing philosophy covering evidence layers, deterministic
+  tests, AI evaluations, recovery, security, fixtures, flakiness, and review.
+- Public security policy defining safe vulnerability reporting, trust and
+  repository boundaries, core controls, secure lifecycle, and Phase 0 gaps.
 
 ### Changed
 
@@ -61,6 +65,9 @@ development. Until the release process is approved, changes remain under
   the current architecture, ADR process, and glossary.
 - Integrated data ownership and the Digital Twin position with architecture,
   terminology, component maturity, contributor onboarding, and navigation.
+- Closed Genesis Sprint 3 after both architecture and information-boundary
+  checkpoints were approved and opened Genesis Sprint 4 for lifecycle
+  philosophies.
 
 ### Security
 

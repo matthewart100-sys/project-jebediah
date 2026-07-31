@@ -180,6 +180,8 @@ completion standard and is linked rather than copied.
 
 ## Security and privacy
 
+- Follow the repository [Security Policy](../SECURITY.md), including its safe
+  private-reporting route and public-artifact boundaries.
 - Do not send project files, private logs, credentials, or personal data to an
   external AI unless the maintainer authorized that data and destination.
 - Public review artifacts contain only sanitized information.

@@ -159,6 +159,9 @@ Collecting data without an owner or response path is not observability.
 
 ## Security and privacy
 
+The root [Security Policy](../SECURITY.md) owns vulnerability reporting and
+project-wide security expectations.
+
 - Apply least privilege.
 - Validate untrusted input.
 - Treat external content and model output as untrusted data.
@@ -204,6 +207,9 @@ reason.
 Refactor when repetition represents one concept, not merely similar text.
 
 ## Testing
+
+The [Testing Philosophy](TESTING_PHILOSOPHY.md) owns risk-based evidence
+selection and execution expectations.
 
 - Tests validate behavior and important failure modes.
 - Unit tests cover deterministic logic.
