@@ -22,7 +22,10 @@ Read these documents in order:
 8. [Documentation Standards](docs/DOCUMENTATION_STANDARDS.md)
 9. [Git Workflow](docs/GIT_WORKFLOW.md)
 10. [Definition of Done](docs/DEFINITION_OF_DONE.md)
-11. Any architecture or ADR documents relevant to the proposed
+11. [Architecture Principles](docs/ARCHITECTURE_PRINCIPLES.md)
+12. [Current Architecture](docs/ARCHITECTURE.md)
+13. [ADR Process](docs/adr/README.md)
+14. Any component, data, security, operations, or ADR documents relevant to the proposed
    change
 
 If a required document does not yet exist, treat that absence as a project
@@ -89,6 +92,8 @@ must state:
 Significant architecture, milestone, or canonical-documentation changes use
 the [Chief Architect Review Template](docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md).
 The reviewer must receive the actual diff or changed files, not only a summary.
+The [ADR Process](docs/adr/README.md) defines lasting-decision triggers and
+Foundational, System, and Implementation review levels.
 
 ## Validation
 

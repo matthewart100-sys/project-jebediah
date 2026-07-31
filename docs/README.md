@@ -29,6 +29,15 @@ searchable, linkable, and version controlled.
   language-independent engineering quality.
 - [Documentation Standards](DOCUMENTATION_STANDARDS.md) defines canonical
   ownership, evidence labels, writing, navigation, review, and maintenance.
+- [Architecture Principles](ARCHITECTURE_PRINCIPLES.md) defines enduring
+  constraints for architectural decisions.
+- [Current Architecture](ARCHITECTURE.md) defines the approved conceptual
+  layers, context, boundaries, and unresolved decisions.
+- [ADR Process](adr/README.md) defines decision triggers, levels, lifecycle,
+  numbering, and review.
+- [Glossary](reference/GLOSSARY.md) owns shared project terminology.
+- [Component Registry](reference/COMPONENT_REGISTRY.md) tracks component
+  identity, maturity, responsibility, and component ownership.
 - [AI Entry Point](../AGENTS.md) defines the mandatory orientation and
   invariants shared by every AI contributor.
 - [Codex Bootstrap](../CODEX_BOOTSTRAP.md) defines Codex-specific Lead
@@ -80,12 +89,9 @@ Unsupported statements must not be presented as established truth.
 
 The approved Genesis plan will add substantive documents for:
 
-- Architecture and architecture principles
 - Testing, security, operations, and release philosophy
 - Data ownership
 - Digital Twin intent
-- ADR governance with foundational, system, and implementation decision levels
-- Reference material including terminology and a component registry
 
 These paths are documented in the Genesis plan. They are not created until
 their content is ready for review.

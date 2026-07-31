@@ -10,6 +10,10 @@ without selecting technology prematurely.
 No application implementation begins until its relevant architecture and
 interfaces are approved.
 
+The [current architecture](ARCHITECTURE.md) owns approved conceptual
+boundaries, and the [Architecture Principles](ARCHITECTURE_PRINCIPLES.md)
+constrain future decisions.
+
 ## Engineering principles
 
 ### Architecture before implementation
@@ -72,6 +76,10 @@ Do not begin dependent work when a blocking question has no safe bounded
 assumption.
 
 ## Interfaces and contracts
+
+Future interfaces refine the boundaries in the
+[current architecture](ARCHITECTURE.md); they do not establish competing
+component responsibilities.
 
 - Interfaces are small, explicit, and owned.
 - Inputs and outputs have documented meaning, validation, and failure behavior.

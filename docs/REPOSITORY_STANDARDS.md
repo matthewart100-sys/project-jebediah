@@ -127,7 +127,8 @@ Document planned ownership in canonical standards until content is ready.
   underscores where established by the Genesis plan.
 - Reference and design filenames identify their subject rather than their
   author or date.
-- ADR filenames follow the numbering policy in the future ADR standard.
+- ADR filenames follow the numbering policy in the
+  [ADR Process](adr/README.md).
 - Do not use names such as `new`, `final`, `latest`, `copy`, or version suffixes
   as a substitute for version control.
 - Tool-required names, including `.github/workflows`, take precedence only

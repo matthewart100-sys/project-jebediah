@@ -35,8 +35,8 @@ Canonical documents describe what contributors should rely on now.
 
 ### Decision memory
 
-ADRs and reviewed pull requests record why lasting choices were made,
-alternatives considered, consequences, and review evidence.
+The [ADR process](adr/README.md) and reviewed pull requests record why lasting
+choices were made, alternatives considered, consequences, and review evidence.
 
 ADRs preserve decision history. Pull requests preserve implementation and
 review history. Neither excuses stale current architecture.
@@ -108,9 +108,10 @@ When a chat, meeting, or tool session produces durable information:
    question, proposal, or accepted decision.
 4. Select the canonical document.
 5. Add rationale, evidence, impact, owner, and resolution gate as appropriate.
-6. Review the change against current architecture and standards.
-7. Merge through the Git workflow.
-8. Rely on the repository version in future sessions.
+6. Use an ADR when the information contains a lasting architectural decision.
+7. Review the change against current architecture and standards.
+8. Merge through the Git workflow.
+9. Rely on the repository version in future sessions.
 
 Do not commit a transcript when a concise maintained statement is sufficient.
 

@@ -31,6 +31,11 @@ development. Until the release process is approved, changes remain under
 - Human and AI collaboration roles, authority, review, and handoff rules.
 - AI memory contract defining durable memory, ephemeral context, promotion,
   recovery, and sensitive-content boundaries.
+- Architecture principles defining enduring technical constraints.
+- Current conceptual architecture documenting evidence, layers, system
+  context, boundaries, named future subsystems, and open questions.
+- Tiered ADR process and decision template.
+- Shared project glossary and component registry.
 
 ### Changed
 
@@ -44,6 +49,11 @@ development. Until the release process is approved, changes remain under
   approved and opened Genesis Sprint 2 for AI onboarding and memory.
 - Added canonical navigation and ownership for AI contributors and durable
   memory.
+- Closed Genesis Sprint 2 after the AI onboarding and memory checkpoint was
+  approved and opened Genesis Sprint 3 for architecture and information
+  boundaries.
+- Connected interface, Git, AI memory, repository, and onboarding guidance to
+  the current architecture, ADR process, and glossary.
 
 ### Security
 

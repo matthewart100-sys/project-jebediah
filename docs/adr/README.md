@@ -1,0 +1,191 @@
+# Architecture Decision Record Process
+
+**Status:** Active
+
+## Purpose
+
+Architecture Decision Records (ADRs) preserve why Project Jebediah made
+lasting technical and structural choices. They make alternatives,
+consequences, evidence, and supersession visible without using conversation
+history as decision memory.
+
+The [current architecture](../ARCHITECTURE.md) describes what is approved now.
+ADRs explain why it became approved. An ADR does not excuse stale current
+documentation.
+
+## When an ADR is required
+
+Create an ADR for a lasting decision that materially affects:
+
+- Architecture principles or project-wide constraints
+- System or component responsibilities and boundaries
+- Authoritative data ownership, provenance, retention, or consistency
+- Public or cross-component interfaces and compatibility
+- Deployment topology or an independently operated service
+- Security posture, trust boundaries, identity, or authorization
+- Core languages, frameworks, databases, workflow platforms, or model-serving
+  technologies
+- Recovery, migration, or operational strategy
+- A long-lived exception to an engineering standard
+- A meaningful reversal or supersession of an accepted decision
+
+An ADR is usually unnecessary for:
+
+- Editorial corrections that do not change meaning
+- Routine implementation inside approved boundaries
+- A local, reversible choice with no compatibility or operational consequence
+- Experiments that cannot affect production or durable data and are clearly
+  time-bounded
+
+When uncertain, document the trigger assessment in the pull request. The
+Chief Architect may raise or lower the required level based on impact.
+
+## Decision levels
+
+### Foundational
+
+A project-wide decision that changes enduring principles, major platform
+direction, roadmap ordering, authority, or a constraint inherited by several
+systems.
+
+Foundational ADRs require Chief Architect review and final maintainer
+authority. Dependent implementation waits for acceptance.
+
+### System
+
+A decision defining a subsystem's responsibility, major boundary, data
+authority, public interface, deployment model, or critical technology.
+
+System ADRs require Chief Architect review and final maintainer authority.
+Dependent components wait for acceptance.
+
+### Implementation
+
+A lasting lower-level choice within approved architecture, such as a
+compatibility strategy, persistence pattern, or significant dependency whose
+consequences outlive one code change.
+
+Implementation ADRs use normal technical review. Chief Architect review is
+also required when the choice crosses system boundaries, changes risk
+materially, or is escalated by the maintainer or reviewer.
+
+Decision level reflects scope and consequence, not the number of changed
+files.
+
+## Status lifecycle
+
+| Status | Meaning |
+| --- | --- |
+| Proposed | Under review and not authoritative |
+| Accepted | Approved and binding within its scope |
+| Rejected | Considered and deliberately not selected |
+| Superseded | Replaced by a later accepted ADR |
+| Deprecated | Still present but scheduled for replacement |
+| Withdrawn | Removed from consideration before a decision |
+
+Accepted, rejected, and superseded ADRs are immutable decision history.
+Correct spelling or broken links without changing meaning; use a new ADR to
+change the decision. Add supersession links to both records when a later ADR
+replaces an earlier one.
+
+## Numbering and filenames
+
+- Use one repository-wide sequence.
+- Use four digits followed by a concise lowercase hyphenated title:
+  `0001-example-decision.md`.
+- Determine the next number from all tracked ADR filenames, including rejected
+  and superseded records.
+- Never reuse a number.
+- `0000-template.md` is the template and is not a decision.
+- A proposed ADR receives its final number before review so links remain
+  stable.
+
+## Workflow
+
+1. **Identify the trigger.** State the problem, scope, urgency, evidence, and
+   why an ADR is required.
+2. **Choose the level.** Explain why the consequence is Foundational, System,
+   or Implementation.
+3. **Copy the template.** Assign the next number and replace every instruction
+   with substantive content.
+4. **Describe context honestly.** Separate verified facts, reported facts,
+   working assumptions, and open questions.
+5. **Compare alternatives.** Include retaining the current design when it is a
+   real option.
+6. **State the decision.** Make the chosen boundary and behavior precise
+   enough to guide implementation without adding unrelated design.
+7. **Analyze consequences.** Cover data, security, operations, recovery,
+   compatibility, tests, cost, and reversibility as applicable.
+8. **Update current documents.** Change architecture, glossary, component
+   registry, data ownership, standards, status, and roadmap where the accepted
+   decision changes their meaning.
+9. **Review actual artifacts.** Use the
+   [Chief Architect Review Template](../reviews/ARCHITECT_REVIEW_TEMPLATE.md)
+   when required.
+10. **Record the result.** Set the ADR status, record review evidence in the
+    pull request, and merge through the
+    [Git Workflow](../GIT_WORKFLOW.md).
+11. **Implement afterward.** Foundational and System implementation begins
+    only after acceptance. A bounded Implementation ADR may accompany its
+    first implementation when reviewers can evaluate both safely.
+
+## Evidence requirements
+
+An ADR distinguishes:
+
+- **Verified facts** supported by repository, test, measurement, or inspected
+  system evidence
+- **Reported facts** that still require verification
+- **Working assumptions** with impact and confirmation conditions
+- **Open questions** with owners or resolution gates
+
+Evidence must be sufficient for the decision's risk. Benchmarks identify
+method and environment. Operational claims identify sanitized evidence.
+Security-sensitive evidence may remain private while the ADR records the safe
+conclusion, owner, and verification method.
+
+## Decision quality
+
+An acceptable ADR:
+
+- Frames one coherent decision
+- Names scope and non-goals
+- Identifies affected owners and consumers
+- Uses criteria tied to project needs
+- Compares credible alternatives
+- States positive, negative, and neutral consequences
+- Explains failure and rollback
+- Identifies follow-up work without hiding incomplete prerequisites
+- Uses no secret or private operational detail
+
+Do not write an ADR to rationalize a completed implementation after the fact.
+If an emergency forced action first, record that exception, immediate evidence,
+and follow-up decision explicitly.
+
+## Relationship to project memory
+
+The [AI Memory Contract](../AI_MEMORY_CONTRACT.md) governs promotion from
+ephemeral context into durable GitHub artifacts. An architectural conclusion
+that future work depends on belongs in an ADR and the affected current
+document, not only in a chat, meeting note, pull-request comment, or model
+memory.
+
+Pull requests preserve review and implementation history. The ADR preserves
+decision rationale. Current architecture preserves the resulting present
+state.
+
+## Security and privacy
+
+Public ADRs must not contain credentials, private addresses, personal data,
+raw sensitive logs, exploit-ready topology, or confidential threat details.
+Record sanitized conclusions and the owner of any approved private evidence.
+Security concerns do not justify omitting the existence and consequence of a
+decision.
+
+## Decision log
+
+No numbered Project Jebediah ADR has been accepted yet. The repository contains
+only the maintained [ADR template](0000-template.md).
+
+Update this section in the same pull request that adds or changes an ADR's
+status.

@@ -375,8 +375,10 @@ in conversation history.
 | Milestone 1: source-of-truth entry points | Complete | Pull request #1 approved by the Chief Architect and squash-merged |
 | Milestone 2A: planning and contribution workflow | Complete | Pull request #2 approved by the Chief Architect and squash-merged |
 | Milestone 2B: engineering documentation standards | Complete | Pull request #3 approved by the Chief Architect and squash-merged |
-| Milestone 3: AI onboarding and memory | In progress | Genesis Sprint 2 bounded feature branch |
-| Milestones 4 through 7 | Pending | Sequenced after AI onboarding and memory |
+| Milestone 3: AI onboarding and memory | Complete | Pull request #4 approved by the Chief Architect and squash-merged |
+| Milestone 4A: architecture and decision governance | In progress | Genesis Sprint 3 bounded feature branch |
+| Milestone 4B: data ownership and Digital Twin position | Pending | Starts after architecture and decision governance |
+| Milestones 5 through 7 | Pending | Sequenced after architecture and information boundaries |
 
 ## 13. Accepted follow-up recommendations
 
@@ -394,3 +396,6 @@ milestone that owns their subject:
 | Connect durable memory promotion to architecture decision governance. | Milestone 4 adds reciprocal links between `docs/AI_MEMORY_CONTRACT.md` and the ADR framework. |
 | Illustrate how ephemeral context becomes durable project memory. | Milestone 7 uses the clean-room onboarding audit to add a concise lifecycle example to `docs/AI_MEMORY_CONTRACT.md` if it improves correct application. |
 | Route project-specific terms to the glossary from AI onboarding. | Milestone 4 links `AGENTS.md` to `docs/reference/GLOSSARY.md` after the glossary exists. |
+| Add lightweight traceability across principles, ADRs, current architecture, and component specifications as those artifacts grow. | The Phase 1 JCS specification checkpoint evaluates a substantive `docs/reference/ARCHITECTURE_TRACEABILITY.md`; it is created only when real ADR and specification relationships exist to index. |
+| Make ADR supersession, affected components, and affected architecture sections easy to navigate. | `docs/adr/README.md` adds a cross-reference index when the repository contains multiple numbered ADRs. |
+| Explain how conceptual architecture becomes implementation architecture without weakening governance. | The Phase 1 JCS specification checkpoint adds architecture-evolution guidance before concrete component implementation design begins. |
