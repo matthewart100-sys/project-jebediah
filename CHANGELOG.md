@@ -18,6 +18,11 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Recorded the C1 outcome **DEFER JCS** because no explicit purpose,
+  responsibility, consumer relationship, boundary, or failure consequence
+  supports advancing the component; kept JCS **Named**, the specification
+  **Proposed**, the no-JCS baseline credible, C2 blocked, and implementation
+  unauthorized, with evidence-based reconsideration triggers and no ADR.
 - Refined the JCS C1 framing gate to require an explicit proceed, revise,
   defer, or remove outcome; preserved the no-JCS baseline; and kept conceptual
   evidence gaps as architectural questions while draft PR #18 remains

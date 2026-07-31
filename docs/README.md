@@ -13,6 +13,9 @@ searchable, linkable, and version controlled.
 - [JCS Definition Implementation Plan](JCS_DEFINITION_PLAN.md) defines the
   approved Phase 1 execution order, evidence, ownership, decisions, review
   gates, risks, and acceptance criteria without defining JCS.
+- [JCS Specification](JCS_SPECIFICATION.md) is the non-authoritative Milestone
+  C1 proposal for JCS evidence, alternatives, decision framing, and review. It
+  does not define JCS or prove **Specified** maturity.
 - [Project Genesis Foundation Audit](genesis/GENESIS_FOUNDATION_AUDIT.md)
   maps required topics, records consistency evidence and corrections, and
   owns the clean-room onboarding result.
