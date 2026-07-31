@@ -38,10 +38,11 @@ tool-specific operating checklist in
 8. Read the approved [Project Genesis implementation plan](docs/genesis/PROJECT_GENESIS_PLAN.md).
 9. Review the [changelog](CHANGELOG.md) for repository history.
 
-GitHub enforcement is active and verified. The clean-room Phase 0 audit and
-`v0.1.0` engineering-foundation release remain to be delivered through the
-reviewable milestones in the Genesis plan. A document is added only when it
-contains substantive guidance; empty placeholders are not accepted.
+GitHub enforcement is active and verified. The clean-room Phase 0 audit passed
+and was approved through pull request #11. The `v0.1.0`
+engineering-foundation release remains in its separate review and publication
+gate. A document is added only when it contains substantive guidance; empty
+placeholders are not accepted.
 
 ## Preserved design intent
 

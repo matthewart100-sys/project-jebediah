@@ -99,9 +99,9 @@ otherwise make review too large.
 | --- | --- | --- |
 | Milestone 6A: repository-owned quality gate | Complete | Pull request #9 approved by the Chief Architect and merged |
 | Milestone 6B: verified GitHub control plane | Complete | Private reporting and `main` protection enabled and read back through the GitHub API |
-| Checkpoint A: foundation audit | In progress | Genesis Sprint 6 |
+| Checkpoint A: foundation audit | Complete | Pull request #11 approved by the Chief Architect and merged at `5c92b5920341c954e51452ff8760ea4aaef3e5bc` |
 | Checkpoint B: clean-room onboarding | Complete | Two independent repository-only AI reviews passed with no material blocker |
-| Checkpoint C: `v0.1.0` foundation release | Pending | Begins only after audit and clean-room criteria pass |
+| Checkpoint C: `v0.1.0` foundation release | In progress | Dedicated release-candidate review and publication gate |
 
 ## Dependencies
 

@@ -401,7 +401,7 @@ in conversation history.
 | Milestone 5B: operations, release, and repository hygiene | Complete | Pull request #8 approved by the Chief Architect and squash-merged |
 | Milestone 6A: repository-owned quality gate | Complete | Pull request #9 approved by the Chief Architect and squash-merged |
 | Milestone 6B: verified GitHub control plane | Complete | Private reporting and `main` protection enabled and read back through the GitHub API on 2026-07-30 |
-| Milestone 7: Genesis audit and release | In progress | Genesis Sprint 6 |
+| Milestone 7: Genesis audit and release | Release preparation | Foundation audit approved and merged through pull request #11; `v0.1.0` release gate remains |
 
 ## 13. Accepted follow-up recommendations
 

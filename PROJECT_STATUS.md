@@ -48,6 +48,11 @@ and is reviewed through pull requests.
   documentation-quality enforcement through approved pull request #9.
 - The `documentation-quality` workflow succeeded on merged `main` at commit
   `76470977988e95c99f1667e74312d22dc8befe9b`.
+- The complete Project Genesis topic, consistency, and clean-room audit was
+  approved by the Chief Architect and merged through pull request #11 at
+  commit `5c92b5920341c954e51452ff8760ea4aaef3e5bc`.
+- The `documentation-quality` workflow succeeded on that merged audit commit
+  in GitHub Actions run `30597270334`.
 - GitHub API read-back on 2026-07-30 confirms that private vulnerability
   reporting is enabled.
 - GitHub API read-back on 2026-07-30 confirms that `main` requires pull
@@ -99,16 +104,19 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Genesis Sprint 6 is auditing the complete Project Genesis foundation and
-preparing the `v0.1.0` engineering-foundation release:
+Genesis Sprint 6 is preparing the audited Project Genesis foundation for the
+separate `v0.1.0` engineering-foundation release gate:
 
 - Milestone 6 GitHub enforcement is complete and its effective settings are
   recorded in canonical policy.
-- Every required foundation topic maps to a substantive canonical owner.
-- Cross-document findings GA-001 through GA-007 are corrected in the audit
-  candidate.
+- The approved audit maps every required foundation topic to a substantive
+  canonical owner.
+- Cross-document findings GA-001 through GA-007 are corrected on `main`.
 - Two independent repository-only AI reviews passed with no material
   onboarding blocker.
+- Pull request #11 received exact-commit Chief Architect approval and merged;
+  final release state, evidence, and public wording now require a dedicated
+  release-candidate review.
 
 No application or infrastructure implementation is authorized. The release
 will describe an engineering foundation, not a Project Jebediah application.
