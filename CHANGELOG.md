@@ -13,6 +13,10 @@ development. Changes not assigned to a published version remain under
 - Recorded verified `v0.1.0` publication, closed Project Genesis Phase 0, and
   opened Phase 1 JCS specification planning without authorizing
   implementation.
+- Updated the documentation workflow's immutable `actions/checkout` pin from
+  `v4` to official `v7.0.1` to use the maintained Node 24 action runtime
+  without changing permissions, triggers, validation, or the required check
+  name.
 
 ## [0.1.0] - 2026-07-30
 

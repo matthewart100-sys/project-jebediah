@@ -28,6 +28,12 @@ post-release maintenance item must also update the pinned `actions/checkout`
 revision because GitHub reports its Node 20 runtime as deprecated even though
 the required check still passes.
 
+GitHub's official `actions/checkout` repository identifies `v7.0.1`, published
+on 2026-07-20, at verified commit
+`3d3c42e5aac5ba805825da76410c181273ba90b1`. Its action metadata uses Node 24.
+The maintenance checkpoint changes only that immutable pin and its version
+comment.
+
 ## Committed scope
 
 ### Checkpoint A: Project Genesis closeout
@@ -100,7 +106,7 @@ the required check still passes.
 | --- | --- | --- |
 | Project Genesis Phase 0 foundation | Complete | Pull requests #1 through #12, tag `v0.1.0`, and the verified GitHub release |
 | Checkpoint A: Project Genesis closeout | Complete | This reviewed post-publication closeout records the tag, release, verification, and transition |
-| Checkpoint B: documentation-workflow maintenance | Pending | Begins after closeout approval |
+| Checkpoint B: documentation-workflow maintenance | In progress | Official `actions/checkout` `v7.0.1` commit and Node 24 metadata verified; pull-request and merged-main validation remain |
 | Checkpoint C: JCS definition implementation plan | Pending | Begins after workflow maintenance; specification waits for plan approval |
 
 ## Dependencies
