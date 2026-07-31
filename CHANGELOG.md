@@ -18,6 +18,11 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Opened Sprint 003 for Collector 1.0 definition and implementation planning
+  after the merged **DEFER JCS** outcome closed C1.
+- Added proposed Collector 1.0 contracts for bounded text ingestion,
+  deterministic identity, provenance, idempotency, adapter separation,
+  testing, rollback, and deployment gates.
 - Recorded the C1 outcome **DEFER JCS** because no explicit purpose,
   responsibility, consumer relationship, boundary, or failure consequence
   supports advancing the component; kept JCS **Named**, the specification

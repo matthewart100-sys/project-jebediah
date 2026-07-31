@@ -16,6 +16,12 @@ searchable, linkable, and version controlled.
 - [JCS Specification](JCS_SPECIFICATION.md) is the non-authoritative Milestone
   C1 proposal for JCS evidence, alternatives, decision framing, and review. It
   does not define JCS or prove **Specified** maturity.
+- [Collector 1.0 Specification](COLLECTOR_1_SPECIFICATION.md) defines the
+  proposed bounded text-record ingestion contract, identity, provenance,
+  idempotency, failure, security, and acceptance requirements.
+- [Collector 1.0 Implementation Plan](COLLECTOR_1_IMPLEMENTATION_PLAN.md)
+  defines implementation gates, adapter boundaries, tests, rollback, and the
+  evidence required before live deployment.
 - [Project Genesis Foundation Audit](genesis/GENESIS_FOUNDATION_AUDIT.md)
   maps required topics, records consistency evidence and corrections, and
   owns the clean-room onboarding result.
