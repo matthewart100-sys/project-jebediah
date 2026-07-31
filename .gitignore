@@ -1,0 +1,30 @@
+# Operating-system artifacts
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor-local state
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.local
+*.local.*
+
+# Logs, caches, and temporary files
+*.log
+logs/
+.cache/
+tmp/
+temp/
+
+# Local runtime data and recovery material
+/runtime/
+/data/
+/backups/

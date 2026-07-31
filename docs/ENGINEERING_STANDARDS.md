@@ -51,6 +51,10 @@ without a demonstrated boundary and consumer.
 Changes must consider failure, rollback, retry, restore, and partial state.
 Happy-path behavior alone is not production quality.
 
+The [Operations Philosophy](OPERATIONS_PHILOSOPHY.md) owns operational
+readiness and recovery expectations, and the
+[Release Process](RELEASE_PROCESS.md) owns versioned delivery.
+
 ### Observable without leaking
 
 Systems must make health, significant actions, failures, and recovery visible

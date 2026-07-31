@@ -27,8 +27,10 @@ Read these documents in order:
 13. [Data Ownership](docs/DATA_OWNERSHIP.md)
 14. [Testing Philosophy](docs/TESTING_PHILOSOPHY.md)
 15. [Security Policy](SECURITY.md)
-16. [ADR Process](docs/adr/README.md)
-17. Any component, design, operations, or ADR documents relevant to
+16. [Operations Philosophy](docs/OPERATIONS_PHILOSOPHY.md)
+17. [Release Process](docs/RELEASE_PROCESS.md)
+18. [ADR Process](docs/adr/README.md)
+19. Any component, design, or ADR documents relevant to
     the proposed change
 
 If a required document does not yet exist, treat that absence as a project

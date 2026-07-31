@@ -281,8 +281,8 @@ an approved private record while GitHub stores the safe decision and outcome.
 
 ## Incident response expectations
 
-A future operations policy will define the full incident lifecycle. Security
-incidents at minimum require:
+The [Operations Philosophy](docs/OPERATIONS_PHILOSOPHY.md) defines the full
+incident lifecycle. Security incidents at minimum require:
 
 - Named coordinator and private communication path
 - Timeline using exact timestamps

@@ -378,8 +378,8 @@ in conversation history.
 | Milestone 3: AI onboarding and memory | Complete | Pull request #4 approved by the Chief Architect and squash-merged |
 | Milestone 4A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and squash-merged |
 | Milestone 4B: data ownership and Digital Twin position | Complete | Pull request #6 approved by the Chief Architect and squash-merged |
-| Milestone 5A: testing and security | In progress | Genesis Sprint 4 bounded feature branch |
-| Milestone 5B: operations, release, and repository hygiene | Pending | Starts after testing and security |
+| Milestone 5A: testing and security | Complete | Pull request #7 approved by the Chief Architect and squash-merged |
+| Milestone 5B: operations, release, and repository hygiene | In progress | Genesis Sprint 4 bounded feature branch |
 | Milestones 6 and 7 | Pending | Sequenced after lifecycle philosophies |
 
 ## 13. Accepted follow-up recommendations
@@ -407,3 +407,6 @@ milestone that owns their subject:
 | Trace security principles to implemented controls, evidence, owners, and ADRs. | The first implementation checkpoint evaluates `docs/reference/SECURITY_CONTROL_MATRIX.md`; it is created only after concrete controls and evidence exist. |
 | Map architectural risks to test evidence and responsible components. | The first checkpoint involving multiple specified subsystems evaluates a concise testing-evidence matrix based on real risks and regression obligations. |
 | Reuse security review gates consistently in implementation decisions. | The first implementation-facing security ADR derives a review checklist from `SECURITY.md` and links to the policy instead of duplicating it. |
+| Make real runbooks discoverable by component, owner, and recovery procedure. | The first approved operational runbook creates a lightweight `docs/runbooks/README.md` index and links to `docs/OPERATIONS_PHILOSOPHY.md` instead of duplicating policy. |
+| Apply release gates consistently without rewriting them in every release pull request. | Milestone 7 derives a substantive release checklist from `docs/RELEASE_PROCESS.md` for the `v0.1.0` foundation release. |
+| Standardize operational status language after real evidence exists. | The first operational implementation checkpoint defines evidence-based status terms in `docs/reference/GLOSSARY.md` and applies them to runbooks and status surfaces. |

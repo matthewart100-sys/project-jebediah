@@ -46,6 +46,10 @@ searchable, linkable, and version controlled.
   layers, deterministic testing, AI evaluation, recovery testing, and review.
 - [Security Policy](../SECURITY.md) defines safe vulnerability reporting,
   public-repository boundaries, controls, and current security gaps.
+- [Operations Philosophy](OPERATIONS_PHILOSOPHY.md) defines ownership, health,
+  observability, change, recovery, runbooks, incidents, and readiness.
+- [Release Process](RELEASE_PROCESS.md) defines versioning, release gates,
+  artifacts, tagging, deployment separation, verification, and withdrawal.
 - [AI Entry Point](../AGENTS.md) defines the mandatory orientation and
   invariants shared by every AI contributor.
 - [Codex Bootstrap](../CODEX_BOOTSTRAP.md) defines Codex-specific Lead
@@ -95,9 +99,9 @@ Unsupported statements must not be presented as established truth.
 
 ## Planned permanent documentation
 
-The approved Genesis plan will add substantive documents for:
-
-- Operations and release philosophy
+The approved Genesis plan will add GitHub enforcement and any substantive
+reference material required by later implementation. Empty policy placeholders
+are not created.
 
 These paths are documented in the Genesis plan. They are not created until
 their content is ready for review.

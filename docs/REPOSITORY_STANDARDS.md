@@ -137,11 +137,15 @@ Document planned ownership in canonical standards until content is ready.
 ## Text and line endings
 
 - UTF-8 is the canonical text encoding.
-- Repository text will use LF line endings once `.gitattributes` is introduced.
+- Repository text uses LF line endings through `.gitattributes`.
 - Files end with one newline.
 - Trailing whitespace is prohibited except when a canonical format explicitly
   requires it.
 - Contributors must avoid drive-by whole-file line-ending changes.
+
+`.editorconfig` expresses compatible editor defaults. `.gitignore` excludes
+local secrets, editor state, logs, caches, temporary files, and root-level
+runtime or recovery data; it does not make ignored content safe to expose.
 
 ## Binary artifacts
 
