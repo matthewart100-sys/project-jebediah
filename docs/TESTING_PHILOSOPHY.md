@@ -100,7 +100,10 @@ Validate artifacts without executing application behavior:
 - Generated-artifact consistency
 - Architecture, status, sprint, roadmap, and changelog coupling
 
-Milestone 6 will automate agreed repository checks.
+The repository implements these checks through
+`python scripts/validate_docs.py` and the `documentation-quality` GitHub
+Actions job. The initial gate is intentionally standard-library-only and
+expands only when new artifact classes create a real validation need.
 
 ### Unit tests
 
@@ -290,7 +293,8 @@ Run the fastest relevant focused checks and inspect the changed behavior.
 
 ### Before commit
 
-Run affected deterministic tests, repository checks, and `git diff --check`.
+Run affected deterministic tests, `python scripts/validate_docs.py`, and
+`git diff --check`.
 
 ### Pull request
 

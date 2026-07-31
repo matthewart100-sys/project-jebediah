@@ -79,4 +79,5 @@ begin until the relevant architecture and decision records have been approved.
 
 The [Git workflow](docs/GIT_WORKFLOW.md) defines the branch and review
 lifecycle. The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to
-every change.
+every change. Run `python scripts/validate_docs.py` before committing and
+report the result in the pull request.

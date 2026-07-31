@@ -82,6 +82,10 @@ Reserved for maintained developer and operator utilities. Every script must
 have a documented purpose, safe invocation, failure behavior, and supported
 environment. One-off personal commands do not become project scripts.
 
+`scripts/validate_docs.py` is the canonical repository-quality entry point. It
+uses the Python standard library, returns a nonzero exit status on failure, and
+is supported locally and in the pinned GitHub Actions environment.
+
 ### `workflows/`
 
 Reserved for version-controlled Project Jebediah automation definitions, such
@@ -234,6 +238,7 @@ archive; current `main` should describe current truth.
 
 Every repository change evaluates:
 
+- `python scripts/validate_docs.py`
 - `git diff --check`
 - Markdown and local-link integrity for documentation
 - Secret and sensitive-information exposure
@@ -242,8 +247,9 @@ Every repository change evaluates:
 - Canonical status, sprint, roadmap, and changelog impact
 - The [Definition of Done](DEFINITION_OF_DONE.md)
 
-Automated enforcement will be added in a later Genesis milestone. Until then,
-contributors record the equivalent manual checks in pull requests.
+The `documentation-quality` GitHub Actions job runs the repository validator
+for pull requests and pushes to `main`. It is deliberately dependency-free and
+does not replace human semantic, architecture, or sensitive-data review.
 
 ## Exceptions
 

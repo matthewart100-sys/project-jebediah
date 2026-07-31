@@ -19,6 +19,11 @@ current limitations of a project that has not implemented software yet.
 - No supported software release exists.
 - GitHub private vulnerability reporting was verified as disabled through the
   GitHub API on 2026-07-30.
+- GitHub API evidence on 2026-07-30 also confirms that `main` has no branch
+  protection.
+- The repository includes a common-pattern sensitive-value guard in its
+  documentation-quality workflow. This check does not replace review or a
+  future purpose-built security scanner.
 - No canonical public security email or other private reporting address has
   been approved.
 - Reported home-lab infrastructure has not received a repository-backed
@@ -318,7 +323,9 @@ Use the appropriate Foundational, System, or Implementation ADR level.
 - No concrete data-classification inventory exists.
 - No application threat model exists.
 - No dependency, container, model, or infrastructure inventory is verified.
-- No security automation or branch protection is configured.
+- Common-pattern repository scanning exists, but private vulnerability
+  reporting, branch protection, and artifact-specific security scanners are
+  not yet configured.
 - No supported software release exists.
 
 These gaps are scheduled through later Genesis and implementation milestones.

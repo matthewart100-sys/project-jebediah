@@ -91,6 +91,7 @@ Codex must also read `CODEX_BOOTSTRAP.md`.
 ### Validate
 
 - Inspect the actual final diff.
+- Run `python scripts/validate_docs.py` and `git diff --check`.
 - Run checks appropriate to the artifact and risk.
 - Verify links, tests, secrets, documentation, status, sprint, roadmap,
   changelog, and ADR impact.

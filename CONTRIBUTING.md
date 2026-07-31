@@ -106,13 +106,18 @@ Run checks proportionate to the change and report their exact results. At a
 minimum:
 
 - Inspect the final diff.
+- Run `python scripts/validate_docs.py`.
 - Run `git diff --check`.
-- Verify affected links and references.
+- Resolve every automated documentation-quality failure rather than bypassing
+  the workflow.
 - Confirm the repository contains no secrets or private operational data.
 - Run applicable tests or explain why none apply.
 - Evaluate whether `PROJECT_STATUS.md`, `CURRENT_SPRINT.md`, `ROADMAP.md`, and
   `CHANGELOG.md` need updates.
 
+The validator checks repository-wide Markdown, local links, required canonical
+files, common sensitive-value patterns, and prohibited runtime or bootstrap
+artifacts. It is a guardrail, not proof that content is safe or correct.
 Passing checks do not replace review of behavior, architecture, or meaning.
 
 ## Review and merge

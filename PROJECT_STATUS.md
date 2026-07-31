@@ -8,10 +8,11 @@
 
 ## Summary
 
-Project Jebediah is establishing its permanent engineering memory in GitHub
-before implementing software. The repository currently contains foundational
-documentation only. There are no application services, infrastructure
-definitions, schemas, workflows, or tests yet.
+Project Jebediah is establishing its permanent engineering memory and
+repository quality controls in GitHub before implementing software. The
+repository contains foundational documentation and repository-validation
+tooling. There are no Project Jebediah application services, infrastructure
+definitions, domain schemas, product workflows, or product tests yet.
 
 The initial GitHub baseline was commit
 `e42edd0c67e144b556adb77416a1e079eb106b93`, which contained only a one-line
@@ -41,6 +42,10 @@ and is reviewed through pull requests.
   through approved pull request #6.
 - Milestone 5A established testing and security governance through approved
   pull request #7.
+- Milestone 5B established operations, release, and repository-hygiene
+  governance through approved pull request #8.
+- GitHub API evidence collected on 2026-07-30 confirms that private
+  vulnerability reporting is disabled and `main` has no branch protection.
 - The onboarding ZIP, PDFs, and prior conversations are not authoritative
   project memory.
 
@@ -86,13 +91,15 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Genesis Sprint 4 is completing its lifecycle-governance checkpoint:
+Genesis Sprint 5 is implementing GitHub enforcement in two checkpoints:
 
-- Testing and security is complete through pull request #7.
-- Operations, release, and repository hygiene are in progress.
+- Repository-owned validation, workflow, pull-request template, and issue
+  forms are in progress.
+- Private vulnerability reporting and proportionate `main` protection follow
+  only after the workflow succeeds on `main`.
 
 No application or infrastructure implementation is authorized. Later
-milestones will add GitHub quality enforcement and the Phase 0 release audit.
+work will perform the Phase 0 release audit.
 
 ## Phase 0 exit criteria
 

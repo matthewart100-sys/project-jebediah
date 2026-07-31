@@ -1,0 +1,77 @@
+name: Feature proposal
+description: Propose a bounded capability tied to a concrete problem and outcome.
+title: "proposal: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Project Jebediah is documentation-first. A proposal must define the
+        problem and acceptance evidence before selecting implementation.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and user
+      description: Who has what problem, and why does it matter now?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe observable success without prescribing architecture.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Proposed scope
+      description: What bounded behavior or documentation should be included?
+    validations:
+      required: true
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals
+      description: What should this proposal deliberately leave unchanged?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance evidence
+      description: What tests, observations, or artifacts would demonstrate success?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Include doing nothing and the smallest viable alternative.
+    validations:
+      required: true
+  - type: textarea
+    id: boundaries
+    attributes:
+      label: Architecture and lifecycle impact
+      description: |
+        Identify possible component, data, security, testing, operations,
+        recovery, release, or ADR impact. Use "None identified" with rationale
+        when appropriate.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Facts, assumptions, and open questions
+      description: Separate verified facts, reported facts, assumptions, and unknowns.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I checked the roadmap, current sprint, and existing issues.
+          required: true
+        - label: I have not included secrets, personal data, or private infrastructure details.
+          required: true

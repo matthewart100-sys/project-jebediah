@@ -21,6 +21,8 @@ Desktop.ini
 *.log
 logs/
 .cache/
+__pycache__/
+*.py[cod]
 tmp/
 temp/
 
