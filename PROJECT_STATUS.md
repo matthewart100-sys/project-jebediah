@@ -83,8 +83,8 @@ addresses, sensitive topology, or personal data during that audit.
 - Diagrams will be stored as text, using Mermaid where practical.
 - Phase 0 will not select an application language, framework, API protocol,
   data schema, or deployment mechanism.
-- Development releases will use the `0.x` semantic-versioning range once the
-  release process is approved.
+- Development releases use the approved `0.x` semantic-versioning range. The
+  first planned release is the `v0.1.0` engineering foundation.
 
 ## Open questions
 
@@ -104,8 +104,11 @@ preparing the `v0.1.0` engineering-foundation release:
 
 - Milestone 6 GitHub enforcement is complete and its effective settings are
   recorded in canonical policy.
-- Cross-document consistency, required-topic traceability, and clean-room
-  onboarding evidence are next.
+- Every required foundation topic maps to a substantive canonical owner.
+- Cross-document findings GA-001 through GA-007 are corrected in the audit
+  candidate.
+- Two independent repository-only AI reviews passed with no material
+  onboarding blocker.
 
 No application or infrastructure implementation is authorized. The release
 will describe an engineering foundation, not a Project Jebediah application.

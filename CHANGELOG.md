@@ -3,8 +3,8 @@
 All notable changes to Project Jebediah will be recorded in this file.
 
 The project will use semantic versioning in the `0.x` range during early
-development. Until the release process is approved, changes remain under
-`Unreleased`.
+development. Until `v0.1.0` is approved, tagged, and published, changes remain
+under `Unreleased`.
 
 ## Unreleased
 
@@ -59,6 +59,10 @@ development. Until the release process is approved, changes remain under
   and the Definition of Done.
 - Structured bug, feature, and architecture issue forms plus a safe security
   reporting route.
+- Project Genesis foundation audit mapping every required topic, recording
+  consistency findings, and preserving independent clean-room evidence.
+- Release-specific `v0.1.0` readiness checklist and foundation-only release
+  notes.
 
 ### Changed
 
@@ -89,6 +93,8 @@ development. Until the release process is approved, changes remain under
 - Closed Genesis Sprint 5 after repository and GitHub control-plane
   enforcement were verified and opened Genesis Sprint 6 for the Genesis audit
   and foundation release.
+- Corrected stale enforcement, release-process, repository-tree, navigation,
+  and component-registry statements found by the combined foundation audit.
 
 ### Security
 

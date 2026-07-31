@@ -51,9 +51,12 @@ REQUIRED_FILES = (
     "docs/adr/0000-template.md",
     "docs/adr/README.md",
     "docs/design/DIGITAL_TWIN_POSITION.md",
+    "docs/genesis/GENESIS_FOUNDATION_AUDIT.md",
     "docs/genesis/PROJECT_GENESIS_PLAN.md",
     "docs/reference/COMPONENT_REGISTRY.md",
     "docs/reference/GLOSSARY.md",
+    "docs/releases/v0.1.0/CHECKLIST.md",
+    "docs/releases/v0.1.0/RELEASE_NOTES.md",
     "docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md",
     "scripts/validate_docs.py",
 )

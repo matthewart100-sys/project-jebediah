@@ -111,7 +111,12 @@ The target foundation is:
 |   |   |-- GLOSSARY.md
 |   |   `-- COMPONENT_REGISTRY.md
 |   |-- genesis/
-|   |   `-- PROJECT_GENESIS_PLAN.md
+|   |   |-- PROJECT_GENESIS_PLAN.md
+|   |   `-- GENESIS_FOUNDATION_AUDIT.md
+|   |-- releases/
+|   |   `-- v0.1.0/
+|   |       |-- CHECKLIST.md
+|   |       `-- RELEASE_NOTES.md
 |   |-- reviews/
 |   |   `-- ARCHITECT_REVIEW_TEMPLATE.md
 |   `-- adr/
@@ -122,15 +127,19 @@ The target foundation is:
     |-- ISSUE_TEMPLATE/
     |   |-- bug.yml
     |   |-- feature.yml
-    |   `-- architecture.yml
+    |   |-- architecture.yml
+    |   `-- config.yml
     `-- workflows/
         `-- docs-quality.yml
+`-- scripts/
+    `-- validate_docs.py
 ```
 
-The planned `docker/`, `scripts/`, `workflows/`, `schemas/`, and `tests/`
-directories are documented as future ownership boundaries but are not created
-until they contain real artifacts. The structure does not preselect a language
-or runtime.
+The planned `docker/`, `workflows/`, `schemas/`, and `tests/` directories are
+documented as future ownership boundaries but are not created until they
+contain real artifacts. `scripts/` now contains only maintained repository
+validation tooling. The structure does not select a product language or
+runtime.
 
 ## 5. Documentation hierarchy
 
@@ -429,3 +438,6 @@ milestone that owns their subject:
 | Test clean-room onboarding from the reader's perspective rather than the author's familiarity. | Milestone 7 gives a reader with no prior conversation or bootstrap context the canonical entry point, measures whether they can reconstruct project intent, and records questions, wrong inferences, and navigation failures. |
 | Make the `v0.1.0` public boundary unmistakable. | Milestone 7 release notes prominently identify `v0.1.0` as an engineering-foundation release, not a software or infrastructure release. |
 | Treat recurring clean-room friction as architectural evidence. | The Phase 1 opening checkpoint resolves repeated terminology, navigation, or ownership ambiguity in canonical documents rather than adding supplemental onboarding material. |
+| Preserve clean-room onboarding as a permanent release practice. | The `v0.1.0` release-candidate checkpoint adds a proportionate reader-centered validation requirement to `docs/RELEASE_PROCESS.md` for future foundation and major documentation releases; the reviewer must test whether a fresh reader can reconstruct intent and must record material limitations. |
+| Keep foundation, specification, implementation, and operational release evidence distinct. | The first Phase 1 implementation checkpoint evaluates evidence under those four explicit categories and updates canonical release or testing guidance only where concrete component evidence makes the distinction substantive. |
+| Resist premature creation of schemas, workflows, infrastructure trees, and component specifications. | The Phase 1 opening checkpoint continues the existing no-placeholder rule: an artifact is added only when an approved checkpoint gives it a canonical owner, real content, and reviewable acceptance evidence. |

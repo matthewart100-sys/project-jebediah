@@ -47,7 +47,7 @@ person or agent implements first.
 | Component or element | Class | Maturity | Current approved responsibility | Component owner | Next gate |
 | --- | --- | --- | --- | --- | --- |
 | Project Genesis foundation | Governance capability | Active foundation | Preserve project identity, standards, architecture governance, planning, and durable engineering memory | Maintainer accountable | Phase 0 exit audit |
-| GitHub repository | Engineering-memory boundary | Active foundation | Own reviewed project documentation, decisions, history, and future safe source artifacts | Maintainer accountable | GitHub enforcement and recovery policy |
+| GitHub repository | Engineering-memory boundary | Active foundation | Own reviewed project documentation, decisions, history, and future safe source artifacts | Maintainer accountable | Phase 0 foundation audit and release |
 | Dell PowerEdge R420 | Reported infrastructure asset | Reported | No responsibility is approved; bootstrap material reports it as the physical host | Reported operator unknown | Sanitized infrastructure audit |
 | Proxmox | Reported infrastructure platform | Reported | No responsibility is approved; bootstrap material reports virtualization use | Reported operator unknown | Sanitized infrastructure audit |
 | Ubuntu virtual machine | Reported compute guest | Reported | No responsibility is approved; bootstrap material reports a guest environment | Reported operator unknown | Sanitized infrastructure audit |

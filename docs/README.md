@@ -10,6 +10,9 @@ searchable, linkable, and version controlled.
   exists and the principles that must survive implementation choices.
 - [Project Genesis Plan](genesis/PROJECT_GENESIS_PLAN.md) defines the approved
   Phase 0 organization, delivery order, risks, and acceptance criteria.
+- [Project Genesis Foundation Audit](genesis/GENESIS_FOUNDATION_AUDIT.md)
+  maps required topics, records consistency evidence and corrections, and
+  owns the clean-room onboarding result.
 - [Project Status](../PROJECT_STATUS.md) distinguishes current truth from
   reported facts, assumptions, and unresolved questions.
 - [Current Sprint](../CURRENT_SPRINT.md) defines the active goal, bounded
@@ -50,6 +53,10 @@ searchable, linkable, and version controlled.
   observability, change, recovery, runbooks, incidents, and readiness.
 - [Release Process](RELEASE_PROCESS.md) defines versioning, release gates,
   artifacts, tagging, deployment separation, verification, and withdrawal.
+- [v0.1.0 Release Checklist](releases/v0.1.0/CHECKLIST.md) applies those gates
+  to the initial engineering-foundation candidate.
+- [v0.1.0 Release Notes](releases/v0.1.0/RELEASE_NOTES.md) define the public
+  scope, limitations, onboarding path, and release boundary.
 - [AI Entry Point](../AGENTS.md) defines the mandatory orientation and
   invariants shared by every AI contributor.
 - [Codex Bootstrap](../CODEX_BOOTSTRAP.md) defines Codex-specific Lead
@@ -100,14 +107,12 @@ Architecture, design, data, and operations documents must distinguish:
 
 Unsupported statements must not be presented as established truth.
 
-## Planned permanent documentation
+## Future permanent documentation
 
-The approved Genesis plan will complete GitHub control-plane enforcement and
-add any substantive reference material required by later implementation.
-Empty policy placeholders are not created.
-
-These paths are documented in the Genesis plan. They are not created until
-their content is ready for review.
+The approved Genesis plan and roadmap identify reference, specification,
+runbook, workflow, schema, test, and source artifacts that later work may
+require. They are created only when approved content provides a real owner,
+consumer, and maintenance path. Empty policy placeholders are not created.
 
 ## Bootstrap-material policy
 

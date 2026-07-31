@@ -174,8 +174,8 @@ Emergency procedure must not become a shortcut for ordinary work.
 ## Release tags
 
 Release tags are created from reviewed commits on `main`, never from a feature
-branch. Tagging and release notes follow the release process once that document
-is approved.
+branch. Tagging and release notes follow the approved
+[Release Process](RELEASE_PROCESS.md).
 
 ## Repository cleanup
 
