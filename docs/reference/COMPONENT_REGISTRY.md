@@ -47,7 +47,7 @@ person or agent implements first.
 | Component or element | Class | Maturity | Current approved responsibility | Component owner | Next gate |
 | --- | --- | --- | --- | --- | --- |
 | Project Genesis foundation | Governance capability | Released foundation | Preserve project identity, standards, architecture governance, planning, and durable engineering memory | Maintainer accountable | Ongoing maintenance and Phase 1 evidence separation |
-| GitHub repository | Engineering-memory boundary | Active engineering memory | Own reviewed project documentation, decisions, history, and future safe source artifacts | Maintainer accountable | Phase 1 JCS specification and post-release workflow maintenance |
+| GitHub repository | Engineering-memory boundary | Active engineering memory | Own reviewed project documentation, decisions, history, and future safe source artifacts | Maintainer accountable | Phase 1 JCS definition plan |
 | Dell PowerEdge R420 | Reported infrastructure asset | Reported | No responsibility is approved; bootstrap material reports it as the physical host | Reported operator unknown | Sanitized infrastructure audit |
 | Proxmox | Reported infrastructure platform | Reported | No responsibility is approved; bootstrap material reports virtualization use | Reported operator unknown | Sanitized infrastructure audit |
 | Ubuntu virtual machine | Reported compute guest | Reported | No responsibility is approved; bootstrap material reports a guest environment | Reported operator unknown | Sanitized infrastructure audit |
