@@ -32,6 +32,8 @@ and is reviewed through pull requests.
 - Genesis Sprint 1 established the planning, contribution, repository,
   engineering, and documentation methodology through approved pull requests
   #2 and #3.
+- Milestone 3 established AI onboarding, collaboration, and durable memory
+  through approved pull request #4.
 - The onboarding ZIP, PDFs, and prior conversations are not authoritative
   project memory.
 
@@ -77,17 +79,16 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Genesis Sprint 2 is establishing AI onboarding and durable memory:
+Genesis Sprint 3 is establishing architecture and information boundaries in
+two checkpoints:
 
-- A tool-agnostic entry point for every AI contributor
-- Codex-specific Lead Engineer operations
-- Human, Chief Architect, Lead Engineer, and future-agent collaboration rules
-- A contract for promoting durable information into GitHub
-- Canonical tracking of accepted architectural recommendations
+- Architecture principles, current conceptual architecture, shared
+  terminology, component maturity and ownership, and tiered ADR governance
+- Data ownership categories and the Digital Twin position
 
-Later milestones will add architecture and ADR guidance, data ownership, the
-Digital Twin position paper, lifecycle philosophies, GitHub quality
-enforcement, and the Phase 0 release audit.
+No application or infrastructure implementation is authorized. Later
+milestones will add lifecycle philosophies, GitHub quality enforcement, and
+the Phase 0 release audit.
 
 ## Phase 0 exit criteria
 

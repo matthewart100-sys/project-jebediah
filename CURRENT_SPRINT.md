@@ -1,6 +1,6 @@
 # Current Sprint
 
-## Genesis Sprint 2: AI Onboarding and Memory
+## Genesis Sprint 3: Architecture and Information Boundaries
 
 **Target window:** 2026-07-30 through 2026-08-12
 
@@ -8,81 +8,94 @@
 
 ## Sprint goal
 
-Make GitHub sufficient for a new AI contributor to orient, collaborate, act
-within authority, and preserve durable project memory without bootstrap files
-or prior chat history.
+Preserve Project Jebediah's conceptual design intent, establish a formal
+decision process, and define information boundaries without inventing
+implementation architecture.
 
 ## Context
 
-Genesis Sprint 1 established the working methodology through pull requests #2
-and #3. This sprint applies that methodology to the human-and-AI engineering
-model described by the bootstrap requirements.
+Pull request #4 completed AI onboarding and durable memory. The repository can
+now orient future contributors and promote decisions safely. This sprint uses
+that foundation to describe the current conceptual architecture and the gates
+that must precede JCS, collectors, data use, and the Digital Twin.
 
-The two-week window is a planning default, not permission to sacrifice quality.
-The sprint closes when its accepted outcomes are complete or when remaining
-work is explicitly carried forward.
+The two-week window is a planning default. Evidence quality and architectural
+review determine completion.
 
 ## Committed scope
 
-- Tool-agnostic AI onboarding in `AGENTS.md`
-- Codex Lead Engineer operations in `CODEX_BOOTSTRAP.md`
-- Role, authority, review, and handoff rules in `.ai/COLLABORATION.md`
-- Durable memory layers and promotion rules in
-  `docs/AI_MEMORY_CONTRACT.md`
-- Canonical navigation, ownership, status, plan, and changelog updates
-- Durable ownership for accepted Chief Architect follow-up recommendations
+### Checkpoint A: Architecture and decision governance
+
+- Architecture principles
+- Current conceptual architecture
+- Shared glossary
+- Component registry with component ownership distinct from repository
+  ownership
+- Foundational, System, and Implementation ADR process and template
+- Accepted interface, Git, memory, and terminology cross-references
+
+### Checkpoint B: Information and Digital Twin boundaries
+
+- Authoritative, cached, derived, and temporary information categories
+- Ownership, provenance, freshness, retention, and conflict expectations
+- Digital Twin purpose, exclusions, conceptual relationships, and deferrals
+- Architecture, glossary, registry, status, and navigation updates
+
+Each checkpoint is a separate pull request and Chief Architect review.
 
 ## Non-goals
 
 - Application or infrastructure implementation
-- Architecture, ADR, JCS, collector, or Digital Twin design
-- Data ownership decisions
-- API, schema, protocol, language, or framework selection
-- Deployment changes to the reported home-lab environment
-- GitHub Actions enforcement, which belongs to a later Genesis milestone
-- License selection, which requires a maintainer decision
+- Verification or reconfiguration of the reported home lab
+- Definition or implementation of JCS
+- Collector, Knowledge Graph, Automation, or Reasoning Engine design
+- API, schema, protocol, language, framework, database, model, or deployment
+  selection
+- Assigning reported products to permanent component responsibilities
 
 ## Acceptance criteria
 
-- A new AI can reconstruct project context from the repository alone.
-- Tool-agnostic rules and Codex-specific operations have distinct owners.
-- Human maintainer, Chief Architect, Lead Engineer, and future-agent
-  responsibilities are explicit.
-- Durable information has a defined promotion path into reviewed GitHub
-  artifacts.
-- AI guidance links to existing standards and the Definition of Done instead
-  of creating weaker copies.
-- The Chief Architect receives the exact artifacts and records an explicit
-  decision.
-- Status, navigation, ownership, plan, and changelog remain consistent.
+- Architecture documents use verified facts, reported facts, working
+  assumptions, and open questions correctly.
+- Principles constrain decisions without selecting technology.
+- Current architecture explains context, layers, boundaries, named future
+  subsystems, and deliberate unknowns.
+- The glossary owns shared terms without creating architecture.
+- The component registry distinguishes component ownership from
+  repository-path ownership and does not claim reported products are verified.
+- ADR triggers, levels, lifecycle, evidence, supersession, and documentation
+  coupling are actionable.
+- Checkpoint B establishes information and Digital Twin boundaries before
+  Phase 1 design.
+- Exact artifacts receive explicit Chief Architect decisions.
 
 ## Work status
 
 | Work item | State | Evidence |
 | --- | --- | --- |
-| Genesis source-of-truth checkpoint | Complete | Pull request #1 merged into `main` |
-| Checkpoint A: planning and contribution workflow | Complete | Pull request #2 approved by the Chief Architect and merged |
-| Checkpoint B: engineering documentation standards | Complete | Pull request #3 approved by the Chief Architect and merged |
-| Genesis Sprint 1 | Complete | Both working-methodology checkpoints accepted |
-| Milestone 3: AI onboarding and memory | In progress | Bounded Sprint 2 feature branch |
-| Milestone 4: architecture and information boundaries | Pending | Starts after Sprint 2 is accepted |
+| Milestone 3: AI onboarding and memory | Complete | Pull request #4 approved by the Chief Architect and merged |
+| Checkpoint A: architecture and decision governance | In progress | Bounded Sprint 3 feature branch |
+| Checkpoint B: information and Digital Twin boundaries | Pending | Starts after Checkpoint A approval |
+| Milestone 5: lifecycle philosophies | Pending | Starts after Sprint 3 closes |
 
 ## Dependencies
 
-- Authoritative `main` remains synchronized with reviewed pull requests.
-- Chief Architect review receives the exact changed files or diff.
-- The maintainer retains final repository authority.
-- Unknown architecture remains explicitly deferred.
+- The approved mission, roadmap, standards, and AI memory contract remain
+  authoritative.
+- Chief Architect review receives exact artifacts and validation.
+- Data ownership and Digital Twin work builds on accepted Checkpoint A terms.
+- JCS remains undefined until Phase 1.
 
 ## Risks
 
 | Risk | Response |
 | --- | --- |
-| Tool-specific behavior leaks into universal guidance | Keep Codex operations in `CODEX_BOOTSTRAP.md` and shared invariants in `AGENTS.md`. |
-| AI guidance duplicates existing policy | Assign one owner per concept and link to standards and the Definition of Done. |
-| Chat decisions remain ephemeral | Promote decisions and recommendations through the AI memory contract. |
-| Role language implies AI authority | Keep final maintainer authority and formal architecture review boundaries explicit. |
-| Reviews rely on summaries | Require actual artifacts in the Chief Architect evidence package. |
+| Reported infrastructure is presented as verified | Label every reported product and require a sanitized audit. |
+| Named subsystems acquire invented contracts | Record only preserved intent, current gate, and unresolved responsibility. |
+| Principles become slogans | Give each principle an architectural consequence and application rule. |
+| ADRs become bureaucracy | Trigger them only for lasting decisions with material consequences. |
+| Registry ownership conflicts with repository ownership | Define component lifecycle ownership separately and link to repository standards. |
+| Data or Digital Twin detail leaks into Checkpoint A | Defer their categorical definitions to Checkpoint B. |
 
 ## Update rule
 
@@ -91,5 +104,5 @@ sprint close:
 
 1. Record completed outcomes in the changelog and project status.
 2. Move unfinished work deliberately; do not erase it.
-3. Capture process improvements.
+3. Capture process improvements and accepted recommendations.
 4. Define the next sprint before beginning unscheduled implementation.

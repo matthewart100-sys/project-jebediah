@@ -45,9 +45,11 @@ to the [Definition of Done](DEFINITION_OF_DONE.md).
 | Documentation policy | `docs/DOCUMENTATION_STANDARDS.md` |
 | Project Genesis execution | `docs/genesis/PROJECT_GENESIS_PLAN.md` |
 | Chief Architect review evidence and decision | `docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md` |
-| Architecture principles | Planned `docs/ARCHITECTURE_PRINCIPLES.md` |
-| Current architecture | Planned `docs/ARCHITECTURE.md` |
-| Architecture decisions | Planned `docs/adr/` |
+| Architecture principles | `docs/ARCHITECTURE_PRINCIPLES.md` |
+| Current architecture | `docs/ARCHITECTURE.md` |
+| Architecture decisions | `docs/adr/` |
+| Shared project terminology | `docs/reference/GLOSSARY.md` |
+| Component identity, maturity, and ownership | `docs/reference/COMPONENT_REGISTRY.md` |
 | Tool-agnostic AI onboarding | `AGENTS.md` |
 | Codex operations | `CODEX_BOOTSTRAP.md` |
 | Human and AI collaboration | `.ai/COLLABORATION.md` |
