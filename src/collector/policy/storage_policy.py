@@ -12,16 +12,6 @@ class StoragePolicyResult:
 
 
 class StoragePolicy:
-    """
-    Determines what should happen to an incoming CollectorRecord.
-
-    This layer remains independent from:
-    - Qdrant
-    - databases
-    - APIs
-    - n8n
-    - Ollama
-    """
 
     def evaluate(
         self,
@@ -45,6 +35,7 @@ class StoragePolicy:
             )
 
         if incoming.source_id == existing.source_id:
+
             if incoming.revision > existing.revision:
                 return StoragePolicyResult(
                     decision=StorageDecision.UPDATE,
@@ -53,7 +44,7 @@ class StoragePolicy:
 
             return StoragePolicyResult(
                 decision=StorageDecision.REVIEW,
-                reason="conflicting record revision",
+                reason="conflicting revision",
             )
 
         return StoragePolicyResult(
