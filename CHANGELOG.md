@@ -10,10 +10,11 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
-- Proposed the JCS definition implementation plan with repository-backed
+- Approved the JCS definition implementation plan with repository-backed
   requirements, evidence and maturity separation, documentation ownership,
   decision inventory, implementation order, review gates, dependencies,
-  risks, validation, and acceptance criteria without defining JCS.
+  risks, validation, and acceptance criteria without defining JCS; opened
+  Milestone C1 for a proposed specification and proposed ADRs only.
 
 ### Changed
 
