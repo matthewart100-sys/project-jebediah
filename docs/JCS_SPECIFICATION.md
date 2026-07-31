@@ -4,16 +4,19 @@
 
 **Component maturity:** Named
 
+**C1 outcome:** DEFER JCS
+
 **Decision state:** JCS-01 through JCS-10 unresolved; no accepted JCS ADR
 
 **Last reviewed:** 2026-07-31
 
 ## Review warning
 
-This artifact is a Milestone C1 decision-framing proposal. It is not current
-architecture and does not define what `JCS` stands for, assign JCS a
-responsibility, approve information authority, establish a consumer contract,
-or authorize implementation.
+This artifact is a Milestone C1 decision-framing proposal and the evidence
+record for the **DEFER JCS** outcome. It is not an accepted JCS specification
+or current architecture. Deferral does not define what `JCS` stands for,
+assign JCS a responsibility, approve information authority, establish a
+consumer contract, reject the concept, or authorize implementation.
 
 Statements labeled **Proposed** are candidates for review. They become
 authoritative only after the required evidence, ADRs, Chief Architect review,
@@ -112,8 +115,47 @@ provides an explicit decision through the approved collaboration path.
 ### Open questions
 
 Every JCS decision remains open. The [decision register](#decision-register)
-owns its evidence need and gate. Missing maintainer intent blocks acceptance of
-JCS-01 and JCS-02; it does not block comparing alternatives.
+owns its evidence need and reconsideration gate. Missing maintainer intent
+blocks acceptance of JCS-01 and JCS-02. The C1 framing work compared the
+alternatives without filling that gap and found no evidence-supported candidate
+direction.
+
+## Proposed C1 outcome record
+
+**C1 outcome:** DEFER JCS
+
+The Chief Architect recommended this outcome after reviewing the complete
+first proposal and then confirmed that the maintainer's standing instruction
+to route C1 architectural questions through the Chief Architect provides
+sufficient delegated acknowledgment to prepare the canonical outcome. The
+outcome becomes project record only through final exact-artifact review and
+merge of pull request #18. Ultimate repository authority remains with the
+maintainer.
+
+| Field | Record |
+| --- | --- |
+| Evidence | No explicit maintainer statement establishes the JCS expansion, purpose, problem, responsibility, exclusions, or consumers. No candidate consumer/problem relationship or failure consequence supports a component boundary. The C1 framing nevertheless succeeded by exposing these unknowns without inventing a design. This absence of support is not evidence that JCS is unnecessary or harmful. |
+| Decision owner | Chief Architect under delegated C1 review authority. Final repository authority remains maintainer-controlled through review and merge. |
+| Review identity | Draft pull request #18 was first reviewed at `5dea1aea6e8b264b74c05b063157f72e863fff54`; required check run `30635469490` passed, and the Chief Architect approved continued C1 work without merge. Pull request #19 then refined the outcome gate and merged to `main` at `2b8e1a318062ce7e5f029cd32521bc655db87712`; run `30636066645` passed without annotations. The revised exact head, validation, and final closure decision must be recorded in pull request #18 before merge. |
+| Next authorized milestone | Final C1 closure review, followed only by preserving the deferred state if the exact artifact set is approved and merged. C2 is not authorized. |
+| Why not yet | Proceed is blocked by missing purpose, responsibility, consumer, boundary, and failure-consequence evidence. Revision is not required because the framing correctly exposed the gaps. Removal is unsupported because absence of evidence is not evidence of absence. C2 is blocked because no candidate responsibility exists. |
+| Remaining risks | A future need may emerge; the preserved acronym may bias later work; and a stale reader may mistake the proposal for a specification. The controls are explicit reconsideration triggers, continued **Named** maturity, visible non-acceptance, and exact-artifact review. |
+
+### Reconsideration triggers
+
+JCS may return to C1 consideration only when new evidence identifies all of the
+following well enough for bounded comparison:
+
+- An explicit project purpose or problem
+- A named human or component consumer with a concrete need
+- A candidate coherent responsibility and boundary not already satisfied by
+  an existing conceptual owner
+- A failure consequence that explains why a separate component may be useful
+- Chief Architect authorization for a reopened, evidence-bounded C1 scope
+
+Until those triggers are met, the no-JCS baseline remains credible, JCS stays
+**Named**, this specification stays **Proposed**, and C2 and all implementation
+remain blocked.
 
 ## Repository-constrained requirements
 
@@ -373,20 +415,23 @@ to make unsupported coupling visible.
 
 | ID | Decision question | Current status | Evidence or decision needed | Gate |
 | --- | --- | --- | --- | --- |
-| JCS-01 | What does `JCS` stand for, and what problem does it solve? | Open; explicit maintainer intent unknown | Maintainer purpose, consumer problem, name alternatives | Chief Architect framing and maintainer decision |
-| JCS-02 | What coherent responsibility does JCS own, and what is excluded? | Open; alternatives only | JCS-01 direction, consumer evidence, boundary comparison | Proposed System ADR before dependent boundaries |
-| JCS-03 | Which information, if any, is JCS authoritative for? | Open; no authority assigned | Concrete domain, source, owner, conflict, freshness, retention, recovery | Milestone C2 data review and accepted ADR as triggered |
-| JCS-04 | Who consumes JCS guarantees, and what remains owned elsewhere? | Open; hypotheses only | Named consumer, exact need, alternative owner | Milestone C2 boundary review |
-| JCS-05 | Which conceptual interactions are required? | Open; no interaction approved | Accepted responsibility and consumer need | Milestone C2; System ADR for cross-component contract |
-| JCS-06 | What failure and recovery guarantees apply? | Open | Accepted responsibility, consequence, information category | Milestone C3 lifecycle review |
-| JCS-07 | Which trust, privacy, and human/AI authority boundaries apply? | Open; foundation policy only | Concrete data and action consequences | Milestone C3 security review and ADR as triggered |
-| JCS-08 | What must operators observe and own? | Open; no runtime owner | Deployment-independent operational questions and accepted boundary | Milestone C3 operations review |
-| JCS-09 | What evidence proves implementation conformance? | Open | Accepted guarantees and representative failure cases | Milestone C3 assurance review |
-| JCS-10 | Which technology and deployment choices remain deferred? | Open; all current choices deferred | Evidence that a choice is indispensable to the conceptual contract | Explicit deferral list; later ADR if required |
+| JCS-01 | What does `JCS` stand for, and what problem does it solve? | Open; deferred after C1 | Explicit purpose, consumer problem, name alternatives | Reconsideration triggers and reopened C1 review |
+| JCS-02 | What coherent responsibility does JCS own, and what is excluded? | Open; deferred after C1 | JCS-01 direction, consumer evidence, boundary comparison | Reopened C1 review; proposed System ADR only after a candidate exists |
+| JCS-03 | Which information, if any, is JCS authoritative for? | Open; blocked by deferred JCS | Concrete domain, source, owner, conflict, freshness, retention, recovery | C2 remains blocked; accepted ADR as later triggered |
+| JCS-04 | Who consumes JCS guarantees, and what remains owned elsewhere? | Open; blocked by deferred JCS | Named consumer, exact need, alternative owner | C2 remains blocked |
+| JCS-05 | Which conceptual interactions are required? | Open; blocked by deferred JCS | Accepted responsibility and consumer need | C2 remains blocked; System ADR for a later cross-component contract |
+| JCS-06 | What failure and recovery guarantees apply? | Open; blocked by deferred JCS | Accepted responsibility, consequence, information category | C3 remains blocked |
+| JCS-07 | Which trust, privacy, and human/AI authority boundaries apply? | Open; foundation policy only | Concrete data and action consequences | C3 remains blocked; ADR as later triggered |
+| JCS-08 | What must operators observe and own? | Open; no runtime owner | Deployment-independent operational questions and accepted boundary | C3 remains blocked |
+| JCS-09 | What evidence proves implementation conformance? | Open; blocked by deferred JCS | Accepted guarantees and representative failure cases | C3 remains blocked |
+| JCS-10 | Which technology and deployment choices remain deferred? | Open; all current choices deferred | Evidence that a choice is indispensable to the conceptual contract | Explicit deferral; later ADR only if required |
 
 ## ADR trigger assessment
 
-No numbered ADR is created in this C1 proposal.
+No numbered ADR is created in this C1 proposal. The **DEFER JCS** outcome does
+not require an ADR because it establishes no subsystem boundary, ownership
+model, interface, information authority, technology choice, or other lasting
+architecture commitment.
 
 The repository has enough evidence to conclude that an accepted JCS
 responsibility, information-authority, cross-component interaction, or trust
@@ -409,7 +454,7 @@ enough to compare and review.
 | JCS-07 trust and authority | System; Foundational if human or project-wide authority changes | No concrete data or action boundary is proposed |
 | Technology and deployment | Later System or Implementation as consequence requires | Explicitly deferred and not needed for C1 framing |
 
-## Evidence needed from the maintainer
+## Evidence required to reconsider JCS
 
 The following questions cannot be answered from current repository evidence:
 
@@ -424,22 +469,24 @@ The following questions cannot be answered from current repository evidence:
 7. What failure would show that the JCS concept is unnecessary or wrongly
    bounded?
 
-Until this evidence is promoted into the proposal and reviewed, JCS-01 and
-JCS-02 cannot advance to a candidate decision.
+Until this evidence is promoted into a reopened proposal and reviewed, JCS-01
+and JCS-02 cannot advance to a candidate decision.
 
 ## Deferred work
 
 | Milestone | Work deliberately deferred from C1 | Entry condition |
 | --- | --- | --- |
-| C2 | Concrete information mappings, consumer boundaries, and conceptual interaction requirements | JCS-01/JCS-02 candidate direction and Chief Architect framing authorization |
+| C2 | Concrete information mappings, consumer boundaries, and conceptual interaction requirements | JCS reconsideration triggers, reopened C1, JCS-01/JCS-02 candidate direction, and explicit Chief Architect authorization |
 | C3 | Failure, recovery, security, privacy, operations, and conformance requirements | Accepted or reviewable responsibility and information consequences |
 | C4 | Current architecture, glossary, registry maturity, data ownership, roadmap, and changelog integration | Internally complete proposed specification and required ADRs |
 | C5 | Specification acceptance and Phase 1 closure | Complete artifacts, passing checks, Chief Architect approval, maintainer authority |
 | Later implementation | Schemas, APIs, protocols, code, tests, infrastructure, and deployment | Accepted specification plus separately approved implementation plan and sprint |
 
-## C1 review questions
+## C1 review result and closure questions
 
-The Chief Architect framing review must answer:
+The initial Chief Architect framing review found no defect in this proposal,
+recommended **DEFER JCS**, kept C2 blocked, and found no numbered ADR justified.
+The final exact-artifact closure review must confirm:
 
 - Does this proposal keep explicit maintainer intent **Unknown** rather than
   filling it with inference?
@@ -453,7 +500,10 @@ The Chief Architect framing review must answer:
 - Are ADR levels proportionate, and is deferring numbered ADR creation
   justified?
 - Which exact evidence is blocking a candidate direction?
-- May Milestone C2 begin, or must JCS-01/JCS-02 remain in C1?
+- Does this outcome record faithfully preserve the defer recommendation and
+  its delegated authority boundary?
+- Does the artifact keep Milestone C2 blocked and identify sufficient
+  reconsideration triggers?
 
 ## C1 acceptance criteria
 
@@ -475,15 +525,17 @@ Milestone C1 is complete only when:
 - The Chief Architect reviews the exact complete artifacts and returns a
   formal framing decision with every recommendation disposition recorded.
 
-Milestone C1 completion does not accept a JCS definition. Dependent work may
-begin only if the formal review identifies the exact next authorized scope.
+Milestone C1 completion does not accept a JCS definition. Under the defer
+outcome, no dependent JCS work may begin. Reconsideration requires new evidence
+and a new explicitly authorized scope.
 
 ## Maintenance
 
-Update this proposal as evidence and decisions progress through the active
-plan. Accepted choices must update their existing canonical owners and
-required ADRs in the same reviewed change. Rejected alternatives remain
-concise decision evidence; unresolved matters keep an owner and gate.
+Update this proposal only when a reconsideration trigger supplies new evidence
+or a reviewed governance correction is required. Accepted future choices must
+update their existing canonical owners and required ADRs in the same reviewed
+change. Rejected alternatives remain concise decision evidence; unresolved
+matters keep an owner and gate.
 
 Do not leave an accepted JCS conclusion only in conversation or a pull-request
 comment. Promote it into this specification, the applicable ADR, and every

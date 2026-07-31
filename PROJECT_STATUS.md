@@ -2,7 +2,7 @@
 
 **Phase:** Phase 1: JCS definition
 
-**Status:** C0 plan approved; C1 JCS definition framing
+**Status:** C1 outcome DEFER JCS in final closure review; JCS Named; C2 blocked
 
 **Last reviewed:** 2026-07-31
 
@@ -14,6 +14,11 @@ Project Genesis foundation is published as `v0.1.0`. The repository contains
 foundational documentation and repository-validation tooling; it still
 contains no Project Jebediah application services, infrastructure definitions,
 domain schemas, product workflows, or product tests.
+
+Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
+or boundary. The reviewed outcome is therefore **DEFER JCS**, pending final
+exact-artifact closure review and merge. Deferral preserves the name and the
+no-JCS baseline without accepting, rejecting, or implementing a subsystem.
 
 The initial GitHub baseline was commit
 `e42edd0c67e144b556adb77416a1e079eb106b93`, which contained only a one-line
@@ -94,6 +99,11 @@ reviewed pull requests.
   `30635469490`. The Chief Architect approved continued C1 work without merge,
   kept C2 blocked, and identified missing maintainer purpose, consumer,
   boundary, and failure-consequence evidence.
+- Pull request #19 made the four permitted C1 outcomes, no-JCS baseline,
+  evidence-gap treatment, and outcome-record requirements canonical at merged
+  commit `2b8e1a318062ce7e5f029cd32521bc655db87712`.
+- GitHub Actions run `30636066645` succeeded on that exact `main` commit with
+  no annotations.
 - GitHub API read-back on 2026-07-30 confirms that private vulnerability
   reporting is enabled.
 - GitHub API read-back on 2026-07-30 confirms that `main` requires pull
@@ -135,7 +145,7 @@ addresses, sensitive topology, or personal data during that audit.
 
 | Question | Why it matters | Resolution gate |
 | --- | --- | --- |
-| What does JCS stand for, own, and guarantee? | Collectors and later knowledge components must not depend on an undefined contract. | Resolve through a Phase 1 specification before implementation. |
+| What does JCS stand for, own, and guarantee? | Collectors and later knowledge components must not depend on an undefined contract. | Deferred after C1; reconsider only when an explicit purpose, named consumer and need, candidate responsibility and boundary, and failure consequence are available for review. |
 | Which reported infrastructure components are currently running and how are they configured? | Architecture and operations documents must distinguish desired state from actual state. | Perform a sanitized infrastructure inventory. |
 | Which future component owns each concrete information item? | Categories and responsibilities are defined, but JCS and other components remain unspecified. | Map authority in the relevant component specifications before implementation. |
 | What data classifications and privacy constraints apply? | A public repository and local AI platform create disclosure and retention risks. | Complete data classification and threat-model work before ingesting data. |
@@ -145,35 +155,34 @@ addresses, sensitive topology, or personal data during that audit.
 ## Current work
 
 Phase 1 is executing the approved
-[JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md). Milestone C1
-must frame the definition and decisions without treating a proposal as current
-architecture. The current work must:
+[JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md). The complete
+C1 framing proposal remains **Proposed** and non-authoritative. It established
+that explicit maintainer purpose, a candidate consumer/problem relationship, a
+coherent responsibility boundary, and a failure consequence are unavailable.
 
-- Identify the evidence and decisions needed to resolve what JCS stands for,
-  owns, and guarantees.
-- Separate verified facts, reported facts, assumptions, and open questions.
-- Plan how scope, explicit non-goals, information authority, conceptual
-  interfaces, failure, recovery, observability, security, and privacy
-  requirements will receive canonical ownership.
-- Identify alternatives and decisions that may require Foundational or System
-  ADRs without selecting them prematurely.
-- Create one complete proposed JCS specification containing evidence, name and
-  purpose alternatives, scope, non-goals, responsibility alternatives,
-  consumers, and the decision register.
-- Create only the proposed ADRs whose triggers are already supported by the
-  proposal.
-- Obtain Chief Architect framing review of the complete proposed artifacts
-  before making responsibility, information authority, or interfaces binding.
-- Record whether the C1 outcome is to proceed toward specification, revise the
-  problem framing, defer JCS, or remove JCS. The no-JCS baseline remains valid
-  until an accepted decision establishes a component responsibility.
-- Keep unresolved purpose, consumer, boundary, and failure-consequence gaps as
-  architectural questions with owners and gates rather than implementation
-  backlog.
+The Chief Architect recommended **DEFER JCS** and confirmed that the
+maintainer's standing delegation to use the Chief Architect review path is
+sufficient to prepare the canonical outcome record. The revised exact artifact
+set must still pass validation, final Chief Architect C1 closure review, and
+merge before the outcome becomes authoritative project history.
 
-No JCS answer, accepted specification, collector dependency, application,
-infrastructure, workflow, schema, or implementation is authorized by the C0
-plan approval.
+The outcome means:
+
+- JCS remains at **Named** maturity.
+- `docs/JCS_SPECIFICATION.md` remains **Proposed** and is not an accepted
+  component contract.
+- JCS-01 through JCS-10 remain open and are not converted into ordinary
+  implementation backlog.
+- The no-JCS baseline remains credible.
+- C2, all later JCS milestones, collector dependency, and implementation remain
+  blocked.
+- No ADR is required because deferral creates no subsystem boundary, ownership
+  model, interface, information authority, or technology choice.
+
+Reconsideration requires an explicit problem or purpose, a named human or
+component consumer with a concrete need, a candidate coherent responsibility
+and boundary not already owned elsewhere, a meaningful failure consequence,
+and Chief Architect authorization for a reopened C1 scope.
 
 ## Phase 0 completion evidence
 

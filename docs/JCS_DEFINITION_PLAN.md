@@ -277,8 +277,9 @@ must satisfy its gate before dependent work begins.
   proposed where ambiguity matters.
 - The proposal compares credible alternatives, including retaining the
   undefined state when it is a real option.
-- Maintainer input is promoted as a proposed repository statement rather than
-  left in conversation.
+- Any maintainer input used is promoted as a proposed repository statement
+  rather than left in conversation; unavailable input remains an explicit
+  evidence gap rather than an inferred answer.
 - The Chief Architect confirms the ADR levels and identifies blocking missing
   evidence before boundary choices are accepted.
 
@@ -321,6 +322,28 @@ Keep outcome wording and state synchronized across this plan,
 Update the changelog when an outcome becomes delivered project history. A C1
 transition records not only what may proceed, but why every non-selected path
 and later milestone may not proceed yet.
+
+#### Recorded C1 outcome: DEFER JCS
+
+This outcome becomes canonical when the revised pull request #18 passes final
+exact-artifact C1 closure review and merges. It does not define, reject, remove,
+or implement JCS.
+
+| Field | Record |
+| --- | --- |
+| C1 outcome | **DEFER JCS** |
+| Evidence | No explicit maintainer statement establishes JCS purpose, problem, responsibility, exclusions, or consumers. No accepted responsibility boundary, candidate consumer/problem relationship, or failure consequence supports advancing the component. The C1 framing successfully identified those unresolved requirements. Absence of supporting evidence is not evidence that JCS is unnecessary or harmful. |
+| Decision owner | Chief Architect under delegated C1 review authority. Final repository authority remains maintainer-controlled through review and merge. |
+| Review identity | Draft pull request #18 received its first exact-artifact review at `5dea1aea6e8b264b74c05b063157f72e863fff54` after check run `30635469490` passed. The Chief Architect approved continued C1 work without merge, later recommended **DEFER JCS**, and confirmed delegated acknowledgment was sufficient for canonical outcome preparation. Pull request #19 refined this outcome gate and merged at `2b8e1a318062ce7e5f029cd32521bc655db87712`; run `30636066645` passed without annotations. Pull request #18 must record its revised exact head, passing validation, and final closure decision before merge. |
+| Next authorized milestone | Final C1 closure review. If approved and merged, preserve the deferred state; do not begin C2. |
+| Why not yet | Proceed lacks purpose, responsibility, consumer, boundary, and failure-consequence evidence. Revise is unnecessary because the framing exposed the gaps without bias. Remove is unsupported because lack of evidence is not evidence of absence. C2 lacks the required candidate purpose and responsibility. |
+| Remaining risks | A future need may emerge; the acronym may bias future proposals; or readers may mistake a proposed specification for accepted architecture. Reconsider only on named evidence, retain **Named** maturity, and keep the acceptance and implementation gates explicit. |
+
+Reconsideration requires an explicit problem or purpose, a named consumer and
+concrete need, a candidate coherent responsibility and boundary, a meaningful
+failure consequence, and Chief Architect authorization for a reopened C1
+scope. Until then, JCS-01 through JCS-10 remain open, C2 remains blocked, and
+the no-JCS baseline remains credible.
 
 ### Milestone C2: define information and consumer boundaries
 
