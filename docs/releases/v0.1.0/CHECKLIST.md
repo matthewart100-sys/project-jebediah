@@ -46,10 +46,10 @@ The release is blocked while any required row is `Pending` or `Blocked`.
 | --- | --- | --- |
 | Milestones 0 through 6 are complete | Pass | [Genesis Plan](../../genesis/PROJECT_GENESIS_PLAN.md) records PRs #1 through #10 and verified GitHub controls. |
 | Milestone 7 foundation audit is complete | Pending | Complete and approve the [Genesis Foundation Audit](../../genesis/GENESIS_FOUNDATION_AUDIT.md). |
-| Every required foundation topic has a substantive owner | Pending | Complete the requirements map in the Genesis Foundation Audit. |
-| Cross-document status and ownership agree | Pending | Complete the consistency audit and correct all material drift. |
-| Clean-room onboarding succeeds | Pending | Record an independent reader's answers, wrong inferences, and navigation failures in the Genesis Foundation Audit. |
-| Material clean-room findings are resolved | Pending | Correct or assign every material finding before release approval. |
+| Every required foundation topic has a substantive owner | Pass | The Genesis Foundation Audit maps every required topic to a substantive canonical owner. |
+| Cross-document status and ownership agree | Pass | Findings GA-001 through GA-007 are corrected in the audit candidate. |
+| Clean-room onboarding succeeds | Pass | Two repository-only AI reviews cover the system/lifecycle questions and the complete entry path. |
+| Material clean-room findings are resolved | Pass | Neither reader found a material blocker; minor friction and test limitations are recorded with dispositions. |
 | Chief Architect approves the complete foundation | Pending | Record the exact reviewed commit and decision in the release PR. |
 | Maintainer authorizes the public tag and release | Pending | Obtain final authorization after all other gates pass. |
 
@@ -63,10 +63,10 @@ The release is blocked while any required row is `Pending` or `Blocked`.
 | Local links and Markdown structure pass | Pending | Supplied by the final validator run. |
 | No bootstrap archive or runtime data is tracked | Pending | Confirm through validator output and final tree review. |
 | No secrets or private operational data are exposed | Pending | Run automated common-pattern checks and perform human review. |
-| No empty policy placeholder is present | Pending | Confirm every tracked document has a current purpose and substantive content. |
-| Canonical navigation is complete | Pending | Confirm README and `docs/README.md` reach all reader-required artifacts. |
-| Status, sprint, roadmap, and changelog agree | Pending | Review their final release-state changes together. |
-| Architecture and ADR index agree | Pending | Confirm no implementation decision or numbered ADR is required for the foundation release. |
+| No empty policy placeholder is present | Pass | Topic mapping and tracked-tree review found no empty policy or speculative directory artifact. |
+| Canonical navigation is complete | Pass | The full entry-path review reached all required architecture and lifecycle owners. |
+| Status, sprint, roadmap, and changelog agree | Pending | Review their final release-state changes together in the release PR. |
+| Architecture and ADR index agree | Pass | Phase 0 selected no implementation technology or product architecture requiring a numbered ADR. |
 
 ## Security and lifecycle evidence
 

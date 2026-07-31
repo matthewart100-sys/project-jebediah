@@ -104,8 +104,11 @@ preparing the `v0.1.0` engineering-foundation release:
 
 - Milestone 6 GitHub enforcement is complete and its effective settings are
   recorded in canonical policy.
-- Cross-document consistency, required-topic traceability, and clean-room
-  onboarding evidence are next.
+- Every required foundation topic maps to a substantive canonical owner.
+- Cross-document findings GA-001 through GA-007 are corrected in the audit
+  candidate.
+- Two independent repository-only AI reviews passed with no material
+  onboarding blocker.
 
 No application or infrastructure implementation is authorized. The release
 will describe an engineering foundation, not a Project Jebediah application.

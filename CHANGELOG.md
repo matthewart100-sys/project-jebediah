@@ -59,6 +59,10 @@ under `Unreleased`.
   and the Definition of Done.
 - Structured bug, feature, and architecture issue forms plus a safe security
   reporting route.
+- Project Genesis foundation audit mapping every required topic, recording
+  consistency findings, and preserving independent clean-room evidence.
+- Release-specific `v0.1.0` readiness checklist and foundation-only release
+  notes.
 
 ### Changed
 
@@ -89,6 +93,8 @@ under `Unreleased`.
 - Closed Genesis Sprint 5 after repository and GitHub control-plane
   enforcement were verified and opened Genesis Sprint 6 for the Genesis audit
   and foundation release.
+- Corrected stale enforcement, release-process, repository-tree, navigation,
+  and component-registry statements found by the combined foundation audit.
 
 ### Security
 

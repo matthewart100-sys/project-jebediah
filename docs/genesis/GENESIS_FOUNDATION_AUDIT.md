@@ -5,7 +5,10 @@
 **Candidate base:** `main` at
 `7e33fd001004be407f5cecbacc26bef0dcf6cab8`
 
-**Status:** Audit in progress; clean-room evidence and final approval pending
+**Audit candidate:** `d118507` plus the clean-room evidence update
+
+**Status:** Audit and clean-room review passed; pull-request validation and
+Chief Architect approval pending
 
 **Started:** 2026-07-30
 
@@ -185,7 +188,7 @@ The audit additionally checks semantic consistency, public security
 boundaries, current GitHub settings, release gates, and reader comprehension.
 Neither layer claims comprehensive secret detection or correctness proof.
 
-## Clean-room onboarding protocol
+## Clean-room onboarding evidence
 
 The clean-room reader receives the candidate repository artifacts and this
 instruction only:
@@ -199,27 +202,98 @@ instruction only:
 > Cite the repository path supporting each answer. Identify wrong turns,
 > conflicting statements, missing definitions, and navigation failures.
 
-The reader must not receive this audit's conclusions, prior Chief Architect
-conversation, onboarding ZIP, or Genesis PDFs. The review records:
+The readers did not receive this audit's conclusions, prior Chief Architect
+conversation, onboarding ZIP, or Genesis PDFs. Both reviews used temporary
+sessions with conversation memory disabled and exact repository text supplied
+in bounded chunks.
 
-- Answers and cited paths
-- Questions and wrong inferences
-- Navigation failures
-- Conflicts or missing definitions
-- Material corrections or assigned follow-up
+### Primary system review
 
-**Clean-room status:** Pending independent execution against the complete audit
-candidate.
+The primary reader received 28 canonical architecture, governance, lifecycle,
+AI, status, and release files in 41 chunks. Its final report self-identified
+that chunks 13 through 41 remained in its synthesis context. That limitation
+means the review is accepted as system-and-lifecycle evidence, not as complete
+entry-path evidence.
+
+It answered all 12 protocol areas with repository-path citations:
+
+| Area | Reader result | Primary cited owners |
+| --- | --- | --- |
+| Mission and durable memory | Pass | `docs/reference/GLOSSARY.md`, Genesis plan, AI memory contract, release notes |
+| Verified, reported, and planned maturity | Pass | Project status and component registry |
+| Reported environment | Pass | Component registry, operations philosophy, glossary |
+| Conceptual architecture and future subsystems | Pass | Architecture, registry, glossary, roadmap |
+| JCS definition gate | Pass | Glossary and Genesis plan |
+| Information categories | Pass | Data ownership, security, Digital Twin position |
+| Digital Twin purpose and exclusions | Pass | Digital Twin position |
+| ADR governance | Pass | ADR process, ADR template, Git workflow |
+| Contribution lifecycle | Pass | Git workflow, contribution guide, Definition of Done, AI entry point |
+| Security reporting and gaps | Pass | Security policy |
+| Operations and release boundaries | Pass | Operations philosophy, release process, release notes |
+| Sprint, Phase 0 remainder, and Phase 1 gate | Pass with minor navigation friction | Genesis plan and release checklist |
+
+The reader found no material conflict, missing definition, or wrong inference
+that would authorize premature implementation.
+
+### Supplemental entry-path review
+
+Because the primary report disclosed its retained-chunk limitation, a separate
+fresh reader received the complete text of:
+
+- `README.md`
+- `PROJECT_STATUS.md`
+- `CURRENT_SPRINT.md`
+- `ROADMAP.md`
+- `docs/README.md`
+- `docs/MISSION_AND_MANIFESTO.md`
+- `CONTRIBUTING.md`
+- `AGENTS.md`
+
+That reader independently returned `PASS`. It correctly identified:
+
+- The local-first, durable, maintainable platform mission
+- GitHub `main` as the source of truth
+- The documentation-and-validation-only current maturity
+- The reported but unverified home-lab environment
+- Genesis Sprint 6 and its audit, clean-room, and release checkpoints
+- Phase 1 JCS specification as the next gate
+- Human and AI orientation paths
+- Short-lived branches, required local validation, pull requests, and review
+- Direct routes to architecture, data, security, operations, release, and ADR
+  guidance
+
+It found no stale or conflicting statement and no dead-end required link in
+the supplied entry path.
+
+### Reader friction and disposition
+
+| Observation | Classification | Disposition |
+| --- | --- | --- |
+| Current Phase 0 completion requires status, sprint, Genesis plan, and release checklist together. | Minor | Intentional canonical separation; README and documentation index route to each owner. |
+| Human and AI orientation is comprehensive and therefore long. | Minor | Retain the risk-based read order rather than create a competing abbreviated policy. |
+| JCS expansion and concrete responsibility remain unanswered. | None | Intentional Phase 1 specification gate, clearly stated in glossary and roadmap. |
+| Registry maturity terms require reading the registry definitions. | Minor | The registry owns those definitions and is linked from architecture and the documentation index. |
+| Named subsystems or reported products could be skimmed as implemented. | Minor | Status, registry maturity, README, and architecture repeatedly distinguish named/reported from implemented. |
+| Approved Genesis plan and pending release checklist may look like the same approval state. | Minor | They govern different objects; explicit status labels and the foundation-only release notes preserve the distinction. |
+| No software license is approved. | Minor | Tracked as an open governance question and a release limitation; public visibility is not described as reuse permission. |
+| Primary reader retained only chunks 13 through 41 for its final synthesis. | Test limitation | Supplemental fresh entry-path review closes the missing entry-document coverage; the limitation remains recorded. |
+
+No material clean-room correction is required. The audit does not add the
+optional conversation-to-memory example to `docs/AI_MEMORY_CONTRACT.md`
+because neither reader misunderstood the promotion process; adding one without
+evidence would create unnecessary guidance.
+
+**Clean-room status:** Pass. Two independent repository-only reviews cover the
+system/lifecycle questions and the complete entry path, with no material
+onboarding blocker.
 
 ## Release readiness conclusion
 
-The topic and consistency audit is provisionally successful after the listed
+The topic, consistency, and clean-room audits pass after the listed
 corrections. Release remains blocked until:
 
-1. Independent clean-room evidence is recorded.
-2. Material clean-room findings are corrected or assigned.
-3. The audit pull request passes local and GitHub validation.
-4. The Chief Architect approves the exact audit artifacts.
-5. The separate release checkpoint finalizes every required checklist row,
+1. The audit pull request passes local and GitHub validation.
+2. The Chief Architect approves the exact audit artifacts.
+3. The separate release checkpoint finalizes every required checklist row,
    changelog version, status, roadmap, sprint outcome, and public release
    record.
