@@ -2,7 +2,7 @@
 
 **Phase:** Phase 1: JCS definition
 
-**Status:** Project Genesis complete; JCS specification planning
+**Status:** C0 plan approved; C1 JCS definition framing
 
 **Last reviewed:** 2026-07-31
 
@@ -77,6 +77,13 @@ reviewed pull requests.
   `4086a6c8195226ef237bfa11d6fac0e9fa4edfff`.
 - GitHub Actions run `30633931649` succeeded on that exact `main` commit with
   no annotations; branch protection read-back remained unchanged.
+- Pull request #16 added the complete JCS definition implementation plan,
+  received Chief Architect approval at exact head
+  `53504ba7865e02235b3ddcf5228b40ca972b7d68`, and merged at
+  `b785bbc71421da84568f2d2be00d877d4e67bdb6`.
+- GitHub Actions run `30634584406` succeeded on that exact `main` commit with
+  no annotations. The approved plan authorizes only a proposed JCS
+  specification and proposed ADRs under Milestone C1.
 - GitHub API read-back on 2026-07-30 confirms that private vulnerability
   reporting is enabled.
 - GitHub API read-back on 2026-07-30 confirms that `main` requires pull
@@ -127,11 +134,10 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Phase 1 is performing JCS discovery and specification planning. The proposed
-[JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md) maps the
-current work to evidence, owners, decisions, milestones, risks, review gates,
-and acceptance criteria. It must receive approval before specification work.
-The current work must:
+Phase 1 is executing the approved
+[JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md). Milestone C1
+must frame the definition and decisions without treating a proposal as current
+architecture. The current work must:
 
 - Identify the evidence and decisions needed to resolve what JCS stands for,
   owns, and guarantees.
@@ -141,12 +147,17 @@ The current work must:
   requirements will receive canonical ownership.
 - Identify alternatives and decisions that may require Foundational or System
   ADRs without selecting them prematurely.
-- Review and approve the JCS definition implementation plan before creating a
-  JCS specification.
+- Create one complete proposed JCS specification containing evidence, name and
+  purpose alternatives, scope, non-goals, responsibility alternatives,
+  consumers, and the decision register.
+- Create only the proposed ADRs whose triggers are already supported by the
+  proposal.
+- Obtain Chief Architect framing review of the complete proposed artifacts
+  before making responsibility, information authority, or interfaces binding.
 
-No JCS, collector, application, infrastructure, workflow, or schema
-implementation is authorized by the Phase 0 release or the Phase 1 planning
-gate.
+No JCS answer, accepted specification, collector dependency, application,
+infrastructure, workflow, schema, or implementation is authorized by the C0
+plan approval.
 
 ## Phase 0 completion evidence
 

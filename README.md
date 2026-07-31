@@ -74,13 +74,13 @@ Platform**
 
 ## Current contribution gate
 
-The current gate is approval of the
-[JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md). All changes
-must be made on short-lived feature branches, reviewed through pull requests,
-and delivered in small, understandable commits. No JCS, collector, or
-application implementation may begin until the JCS contract and any required
-architecture decisions are approved. Specification artifacts wait for
-approval of the plan.
+The current gate is Milestone C1 under the approved
+[JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md). C1 may
+create a **Proposed** JCS specification and proposed ADRs for alternatives and
+review; it may not treat any JCS answer as accepted. All changes must use
+short-lived branches, pull-request review, and small, understandable commits.
+No JCS, collector, or application implementation may begin until the JCS
+contract and any required architecture decisions are approved.
 
 The [Git workflow](docs/GIT_WORKFLOW.md) defines the branch and review
 lifecycle. The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to

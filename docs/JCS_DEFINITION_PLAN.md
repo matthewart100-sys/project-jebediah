@@ -1,12 +1,15 @@
 # JCS Definition Implementation Plan
 
-**Status:** Proposed
+**Status:** Active
 
 **Last reviewed:** 2026-07-31
 
 **Plan owner:** Lead Engineer
 
 **Approval:** Chief Architect review and final maintainer authority
+
+**Approval evidence:** Pull request #16, merged at
+`b785bbc71421da84568f2d2be00d877d4e67bdb6`
 
 ## Purpose
 
@@ -22,17 +25,17 @@ separate specification and decision reviews described below.
 
 ## Authorization and boundary
 
-The [Current Sprint](../CURRENT_SPRINT.md) authorizes a JCS definition plan
-only. The Chief Architect approved beginning this plan after Checkpoint B
-closed. Until this plan is approved:
+The Chief Architect approved the exact plan artifacts in pull request #16,
+which merged to reviewed `main` with its required check passing. Milestone C1
+may create a **Proposed** JCS specification and proposed ADRs under this plan's
+gates. That authorization does not approve any JCS answer or design.
 
-- A JCS specification must not be created.
+Until the complete specification and required ADRs are accepted:
+
 - No JCS schema, interface, runtime architecture, or implementation may begin.
 - No collector may depend on an assumed JCS contract.
 - No reported product or home-lab element may acquire a JCS responsibility.
-
-Approval of this plan authorizes specification work under its gates. It does
-not approve any JCS design and does not authorize implementation.
+- JCS remains at **Named** maturity.
 
 ## Intended outcome
 
@@ -498,6 +501,18 @@ This plan is complete when:
 
 After those conditions are met, Milestone C1 may begin. The next deliverable is
 a proposed JCS specification and any required proposed ADRs, not code.
+
+### Completion evidence
+
+- Chief Architect decision: **APPROVED TO MERGE** for exact head
+  `53504ba7865e02235b3ddcf5228b40ca972b7d68`, recorded on pull request #16
+- Merge: pull request #16 at
+  `b785bbc71421da84568f2d2be00d877d4e67bdb6`
+- Required merged-`main` check: `documentation-quality` passed in GitHub
+  Actions run `30634584406`, job `91168847689`, with no annotations
+- Authorized next work: Milestone C1 proposed specification and proposed ADRs
+  only; no accepted JCS answer, schema, interface, collector dependency,
+  runtime architecture, infrastructure selection, or implementation
 
 ## Change control and handoff
 
