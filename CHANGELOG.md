@@ -36,6 +36,11 @@ development. Until the release process is approved, changes remain under
   context, boundaries, named future subsystems, and open questions.
 - Tiered ADR process and decision template.
 - Shared project glossary and component registry.
+- Data ownership model defining information categories, roles, provenance,
+  freshness, conflict, AI derivatives, retention, action, and recovery.
+- Digital Twin position defining a bounded derived representation, explicit
+  exclusions, conceptual relationships, state semantics, and implementation
+  gates.
 
 ### Changed
 
@@ -54,6 +59,8 @@ development. Until the release process is approved, changes remain under
   boundaries.
 - Connected interface, Git, AI memory, repository, and onboarding guidance to
   the current architecture, ADR process, and glossary.
+- Integrated data ownership and the Digital Twin position with architecture,
+  terminology, component maturity, contributor onboarding, and navigation.
 
 ### Security
 

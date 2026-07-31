@@ -134,7 +134,8 @@ or a claim.
 ### Authoritative information
 
 Information for which one approved owner is the source used to resolve
-conflict. The detailed categories will be defined in `docs/DATA_OWNERSHIP.md`.
+conflict. [Data Ownership](../DATA_OWNERSHIP.md) defines the category and
+required responsibilities.
 
 ### Cached information
 
@@ -173,8 +174,9 @@ remain unapproved.
 ### Digital Twin
 
 A named future concept for a bounded representation of relevant system or
-project state. The planned position paper will define its subject, exclusions,
-and relationship to other capabilities before implementation.
+project state. The [Digital Twin Position](../design/DIGITAL_TWIN_POSITION.md)
+defines its time-aware, provenance-rich intent, exclusions, derived-information
+default, and implementation gates.
 
 ### Automation
 

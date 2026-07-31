@@ -58,7 +58,7 @@ person or agent implements first.
 | JCS | Named future subsystem | Named | Definition and specification must precede implementation and collector dependency | Unassigned pending specification | Phase 1 JCS specification |
 | Collector Engine | Named future subsystem | Named | Future controlled ingestion from approved sources | Unassigned pending specification | JCS and data ownership approval |
 | Knowledge Graph | Named future subsystem | Named | Future representation of traceable entities and relationships | Unassigned pending specification | Stable collector and knowledge contracts |
-| Digital Twin | Named future concept | Named | Future bounded representation of relevant state | Unassigned pending specification | Data ownership and Digital Twin position approval |
+| Digital Twin | Named future concept | Named | Future bounded, time-aware, provenance-rich representation of selected relevant state; conceptual position only | Unassigned pending specification | Bounded use case and component specification under the Digital Twin position |
 | Automation | Named future capability | Named | Future controlled actions from trusted state and policy | Unassigned pending specification | State, authority, and action-boundary approval |
 | Reasoning Engine | Named future subsystem | Named | Future bounded reasoning over trusted knowledge and state | Unassigned pending specification | Knowledge and action boundaries plus evaluation requirements |
 
@@ -72,7 +72,8 @@ identify:
 - Component owner and operational owner
 - Consumers and dependencies
 - Inputs, outputs, side effects, and interfaces
-- Authoritative, cached, derived, and temporary information
+- Authoritative, cached, derived, and temporary information under
+  [Data Ownership](../DATA_OWNERSHIP.md)
 - Trust boundaries and required privileges
 - Failure, timeout, retry, partial-success, and stale-state behavior
 - Configuration and secret boundaries
@@ -100,5 +101,6 @@ this registry.
 ## Current limitations
 
 No Project Jebediah application component is specified, implemented, or
-verified operational. The reported environment requires an audit, and all
-named future subsystems require their roadmap-phase specifications.
+verified operational. The reported environment requires an audit. The Digital
+Twin has an approved conceptual position but no bounded specification; all
+named future subsystems still require their roadmap-phase specifications.

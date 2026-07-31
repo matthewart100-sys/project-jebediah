@@ -69,8 +69,8 @@ topology belongs in this public document.
 | --- | --- | --- |
 | What does JCS stand for, own, and guarantee? | The authoritative information boundary and downstream dependencies cannot be assigned. | Phase 1 JCS specification and review |
 | Which reported infrastructure is actually running? | Deployment, operations, recovery, and capacity claims cannot be verified. | Sanitized infrastructure audit |
-| Which data is authoritative, cached, derived, or temporary? | Component responsibilities and consistency behavior remain incomplete. | Milestone 4B data ownership approval |
-| What does the Digital Twin represent and exclude? | Its relationship to knowledge and operational state remains intentionally undefined. | Milestone 4B position-paper approval |
+| Which future component owns each concrete information item? | Categories are approved, but component authority and consistency behavior remain unassigned. | JCS and component specifications under [Data Ownership](DATA_OWNERSHIP.md) |
+| What subject and use case will the first Digital Twin support? | The conceptual position is approved, but concrete scope and source mappings remain intentionally undefined. | Future Digital Twin specification under the [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) |
 | What data classifications apply? | Trust boundaries, retention, model access, and repository exposure cannot be finalized. | Security and data-classification work |
 | Which interfaces connect future subsystems? | Compatibility, failure, and deployment decisions remain open. | Subsystem specifications and ADRs |
 
@@ -93,13 +93,14 @@ flowchart LR
     Contributors -->|"reviewed changes"| GitHub
     GitHub -->|"architecture, policy, configuration intent"| Contributors
     Sources -->|"untrusted input through future controlled boundaries"| Jebediah
-    Jebediah -.->|"explicitly approved dependency only"| External
+    Jebediah -.-> External
     Jebediah -->|"maintained project truth"| GitHub
 ```
 
-The diagram expresses authority and interaction, not a runtime protocol.
-GitHub is authoritative for engineering memory; it is not automatically the
-authoritative store for future runtime data.
+The dotted external-service relationship exists only when a dependency is
+explicitly approved. The diagram expresses authority and interaction, not a
+runtime protocol. GitHub is authoritative for engineering memory; it is not
+automatically the authoritative store for future runtime data.
 
 ## Conceptual layers
 
@@ -172,7 +173,7 @@ security, compatibility, or permanent selection.
 | JCS | A named foundational subsystem that must be specified first in Phase 1 | Its definition precedes implementation and collector dependency | Name expansion, purpose, responsibilities, interfaces, data authority, deployment |
 | Collector Engine | Controlled ingestion from approved sources | It follows an approved JCS specification and data ownership model | Sources, contract, lifecycle, retry, technology, deployment |
 | Knowledge Graph | Traceable entities and relationships | It follows stable collector outputs and knowledge contracts | Model, storage, identity, query interface, relationship to Qdrant |
-| Digital Twin | A bounded representation of relevant state | A position paper and data ownership model precede implementation | Represented subject, exclusions, freshness, authority, implementation |
+| Digital Twin | A bounded, time-aware, provenance-rich representation of selected relevant state | Its conceptual position, exclusions, derived-information default, and implementation gates are approved | First subject and use case, entities, sources, freshness thresholds, interfaces, implementation |
 | Automation | Controlled action from trusted state and policy | Approval, idempotency, rollback, and auditability are required | Workflow boundaries, n8n role, triggers, tools, deployment |
 | Reasoning Engine | Bounded reasoning over trusted project knowledge and state | Evidence, evaluation, permissions, and failure behavior are required | Models, prompts, orchestration, interfaces, deployment |
 
@@ -221,7 +222,8 @@ separate concepts.
 No runtime data flow is approved yet. The roadmap nevertheless establishes the
 order in which contracts must become safe:
 
-1. Define data categories and ownership.
+1. Apply the categories and responsibilities in
+   [Data Ownership](DATA_OWNERSHIP.md).
 2. Specify JCS and its guarantees.
 3. Authorize and validate sources.
 4. Collect with provenance and bounded failure behavior.
@@ -276,8 +278,10 @@ or compatibility require the appropriate ADR before dependent implementation.
 - The [Glossary](reference/GLOSSARY.md) owns shared term meanings.
 - The [Component Registry](reference/COMPONENT_REGISTRY.md) owns component
   identity, maturity, and component ownership.
-- The planned `DATA_OWNERSHIP.md` will own information categories.
-- The planned `design/DIGITAL_TWIN_POSITION.md` will own Digital Twin intent.
+- [Data Ownership](DATA_OWNERSHIP.md) owns information categories and
+  responsibility.
+- The [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) owns Digital
+  Twin intent, exclusions, and implementation gates.
 
 When an accepted ADR changes current architecture, update this document in the
 same pull request. When evidence invalidates a reported fact or assumption,

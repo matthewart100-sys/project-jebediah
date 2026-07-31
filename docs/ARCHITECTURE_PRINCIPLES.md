@@ -96,8 +96,9 @@ and temporary representations remain distinguishable from authoritative
 information. Provenance, freshness, and uncertainty must remain visible when
 later decisions depend on them.
 
-The detailed categories and responsibilities belong to the planned
-`DATA_OWNERSHIP.md`; architecture work must not preempt that document.
+The detailed categories and responsibilities belong to
+[Data Ownership](DATA_OWNERSHIP.md); component design must map concrete
+information without weakening that policy.
 
 ### 6. Deterministic control surrounds probabilistic behavior
 

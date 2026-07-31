@@ -74,8 +74,8 @@ Each checkpoint is a separate pull request and Chief Architect review.
 | Work item | State | Evidence |
 | --- | --- | --- |
 | Milestone 3: AI onboarding and memory | Complete | Pull request #4 approved by the Chief Architect and merged |
-| Checkpoint A: architecture and decision governance | In progress | Bounded Sprint 3 feature branch |
-| Checkpoint B: information and Digital Twin boundaries | Pending | Starts after Checkpoint A approval |
+| Checkpoint A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and merged |
+| Checkpoint B: information and Digital Twin boundaries | In progress | Bounded Sprint 3 feature branch |
 | Milestone 5: lifecycle philosophies | Pending | Starts after Sprint 3 closes |
 
 ## Dependencies

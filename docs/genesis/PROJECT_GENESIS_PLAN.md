@@ -376,8 +376,8 @@ in conversation history.
 | Milestone 2A: planning and contribution workflow | Complete | Pull request #2 approved by the Chief Architect and squash-merged |
 | Milestone 2B: engineering documentation standards | Complete | Pull request #3 approved by the Chief Architect and squash-merged |
 | Milestone 3: AI onboarding and memory | Complete | Pull request #4 approved by the Chief Architect and squash-merged |
-| Milestone 4A: architecture and decision governance | In progress | Genesis Sprint 3 bounded feature branch |
-| Milestone 4B: data ownership and Digital Twin position | Pending | Starts after architecture and decision governance |
+| Milestone 4A: architecture and decision governance | Complete | Pull request #5 approved by the Chief Architect and squash-merged |
+| Milestone 4B: data ownership and Digital Twin position | In progress | Genesis Sprint 3 bounded feature branch |
 | Milestones 5 through 7 | Pending | Sequenced after architecture and information boundaries |
 
 ## 13. Accepted follow-up recommendations

@@ -34,6 +34,9 @@ and is reviewed through pull requests.
   #2 and #3.
 - Milestone 3 established AI onboarding, collaboration, and durable memory
   through approved pull request #4.
+- Milestone 4A established architecture principles, current conceptual
+  architecture, terminology, component ownership, and ADR governance through
+  approved pull request #5.
 - The onboarding ZIP, PDFs, and prior conversations are not authoritative
   project memory.
 
@@ -72,19 +75,18 @@ addresses, sensitive topology, or personal data during that audit.
 | --- | --- | --- |
 | What does JCS stand for, own, and guarantee? | Collectors and later knowledge components must not depend on an undefined contract. | Resolve through a Phase 1 specification before implementation. |
 | Which reported infrastructure components are currently running and how are they configured? | Architecture and operations documents must distinguish desired state from actual state. | Perform a sanitized infrastructure inventory. |
-| What information is authoritative, cached, derived, or temporary? | JCS, collectors, and the Digital Twin need explicit data ownership. | Approve the planned data ownership document before system design. |
+| Which future component owns each concrete information item? | Categories and responsibilities are defined, but JCS and other components remain unspecified. | Map authority in the relevant component specifications before implementation. |
 | What data classifications and privacy constraints apply? | A public repository and local AI platform create disclosure and retention risks. | Complete data classification and threat-model work before ingesting data. |
 | Which software license should govern the public repository? | Public visibility does not grant reuse rights. | Maintainer selects a license before inviting external reuse. |
-| What does the Digital Twin represent and explicitly exclude? | The term must not accumulate incompatible meanings. | Approve the planned Digital Twin position paper before implementation. |
+| What bounded subject and use case should the first Digital Twin support? | The conceptual position and exclusions are defined, but an implementation scope is not. | Approve a future Digital Twin specification after its entry gates are met. |
 
 ## Current work
 
-Genesis Sprint 3 is establishing architecture and information boundaries in
-two checkpoints:
+Genesis Sprint 3 is completing its information-boundary checkpoint:
 
-- Architecture principles, current conceptual architecture, shared
-  terminology, component maturity and ownership, and tiered ADR governance
-- Data ownership categories and the Digital Twin position
+- Architecture and decision governance is complete through pull request #5.
+- Data ownership categories, lifecycle rules, and the Digital Twin position
+  are in progress.
 
 No application or infrastructure implementation is authorized. Later
 milestones will add lifecycle philosophies, GitHub quality enforcement, and

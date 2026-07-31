@@ -54,8 +54,8 @@ to the [Definition of Done](DEFINITION_OF_DONE.md).
 | Codex operations | `CODEX_BOOTSTRAP.md` |
 | Human and AI collaboration | `.ai/COLLABORATION.md` |
 | AI memory policy | `docs/AI_MEMORY_CONTRACT.md` |
-| Data ownership categories | Planned `docs/DATA_OWNERSHIP.md` |
-| Digital Twin intent | Planned `docs/design/DIGITAL_TWIN_POSITION.md` |
+| Data ownership categories | `docs/DATA_OWNERSHIP.md` |
+| Digital Twin intent | `docs/design/DIGITAL_TWIN_POSITION.md` |
 | Security policy | Planned `SECURITY.md` |
 | Testing philosophy | Planned `docs/TESTING_PHILOSOPHY.md` |
 | Operations philosophy | Planned `docs/OPERATIONS_PHILOSOPHY.md` |

@@ -24,9 +24,10 @@ Read these documents in order:
 10. [Definition of Done](docs/DEFINITION_OF_DONE.md)
 11. [Architecture Principles](docs/ARCHITECTURE_PRINCIPLES.md)
 12. [Current Architecture](docs/ARCHITECTURE.md)
-13. [ADR Process](docs/adr/README.md)
-14. Any component, data, security, operations, or ADR documents relevant to the proposed
-   change
+13. [Data Ownership](docs/DATA_OWNERSHIP.md)
+14. [ADR Process](docs/adr/README.md)
+15. Any component, design, security, operations, or ADR documents relevant to
+    the proposed change
 
 If a required document does not yet exist, treat that absence as a project
 constraint. Do not invent the missing policy inside implementation code.
