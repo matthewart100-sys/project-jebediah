@@ -396,3 +396,6 @@ milestone that owns their subject:
 | Connect durable memory promotion to architecture decision governance. | Milestone 4 adds reciprocal links between `docs/AI_MEMORY_CONTRACT.md` and the ADR framework. |
 | Illustrate how ephemeral context becomes durable project memory. | Milestone 7 uses the clean-room onboarding audit to add a concise lifecycle example to `docs/AI_MEMORY_CONTRACT.md` if it improves correct application. |
 | Route project-specific terms to the glossary from AI onboarding. | Milestone 4 links `AGENTS.md` to `docs/reference/GLOSSARY.md` after the glossary exists. |
+| Add lightweight traceability across principles, ADRs, current architecture, and component specifications as those artifacts grow. | The Phase 1 JCS specification checkpoint evaluates a substantive `docs/reference/ARCHITECTURE_TRACEABILITY.md`; it is created only when real ADR and specification relationships exist to index. |
+| Make ADR supersession, affected components, and affected architecture sections easy to navigate. | `docs/adr/README.md` adds a cross-reference index when the repository contains multiple numbered ADRs. |
+| Explain how conceptual architecture becomes implementation architecture without weakening governance. | The Phase 1 JCS specification checkpoint adds architecture-evolution guidance before concrete component implementation design begins. |
