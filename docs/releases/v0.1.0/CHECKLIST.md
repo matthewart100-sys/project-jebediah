@@ -70,7 +70,7 @@ requirement is `Pending` or `Blocked`.
 | Workflow and issue configuration remains verified | Candidate | Pass | The release diff does not change the workflow or four issue-template YAML files validated during the approved audit; GitHub Actions run `30597270334` passes on the merged audit commit. |
 | Repository object graph is sound | Candidate | Pass | `git fsck --no-dangling`. |
 | Release diff is whitespace-clean | Candidate | Pass | `git diff --check main`. |
-| Required pull-request check passes | Candidate | Pending | Verify `documentation-quality` on the exact release-candidate head. |
+| Required pull-request check passes | Candidate | Pass | GitHub PR #12 is protected by `documentation-quality`; run `30597590792` succeeded on the opening candidate head, and any later head must rerun before review and merge. |
 | Required merged-commit check passes | Publication | Pending | Verify `documentation-quality` on the exact merged release commit before tagging. |
 | Local links and Markdown structure pass | Candidate | Pass | Supplied by the repository validator. |
 | No bootstrap archive or runtime data is tracked | Candidate | Pass | Validator and final tracked-tree review find none. |
@@ -87,6 +87,7 @@ requirement is `Pending` or `Blocked`.
 | Private vulnerability reporting is usable | Candidate | Pass | GitHub API read-back on 2026-07-30 returned `enabled: true`; `SECURITY.md` owns the route. |
 | `main` protection matches policy | Candidate | Pass | API read-back verifies strict `documentation-quality`, pull-request and conversation requirements, blocked force pushes and deletion, zero approvals, and administrator bypass. |
 | Known security gaps are accurate | Candidate | Pass | GitHub API read-back on 2026-07-30 reports secret scanning, push protection, validity checks, non-provider patterns, and Dependabot security updates disabled; policy records the available common-pattern guard and absence of artifact-specific scanning. |
+| CI dependency warning is owned | Candidate | Pass | Run `30597590792` succeeded but reports that the pinned `actions/checkout` revision targets deprecated Node 20 and is forced to Node 24; the first post-release workflow-maintenance checkpoint must update and revalidate the immutable pin before GitHub removes compatibility. |
 | Open-work state is clear | Candidate | Pass | GitHub read-back on 2026-07-30 found no open issue, tag, or release. |
 | Supported-version impact is explicit | Candidate | Pass | No Project Jebediah application version is supported by this foundation release. |
 | Compatibility impact is explicit | Candidate | Pass | Initial documentation release; no runtime interface, schema, data, or deployment compatibility exists. |
