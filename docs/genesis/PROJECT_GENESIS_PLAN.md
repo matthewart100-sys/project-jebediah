@@ -390,9 +390,9 @@ in conversation history.
 | Milestone 4B: data ownership and Digital Twin position | Complete | Pull request #6 approved by the Chief Architect and squash-merged |
 | Milestone 5A: testing and security | Complete | Pull request #7 approved by the Chief Architect and squash-merged |
 | Milestone 5B: operations, release, and repository hygiene | Complete | Pull request #8 approved by the Chief Architect and squash-merged |
-| Milestone 6A: repository-owned quality gate | In progress | Genesis Sprint 5 bounded feature branch |
-| Milestone 6B: verified GitHub control plane | Pending | Begins after the quality workflow succeeds on `main` |
-| Milestone 7: Genesis audit and release | Pending | Sequenced after verified GitHub enforcement |
+| Milestone 6A: repository-owned quality gate | Complete | Pull request #9 approved by the Chief Architect and squash-merged |
+| Milestone 6B: verified GitHub control plane | Complete | Private reporting and `main` protection enabled and read back through the GitHub API on 2026-07-30 |
+| Milestone 7: Genesis audit and release | In progress | Genesis Sprint 6 |
 
 ## 13. Accepted follow-up recommendations
 

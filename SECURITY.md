@@ -17,10 +17,14 @@ current limitations of a project that has not implemented software yet.
 - It contains engineering-foundation documentation and no Project Jebediah
   application or infrastructure implementation.
 - No supported software release exists.
-- GitHub private vulnerability reporting was verified as disabled through the
-  GitHub API on 2026-07-30.
-- GitHub API evidence on 2026-07-30 also confirms that `main` has no branch
-  protection.
+- GitHub private vulnerability reporting was enabled and read back as enabled
+  through the GitHub API on 2026-07-30.
+- GitHub API evidence on 2026-07-30 confirms that `main` requires pull
+  requests, strict success of `documentation-quality`, and conversation
+  resolution while blocking force pushes and branch deletion.
+- Because the repository has one maintainer, protection requires zero
+  approving reviews and does not enforce administrator restrictions. This
+  avoids lockout but leaves a documented administrator-bypass residual risk.
 - The repository includes a common-pattern sensitive-value guard in its
   documentation-quality workflow. This check does not replace review or a
   future purpose-built security scanner.
@@ -37,19 +41,16 @@ sensitive information.
 Do not open a public issue containing vulnerability details, credentials,
 private addresses, personal data, exploit steps, logs, or sensitive topology.
 
-Use this order:
+Use GitHub's
+[private vulnerability reporting form](https://github.com/matthewart100-sys/project-jebediah/security/advisories/new).
+GitHub Security Advisories are the canonical reporting route for this public
+repository.
 
-1. Contact the maintainer through a private channel already established with
-   you.
-2. If no private channel exists, open a minimal GitHub issue titled
-   `Private security contact requested`.
-3. Include only that you need a private security channel and a general affected
-   project area. Do not include technical detail or evidence.
-4. Wait for the maintainer to establish a private route before sharing the
-   report.
-
-Milestone 6 must enable and verify GitHub private vulnerability reporting or
-record an approved equivalent, then update this section.
+If GitHub does not permit you to use that form, contact the maintainer through
+a private channel already established with you. If no private channel exists,
+open a minimal public issue titled `Private security contact requested`.
+Include only that you need a private security channel and a general affected
+project area. Do not include technical detail or evidence.
 
 ### What to include privately
 
@@ -318,14 +319,14 @@ Use the appropriate Foundational, System, or Implementation ADR level.
 
 ## Known Phase 0 gaps
 
-- Private vulnerability reporting is disabled.
-- No private reporting address is canonical.
+- The repository has one maintainer and no independent approving reviewer.
+- Administrator branch-protection enforcement is disabled to avoid
+  sole-maintainer lockout.
 - No concrete data-classification inventory exists.
 - No application threat model exists.
 - No dependency, container, model, or infrastructure inventory is verified.
-- Common-pattern repository scanning exists, but private vulnerability
-  reporting, branch protection, and artifact-specific security scanners are
-  not yet configured.
+- Common-pattern repository scanning exists, but artifact-specific security
+  scanners are not yet configured.
 - No supported software release exists.
 
 These gaps are scheduled through later Genesis and implementation milestones.

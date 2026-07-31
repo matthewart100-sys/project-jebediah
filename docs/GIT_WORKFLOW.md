@@ -134,17 +134,28 @@ merge commit preserve the durable history.
 
 ## Protection policy
 
-The target `main` protections are:
+GitHub API read-back on 2026-07-30 verified the following effective `main`
+protection:
 
-- Require pull requests.
-- Require configured status checks after they exist.
-- Block force pushes.
-- Block branch deletion.
-- Keep conversation resolution required when supported.
+- Pull requests are required.
+- `documentation-quality` is required with strict branch currency.
+- Review conversations must be resolved.
+- Force pushes and branch deletion are blocked.
+- Zero approving reviews are required.
+- Administrator enforcement is disabled.
+- Linear-history enforcement, branch locking, creation blocking, and fork
+  syncing are disabled.
 
-While there is one maintainer, do not require an independent GitHub approval
-that the maintainer cannot provide to their own pull request. Chief Architect
-review remains an architectural process gate and is recorded as evidence.
+The zero-review and administrator settings reflect the verified
+single-maintainer state. Requiring an independent approval that the maintainer
+cannot provide would deadlock ordinary delivery. Chief Architect review
+remains an architectural process gate and is recorded as evidence.
+
+Administrator bypass is a documented residual risk, not permission to skip the
+normal pull-request process. Reassess it when a second maintainer joins,
+governance authority changes, or production releases begin. Read back GitHub
+settings after every protection change and update this section when effective
+state changes.
 
 ## Emergency changes
 
