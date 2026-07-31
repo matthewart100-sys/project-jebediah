@@ -23,16 +23,12 @@ software exists.
 
 The roadmap requires JCS definition before collector or application
 implementation. The next work must convert the JCS open question into an
-evidence-based plan before making architectural choices. A separate
-post-release maintenance item must also update the pinned `actions/checkout`
-revision because GitHub reports its Node 20 runtime as deprecated even though
-the required check still passes.
+evidence-based plan before making architectural choices.
 
-GitHub's official `actions/checkout` repository identifies `v7.0.1`, published
-on 2026-07-20, at verified commit
-`3d3c42e5aac5ba805825da76410c181273ba90b1`. Its action metadata uses Node 24.
-The maintenance checkpoint changes only that immutable pin and its version
-comment.
+The post-release workflow checkpoint is complete. Pull request #14 updated
+the immutable `actions/checkout` pin to official `v7.0.1`; pull request #15
+recorded successful pull-request and merged-`main` validation plus unchanged
+branch protection. No further workflow work is part of the JCS plan.
 
 ## Committed scope
 
@@ -107,7 +103,7 @@ comment.
 | Project Genesis Phase 0 foundation | Complete | Pull requests #1 through #12, tag `v0.1.0`, and the verified GitHub release |
 | Checkpoint A: Project Genesis closeout | Complete | This reviewed post-publication closeout records the tag, release, verification, and transition |
 | Checkpoint B: documentation-workflow maintenance | Complete | Pull request #14 merged at `901764375d7a81f99f1ce9ccfd7f2c25a0fcf349`; PR and `main` checks passed without annotations; branch protection is unchanged |
-| Checkpoint C: JCS definition implementation plan | In progress | Canonical reread and requirements gathering may begin; specification waits for plan approval |
+| Checkpoint C: JCS definition implementation plan | In progress | The proposed [JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md) is complete for review; specification waits for plan approval |
 
 ## Dependencies
 

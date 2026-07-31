@@ -10,6 +10,9 @@ searchable, linkable, and version controlled.
   exists and the principles that must survive implementation choices.
 - [Project Genesis Plan](genesis/PROJECT_GENESIS_PLAN.md) defines the approved
   Phase 0 organization, delivery order, risks, and acceptance criteria.
+- [JCS Definition Implementation Plan](JCS_DEFINITION_PLAN.md) defines the
+  proposed Phase 1 execution order, evidence, ownership, decisions, review
+  gates, risks, and acceptance criteria without defining JCS.
 - [Project Genesis Foundation Audit](genesis/GENESIS_FOUNDATION_AUDIT.md)
   maps required topics, records consistency evidence and corrections, and
   owns the clean-room onboarding result.
