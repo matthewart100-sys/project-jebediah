@@ -24,7 +24,8 @@ next phase depends on it.
 **Objective:** Establish the permanent engineering foundation before software
 implementation.
 
-**Status:** Foundation audit complete; `v0.1.0` release gate in progress
+**Status:** Complete; `v0.1.0` published from
+`978fa7f0ad855986e6bef39b373b6d9e5a9def53`
 
 Required outcomes:
 
@@ -47,6 +48,8 @@ alone, and the repository passes its documented quality checks.
 ## Phase 1: JCS definition
 
 **Objective:** Define JCS before any implementation or collector dependency.
+
+**Status:** Specification planning
 
 Required outcomes:
 

@@ -1,140 +1,140 @@
 # Current Sprint
 
-## Genesis Sprint 6: Genesis Audit and Foundation Release
+## Phase 1 Sprint 1: Closeout, Workflow Maintenance, and JCS Planning
 
 **Target window:** 2026-07-30 through 2026-08-12
 
-**Status:** In progress
+**Status:** Active; implementation blocked
 
 ## Sprint goal
 
-Demonstrate that a new engineer or AI can clone Project Jebediah, understand
-its mission, current reality, architecture, standards, and contribution
-process from GitHub alone, then publish the reviewed foundation as `v0.1.0`.
+Close Project Genesis with durable publication evidence, remove the owned
+GitHub Actions runtime warning through a separately reviewed maintenance
+change, and produce an approval-ready implementation plan for the JCS
+definition phase without defining or implementing JCS prematurely.
 
 ## Context
 
-Project Genesis Milestones 0 through 6 have established the source of truth,
-working methodology, AI collaboration and memory, architecture and
-information boundaries, lifecycle philosophies, repository validation, safe
-security reporting, and proportionate `main` protection.
+Project Genesis Phase 0 is complete. Annotated tag `v0.1.0` and its GitHub
+release identify the reviewed engineering foundation at
+`978fa7f0ad855986e6bef39b373b6d9e5a9def53`. No Project Jebediah application,
+infrastructure definition, runtime workflow, domain schema, or supported
+software exists.
 
-The final milestone must test the foundation as a coherent system of
-documentation. Passing individual pull requests is necessary but does not
-prove that the combined repository is complete, consistent, discoverable, or
-usable by a fresh reader.
+The roadmap requires JCS definition before collector or application
+implementation. The next work must convert the JCS open question into an
+evidence-based plan before making architectural choices. A separate
+post-release maintenance item must also update the pinned `actions/checkout`
+revision because GitHub reports its Node 20 runtime as deprecated even though
+the required check still passes.
 
 ## Committed scope
 
-### Checkpoint A: Foundation audit
+### Checkpoint A: Project Genesis closeout
 
-- Map every required Project Genesis topic to its canonical substantive
-  document.
-- Audit cross-document status, ownership, terminology, links, evidence
-  categories, and roadmap consistency.
-- Run all automated repository checks on reviewed `main`.
-- Review the repository tree for placeholders, duplicated policy, bootstrap
-  artifacts, sensitive information, and stale claims.
-- Derive a release-readiness checklist from
-  [Release Process](docs/RELEASE_PROCESS.md) without duplicating that policy.
+- Record the exact `v0.1.0` tag object, target commit, GitHub release, release
+  state, notes comparison, link verification, and artifact inventory.
+- Mark Project Genesis milestones and Phase 0 complete.
+- Close Genesis Sprint 6 with delivered outcomes, carryover, and process
+  lessons.
+- Open Phase 1 planning without authorizing implementation.
 
-### Checkpoint B: Clean-room onboarding
+### Checkpoint B: documentation-workflow maintenance
 
-- Give a fresh human or AI the repository entry point without chat history,
-  bootstrap PDFs, or the onboarding ZIP.
-- Require the reader to explain mission, current maturity, architecture,
-  information ownership, decision process, contribution lifecycle, security
-  route, operations, release, and next work.
-- Record questions, wrong inferences, navigation failures, and evidence.
-- Correct material documentation gaps through reviewable changes.
-- Add a concise memory-promotion example to
-  [AI Memory Contract](docs/AI_MEMORY_CONTRACT.md) only if the exercise shows
-  it improves correct onboarding.
+- Verify the current official `actions/checkout` release and immutable commit
+  from primary GitHub sources.
+- Replace only the deprecated immutable checkout pin.
+- Preserve workflow permissions, triggers, Python setup, validator command,
+  required check name, and branch-protection context.
+- Prove the updated workflow on a pull request and on merged `main`.
+- Read back branch protection and record any warning or changed behavior.
 
-### Checkpoint C: `v0.1.0` foundation release
+### Checkpoint C: JCS definition implementation plan
 
-- Confirm all Phase 0 exit criteria and the derived release checklist.
-- Finalize project status, sprint outcome, roadmap state, and changelog.
-- Obtain explicit Chief Architect approval of the complete foundation.
-- Merge the approved release change to `main`.
-- Create and push an annotated `v0.1.0` tag at the verified merge commit.
-- Create and verify a GitHub release whose notes state that it is an
-  engineering-foundation release with no Project Jebediah application.
-
-The audit and release may use separate pull requests when corrections would
-otherwise make review too large.
+- Re-read the canonical mission, status, roadmap, architecture, data,
+  security, operations, testing, AI, contribution, and decision documents.
+- Gather JCS requirements and unknowns from authoritative repository evidence
+  and explicitly supplied maintainer context.
+- Separate foundation, specification, implementation, and operational
+  evidence.
+- Define the proposed documentation owner, review sequence, milestones,
+  dependencies, risks, assumptions, and acceptance criteria for JCS
+  definition.
+- Identify decisions that may require Foundational or System ADRs without
+  selecting an answer prematurely.
+- Present the complete JCS definition plan to the Chief Architect and stop for
+  approval before creating a JCS specification.
 
 ## Non-goals
 
-- Application, JCS, collector, knowledge graph, Digital Twin, automation,
-  Reasoning Engine, or infrastructure implementation
-- Verification or publication of private home-lab configuration
-- Selecting a product language, framework, protocol, schema, or deployment
-  mechanism
-- Claiming operational or software capability that the repository does not
-  contain
-- Publishing a software license without an explicit maintainer decision
-- Treating a successful automated check as a substitute for clean-room review
+- JCS, collector, application, infrastructure, workflow, or schema
+  implementation
+- Selecting a programming language, framework, protocol, database, queue,
+  model, or deployment mechanism
+- Treating the reported home-lab environment as verified
+- Defining JCS from bootstrap conversation memory rather than repository
+  evidence
+- Creating speculative specification, traceability, catalog, runbook, source,
+  test, or infrastructure artifacts before approved content gives them an
+  owner
+- Using the successful foundation release as evidence of runtime capability
 
 ## Acceptance criteria
 
-- Every required Genesis foundation topic maps to a substantive canonical
-  document.
-- Canonical documents agree about phase, current state, evidence, ownership,
-  workflow, security reporting, and next work.
-- `python scripts/validate_docs.py`, `git diff --check`, and the required
-  GitHub check pass.
-- A clean-room reader can accurately explain the repository without bootstrap
-  materials or conversation history.
-- Every material onboarding failure is corrected or assigned with an owner
-  and resolution gate.
-- The release checklist is satisfied with exact evidence.
-- The Chief Architect approves the complete foundation and release.
-- The `v0.1.0` tag and GitHub release point to the exact approved commit and
-  clearly describe the release boundary.
+- The Phase 0 closeout pull request records every publication requirement as
+  `Pass` with exact GitHub evidence.
+- Canonical status, roadmap, registry, release, security, Genesis, sprint, and
+  changelog documents agree that Phase 0 is complete and implementation
+  remains blocked.
+- The checkout-pin maintenance change uses an official immutable revision,
+  passes `documentation-quality`, preserves least privilege and the required
+  check name, and is verified on `main`.
+- The JCS definition plan is substantive, maps every required output to an
+  owner and review gate, records assumptions and unresolved decisions, and
+  receives explicit Chief Architect approval.
+- No JCS specification or implementation begins before that plan approval.
 
 ## Work status
 
 | Work item | State | Evidence |
 | --- | --- | --- |
-| Milestone 6A: repository-owned quality gate | Complete | Pull request #9 approved by the Chief Architect and merged |
-| Milestone 6B: verified GitHub control plane | Complete | Private reporting and `main` protection enabled and read back through the GitHub API |
-| Checkpoint A: foundation audit | Complete | Pull request #11 approved by the Chief Architect and merged at `5c92b5920341c954e51452ff8760ea4aaef3e5bc` |
-| Checkpoint B: clean-room onboarding | Complete | Two independent repository-only AI reviews passed with no material blocker |
-| Checkpoint C: `v0.1.0` foundation release | In progress | Dedicated release-candidate review and publication gate |
+| Project Genesis Phase 0 foundation | Complete | Pull requests #1 through #12, tag `v0.1.0`, and the verified GitHub release |
+| Checkpoint A: Project Genesis closeout | Complete | This reviewed post-publication closeout records the tag, release, verification, and transition |
+| Checkpoint B: documentation-workflow maintenance | Pending | Begins after closeout approval |
+| Checkpoint C: JCS definition implementation plan | Pending | Begins after workflow maintenance; specification waits for plan approval |
 
 ## Dependencies
 
-- `main` remains the only project source of truth.
-- The `documentation-quality` check and effective GitHub protections remain
-  operational.
-- The [Release Process](docs/RELEASE_PROCESS.md) owns release policy.
-- The [Definition of Done](docs/DEFINITION_OF_DONE.md) remains the universal
-  completion gate.
-- The Chief Architect receives exact audit artifacts, corrections, validation,
-  and release evidence.
-- The maintainer retains final authorization for the public tag and GitHub
-  release.
+- `main` and GitHub remain the project source of truth.
+- The published `v0.1.0` tag is immutable.
+- Phase 0 closeout receives Chief Architect approval before unrelated work.
+- Workflow dependency selection uses primary GitHub release and repository
+  evidence.
+- The [Roadmap](ROADMAP.md) and
+  [Component Registry](docs/reference/COMPONENT_REGISTRY.md) keep JCS at
+  **Named** maturity until a specification is approved.
+- The [ADR Process](docs/adr/README.md) governs architectural choices.
+- The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to every
+  checkpoint.
 
 ## Risks
 
 | Risk | Response |
 | --- | --- |
-| Prior checkpoint approvals obscure cross-document conflict | Audit the repository as one reader-facing system, not as isolated diffs. |
-| The author cannot perform a genuinely fresh review | Use a separate clean-room reader with no conversation history and record its independent output. |
-| The audit produces a large unfocused pull request | Separate evidence and correction checkpoints while keeping one explicit release gate. |
-| A checklist becomes duplicated policy | Derive a release-specific checklist that links to canonical standards. |
-| Documentation implies application readiness | State the foundation-only boundary in status, changelog, tag, and release notes. |
-| A tag targets an unreviewed or failing commit | Tag only the verified merged commit after all required checks and approval. |
-| The public repository remains unlicensed | Treat public visibility and reuse permission as distinct; keep the license decision open. |
+| Closeout language overstates software maturity | Repeat that `v0.1.0` is an engineering-foundation release with no application or infrastructure. |
+| Updating a pinned action changes enforcement behavior | Change only the verified immutable pin, compare metadata, retain the check name and permissions, and read back GitHub state. |
+| JCS planning turns into an implicit design decision | Record alternatives and decision triggers; stop for approval before specification. |
+| Reported infrastructure biases the JCS contract | Keep infrastructure claims reported until a sanitized audit verifies them. |
+| New artifacts become placeholders | Create an artifact only when approved scope provides substantive content, ownership, and acceptance evidence. |
+| Phase 1 treats foundation evidence as implementation evidence | Use the four evidence categories and require implementation-specific validation later. |
 
-## Update rule
+## Update and close rules
 
-Update this file when audit scope, evidence, dependencies, risk, or release
-readiness changes. At sprint close:
+Update this file when checkpoint scope, evidence, assumptions, dependencies, or
+risks change. At sprint close:
 
-1. Record audit and clean-room outcomes in durable repository evidence.
-2. Resolve or explicitly assign every material failure.
-3. Finalize status, roadmap, changelog, and release notes.
-4. Verify the exact release commit before tagging.
-5. Open Phase 1 planning only after the foundation release is verified.
+1. Record merged evidence for every completed checkpoint.
+2. Carry incomplete work with an explicit reason and revised gate.
+3. Record new risks and process lessons.
+4. Update status, roadmap, registry, and changelog together.
+5. Define the next sprint before beginning work outside approved scope.
