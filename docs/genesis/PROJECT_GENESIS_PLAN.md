@@ -390,9 +390,9 @@ in conversation history.
 | Milestone 4B: data ownership and Digital Twin position | Complete | Pull request #6 approved by the Chief Architect and squash-merged |
 | Milestone 5A: testing and security | Complete | Pull request #7 approved by the Chief Architect and squash-merged |
 | Milestone 5B: operations, release, and repository hygiene | Complete | Pull request #8 approved by the Chief Architect and squash-merged |
-| Milestone 6A: repository-owned quality gate | In progress | Genesis Sprint 5 bounded feature branch |
-| Milestone 6B: verified GitHub control plane | Pending | Begins after the quality workflow succeeds on `main` |
-| Milestone 7: Genesis audit and release | Pending | Sequenced after verified GitHub enforcement |
+| Milestone 6A: repository-owned quality gate | Complete | Pull request #9 approved by the Chief Architect and squash-merged |
+| Milestone 6B: verified GitHub control plane | Complete | Private reporting and `main` protection enabled and read back through the GitHub API on 2026-07-30 |
+| Milestone 7: Genesis audit and release | In progress | Genesis Sprint 6 |
 
 ## 13. Accepted follow-up recommendations
 
@@ -426,3 +426,6 @@ milestone that owns their subject:
 | Make required workflow ownership discoverable once multiple workflows exist. | After at least two required workflows exist, the owning checkpoint evaluates a concise `docs/reference/GITHUB_CHECKS.md` mapping each check to its owner and canonical purpose; it is not created before substantive entries exist. |
 | Keep documentation validation lightweight as implementation begins. | The first Phase 1 implementation checkpoint reviews `scripts/validate_docs.py` scope and adds implementation-specific evidence through separate purpose-built workflows rather than turning `documentation-quality` into a catch-all pipeline. |
 | Revisit administrator protection bypass when repository governance matures. | The first applicable checkpoint reassesses `enforce_admins` when a second maintainer joins, governance authority changes, or production releases begin, and records the verified decision in Git workflow and status documentation. |
+| Test clean-room onboarding from the reader's perspective rather than the author's familiarity. | Milestone 7 gives a reader with no prior conversation or bootstrap context the canonical entry point, measures whether they can reconstruct project intent, and records questions, wrong inferences, and navigation failures. |
+| Make the `v0.1.0` public boundary unmistakable. | Milestone 7 release notes prominently identify `v0.1.0` as an engineering-foundation release, not a software or infrastructure release. |
+| Treat recurring clean-room friction as architectural evidence. | The Phase 1 opening checkpoint resolves repeated terminology, navigation, or ownership ambiguity in canonical documents rather than adding supplemental onboarding material. |

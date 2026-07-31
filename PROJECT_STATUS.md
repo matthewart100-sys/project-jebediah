@@ -44,8 +44,16 @@ and is reviewed through pull requests.
   pull request #7.
 - Milestone 5B established operations, release, and repository-hygiene
   governance through approved pull request #8.
-- GitHub API evidence collected on 2026-07-30 confirms that private
-  vulnerability reporting is disabled and `main` has no branch protection.
+- Milestone 6A established structured contribution intake and executable
+  documentation-quality enforcement through approved pull request #9.
+- The `documentation-quality` workflow succeeded on merged `main` at commit
+  `76470977988e95c99f1667e74312d22dc8befe9b`.
+- GitHub API read-back on 2026-07-30 confirms that private vulnerability
+  reporting is enabled.
+- GitHub API read-back on 2026-07-30 confirms that `main` requires pull
+  requests, strict success of `documentation-quality`, and conversation
+  resolution; blocks force pushes and deletion; requires zero approving
+  reviews; and does not enforce restrictions on administrators.
 - The onboarding ZIP, PDFs, and prior conversations are not authoritative
   project memory.
 
@@ -91,15 +99,16 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Genesis Sprint 5 is implementing GitHub enforcement in two checkpoints:
+Genesis Sprint 6 is auditing the complete Project Genesis foundation and
+preparing the `v0.1.0` engineering-foundation release:
 
-- Repository-owned validation, workflow, pull-request template, and issue
-  forms are in progress.
-- Private vulnerability reporting and proportionate `main` protection follow
-  only after the workflow succeeds on `main`.
+- Milestone 6 GitHub enforcement is complete and its effective settings are
+  recorded in canonical policy.
+- Cross-document consistency, required-topic traceability, and clean-room
+  onboarding evidence are next.
 
-No application or infrastructure implementation is authorized. Later
-work will perform the Phase 0 release audit.
+No application or infrastructure implementation is authorized. The release
+will describe an engineering foundation, not a Project Jebediah application.
 
 ## Phase 0 exit criteria
 

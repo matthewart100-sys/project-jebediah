@@ -86,8 +86,18 @@ development. Until the release process is approved, changes remain under
   testing, completion criteria, onboarding, and canonical navigation.
 - Closed Genesis Sprint 4 after both lifecycle checkpoints were approved and
   opened Genesis Sprint 5 for GitHub enforcement.
+- Closed Genesis Sprint 5 after repository and GitHub control-plane
+  enforcement were verified and opened Genesis Sprint 6 for the Genesis audit
+  and foundation release.
 
 ### Security
 
 - Established that bootstrap infrastructure details remain reported and must
   be sanitized before public documentation.
+- Enabled GitHub private vulnerability reporting and made GitHub Security
+  Advisories the canonical private reporting route.
+- Protected `main` with pull-request, strict documentation-quality, and
+  conversation-resolution requirements while blocking force pushes and
+  deletion.
+- Recorded the sole-maintainer administrator bypass as residual risk with
+  explicit reassessment triggers.

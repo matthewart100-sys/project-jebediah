@@ -1,6 +1,6 @@
 # Current Sprint
 
-## Genesis Sprint 5: GitHub Enforcement
+## Genesis Sprint 6: Genesis Audit and Foundation Release
 
 **Target window:** 2026-07-30 through 2026-08-12
 
@@ -8,122 +8,133 @@
 
 ## Sprint goal
 
-Convert approved repository, documentation, security, and Git standards into
-proportionate GitHub enforcement that a sole maintainer can use without
-bypassing the documented review lifecycle.
+Demonstrate that a new engineer or AI can clone Project Jebediah, understand
+its mission, current reality, architecture, standards, and contribution
+process from GitHub alone, then publish the reviewed foundation as `v0.1.0`.
 
 ## Context
 
-Pull requests #7 and #8 completed the testing, security, operations, release,
-and repository-hygiene foundation. The repository now defines what evidence a
-change needs, but GitHub does not yet enforce a documentation-quality check,
-structured contribution intake, private vulnerability reporting, or
-protection of `main`.
+Project Genesis Milestones 0 through 6 have established the source of truth,
+working methodology, AI collaboration and memory, architecture and
+information boundaries, lifecycle philosophies, repository validation, safe
+security reporting, and proportionate `main` protection.
 
-GitHub API evidence collected on 2026-07-30 confirms that private
-vulnerability reporting is disabled and `main` is unprotected. Sprint 5
-closes those verified gaps in two reviewable checkpoints.
+The final milestone must test the foundation as a coherent system of
+documentation. Passing individual pull requests is necessary but does not
+prove that the combined repository is complete, consistent, discoverable, or
+usable by a fresh reader.
 
 ## Committed scope
 
-### Checkpoint A: Repository-owned quality gate
+### Checkpoint A: Foundation audit
 
-- A maintained, standard-library documentation and repository validator
-- A least-privilege GitHub Actions workflow using immutable action revisions
-- A pull-request template aligned with the Definition of Done and evidence
-  categories
-- Structured bug, feature, and architecture issue forms
-- A safe issue chooser route to the canonical security policy
-- Canonical documentation integration
+- Map every required Project Genesis topic to its canonical substantive
+  document.
+- Audit cross-document status, ownership, terminology, links, evidence
+  categories, and roadmap consistency.
+- Run all automated repository checks on reviewed `main`.
+- Review the repository tree for placeholders, duplicated policy, bootstrap
+  artifacts, sensitive information, and stale claims.
+- Derive a release-readiness checklist from
+  [Release Process](docs/RELEASE_PROCESS.md) without duplicating that policy.
 
-### Checkpoint B: Verified GitHub control plane
+### Checkpoint B: Clean-room onboarding
 
-- Successful execution of the documentation-quality workflow on `main`
-- Enabled and verified GitHub private vulnerability reporting
-- Proportionate protection for `main` requiring pull requests and the
-  documentation-quality check without requiring an impossible independent
-  approval
-- Blocked force pushes and branch deletion
-- Required conversation resolution where supported
-- Canonical records of the effective settings and verification evidence
+- Give a fresh human or AI the repository entry point without chat history,
+  bootstrap PDFs, or the onboarding ZIP.
+- Require the reader to explain mission, current maturity, architecture,
+  information ownership, decision process, contribution lifecycle, security
+  route, operations, release, and next work.
+- Record questions, wrong inferences, navigation failures, and evidence.
+- Correct material documentation gaps through reviewable changes.
+- Add a concise memory-promotion example to
+  [AI Memory Contract](docs/AI_MEMORY_CONTRACT.md) only if the exercise shows
+  it improves correct onboarding.
 
-Each checkpoint uses a separate pull request and Chief Architect review.
-Control-plane changes occur only after Checkpoint A is merged and its check
-name is verified.
+### Checkpoint C: `v0.1.0` foundation release
+
+- Confirm all Phase 0 exit criteria and the derived release checklist.
+- Finalize project status, sprint outcome, roadmap state, and changelog.
+- Obtain explicit Chief Architect approval of the complete foundation.
+- Merge the approved release change to `main`.
+- Create and push an annotated `v0.1.0` tag at the verified merge commit.
+- Create and verify a GitHub release whose notes state that it is an
+  engineering-foundation release with no Project Jebediah application.
+
+The audit and release may use separate pull requests when corrections would
+otherwise make review too large.
 
 ## Non-goals
 
-- Application, service, schema, Digital Twin, or infrastructure implementation
-- Home-lab changes or disclosure of private operational details
-- Selecting a product language, build system, dependency manager, or general
-  test framework
-- Dependency, container, infrastructure, or model scanning before those
-  artifact classes exist
-- Requiring approval from a second maintainer who does not exist
-- Creating the `v0.1.0` release before the Milestone 7 audit
+- Application, JCS, collector, knowledge graph, Digital Twin, automation,
+  Reasoning Engine, or infrastructure implementation
+- Verification or publication of private home-lab configuration
+- Selecting a product language, framework, protocol, schema, or deployment
+  mechanism
+- Claiming operational or software capability that the repository does not
+  contain
+- Publishing a software license without an explicit maintainer decision
+- Treating a successful automated check as a substitute for clean-room review
 
 ## Acceptance criteria
 
-- Contributors can invoke one documented local command for the automated
-  repository checks.
-- The workflow runs for pull requests and pushes to `main`, uses read-only
-  repository permission, and pins third-party actions to immutable revisions.
-- The validator checks canonical files, Markdown structure and local links,
-  common sensitive values, bootstrap or runtime artifacts, and repository
-  hygiene without adding a runtime dependency.
-- Pull-request and issue templates request useful evidence without treating
-  templates as substitutes for review.
-- Private vulnerability reporting is enabled and the security policy points
-  to an actually verified private route.
-- `main` requires pull requests, conversation resolution, and the successful
-  documentation-quality check while blocking force pushes and deletion.
-- The effective GitHub settings are read back after configuration and recorded
-  without secrets.
-- Exact artifacts and proposed control settings receive explicit Chief
-  Architect decisions.
+- Every required Genesis foundation topic maps to a substantive canonical
+  document.
+- Canonical documents agree about phase, current state, evidence, ownership,
+  workflow, security reporting, and next work.
+- `python scripts/validate_docs.py`, `git diff --check`, and the required
+  GitHub check pass.
+- A clean-room reader can accurately explain the repository without bootstrap
+  materials or conversation history.
+- Every material onboarding failure is corrected or assigned with an owner
+  and resolution gate.
+- The release checklist is satisfied with exact evidence.
+- The Chief Architect approves the complete foundation and release.
+- The `v0.1.0` tag and GitHub release point to the exact approved commit and
+  clearly describe the release boundary.
 
 ## Work status
 
 | Work item | State | Evidence |
 | --- | --- | --- |
-| Milestone 5A: testing and security | Complete | Pull request #7 approved by the Chief Architect and merged |
-| Milestone 5B: operations, release, and repository hygiene | Complete | Pull request #8 approved by the Chief Architect and merged |
-| Checkpoint A: repository-owned quality gate | In progress | Bounded Sprint 5 feature branch |
-| Checkpoint B: verified GitHub control plane | Pending | Begins after Checkpoint A passes on `main` |
-| Milestone 7: Genesis audit and release | Pending | Begins after GitHub enforcement is verified |
+| Milestone 6A: repository-owned quality gate | Complete | Pull request #9 approved by the Chief Architect and merged |
+| Milestone 6B: verified GitHub control plane | Complete | Private reporting and `main` protection enabled and read back through the GitHub API |
+| Checkpoint A: foundation audit | In progress | Genesis Sprint 6 |
+| Checkpoint B: clean-room onboarding | Pending | Begins after the initial audit identifies the tested reading path |
+| Checkpoint C: `v0.1.0` foundation release | Pending | Begins only after audit and clean-room criteria pass |
 
 ## Dependencies
 
-- The [Git Workflow](docs/GIT_WORKFLOW.md) owns the intended branch policy.
-- The [Security Policy](SECURITY.md) owns the vulnerability-reporting route.
-- The [Repository Standards](docs/REPOSITORY_STANDARDS.md) and
-  [Documentation Standards](docs/DOCUMENTATION_STANDARDS.md) own automated
-  repository rules.
-- The `documentation-quality` check must exist successfully on `main` before
-  it becomes required protection.
-- The authenticated repository owner must retain GitHub administration
-  permission for control-plane configuration.
-- Chief Architect review receives the exact artifacts, proposed settings, and
-  sanitized verification evidence.
+- `main` remains the only project source of truth.
+- The `documentation-quality` check and effective GitHub protections remain
+  operational.
+- The [Release Process](docs/RELEASE_PROCESS.md) owns release policy.
+- The [Definition of Done](docs/DEFINITION_OF_DONE.md) remains the universal
+  completion gate.
+- The Chief Architect receives exact audit artifacts, corrections, validation,
+  and release evidence.
+- The maintainer retains final authorization for the public tag and GitHub
+  release.
 
 ## Risks
 
 | Risk | Response |
 | --- | --- |
-| A quality script becomes an accidental application stack | Use Python standard library only and limit it to repository policy. |
-| A pattern scan claims to prove the repository has no secrets | Describe it as a common-pattern guard and retain human review. |
-| Protection locks out the sole maintainer | Require pull requests and checks with zero required approving reviews. |
-| A required check name is guessed incorrectly | Merge the workflow, observe its successful check name, then configure protection. |
-| Security reports are directed to a route that does not exist | Enable, read back, and test the GitHub private-reporting capability before updating the policy. |
-| Templates create bureaucratic noise | Require only information needed for reproduction, decisions, risk, and evidence. |
-| Mutable action tags introduce supply-chain drift | Resolve supported tags to full commit revisions and retain version comments. |
+| Prior checkpoint approvals obscure cross-document conflict | Audit the repository as one reader-facing system, not as isolated diffs. |
+| The author cannot perform a genuinely fresh review | Use a separate clean-room reader with no conversation history and record its independent output. |
+| The audit produces a large unfocused pull request | Separate evidence and correction checkpoints while keeping one explicit release gate. |
+| A checklist becomes duplicated policy | Derive a release-specific checklist that links to canonical standards. |
+| Documentation implies application readiness | State the foundation-only boundary in status, changelog, tag, and release notes. |
+| A tag targets an unreviewed or failing commit | Tag only the verified merged commit after all required checks and approval. |
+| The public repository remains unlicensed | Treat public visibility and reuse permission as distinct; keep the license decision open. |
 
 ## Update rule
 
-Update this file when sprint scope, status, dependencies, or risk changes. At
-sprint close:
+Update this file when audit scope, evidence, dependencies, risk, or release
+readiness changes. At sprint close:
 
-1. Record completed outcomes in the changelog and project status.
-2. Move unfinished work deliberately; do not erase it.
-3. Capture process improvements and accepted recommendations.
-4. Define the next sprint before beginning unscheduled implementation.
+1. Record audit and clean-room outcomes in durable repository evidence.
+2. Resolve or explicitly assign every material failure.
+3. Finalize status, roadmap, changelog, and release notes.
+4. Verify the exact release commit before tagging.
+5. Open Phase 1 planning only after the foundation release is verified.
