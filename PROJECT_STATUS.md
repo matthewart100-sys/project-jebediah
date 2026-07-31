@@ -1,8 +1,8 @@
 # Project Status
 
-**Phase:** Phase 1: JCS definition
+**Phase:** Phase 2: Collector foundation
 
-**Status:** C1 outcome DEFER JCS in final closure review; JCS Named; C2 blocked
+**Status:** Collector 1.0 specification and implementation planning; deployment blocked
 
 **Last reviewed:** 2026-07-31
 
@@ -16,9 +16,13 @@ contains no Project Jebediah application services, infrastructure definitions,
 domain schemas, product workflows, or product tests.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
-or boundary. The reviewed outcome is therefore **DEFER JCS**, pending final
-exact-artifact closure review and merge. Deferral preserves the name and the
-no-JCS baseline without accepting, rejecting, or implementing a subsystem.
+or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
+`5895e8f5896cf0687a43c978ec2f17da53d6b78c`. JCS remains **Named**, its
+specification remains **Proposed**, and Collector work has no JCS dependency.
+
+The active work now defines Collector 1.0 as a bounded text-ingestion contract
+and prepares an implementation plan. No Collector code or live-server change is
+authorized by this planning sprint.
 
 The initial GitHub baseline was commit
 `e42edd0c67e144b556adb77416a1e079eb106b93`, which contained only a one-line
@@ -104,6 +108,10 @@ reviewed pull requests.
   commit `2b8e1a318062ce7e5f029cd32521bc655db87712`.
 - GitHub Actions run `30636066645` succeeded on that exact `main` commit with
   no annotations.
+- Pull request #18 merged the reviewed **DEFER JCS** outcome at
+  `5895e8f5896cf0687a43c978ec2f17da53d6b78c`, closing Milestone C1 while
+  keeping JCS **Named**, its specification **Proposed**, C2 blocked, and
+  implementation unauthorized.
 - GitHub API read-back on 2026-07-30 confirms that private vulnerability
   reporting is enabled.
 - GitHub API read-back on 2026-07-30 confirms that `main` requires pull
@@ -154,35 +162,28 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Phase 1 is executing the approved
-[JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md). The complete
-C1 framing proposal remains **Proposed** and non-authoritative. It established
-that explicit maintainer purpose, a candidate consumer/problem relationship, a
-coherent responsibility boundary, and a failure consequence are unavailable.
+Phase 2 begins with the proposed
+[Collector 1.0 Specification](docs/COLLECTOR_1_SPECIFICATION.md) and
+[Collector 1.0 Implementation Plan](docs/COLLECTOR_1_IMPLEMENTATION_PLAN.md).
 
-The Chief Architect recommended **DEFER JCS** and confirmed that the
-maintainer's standing delegation to use the Chief Architect review path is
-sufficient to prepare the canonical outcome record. The revised exact artifact
-set must still pass validation, final Chief Architect C1 closure review, and
-merge before the outcome becomes authoritative project history.
+Collector 1.0 is limited to one coherent responsibility: accept a bounded text
+record, validate and normalize contract fields, derive deterministic identity,
+preserve provenance, and produce an idempotent storage request and structured
+result.
 
-The outcome means:
+The current work must:
 
-- JCS remains at **Named** maturity.
-- `docs/JCS_SPECIFICATION.md` remains **Proposed** and is not an accepted
-  component contract.
-- JCS-01 through JCS-10 remain open and are not converted into ordinary
-  implementation backlog.
-- The no-JCS baseline remains credible.
-- C2, all later JCS milestones, collector dependency, and implementation remain
-  blocked.
-- No ADR is required because deferral creates no subsystem boundary, ownership
-  model, interface, information authority, or technology choice.
+- Keep source identity separate from embeddings and vector similarity.
+- Define exact retry, revision update, and conflict behavior.
+- Keep n8n, Ollama, and Qdrant behind replaceable adapter boundaries.
+- Preserve infrastructure claims as reported until a sanitized audit verifies
+  them.
+- Use only synthetic information in public fixtures and tests.
+- Keep all implementation and live-server deployment blocked until separately
+  reviewed and authorized.
 
-Reconsideration requires an explicit problem or purpose, a named human or
-component consumer with a concrete need, a candidate coherent responsibility
-and boundary not already owned elsewhere, a meaningful failure consequence,
-and Chief Architect authorization for a reopened C1 scope.
+JCS remains deferred. Collector 1.0 does not depend on JCS, and this phase does
+not reopen JCS C1 or authorize JCS C2.
 
 ## Phase 0 completion evidence
 
