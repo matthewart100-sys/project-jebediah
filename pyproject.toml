@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "project-jebediah-collector"
+version = "0.1.0"
+description = "Collector 1.0 contract foundation for Project Jebediah"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.0,<3.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/collector",
+]
