@@ -3,8 +3,8 @@
 All notable changes to Project Jebediah will be recorded in this file.
 
 The project will use semantic versioning in the `0.x` range during early
-development. Until the release process is approved, changes remain under
-`Unreleased`.
+development. Until `v0.1.0` is approved, tagged, and published, changes remain
+under `Unreleased`.
 
 ## Unreleased
 

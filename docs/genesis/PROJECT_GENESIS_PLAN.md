@@ -111,7 +111,12 @@ The target foundation is:
 |   |   |-- GLOSSARY.md
 |   |   `-- COMPONENT_REGISTRY.md
 |   |-- genesis/
-|   |   `-- PROJECT_GENESIS_PLAN.md
+|   |   |-- PROJECT_GENESIS_PLAN.md
+|   |   `-- GENESIS_FOUNDATION_AUDIT.md
+|   |-- releases/
+|   |   `-- v0.1.0/
+|   |       |-- CHECKLIST.md
+|   |       `-- RELEASE_NOTES.md
 |   |-- reviews/
 |   |   `-- ARCHITECT_REVIEW_TEMPLATE.md
 |   `-- adr/
@@ -122,15 +127,19 @@ The target foundation is:
     |-- ISSUE_TEMPLATE/
     |   |-- bug.yml
     |   |-- feature.yml
-    |   `-- architecture.yml
+    |   |-- architecture.yml
+    |   `-- config.yml
     `-- workflows/
         `-- docs-quality.yml
+`-- scripts/
+    `-- validate_docs.py
 ```
 
-The planned `docker/`, `scripts/`, `workflows/`, `schemas/`, and `tests/`
-directories are documented as future ownership boundaries but are not created
-until they contain real artifacts. The structure does not preselect a language
-or runtime.
+The planned `docker/`, `workflows/`, `schemas/`, and `tests/` directories are
+documented as future ownership boundaries but are not created until they
+contain real artifacts. `scripts/` now contains only maintained repository
+validation tooling. The structure does not select a product language or
+runtime.
 
 ## 5. Documentation hierarchy
 

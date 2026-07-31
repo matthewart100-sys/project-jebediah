@@ -82,6 +82,17 @@ material.
 Use for immutable decision records once the ADR framework is approved. Current
 architecture still updates when an ADR changes the system.
 
+### `docs/genesis/`
+
+Use for the approved Project Genesis implementation plan and durable Phase 0
+audit evidence.
+
+### `docs/releases/`
+
+Use for version-specific release checklists and reviewed release notes.
+Release artifacts link to the canonical release policy instead of duplicating
+it.
+
 ### Implementation-adjacent documentation
 
 Use near future code or configuration only when the audience and lifecycle are
