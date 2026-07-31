@@ -8,6 +8,8 @@ under `Unreleased`.
 
 ## Unreleased
 
+## [0.1.0] - 2026-07-30
+
 ### Added
 
 - Project Genesis implementation plan, including the Chief Architect's ten

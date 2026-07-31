@@ -2,7 +2,7 @@
 
 **Phase:** Project Genesis (Phase 0)
 
-**Status:** Engineering foundation in progress
+**Status:** `v0.1.0` engineering-foundation release candidate in progress
 
 **Last reviewed:** 2026-07-30
 
