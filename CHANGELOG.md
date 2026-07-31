@@ -2,11 +2,17 @@
 
 All notable changes to Project Jebediah will be recorded in this file.
 
-The project will use semantic versioning in the `0.x` range during early
-development. Until `v0.1.0` is approved, tagged, and published, changes remain
-under `Unreleased`.
+The project uses semantic versioning in the `0.x` range during early
+development. Changes not assigned to a published version remain under
+`Unreleased`.
 
 ## Unreleased
+
+### Changed
+
+- Recorded verified `v0.1.0` publication, closed Project Genesis Phase 0, and
+  opened Phase 1 JCS specification planning without authorizing
+  implementation.
 
 ## [0.1.0] - 2026-07-30
 

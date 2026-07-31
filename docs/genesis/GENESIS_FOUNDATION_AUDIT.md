@@ -294,7 +294,48 @@ The topic, consistency, and clean-room audits pass after the listed
 corrections. Pull request #11 passed local and GitHub validation, received
 exact-commit Chief Architect approval, and merged to `main`.
 
-The separate release checkpoint must still finalize the release checklist,
-changelog version, status, roadmap, sprint outcome, public wording, and
-publication evidence. Audit approval does not authorize or imply that the
-`v0.1.0` tag or GitHub release already exists.
+The separate release checkpoint finalized the release checklist, changelog,
+status, roadmap, sprint outcome, and public wording through pull request #12.
+After the approved candidate merged, the exact main commit and required check
+were read back and received a separate final publication authorization.
+
+Annotated tag `v0.1.0` now targets
+`978fa7f0ad855986e6bef39b373b6d9e5a9def53`. The
+[GitHub release](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0)
+is non-draft, not a prerelease, contains the reviewed notes exactly, and has no
+attached artifacts.
+
+## Genesis Sprint 6 closeout
+
+### Delivered outcomes
+
+- Project Genesis topic and consistency audit with seven corrected findings
+- Two independent clean-room onboarding reviews with limitations preserved
+- Repository-owned documentation enforcement and verified GitHub controls
+- Reviewed release process, checklist, changelog, and public notes
+- Immutable `v0.1.0` engineering-foundation tag and GitHub release
+
+### Carryover
+
+- The pinned `actions/checkout` revision emits a Node 20 deprecation warning
+  while GitHub forces it to Node 24. The first post-release workflow
+  maintenance checkpoint owns a reviewed immutable-pin update.
+- JCS meaning, responsibility, authority, and guarantees remain deliberately
+  unresolved for Phase 1 specification.
+- Application, infrastructure, data classification, threat-model, license,
+  and supported-software decisions remain outside the completed foundation.
+
+### Process lessons
+
+- Candidate evidence and publication evidence must remain separate because
+  tags, release records, and merged-commit checks cannot be proven before they
+  exist.
+- A clean-room review tests reader reconstruction, not author familiarity, and
+  must preserve material limitations.
+- Exact Git tree equality is useful evidence that a squash-merged release
+  candidate did not change between approval and publication.
+- A non-blocking warning still needs an owner and resolution gate.
+
+Project Genesis Phase 0 is complete. Phase 1 may plan and specify JCS, but no
+JCS or collector implementation is authorized until the specification and
+required architecture decisions are approved.

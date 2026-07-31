@@ -1,6 +1,6 @@
 # Project Genesis Phase 0 Implementation Plan
 
-**Status:** Approved after minor revisions
+**Status:** Complete; published as `v0.1.0`
 
 **Approved by:** Chief Architect review in the Project Jebediah ChatGPT project
 
@@ -401,7 +401,7 @@ in conversation history.
 | Milestone 5B: operations, release, and repository hygiene | Complete | Pull request #8 approved by the Chief Architect and squash-merged |
 | Milestone 6A: repository-owned quality gate | Complete | Pull request #9 approved by the Chief Architect and squash-merged |
 | Milestone 6B: verified GitHub control plane | Complete | Private reporting and `main` protection enabled and read back through the GitHub API on 2026-07-30 |
-| Milestone 7: Genesis audit and release | Release preparation | Foundation audit approved and merged through pull request #11; `v0.1.0` release gate remains |
+| Milestone 7: Genesis audit and release | Complete | Audit merged through pull request #11; release candidate merged through pull request #12; `v0.1.0` published from `978fa7f0ad855986e6bef39b373b6d9e5a9def53` |
 
 ## 13. Accepted follow-up recommendations
 
