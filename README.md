@@ -4,17 +4,18 @@ Project Jebediah is a local-first AI platform initiative focused on
 transparency, recoverability, modularity, deterministic behavior where
 practical, and long-term maintainability.
 
-The project is currently in **Project Genesis (Phase 0)**. This phase creates
-the documentation, standards, decision framework, and contribution process
-that must exist before application or infrastructure implementation begins.
-There is no Project Jebediah application code in this repository yet.
+The **Project Genesis (Phase 0)** engineering foundation is complete and
+published as [`v0.1.0`](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0).
+The project is entering **Phase 1: JCS definition**. This phase specifies JCS
+before any implementation or collector dependency. There is no Project
+Jebediah application code in this repository yet.
 
 ## Source of truth
 
 The default branch of this GitHub repository is the authoritative project
 record. Prior chats, the onboarding ZIP, and the Genesis PDFs were bootstrap
-inputs only. Their durable requirements are being incorporated into reviewed,
-version-controlled Markdown.
+inputs only. Their durable Phase 0 requirements were incorporated into
+reviewed, version-controlled Markdown.
 
 When repository documents disagree, contributors must stop dependent work and
 resolve the inconsistency in GitHub. Conversation history must not be used to
@@ -39,9 +40,9 @@ tool-specific operating checklist in
 9. Review the [changelog](CHANGELOG.md) for repository history.
 
 GitHub enforcement is active and verified. The clean-room Phase 0 audit passed
-and was approved through pull request #11. The `v0.1.0`
-engineering-foundation release remains in its separate review and publication
-gate. A document is added only when it contains substantive guidance; empty
+through pull request #11, the release candidate passed through pull request
+#12, and the immutable `v0.1.0` engineering-foundation release is published.
+A document is added only when it contains substantive guidance; empty
 placeholders are not accepted.
 
 ## Preserved design intent
@@ -73,10 +74,12 @@ Platform**
 
 ## Current contribution gate
 
-Project Genesis is documentation and governance work only. All changes must be
-made on short-lived feature branches, reviewed through pull requests, and
-delivered in small, understandable commits. No application implementation may
-begin until the relevant architecture and decision records have been approved.
+The current gate is JCS definition and specification. All changes must be made
+on short-lived feature branches, reviewed through pull requests, and delivered
+in small, understandable commits. No JCS, collector, or application
+implementation may begin until the JCS contract and any required architecture
+decisions are approved. The first Phase 1 deliverable is an implementation plan
+for JCS definition; specification artifacts wait for approval of that plan.
 
 The [Git workflow](docs/GIT_WORKFLOW.md) defines the branch and review
 lifecycle. The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to

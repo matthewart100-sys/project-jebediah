@@ -11,13 +11,13 @@ tag.
 
 ## Current state
 
-- No Project Jebediah release or deployable application artifact exists.
-- `CHANGELOG.md` contains an `Unreleased` section.
-- The approved Phase 0 foundation release target is `v0.1.0`.
+- `v0.1.0` is the published Project Genesis engineering-foundation release.
+- No Project Jebediah software or deployable application artifact exists.
+- `CHANGELOG.md` contains the `0.1.0` history and a new `Unreleased` section.
 - Release automation, signing, artifact storage, software bill of materials,
   and deployment tooling are not selected.
 
-Project visibility and merged commits do not imply a supported release.
+Project visibility and the foundation release do not imply supported software.
 
 ## Versioning
 
@@ -57,7 +57,7 @@ One maintainer may hold several roles, but each responsibility remains visible.
 ### Foundation or documentation release
 
 Publishes reviewed governance, architecture, or specifications without
-claiming application behavior. `v0.1.0` is the planned Project Genesis
+claiming application behavior. `v0.1.0` is the published Project Genesis
 foundation release.
 
 ### Capability release

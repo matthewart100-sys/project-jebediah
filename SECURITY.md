@@ -1,6 +1,6 @@
 # Security Policy
 
-**Status:** Active Phase 0 policy
+**Status:** Active foundation policy
 
 **Last verified:** 2026-07-30
 
@@ -16,6 +16,8 @@ current limitations of a project that has not implemented software yet.
 - The repository is public.
 - It contains engineering-foundation documentation and no Project Jebediah
   application or infrastructure implementation.
+- `v0.1.0` is a published engineering-foundation release, not a supported
+  software release.
 - No supported software release exists.
 - GitHub private vulnerability reporting was enabled and read back as enabled
   through the GitHub API on 2026-07-30.
@@ -317,7 +319,7 @@ to:
 
 Use the appropriate Foundational, System, or Implementation ADR level.
 
-## Known Phase 0 gaps
+## Known foundation gaps
 
 - The repository has one maintainer and no independent approving reviewer.
 - Administrator branch-protection enforcement is disabled to avoid
@@ -329,7 +331,7 @@ Use the appropriate Foundational, System, or Implementation ADR level.
   scanners are not yet configured.
 - No supported software release exists.
 
-These gaps are scheduled through later Genesis and implementation milestones.
+These gaps are assigned to later specification and implementation milestones.
 They must not be misrepresented as completed controls.
 
 ## Maintenance

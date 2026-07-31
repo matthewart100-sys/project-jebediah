@@ -4,7 +4,7 @@
 
 **Type:** Foundation and documentation release
 
-**Status:** Release candidate in review
+**Status:** Published, verified, and closed
 
 **Last reviewed:** 2026-07-30
 
@@ -45,7 +45,7 @@ requirement is `Pending` or `Blocked`.
 | Public boundary is prominent | Candidate | Pass | [Release Notes](RELEASE_NOTES.md) lead with the engineering-foundation boundary and enumerate excluded software and infrastructure artifacts. |
 | License state is accurate | Candidate | Pass | No license is approved; public visibility is not represented as reuse permission. |
 | Release ownership is explicit | Candidate | Pass | Maintainer `matthewart100-sys` owns release and withdrawal decisions; Codex records validation evidence; no deployment owner is required because nothing is deployed. |
-| Final source commit is exact | Publication | Pending | After merge, read back synchronized `main`, the successful required check, and the commit selected for the tag. |
+| Final source commit is exact | Publication | Pass | Local `HEAD`, `main`, and `origin/main` were read back as `978fa7f0ad855986e6bef39b373b6d9e5a9def53`; the tag targets that commit. |
 
 ## Project Genesis gates
 
@@ -54,12 +54,12 @@ requirement is `Pending` or `Blocked`.
 | Milestones 0 through 6 are complete | Candidate | Pass | [Genesis Plan](../../genesis/PROJECT_GENESIS_PLAN.md) records pull requests #1 through #10 and verified GitHub controls. |
 | Milestone 7 foundation audit is complete | Candidate | Pass | Pull request #11 was approved at `20b1f559f3a396d9c59e63030337c7fc48f4c63f` and merged at `5c92b5920341c954e51452ff8760ea4aaef3e5bc`. |
 | Every required foundation topic has a substantive owner | Candidate | Pass | The [Genesis Foundation Audit](../../genesis/GENESIS_FOUNDATION_AUDIT.md) maps every required topic to a substantive canonical owner. |
-| Cross-document status and ownership agree | Candidate | Pass | Findings GA-001 through GA-007 are corrected on `main`; the release candidate advances the audit, sprint, roadmap, status, and changelog together. |
+| Cross-document status and ownership agree | Candidate | Pass | Findings GA-001 through GA-007 are corrected on `main`; the release and closeout advance the audit, sprint, roadmap, status, and changelog together. |
 | Clean-room onboarding succeeds | Candidate | Pass | Two repository-only AI reviews cover the system and lifecycle questions plus the complete entry path. |
 | Material clean-room findings are resolved | Candidate | Pass | Neither reader found a material blocker; minor friction and test limitations are recorded with dispositions. |
 | Chief Architect approves the complete audit | Candidate | Pass | The PR #11 review decision and final addendum approved the exact audit artifacts with no blocker. |
-| Chief Architect approves the release candidate | Candidate | Pending | Review the exact release pull-request head, final artifacts, validation, and residual risk. |
-| Maintainer authorizes the public tag and release | Publication | Pending | Obtain the delegated final decision only after the merged commit and its required check are verified. |
+| Chief Architect approves the release candidate | Candidate | Pass | PR #12 was approved at `5d8146c15b155972b11c4a3296ba056b80e46a37` with no blocker and merged without changing its Git tree. |
+| Maintainer authorizes the public tag and release | Publication | Pass | The delegated final gate explicitly authorized `v0.1.0` at the exact merged commit after all prepublication read-back; the decision and publication evidence are recorded in the [PR #12 closeout comment](https://github.com/matthewart100-sys/project-jebediah/pull/12#issuecomment-5138387647). |
 
 ## Repository and documentation evidence
 
@@ -71,7 +71,7 @@ requirement is `Pending` or `Blocked`.
 | Repository object graph is sound | Candidate | Pass | `git fsck --no-dangling`. |
 | Release diff is whitespace-clean | Candidate | Pass | `git diff --check main`. |
 | Required pull-request check passes | Candidate | Pass | GitHub PR #12 is protected by `documentation-quality`; run `30597590792` succeeded on the opening candidate head, and any later head must rerun before review and merge. |
-| Required merged-commit check passes | Publication | Pending | Verify `documentation-quality` on the exact merged release commit before tagging. |
+| Required merged-commit check passes | Publication | Pass | GitHub Actions run `30597710090` succeeded on exact commit `978fa7f0ad855986e6bef39b373b6d9e5a9def53` before tagging. |
 | Local links and Markdown structure pass | Candidate | Pass | Supplied by the repository validator. |
 | No bootstrap archive or runtime data is tracked | Candidate | Pass | Validator and final tracked-tree review find none. |
 | No secrets or private operational data are exposed | Candidate | Pass | Common-pattern and RFC 1918 checks pass; final public-text review finds no credential or private-topology content. |
@@ -106,9 +106,9 @@ requirement is `Pending` or `Blocked`.
 | Release notes state limitations | Candidate | Pass | Notes identify no application, deployment, verified home-lab inventory, supported software, or approved license. |
 | Artifact inventory is explicit | Candidate | Pass | The only artifacts are the reviewed Git commit, annotated tag, and GitHub release record; there are no binaries, containers, models, schemas, migrations, or deployments. |
 | Release notes disclose no sensitive details | Candidate | Pass | Final public-text review against `SECURITY.md` found no secret, personal, or private-topology detail. |
-| Annotated tag is verified | Publication | Pending | Create `v0.1.0` only at the authorized merged commit and read it back without rewriting. |
-| GitHub release is verified | Publication | Pending | Publish the approved notes from the tag and verify the release URL, tag, commit, links, and foundation-only boundary. |
-| Durable closeout is recorded | Publication | Pending | A reviewed closeout change records the tag, release URL, verification, Phase 0 completion, and Phase 1 planning gate. |
+| Annotated tag is verified | Publication | Pass | Tag object `c564b4d32c9869aaa21d4c5c7bc6809450a182f1` is annotated with the approved message and peels to `978fa7f0ad855986e6bef39b373b6d9e5a9def53`. |
+| GitHub release is verified | Publication | Pass | The [`v0.1.0` release](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0) is non-draft, not a prerelease, has zero attached artifacts, matches the reviewed notes exactly, and links to repository files that exist at the tag. |
+| Durable closeout is recorded | Publication | Pass | This reviewed closeout updates the checklist, status, sprint, roadmap, Genesis plan, registry, security maturity, release process, and changelog while preserving the Phase 1 implementation boundary. |
 
 ## Publication sequence
 

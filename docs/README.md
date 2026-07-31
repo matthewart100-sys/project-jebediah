@@ -54,7 +54,7 @@ searchable, linkable, and version controlled.
 - [Release Process](RELEASE_PROCESS.md) defines versioning, release gates,
   artifacts, tagging, deployment separation, verification, and withdrawal.
 - [v0.1.0 Release Checklist](releases/v0.1.0/CHECKLIST.md) applies those gates
-  to the initial engineering-foundation candidate.
+  and preserves the verified initial engineering-foundation release record.
 - [v0.1.0 Release Notes](releases/v0.1.0/RELEASE_NOTES.md) define the public
   scope, limitations, onboarding path, and release boundary.
 - [AI Entry Point](../AGENTS.md) defines the mandatory orientation and
@@ -75,7 +75,8 @@ searchable, linkable, and version controlled.
   Actions.
 
 Only documents that exist and contain substantive guidance are linked here.
-This index will grow as each approved Genesis milestone is completed.
+This index grows only when approved work creates another substantive canonical
+owner.
 
 ## Documentation authority
 

@@ -1,23 +1,24 @@
 # Project Status
 
-**Phase:** Project Genesis (Phase 0)
+**Phase:** Phase 1: JCS definition
 
-**Status:** `v0.1.0` engineering-foundation release candidate in progress
+**Status:** Project Genesis complete; JCS specification planning
 
 **Last reviewed:** 2026-07-30
 
 ## Summary
 
-Project Jebediah is establishing its permanent engineering memory and
+Project Jebediah has established its permanent engineering memory and
 repository quality controls in GitHub before implementing software. The
-repository contains foundational documentation and repository-validation
-tooling. There are no Project Jebediah application services, infrastructure
-definitions, domain schemas, product workflows, or product tests yet.
+Project Genesis foundation is published as `v0.1.0`. The repository contains
+foundational documentation and repository-validation tooling; it still
+contains no Project Jebediah application services, infrastructure definitions,
+domain schemas, product workflows, or product tests.
 
 The initial GitHub baseline was commit
 `e42edd0c67e144b556adb77416a1e079eb106b93`, which contained only a one-line
-`README.md`. Project Genesis work begins from that baseline on feature branches
-and is reviewed through pull requests.
+`README.md`. Project Genesis work proceeded from that baseline through
+reviewed pull requests.
 
 ## Verified facts
 
@@ -25,7 +26,7 @@ and is reviewed through pull requests.
   `matthewart100-sys/project-jebediah`.
 - The default branch is `main`.
 - The repository is public.
-- Project Genesis is the active phase.
+- Project Genesis Phase 0 is complete.
 - No Project Jebediah application code has been implemented in this
   repository.
 - The first Genesis source-of-truth checkpoint was approved by the Chief
@@ -53,6 +54,17 @@ and is reviewed through pull requests.
   commit `5c92b5920341c954e51452ff8760ea4aaef3e5bc`.
 - The `documentation-quality` workflow succeeded on that merged audit commit
   in GitHub Actions run `30597270334`.
+- Pull request #12 finalized the release candidate and merged at
+  `978fa7f0ad855986e6bef39b373b6d9e5a9def53`.
+- GitHub Actions run `30597710090` succeeded on that exact merged release
+  commit.
+- Annotated tag `v0.1.0` has tag object
+  `c564b4d32c9869aaa21d4c5c7bc6809450a182f1` and targets
+  `978fa7f0ad855986e6bef39b373b6d9e5a9def53`.
+- The non-draft, non-prerelease
+  [`v0.1.0` engineering-foundation release](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0)
+  was published at `2026-07-31T02:00:05Z` with the reviewed notes and no
+  attached artifacts.
 - GitHub API read-back on 2026-07-30 confirms that private vulnerability
   reporting is enabled.
 - GitHub API read-back on 2026-07-30 confirms that `main` requires pull
@@ -86,10 +98,9 @@ addresses, sensitive topology, or personal data during that audit.
 - The project currently has one maintainer.
 - Canonical documentation will use English UTF-8 Markdown.
 - Diagrams will be stored as text, using Mermaid where practical.
-- Phase 0 will not select an application language, framework, API protocol,
-  data schema, or deployment mechanism.
-- Development releases use the approved `0.x` semantic-versioning range. The
-  first planned release is the `v0.1.0` engineering foundation.
+- Phase 0 selected no application language, framework, API protocol, data
+  schema, or deployment mechanism.
+- Development releases use the approved `0.x` semantic-versioning range.
 
 ## Open questions
 
@@ -104,27 +115,28 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Genesis Sprint 6 is preparing the audited Project Genesis foundation for the
-separate `v0.1.0` engineering-foundation release gate:
+Phase 1 begins with JCS discovery and specification planning. The current work
+must:
 
-- Milestone 6 GitHub enforcement is complete and its effective settings are
-  recorded in canonical policy.
-- The approved audit maps every required foundation topic to a substantive
-  canonical owner.
-- Cross-document findings GA-001 through GA-007 are corrected on `main`.
-- Two independent repository-only AI reviews passed with no material
-  onboarding blocker.
-- Pull request #11 received exact-commit Chief Architect approval and merged;
-  final release state, evidence, and public wording now require a dedicated
-  release-candidate review.
+- Identify the evidence and decisions needed to resolve what JCS stands for,
+  owns, and guarantees.
+- Separate verified facts, reported facts, assumptions, and open questions.
+- Plan how scope, explicit non-goals, information authority, conceptual
+  interfaces, failure, recovery, observability, security, and privacy
+  requirements will receive canonical ownership.
+- Identify alternatives and decisions that may require Foundational or System
+  ADRs without selecting them prematurely.
+- Produce and approve the JCS definition implementation plan before creating a
+  JCS specification.
 
-No application or infrastructure implementation is authorized. The release
-will describe an engineering foundation, not a Project Jebediah application.
+No JCS, collector, application, infrastructure, workflow, or schema
+implementation is authorized by the Phase 0 release or the Phase 1 planning
+gate.
 
-## Phase 0 exit criteria
+## Phase 0 completion evidence
 
-Phase 0 is complete only when a new engineer or AI can use this repository
-alone to explain:
+Phase 0 demonstrated that a new engineer or AI can use this repository alone
+to explain:
 
 - The mission, principles, current state, and roadmap
 - Verified facts, reported facts, assumptions, and open questions
@@ -134,8 +146,9 @@ alone to explain:
 - The AI collaboration and memory contract
 - The universal Definition of Done
 
-The repository must pass its documentation quality checks and a clean-room
-onboarding review before the foundation is tagged for release.
+The repository passed its documentation-quality checks and two independent
+clean-room reviews before the foundation was tagged. The release checklist
+records the exact publication evidence.
 
 ## Maintenance rule
 
