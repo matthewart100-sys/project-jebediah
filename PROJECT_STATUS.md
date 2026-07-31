@@ -84,6 +84,16 @@ reviewed pull requests.
 - GitHub Actions run `30634584406` succeeded on that exact `main` commit with
   no annotations. The approved plan authorizes only a proposed JCS
   specification and proposed ADRs under Milestone C1.
+- Pull request #17 activated the approved plan, closed Phase 1 Sprint 1, and
+  opened the C1 framing sprint at merged commit
+  `13756d97081e45684564accb666703845017800d`.
+- GitHub Actions run `30635006984` succeeded on that exact `main` commit with
+  no annotations.
+- Draft pull request #18 contains the first proposed JCS framing artifact at
+  `5dea1aea6e8b264b74c05b063157f72e863fff54`; its required check passed in run
+  `30635469490`. The Chief Architect approved continued C1 work without merge,
+  kept C2 blocked, and identified missing maintainer purpose, consumer,
+  boundary, and failure-consequence evidence.
 - GitHub API read-back on 2026-07-30 confirms that private vulnerability
   reporting is enabled.
 - GitHub API read-back on 2026-07-30 confirms that `main` requires pull
@@ -154,6 +164,12 @@ architecture. The current work must:
   proposal.
 - Obtain Chief Architect framing review of the complete proposed artifacts
   before making responsibility, information authority, or interfaces binding.
+- Record whether the C1 outcome is to proceed toward specification, revise the
+  problem framing, defer JCS, or remove JCS. The no-JCS baseline remains valid
+  until an accepted decision establishes a component responsibility.
+- Keep unresolved purpose, consumer, boundary, and failure-consequence gaps as
+  architectural questions with owners and gates rather than implementation
+  backlog.
 
 No JCS answer, accepted specification, collector dependency, application,
 infrastructure, workflow, schema, or implementation is authorized by the C0
