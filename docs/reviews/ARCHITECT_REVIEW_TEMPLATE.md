@@ -40,6 +40,7 @@ Also include:
 
 - Commit list
 - Validation commands and results
+- Work Mode review disposition and unresolved blockers
 - Relevant ADRs
 - Known facts, reported facts, working assumptions, and open questions
 
@@ -64,7 +65,8 @@ Also include:
 
 ## Required decision
 
-Return exactly one:
+Work Mode review is required evidence but is not the final decision. The Chief
+Architect returns exactly one:
 
 ### APPROVED TO MERGE
 

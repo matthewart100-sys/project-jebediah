@@ -10,6 +10,10 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added the permanent Project Coordination Protocol, Documentation Lead
+  Protocol, and Foundational ADR 0005 for separated architecture,
+  implementation, independent review, merge, documentation, and future
+  runtime-consumer authority.
 - Added the bounded Python Collector and memory-service implementation,
   including deterministic Collector logic, persistence boundaries, Qdrant and
   Ollama adapters, FastAPI routes, consolidation, confidence and retention

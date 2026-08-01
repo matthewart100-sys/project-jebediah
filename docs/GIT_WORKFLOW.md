@@ -23,11 +23,13 @@ Before creating a branch:
 
 1. Read `PROJECT_STATUS.md`, `CURRENT_SPRINT.md`, and relevant standards.
 2. Confirm the work is authorized and has acceptance criteria.
-3. Apply the [ADR Process](adr/README.md) and check whether Chief Architect
-   review is required.
-4. Make sure the working tree is understood and unrelated changes are
+3. Identify the current gate and authorized role under the
+   [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
+4. Apply the [ADR Process](adr/README.md) and check which Work Mode and Chief
+   Architect reviews are required.
+5. Make sure the working tree is understood and unrelated changes are
    preserved.
-5. Synchronize local `main` with `origin/main` using a fast-forward update.
+6. Synchronize local `main` with `origin/main` using a fast-forward update.
 
 Create a branch using:
 
@@ -103,6 +105,10 @@ use the [Chief Architect Review Template](reviews/ARCHITECT_REVIEW_TEMPLATE.md).
 Provide the actual diff or changed files. A summary alone is insufficient
 evidence.
 
+Work Mode performs the required architecture or implementation review first.
+The Chief Architect then grants or withholds final approval for the exact
+artifacts. The Project Coordination Protocol owns this sequence.
+
 The [ADR Process](adr/README.md) defines Foundational, System, and
 Implementation decision levels, their triggers, and when dependent
 implementation must wait. The ADR and every affected current architecture or
@@ -124,6 +130,8 @@ on `main` and must summarize the complete result.
 Merge only when:
 
 - Required review is approved.
+- Work Mode has no unresolved blocking finding.
+- The Chief Architect approved the exact pull request and head commit.
 - Checks pass.
 - Review comments are resolved.
 - The Definition of Done is satisfied.

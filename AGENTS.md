@@ -33,13 +33,16 @@ Before substantive work, read:
 11. `docs/DEFINITION_OF_DONE.md`
 12. `docs/AI_MEMORY_CONTRACT.md`
 13. `.ai/COLLABORATION.md`
-14. The [project glossary](docs/reference/GLOSSARY.md)
-15. `docs/DATA_OWNERSHIP.md`
-16. `docs/TESTING_PHILOSOPHY.md`
-17. `SECURITY.md`
-18. `docs/OPERATIONS_PHILOSOPHY.md`
-19. `docs/RELEASE_PROCESS.md`
-20. Architecture, design, component, and ADR documents relevant to the task
+14. `docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md`
+15. `docs/governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md` when performing
+    documentation closeout
+16. The [project glossary](docs/reference/GLOSSARY.md)
+17. `docs/DATA_OWNERSHIP.md`
+18. `docs/TESTING_PHILOSOPHY.md`
+19. `SECURITY.md`
+20. `docs/OPERATIONS_PHILOSOPHY.md`
+21. `docs/RELEASE_PROCESS.md`
+22. Architecture, design, component, and ADR documents relevant to the task
 
 Then inspect the actual repository state, current branch, uncommitted changes,
 and relevant GitHub issue or pull request.
@@ -77,7 +80,7 @@ Codex must also read `CODEX_BOOTSTRAP.md`.
 - State the intended outcome, non-goals, acceptance criteria, dependencies, and
   risks.
 - Identify affected canonical documents.
-- Assess ADR and Chief Architect review requirements.
+- Assess ADR and Project Coordination Protocol gate requirements.
 - Label material uncertainty rather than guessing.
 
 ### Execute
@@ -102,6 +105,8 @@ Codex must also read `CODEX_BOOTSTRAP.md`.
 - Provide reviewers with the actual diff, patch, or changed files.
 - Use `docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md` when triggered.
 - Do not treat a summary-only approval as evidence-based review.
+- Route architecture and implementation review through Work Mode before the
+  applicable Chief Architect decision.
 - Address blocking revisions before merge.
 
 ### Handoff
@@ -114,16 +119,28 @@ Codex must also read `CODEX_BOOTSTRAP.md`.
 
 ## Authority and conflicts
 
-The human maintainer has final project authority. The Chief Architect governs
-architecture review within the accepted collaboration model. Implementing
-agents act within approved scope and standards.
+The
+[Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
+owns role authority. The Chief Architect is the final decision maker for
+strategy, architecture, scope, ADR acceptance, sprint authorization, merge
+approval, and roadmap direction. Codex and other implementing agents act only
+within approved scope. Work Mode may block but may not issue final
+architecture approval. The Documentation Suite may document merged reality
+but may not invent behavior or priority. The future Jebediah Runtime is a
+consumer, not an engineering authority.
+
+The human maintainer retains repository custody, access, licensing, and legal
+control. A person or tool holding multiple roles must state which authority is
+being exercised; custody or tool capability does not silently replace a role
+gate.
 
 If instructions, canonical documents, or repository state conflict:
 
 1. Stop dependent work.
 2. Identify the exact conflict and affected scope.
 3. Prefer current repository evidence over conversation memory.
-4. Obtain the appropriate decision.
+4. Obtain the decision from the role authorized by the Project Coordination
+   Protocol.
 5. Update the canonical source before continuing.
 
 Do not silently choose the most convenient interpretation.

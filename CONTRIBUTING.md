@@ -30,7 +30,8 @@ Read these documents in order:
 16. [Operations Philosophy](docs/OPERATIONS_PHILOSOPHY.md)
 17. [Release Process](docs/RELEASE_PROCESS.md)
 18. [ADR Process](docs/adr/README.md)
-19. Any component, design, or ADR documents relevant to
+19. [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
+20. Any component, design, governance, or ADR documents relevant to
     the proposed change
 
 If a required document does not yet exist, treat that absence as a project
@@ -125,6 +126,9 @@ Passing checks do not replace review of behavior, architecture, or meaning.
 A pull request may merge only when:
 
 - Its acceptance criteria are met.
+- The role and handoff gates in the
+  [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
+  are satisfied.
 - Review comments are resolved or explicitly deferred with rationale.
 - Required architectural review has an explicit decision.
 - The [Definition of Done](docs/DEFINITION_OF_DONE.md) is satisfied.
@@ -138,7 +142,10 @@ durable summary on `main`, so it must accurately describe the full change.
 AI contributors begin with the tool-agnostic
 [AI entry point](AGENTS.md). Codex also follows its
 [operational checklist](CODEX_BOOTSTRAP.md). Collaboration roles and handoffs
-are owned by the [AI Collaboration Standard](.ai/COLLABORATION.md), and
+are owned by the
+[Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md),
+collaboration behavior follows the
+[AI Collaboration Standard](.ai/COLLABORATION.md), and
 durable information is governed by the
 [AI Memory Contract](docs/AI_MEMORY_CONTRACT.md).
 

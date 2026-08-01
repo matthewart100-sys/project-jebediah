@@ -34,10 +34,13 @@ tool-specific operating checklist in
    and [current conceptual architecture](docs/ARCHITECTURE.md).
 5. Apply [data ownership](docs/DATA_OWNERSHIP.md) to information-bearing work.
 6. Use the [documentation index](docs/README.md) to find canonical guidance.
-7. Read the [contribution guide](CONTRIBUTING.md) before changing the
+7. Follow the
+   [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
+   for role authority, review gates, handoffs, and evidence labels.
+8. Read the [contribution guide](CONTRIBUTING.md) before changing the
    repository.
-8. Read the approved [Project Genesis implementation plan](docs/genesis/PROJECT_GENESIS_PLAN.md).
-9. Review the [changelog](CHANGELOG.md) for repository history.
+9. Read the approved [Project Genesis implementation plan](docs/genesis/PROJECT_GENESIS_PLAN.md).
+10. Review the [changelog](CHANGELOG.md) for repository history.
 
 GitHub enforcement is active and verified. The clean-room Phase 0 audit passed
 through pull request #11, the release candidate passed through pull request
@@ -82,6 +85,10 @@ semantic-only ranking. Sprint 005 did not deploy the service or change live
 data. This closeout does not define a successor sprint. JCS remains deferred
 and is not a dependency. All changes use short-lived branches, pull-request
 review, and small, understandable commits.
+
+The permanent plan-to-closeout role sequence is defined by the
+[Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
+The protocol does not authorize Sprint 006, deployment, or live-system work.
 
 The [Git workflow](docs/GIT_WORKFLOW.md) defines the branch and review
 lifecycle. The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to

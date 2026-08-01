@@ -15,6 +15,13 @@ published as `v0.1.0`. The repository now contains a Python Collector package,
 unit tests, and a Dockerized semantic memory service using FastAPI, Ollama, and
 Qdrant adapter boundaries.
 
+Project governance now defines a permanent multi-role operating model with
+separate Chief Architect, Codex Implementation Engineer, Work Mode,
+Documentation Suite, and future Jebediah Runtime responsibilities. The model
+requires independent plan and implementation review, exact Chief Architect
+approvals, controlled merge verification, and evidence-based post-merge
+documentation closeout. It does not authorize Sprint 006 or runtime work.
+
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
 `5895e8f5896cf0687a43c978ec2f17da53d6b78c`. JCS remains **Named**, its
@@ -46,6 +53,9 @@ reviewed pull requests.
 - The default branch is `main`.
 - The repository is public.
 - Project Genesis Phase 0 is complete.
+- The Project Coordination Protocol is the canonical owner of multi-role
+  authority, mandatory workflow gates, handoffs, and coordination evidence
+  labels.
 - The repository contains a Python Collector package, a memory-service source
   tree, Docker service artifacts, and automated tests.
 - The untouched Sprint 004 baseline passed 53 unit tests with `pytest`; the

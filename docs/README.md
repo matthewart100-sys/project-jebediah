@@ -56,6 +56,12 @@ searchable, linkable, and version controlled.
   language-independent engineering quality.
 - [Documentation Standards](DOCUMENTATION_STANDARDS.md) defines canonical
   ownership, evidence labels, writing, navigation, review, and maintenance.
+- [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
+  defines permanent role authority, mandatory engineering gates, handoff
+  packets, and coordination evidence labels.
+- [Documentation Lead Protocol](governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md)
+  defines the Documentation Suite's post-merge closeout responsibilities and
+  limits.
 - [Architecture Principles](ARCHITECTURE_PRINCIPLES.md) defines enduring
   constraints for architectural decisions.
 - [Current Architecture](ARCHITECTURE.md) defines the approved conceptual
@@ -83,10 +89,10 @@ searchable, linkable, and version controlled.
   scope, limitations, onboarding path, and release boundary.
 - [AI Entry Point](../AGENTS.md) defines the mandatory orientation and
   invariants shared by every AI contributor.
-- [Codex Bootstrap](../CODEX_BOOTSTRAP.md) defines Codex-specific Lead
-  Engineer operations.
+- [Codex Bootstrap](../CODEX_BOOTSTRAP.md) defines Codex-specific
+  Implementation Engineer operations.
 - [AI Collaboration Standard](../.ai/COLLABORATION.md) defines human and AI
-  roles, authority, review, and handoff behavior.
+  collaboration behavior within the canonical coordination authority model.
 - [AI Memory Contract](AI_MEMORY_CONTRACT.md) defines durable memory layers,
   promotion rules, session recovery, and prohibited content.
 - [Chief Architect Review Template](reviews/ARCHITECT_REVIEW_TEMPLATE.md)
