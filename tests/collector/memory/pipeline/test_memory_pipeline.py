@@ -25,6 +25,9 @@ def test_memory_pipeline_promotes_memory():
     assert result.accepted is True
     assert result.consolidated is True
     assert result.stored is True
+    assert result.memory.provenance is not None
+    assert result.memory.provenance.confidence_basis is not None
+    assert result.memory.metadata["intelligence"]["retention"] == "high"
 
 
 def test_memory_pipeline_rejects_duplicate():

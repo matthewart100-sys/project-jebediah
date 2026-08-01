@@ -1,16 +1,16 @@
 # Collector 1.0 Implementation Plan
 
-**Status:** Proposed
+**Status:** Active reconciliation
 
-**Execution state:** Planning only; implementation and deployment blocked
+**Execution state:** Repository candidate exists; conformance and deployment blocked
 
 **Last reviewed:** 2026-07-31
 
 ## Objective
 
-Produce a small, testable Collector 1.0 implementation that conforms to the
-Collector specification while keeping n8n, Ollama, and Qdrant behind replaceable
-adapters.
+Reconcile and validate the small Collector 1.0 implementation against the
+Collector specification while keeping n8n, Ollama, and Qdrant behind
+replaceable adapters.
 
 ## Delivery strategy
 

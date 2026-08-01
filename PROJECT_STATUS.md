@@ -1,28 +1,29 @@
 # Project Status
 
-**Phase:** Phase 2: Collector foundation
+**Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Collector 1.0 specification and implementation planning; deployment blocked
+**Status:** Sprint 004 memory governance implementation; deployment unverified
 
 **Last reviewed:** 2026-07-31
 
 ## Summary
 
 Project Jebediah has established its permanent engineering memory and
-repository quality controls in GitHub before implementing software. The
-Project Genesis foundation is published as `v0.1.0`. The repository contains
-foundational documentation and repository-validation tooling; it still
-contains no Project Jebediah application services, infrastructure definitions,
-domain schemas, product workflows, or product tests.
+repository quality controls in GitHub. The Project Genesis foundation is
+published as `v0.1.0`. The repository now contains a Python Collector package,
+unit tests, and a Dockerized semantic memory service using FastAPI, Ollama, and
+Qdrant adapter boundaries.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
 `5895e8f5896cf0687a43c978ec2f17da53d6b78c`. JCS remains **Named**, its
 specification remains **Proposed**, and Collector work has no JCS dependency.
 
-The active work now defines Collector 1.0 as a bounded text-ingestion contract
-and prepares an implementation plan. No Collector code or live-server change is
-authorized by this planning sprint.
+Sprint 003 added memory consolidation, an intelligence governor, confidence
+and retention scoring, metadata enrichment, Qdrant persistence, and semantic
+retrieval. Sprint 004 extends that implementation with additive provenance,
+lifecycle, and retrieval-ranking foundations. Repository implementation is
+verified by source and tests; deployment and live-service operation are not.
 
 The initial GitHub baseline was commit
 `e42edd0c67e144b556adb77416a1e079eb106b93`, which contained only a one-line
@@ -36,8 +37,12 @@ reviewed pull requests.
 - The default branch is `main`.
 - The repository is public.
 - Project Genesis Phase 0 is complete.
-- No Project Jebediah application code has been implemented in this
-  repository.
+- The repository contains a Python Collector package, a memory-service source
+  tree, Docker service artifacts, and automated tests.
+- The untouched Sprint 004 baseline passed 53 unit tests with `pytest`; the
+  Sprint 004 implementation expands the suite to 66 passing tests.
+- Repository evidence does not verify that the service is deployed or that
+  live Qdrant, Ollama, n8n, or home-lab state matches the tracked candidate.
 - The first Genesis source-of-truth checkpoint was approved by the Chief
   Architect and merged through pull request #1.
 - Genesis Sprint 1 established the planning, contribution, repository,
@@ -162,28 +167,25 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Phase 2 begins with the proposed
-[Collector 1.0 Specification](docs/COLLECTOR_1_SPECIFICATION.md) and
-[Collector 1.0 Implementation Plan](docs/COLLECTOR_1_IMPLEMENTATION_PLAN.md).
-
-Collector 1.0 is limited to one coherent responsibility: accept a bounded text
-record, validate and normalize contract fields, derive deterministic identity,
-preserve provenance, and produce an idempotent storage request and structured
-result.
+The active [Sprint 004 specification](docs/SPRINT_004_SPECIFICATION.md)
+extends the existing memory system without redesigning it.
 
 The current work must:
 
+- Preserve existing memory construction, Qdrant payload fields, and API
+  response fields.
+- Add explainable provenance with safe legacy defaults.
+- Represent active, reinforced, superseded, and archived lifecycle states
+  without automating transitions or deletion.
+- Introduce a retrieval-ranker boundary that remains semantic-only now.
 - Keep source identity separate from embeddings and vector similarity.
-- Define exact retry, revision update, and conflict behavior.
-- Keep n8n, Ollama, and Qdrant behind replaceable adapter boundaries.
-- Preserve infrastructure claims as reported until a sanitized audit verifies
+- Preserve reported infrastructure claims until a sanitized audit verifies
   them.
 - Use only synthetic information in public fixtures and tests.
-- Keep all implementation and live-server deployment blocked until separately
-  reviewed and authorized.
+- Keep live deployment and live-data changes outside this sprint.
 
-JCS remains deferred. Collector 1.0 does not depend on JCS, and this phase does
-not reopen JCS C1 or authorize JCS C2.
+JCS remains deferred. The Collector and memory service do not depend on JCS,
+and Sprint 004 does not reopen JCS C1 or authorize JCS C2.
 
 ## Phase 0 completion evidence
 

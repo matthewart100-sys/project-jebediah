@@ -18,9 +18,9 @@ within these principles.
 ### Verified facts
 
 - GitHub `main` is the authoritative project record.
-- The repository currently contains engineering-foundation documentation and
-  no application or infrastructure implementation.
-- Project Genesis prohibits premature selection of implementation technology.
+- The repository contains engineering-foundation documentation, a Python
+  Collector package, and a semantic memory-service implementation candidate.
+- Repository implementation does not prove deployment or operational state.
 
 ### Reported facts
 

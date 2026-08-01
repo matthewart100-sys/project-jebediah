@@ -9,13 +9,14 @@
 Security is a design, implementation, operations, and recovery responsibility
 for Project Jebediah. This policy defines safe vulnerability reporting,
 public-repository boundaries, core controls, review expectations, and the
-current limitations of a project that has not implemented software yet.
+current limitations of a project with an implementation candidate but no
+supported software release.
 
 ## Current maturity
 
 - The repository is public.
-- It contains engineering-foundation documentation and no Project Jebediah
-  application or infrastructure implementation.
+- It contains engineering-foundation documentation, a Python Collector
+  package, and a Dockerized semantic memory-service candidate.
 - `v0.1.0` is a published engineering-foundation release, not a supported
   software release.
 - No supported software release exists.
@@ -75,8 +76,8 @@ security-response process and supported release exist.
 ## Supported versions
 
 No Project Jebediah software version is currently supported because no
-application has been released. The current reviewed `main` branch is the
-supported source for project documentation.
+capability release has been published. The current reviewed `main` branch is
+the supported source for project documentation.
 
 The release process will add a maintained version table when software or
 deployable artifacts exist. Do not infer support from a branch, tag, reported

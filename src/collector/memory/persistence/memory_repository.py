@@ -1,5 +1,6 @@
 from .repository import MemoryRepository
 from ..models import MemoryItem
+from ..governance import ensure_memory_governance
 
 
 class InMemoryMemoryRepository(MemoryRepository):
@@ -16,7 +17,8 @@ class InMemoryMemoryRepository(MemoryRepository):
         memory: MemoryItem,
     ) -> str:
 
-        self._memories[memory.id] = memory
+        governed_memory = ensure_memory_governance(memory)
+        self._memories[memory.id] = governed_memory
 
         return memory.id
 

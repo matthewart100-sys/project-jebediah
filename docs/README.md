@@ -22,6 +22,13 @@ searchable, linkable, and version controlled.
 - [Collector 1.0 Implementation Plan](COLLECTOR_1_IMPLEMENTATION_PLAN.md)
   defines implementation gates, adapter boundaries, tests, rollback, and the
   evidence required before live deployment.
+- [Memory Architecture](ARCHITECTURE_MEMORY_SYSTEM.md) defines the implemented
+  memory-service candidate, governance model, persistence compatibility, and
+  retrieval boundary.
+- [Sprint 003 Completion](SPRINT_003_COMPLETE.md) records the implemented
+  memory-intelligence baseline and its reported runtime validation.
+- [Sprint 004 Specification](SPRINT_004_SPECIFICATION.md) defines the active
+  provenance, lifecycle, retrieval-ranking, and compatibility scope.
 - [Project Genesis Foundation Audit](genesis/GENESIS_FOUNDATION_AUDIT.md)
   maps required topics, records consistency evidence and corrections, and
   owns the clean-room onboarding result.

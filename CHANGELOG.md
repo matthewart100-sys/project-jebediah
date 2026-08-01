@@ -10,6 +10,14 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added the bounded Python Collector and memory-service implementation,
+  including deterministic Collector logic, persistence boundaries, Qdrant and
+  Ollama adapters, FastAPI routes, consolidation, confidence and retention
+  scoring, the intelligence governor, metadata enrichment, and unit tests.
+- Added Sprint 004 provenance and lifecycle governance models, backward-
+  compatible Qdrant payload serialization, and a semantic-first retrieval
+  ranking boundary prepared for future confidence, importance, recency, and
+  lifecycle signals.
 - Approved the JCS definition implementation plan with repository-backed
   requirements, evidence and maturity separation, documentation ownership,
   decision inventory, implementation order, review gates, dependencies,
@@ -18,6 +26,14 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Reconciled current sprint, status, architecture, component maturity, data
+  ownership, testing, security, operations, release, and navigation documents
+  with the implemented repository candidate while keeping deployment and live
+  service operation explicitly unverified.
+- Replaced the memory service's private Docker host mapping with Docker's
+  portable `host-gateway` mapping.
+- Synchronized `uv.lock` with the already declared Qdrant client dependency so
+  the tested Python environment is reproducible from a fresh checkout.
 - Opened Sprint 003 for Collector 1.0 definition and implementation planning
   after the merged **DEFER JCS** outcome closed C1.
 - Added proposed Collector 1.0 contracts for bounded text ingestion,
@@ -40,6 +56,12 @@ development. Changes not assigned to a published version remain under
   without changing permissions, triggers, validation, or the required check
   name; pull-request and merged-`main` checks passed without annotations and
   branch protection remained unchanged.
+
+### Fixed
+
+- Updated the memory service's Qdrant lookup to use the current typed filter
+  contract, restoring isolated save-and-find round trips with
+  `qdrant-client`.
 
 ## [0.1.0] - 2026-07-30
 

@@ -49,7 +49,7 @@ alone, and the repository passes its documented quality checks.
 
 **Objective:** Define JCS before any implementation or collector dependency.
 
-**Status:** Specification planning
+**Status:** Deferred after Milestone C1; reconsideration is evidence-gated
 
 Required outcomes:
 
@@ -71,6 +71,9 @@ stable conceptual contract.
 **Objective:** Establish controlled, observable ingestion from approved
 sources.
 
+**Status:** In progress; bounded Collector and memory foundations exist in the
+repository, while deployment remains unverified and unauthorized by Sprint 004
+
 Required outcomes:
 
 - Source inventory and authorization
@@ -80,7 +83,9 @@ Required outcomes:
 - Security, rate, and privacy constraints
 - Test strategy and operational runbooks
 
-**Entry gate:** JCS and data ownership requirements are approved.
+**Entry gate:** Any JCS dependency is either governed by an approved contract
+or explicitly absent under the reviewed defer outcome, and applicable data
+ownership requirements are documented.
 
 ## Phase 3: Knowledge Graph
 

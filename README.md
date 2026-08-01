@@ -6,9 +6,9 @@ practical, and long-term maintainability.
 
 The **Project Genesis (Phase 0)** engineering foundation is complete and
 published as [`v0.1.0`](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0).
-The project is entering **Phase 1: JCS definition**. This phase specifies JCS
-before any implementation or collector dependency. There is no Project
-Jebediah application code in this repository yet.
+JCS definition was deferred after Milestone C1. The repository now contains a
+bounded Collector and semantic memory implementation; its deployment and live
+home-lab operation remain unverified.
 
 ## Source of truth
 
@@ -74,13 +74,12 @@ Platform**
 
 ## Current contribution gate
 
-The current gate is Milestone C1 under the approved
-[JCS Definition Implementation Plan](docs/JCS_DEFINITION_PLAN.md). C1 may
-create a **Proposed** JCS specification and proposed ADRs for alternatives and
-review; it may not treat any JCS answer as accepted. All changes must use
-short-lived branches, pull-request review, and small, understandable commits.
-No JCS, collector, or application implementation may begin until the JCS
-contract and any required architecture decisions are approved.
+The current gate is
+[Sprint 004: Memory Governance and Intelligence Expansion](CURRENT_SPRINT.md).
+It adds provenance, lifecycle-state foundations, and an internal retrieval
+ranking boundary without deploying the service or changing live data. JCS
+remains deferred and is not a dependency. All changes use short-lived
+branches, pull-request review, and small, understandable commits.
 
 The [Git workflow](docs/GIT_WORKFLOW.md) defines the branch and review
 lifecycle. The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to

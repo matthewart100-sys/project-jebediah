@@ -49,7 +49,11 @@ class MemoryConsolidationEngine:
         )
 
         confidence_result = self.confidence.evaluate(
-            source=memory.source_identity
+            source=(
+                memory.provenance.source
+                if memory.provenance
+                else memory.source_identity
+            )
         )
 
         duplicate = False

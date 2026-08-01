@@ -33,9 +33,11 @@ It does not:
 
 - Reviewed GitHub `main` is authoritative for Project Jebediah engineering
   memory.
-- The repository contains no application schemas, runtime databases,
-  collectors, tracked workflow exports, or application data.
-- No runtime component currently has approved data authority.
+- The repository contains a bounded Collector and semantic memory
+  implementation candidate but no tracked runtime database contents,
+  authoritative application data, or workflow exports.
+- The memory implementation stores derived payload metadata and vectors; it
+  does not receive authority over the represented source information.
 
 ### Reported facts
 
@@ -346,12 +348,13 @@ unauthorized information. Reconciliation after restore is part of recovery.
 | Information | Category and authority | Current owner | Limitation |
 | --- | --- | --- | --- |
 | Reviewed project documentation on GitHub `main` | Authoritative engineering memory within each canonical document's subject | Maintainer | Does not own future runtime facts merely because they are documented |
-| Accepted ADRs | Authoritative decision history for their scoped choice | Decision owner and maintainer | No numbered ADR exists yet |
+| Accepted ADRs | Authoritative decision history for their scoped choice | Decision owner and maintainer | ADR 0001 establishes the engineering foundation; no memory data authority is assigned |
 | Sprint and roadmap | Authoritative plan for their planning scope | Maintainer | Plans do not prove implementation |
 | Pull requests and Git history | Durable review and change history | Maintainer | Superseded content is history, not current architecture |
 | Bootstrap environment claims | Reported information | No runtime information owner verified | Requires sanitized audit |
 | Chats and model context | Temporary working context unless promoted | Active participant for safe handling | Not authoritative project memory |
-| Future runtime records, caches, indexes, embeddings, and inferences | Unassigned | Unassigned pending specification | Collection or persistence is not approved |
+| Memory payload metadata, embeddings, vector indexes, confidence, and retrieval signals | Derived information | Jebediah Memory Service repository candidate | Source authority, deployment, live contents, retention, and recovery remain unverified or deferred |
+| Other future runtime records, caches, indexes, embeddings, and inferences | Unassigned | Unassigned pending specification | No authority follows from the implemented memory candidate |
 
 ## Decision and review requirements
 

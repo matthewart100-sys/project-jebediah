@@ -3,6 +3,7 @@ from dataclasses import replace
 from ..models import MemoryItem
 from ..consolidation.engine import MemoryConsolidationEngine
 from ..consolidation.models import ConsolidationAction
+from ..governance import ensure_memory_governance
 from ..runtime.memory_service import MemoryService
 
 from ..intelligence.governor import MemoryGovernor
@@ -81,11 +82,17 @@ class MemoryPipeline:
             )
 
 
+        source = (
+            memory.provenance.source
+            if memory.provenance
+            else memory.source_identity
+        )
+
         intelligence = self.governor.evaluate(
             memory_id=memory.id,
             content=memory.content,
             importance=memory.importance,
-            source=memory.source_identity,
+            source=source,
             existing_content=existing_content,
         )
 
@@ -122,13 +129,21 @@ class MemoryPipeline:
         )
 
 
+        governed_memory = ensure_memory_governance(
+            enriched_memory,
+            confidence_basis=(
+                intelligence.confidence.reason
+            ),
+        )
+
+
         result = self.memory_service.process(
-            enriched_memory
+            governed_memory
         )
 
 
         return MemoryPipelineResult(
-            memory=enriched_memory,
+            memory=result.memory,
             accepted=True,
             consolidated=True,
             stored=result.stored,

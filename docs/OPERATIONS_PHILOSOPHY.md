@@ -17,9 +17,9 @@ production-ready.
 
 ### Verified facts
 
-- No Project Jebediah application, infrastructure definition, deployment
-  manifest, operational runbook, backup job, monitoring rule, or supported
-  release exists in the repository.
+- A Collector package and Dockerized memory-service candidate exist in the
+  repository, but no deployment evidence, operational runbook, backup job,
+  monitoring rule, or supported capability release is verified.
 - The repository is authoritative for approved engineering memory.
 - Operations must follow current architecture, data ownership, testing, and
   security policy.

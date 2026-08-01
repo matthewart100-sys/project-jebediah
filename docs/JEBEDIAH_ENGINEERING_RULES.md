@@ -13,7 +13,7 @@ These rules apply to all future development, including human developers, AI codi
 
 ---
 
-# Core Philosophy
+## Core Philosophy
 
 Jebediah is not built as a simple chatbot.
 
@@ -30,7 +30,7 @@ Every architectural decision should support this mission.
 
 ---
 
-# Rule 1 — Architecture Before Implementation
+## Rule 1 — Architecture Before Implementation
 
 No feature should be implemented without understanding where it belongs within the existing architecture.
 
@@ -45,7 +45,7 @@ Speed is never more important than architectural integrity.
 
 ---
 
-# Rule 2 — Preserve Modularity
+## Rule 2 — Preserve Modularity
 
 Jebediah must remain composed of independent, replaceable components.
 
@@ -62,7 +62,7 @@ A component should be replaceable without requiring a rewrite of the entire plat
 
 ---
 
-# Rule 3 — Memory Must Have Meaning
+## Rule 3 — Memory Must Have Meaning
 
 Jebediah memory is not simple data storage.
 
@@ -85,7 +85,7 @@ Jebediah should always understand:
 
 ---
 
-# Rule 4 — Explainability Over Guessing
+## Rule 4 — Explainability Over Guessing
 
 Jebediah must prioritize explainable reasoning.
 
@@ -100,7 +100,7 @@ A correct answer without understanding why it was produced is incomplete.
 
 ---
 
-# Rule 5 — Never Destroy Information Without Reason
+## Rule 5 — Never Destroy Information Without Reason
 
 Information should be preserved whenever possible.
 
@@ -120,7 +120,7 @@ Historical context has value.
 
 ---
 
-# Rule 6 — AI Agents Must Modify Carefully
+## Rule 6 — AI Agents Must Modify Carefully
 
 AI coding agents are contributors, not architects.
 
@@ -136,7 +136,7 @@ A working system should never be rewritten simply because another approach exist
 
 ---
 
-# Rule 7 — Documentation Is Part of Development
+## Rule 7 — Documentation Is Part of Development
 
 A feature is not complete until it is documented.
 
@@ -152,7 +152,7 @@ The repository documentation is considered part of the system.
 
 ---
 
-# Rule 8 — Testing Before Expansion
+## Rule 8 — Testing Before Expansion
 
 New capabilities should be validated before additional layers are built.
 
@@ -172,7 +172,7 @@ Do not build on unverified foundations.
 
 ---
 
-# Rule 9 — Security Is Default
+## Rule 9 — Security Is Default
 
 Jebediah must be designed assuming that:
 
@@ -189,7 +189,7 @@ Security decisions should favor:
 
 ---
 
-# Rule 10 — Human Oversight Remains Required
+## Rule 10 — Human Oversight Remains Required
 
 Even as Jebediah becomes more autonomous, important decisions require human authorization.
 
@@ -205,7 +205,7 @@ An uncontrolled system acting independently.
 
 ---
 
-# Rule 11 — Build For Deployment
+## Rule 11 — Build For Deployment
 
 Although Jebediah begins as a personal infrastructure project, architecture decisions should consider future deployment.
 
@@ -220,7 +220,7 @@ Build components that can become products.
 
 ---
 
-# Rule 12 — Long-Term Vision
+## Rule 12 — Long-Term Vision
 
 The ultimate objective:
 
@@ -236,7 +236,7 @@ Every sprint should move Jebediah closer to this vision.
 
 ---
 
-# Final Principle
+## Final Principle
 
 Jebediah should not simply become more powerful.
 

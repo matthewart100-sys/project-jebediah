@@ -18,6 +18,11 @@ from collector.memory.models import (
     MemoryItem,
     MemoryType,
 )
+from collector.memory.governance import (
+    MemoryProvenance,
+    lifecycle_to_payload,
+    provenance_to_payload,
+)
 
 from collector.memory.pipeline.memory_pipeline import (
     MemoryPipeline,
@@ -25,6 +30,10 @@ from collector.memory.pipeline.memory_pipeline import (
 
 from collector.memory.intelligence import (
     MemoryGovernor,
+)
+from collector.memory.retrieval import (
+    RetrievalCandidate,
+    SemanticRetrievalRanker,
 )
 
 
@@ -60,6 +69,8 @@ embedding_service = OllamaEmbeddingAdapter(
 memory_pipeline = MemoryPipeline()
 
 memory_governor = MemoryGovernor()
+
+retrieval_ranker = SemanticRetrievalRanker()
 
 
 # ----------------------------
@@ -97,6 +108,10 @@ class MemoryRequest(BaseModel):
     content: str
     memory_type: str
     importance: float
+    source: str = "user"
+    creator: str | None = None
+    creation_context: str | None = None
+    supporting_evidence: tuple[str, ...] = ()
 
 
 
@@ -158,6 +173,12 @@ def store_memory(
         content=request.content,
         memory_type=memory_type,
         importance=request.importance,
+        provenance=MemoryProvenance(
+            source=request.source,
+            creator=request.creator,
+            creation_context=request.creation_context,
+            supporting_evidence=request.supporting_evidence,
+        ),
     )
 
 
@@ -167,7 +188,7 @@ def store_memory(
         memory_id=memory.id,
         content=memory.content,
         importance=memory.importance,
-        source="user",
+        source=request.source,
     )
 
 
@@ -204,6 +225,9 @@ def store_memory(
         }
 
 
+    memory = pipeline_result.memory
+
+
     vector = embedding_service.embed(
         request.content
     )
@@ -227,6 +251,17 @@ def store_memory(
 
         "metadata":
             memory.metadata,
+
+        "provenance":
+            provenance_to_payload(
+                memory.provenance,
+                memory.source_identity,
+            ),
+
+        "lifecycle":
+            lifecycle_to_payload(
+                memory.lifecycle
+            ),
 
         "created_at":
             memory.created_at.isoformat(),
@@ -304,24 +339,25 @@ def memory_context(
     )
 
 
-    memories = []
+    candidates = []
 
     for point in results.points:
-
-        memories.append(
-            {
-                "score":
-                    point.score,
-
-                "content":
-                    point.payload.get(
-                        "content"
-                    ),
-
-                "metadata":
-                    point.payload,
-            }
+        candidates.append(
+            RetrievalCandidate.from_payload(
+                semantic_relevance=point.score,
+                payload=dict(point.payload or {}),
+            )
         )
+
+
+    memories = [
+        {
+            "score": candidate.signals.semantic_relevance,
+            "content": candidate.content,
+            "metadata": candidate.metadata,
+        }
+        for candidate in retrieval_ranker.rank(candidates)
+    ]
 
 
     return {

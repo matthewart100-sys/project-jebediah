@@ -12,7 +12,9 @@ tag.
 ## Current state
 
 - `v0.1.0` is the published Project Genesis engineering-foundation release.
-- No Project Jebediah software or deployable application artifact exists.
+- Project Jebediah software and Docker deployment candidates exist in the
+  repository, but no reviewed capability release or supported deployment has
+  been published.
 - `CHANGELOG.md` contains the `0.1.0` history and a new `Unreleased` section.
 - Release automation, signing, artifact storage, software bill of materials,
   and deployment tooling are not selected.

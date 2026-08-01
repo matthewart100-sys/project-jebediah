@@ -47,16 +47,17 @@ person or agent implements first.
 | Component or element | Class | Maturity | Current approved responsibility | Component owner | Next gate |
 | --- | --- | --- | --- | --- | --- |
 | Project Genesis foundation | Governance capability | Released foundation | Preserve project identity, standards, architecture governance, planning, and durable engineering memory | Maintainer accountable | Ongoing maintenance and Phase 1 evidence separation |
-| GitHub repository | Engineering-memory boundary | Active engineering memory | Own reviewed project documentation, decisions, history, and future safe source artifacts | Maintainer accountable | Phase 1 JCS definition plan |
+| GitHub repository | Engineering-memory boundary | Active engineering memory | Own reviewed project documentation, decisions, history, and safe source artifacts | Maintainer accountable | Sprint 004 review and merge |
 | Dell PowerEdge R420 | Reported infrastructure asset | Reported | No responsibility is approved; bootstrap material reports it as the physical host | Reported operator unknown | Sanitized infrastructure audit |
 | Proxmox | Reported infrastructure platform | Reported | No responsibility is approved; bootstrap material reports virtualization use | Reported operator unknown | Sanitized infrastructure audit |
 | Ubuntu virtual machine | Reported compute guest | Reported | No responsibility is approved; bootstrap material reports a guest environment | Reported operator unknown | Sanitized infrastructure audit |
 | Docker | Reported runtime product | Reported | No responsibility is approved; bootstrap material reports container use | Reported operator unknown | Sanitized infrastructure audit and deployment decision |
 | n8n | Reported automation product | Reported | No Project Jebediah responsibility is approved | Reported operator unknown | Automation architecture decision |
-| Qdrant | Reported data product | Reported | No Project Jebediah responsibility or data authority is approved | Reported operator unknown | Knowledge architecture and data ownership decision |
-| Ollama | Reported model product | Reported | No Project Jebediah responsibility or model-serving guarantee is approved | Reported operator unknown | Reasoning architecture decision |
-| JCS | Named future subsystem | Named | Definition and specification must precede implementation and collector dependency | Unassigned pending specification | Phase 1 JCS specification |
-| Collector Engine | Named future subsystem | Named | Future controlled ingestion from approved sources | Unassigned pending specification | JCS and data ownership approval |
+| Qdrant | Data-product adapter candidate | Implemented | Store derived memory vectors and approved payload metadata; no source-data authority | Maintainer accountable for repository candidate; reported operator unverified | Isolated integration and deployment review |
+| Ollama | Model-product adapter candidate | Implemented | Produce derived embeddings behind the memory adapter boundary | Maintainer accountable for repository candidate; reported operator unverified | Isolated integration and deployment review |
+| JCS | Named deferred subsystem | Named | C1 outcome is **DEFER JCS**; Collector and memory candidates have no dependency | Unassigned pending reconsideration | Evidence-gated C1 reconsideration |
+| Collector Engine | Controlled ingestion component | Implemented | Validate and normalize bounded text records, derive identity, preserve provenance, and coordinate storage | Maintainer accountable | Contract-conformance and deployment review |
+| Jebediah Memory Service | Semantic memory component | Implemented | Govern memory candidates, generate embeddings, persist derived vectors and metadata, and retrieve semantic context | Maintainer accountable | Sprint 004 review, isolated integration, and deployment decision |
 | Knowledge Graph | Named future subsystem | Named | Future representation of traceable entities and relationships | Unassigned pending specification | Stable collector and knowledge contracts |
 | Digital Twin | Named future concept | Named | Future bounded, time-aware, provenance-rich representation of selected relevant state; conceptual position only | Unassigned pending specification | Bounded use case and component specification under the Digital Twin position |
 | Automation | Named future capability | Named | Future controlled actions from trusted state and policy | Unassigned pending specification | State, authority, and action-boundary approval |
@@ -100,7 +101,8 @@ this registry.
 
 ## Current limitations
 
-No Project Jebediah application component is specified, implemented, or
-verified operational. The reported environment requires an audit. The Digital
-Twin has an approved conceptual position but no bounded specification; all
-named future subsystems still require their roadmap-phase specifications.
+Collector and memory components exist as repository implementation candidates;
+neither is verified operational. The reported environment still requires an
+audit. The Digital Twin has an approved conceptual position but no bounded
+specification, and the remaining named future subsystems require their
+roadmap-phase specifications.
