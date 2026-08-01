@@ -74,13 +74,14 @@ Platform**
 
 ## Current contribution gate
 
-The current gate is
-[Sprint 005: Memory Architecture Consolidation](CURRENT_SPRINT.md). It
-consolidates the memory domain, Qdrant adapter, embedding identity, and service
-composition while preserving Sprint 004 governance and semantic-only ranking.
-It does not deploy the service or change live data. JCS remains deferred and
-is not a dependency. All changes use short-lived branches, pull-request review,
-and small, understandable commits.
+The most recently completed gate is
+[Sprint 005: Memory Architecture Consolidation](CURRENT_SPRINT.md). Pull
+request #39 merged its canonical memory domain, Qdrant adapter, embedding
+identity, and service composition while preserving Sprint 004 governance and
+semantic-only ranking. Sprint 005 did not deploy the service or change live
+data. This closeout does not define a successor sprint. JCS remains deferred
+and is not a dependency. All changes use short-lived branches, pull-request
+review, and small, understandable commits.
 
 The [Git workflow](docs/GIT_WORKFLOW.md) defines the branch and review
 lifecycle. The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to

@@ -71,9 +71,10 @@ stable conceptual contract.
 **Objective:** Establish controlled, observable ingestion from approved
 sources.
 
-**Status:** In progress; bounded Collector and consolidated memory foundations
-exist in the repository, while deployment remains unverified and unauthorized
-by Sprint 005
+**Status:** In progress; Sprint 005 completed and merged the bounded memory
+architecture consolidation through pull request #39 at
+`5f1b58767b54aed797d1ec6a2fafa084a00d6de7`, while deployment remains
+unverified and unauthorized
 
 Required outcomes:
 
