@@ -33,6 +33,7 @@ class MemoryPipeline:
         self,
         memory: MemoryItem,
         existing_content: str | None = None,
+        persist: bool = True,
     ) -> MemoryPipelineResult:
         consolidation = self.consolidation_engine.evaluate(
             memory,
@@ -85,11 +86,14 @@ class MemoryPipeline:
             enriched_memory,
             confidence_basis=intelligence.confidence.reason,
         )
-        result = self.memory_service.process(governed_memory)
+        result = self.memory_service.process(
+            governed_memory,
+            persist=persist,
+        )
 
         return MemoryPipelineResult(
             memory=result.memory,
-            accepted=True,
+            accepted=result.promoted,
             consolidated=True,
             stored=result.stored,
             reason=(

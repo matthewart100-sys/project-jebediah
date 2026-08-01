@@ -2,9 +2,10 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Sprint 004 memory governance implementation; deployment unverified
+**Status:** Sprint 004 merged; Sprint 005 implementation validation blocked;
+deployment unverified
 
-**Last reviewed:** 2026-07-31
+**Last reviewed:** 2026-08-01
 
 ## Summary
 
@@ -21,9 +22,17 @@ specification remains **Proposed**, and Collector work has no JCS dependency.
 
 Sprint 003 added memory consolidation, an intelligence governor, confidence
 and retention scoring, metadata enrichment, Qdrant persistence, and semantic
-retrieval. Sprint 004 extends that implementation with additive provenance,
-lifecycle, and retrieval-ranking foundations. Repository implementation is
-verified by source and tests; deployment and live-service operation are not.
+retrieval. Sprint 004 merged additive provenance, lifecycle, and
+retrieval-ranking foundations. Sprint 005 architecture is accepted and its
+bounded repository implementation has consolidated the duplicate memory,
+Qdrant, and embedding paths while preserving Sprint 004 behavior. Repository
+implementation is verified by source and tests. A clean locked wheel/import
+smoke passes. Quality Control corrections now canonicalize Ollama's bare API
+digest, reverify model identity for every embedding, and reject post-scan
+Qdrant identity or vector drift before semantic candidates are returned. The
+complete 142-test suite passes, but the mandatory container build remains
+unverified because no container runtime is available. Deployment and
+live-service operation are not verified.
 
 The initial GitHub baseline was commit
 `e42edd0c67e144b556adb77416a1e079eb106b93`, which contained only a one-line
@@ -41,6 +50,10 @@ reviewed pull requests.
   tree, Docker service artifacts, and automated tests.
 - The untouched Sprint 004 baseline passed 53 unit tests with `pytest`; the
   Sprint 004 implementation expands the suite to 66 passing tests.
+- The corrected uncommitted Sprint 005 candidate passes 142 tests, including
+  model-digest drift and post-scan Qdrant compatibility regressions.
+- Sprint 004 merged into `main` at
+  `ea0b5f8d0dc829dd9722850ef6940abda0bcdb60`.
 - Repository evidence does not verify that the service is deployed or that
   live Qdrant, Ollama, n8n, or home-lab state matches the tracked candidate.
 - The first Genesis source-of-truth checkpoint was approved by the Chief
@@ -167,25 +180,26 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-The active [Sprint 004 specification](docs/SPRINT_004_SPECIFICATION.md)
-extends the existing memory system without redesigning it.
+The active
+[Sprint 005 Implementation Plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md)
+implements the accepted architecture consolidation without deployment.
 
-The current work must:
+The current review must verify:
 
-- Preserve existing memory construction, Qdrant payload fields, and API
-  response fields.
-- Add explainable provenance with safe legacy defaults.
-- Represent active, reinforced, superseded, and archived lifecycle states
-  without automating transitions or deletion.
-- Introduce a retrieval-ranker boundary that remains semantic-only now.
-- Keep source identity separate from embeddings and vector similarity.
-- Preserve reported infrastructure claims until a sanitized audit verifies
-  them.
-- Use only synthetic information in public fixtures and tests.
-- Keep live deployment and live-data changes outside this sprint.
+- The canonical memory-domain dependency direction is implemented without a
+  service-local shadow package.
+- Qdrant option A is implemented behind one canonical adapter.
+- The accepted embedding model identity and compatibility contract is
+  enforced.
+- Keep Sprint 004 provenance, lifecycle, verification, API, and semantic-only
+  ranking behavior unchanged.
+- Separate compatible legacy payload reading from incompatible vector
+  geometry migration.
+- No accepted compatibility or validation gate failed.
+- Keep deployment and live-data changes outside Sprint 005.
 
 JCS remains deferred. The Collector and memory service do not depend on JCS,
-and Sprint 004 does not reopen JCS C1 or authorize JCS C2.
+and Sprint 005 does not reopen JCS C1 or authorize JCS C2.
 
 ## Phase 0 completion evidence
 

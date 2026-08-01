@@ -208,14 +208,17 @@ yet an approved implementation of Project Jebediah's Automation capability.
 
 ### Qdrant
 
-A vector database reported in the bootstrap environment. It is not yet
-assigned as the authoritative implementation of a knowledge component.
+A vector database with an implemented Memory Service adapter. Under ADR 0003,
+an acknowledged point payload temporarily owns the operational record of what
+the service stored while its vector remains derived. Live operation and any
+future knowledge-component role remain unverified.
 
 ### Ollama
 
-A local model-serving product reported in the bootstrap environment. Its
-current operation, supported models, and future Reasoning Engine role are not
-verified.
+A local model-serving product with an implemented embedding adapter pinned by
+ADR 0004 to `nomic-embed-text:v1.5` and its immutable manifest digest. Current
+operation, installed model inventory, and any future Reasoning Engine role are
+not verified.
 
 ## Maintenance
 

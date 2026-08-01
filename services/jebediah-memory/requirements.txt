@@ -1,4 +1,4 @@
-fastapi
-uvicorn
-qdrant-client
-ollama
+# Service-layer dependencies only. The Docker build installs the canonical
+# root package and all domain-adapter dependencies from uv.lock.
+fastapi>=0.115,<1.0
+uvicorn>=0.35,<1.0

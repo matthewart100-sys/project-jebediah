@@ -353,8 +353,25 @@ unauthorized information. Reconciliation after restore is part of recovery.
 | Pull requests and Git history | Durable review and change history | Maintainer | Superseded content is history, not current architecture |
 | Bootstrap environment claims | Reported information | No runtime information owner verified | Requires sanitized audit |
 | Chats and model context | Temporary working context unless promoted | Active participant for safe handling | Not authoritative project memory |
-| Memory payload metadata, embeddings, vector indexes, confidence, and retrieval signals | Derived information | Jebediah Memory Service repository candidate | Source authority, deployment, live contents, retention, and recovery remain unverified or deferred |
+| Memory Service Qdrant point payload | Authoritative operational record of what the service accepted and durably stored | Jebediah Memory Service repository candidate | Does not own source truth; deployment, live contents, retention, and recovery remain unverified |
+| Embeddings, vector indexes, confidence, and retrieval signals | Derived information | Jebediah Memory Service repository candidate | Model identity is explicit; source authority and live compatibility remain separate |
 | Other future runtime records, caches, indexes, embeddings, and inferences | Unassigned | Unassigned pending specification | No authority follows from the implemented memory candidate |
+
+### Sprint 005 memory-record mapping
+
+[ADR 0003](adr/0003-qdrant-repository-collection-and-payload-consolidation.md)
+establishes a narrow, temporary refinement. Qdrant holds two categories in one
+point:
+
+- The payload is the authoritative operational record of what the
+  Memory Service accepted and durably stored.
+- The attached embedding remains a derived semantic index.
+
+The originating source remains authoritative for the truth or meaning of the
+represented claim. Qdrant durability does not grant truth authority to
+the claim, confidence, lifecycle, verification state, or vector similarity.
+This explicit assignment avoids making a vector index an implicit source of
+truth while no separate durable MemoryRepository exists.
 
 ## Decision and review requirements
 

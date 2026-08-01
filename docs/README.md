@@ -27,8 +27,13 @@ searchable, linkable, and version controlled.
   retrieval boundary.
 - [Sprint 003 Completion](SPRINT_003_COMPLETE.md) records the implemented
   memory-intelligence baseline and its reported runtime validation.
-- [Sprint 004 Specification](SPRINT_004_SPECIFICATION.md) defines the active
+- [Sprint 004 Specification](SPRINT_004_SPECIFICATION.md) defines the merged
   provenance, lifecycle, retrieval-ranking, and compatibility scope.
+- [Sprint 005 Implementation Plan](SPRINT_005_IMPLEMENTATION_PLAN.md) defines
+  the accepted memory-domain, Qdrant, embedding, migration, and rollback
+  architecture and records the completed repository implementation phases.
+- [Sprint 005 Validation Requirements](SPRINT_005_VALIDATION_REQUIREMENTS.md)
+  defines implementation-review and future deployment evidence gates.
 - [Project Genesis Foundation Audit](genesis/GENESIS_FOUNDATION_AUDIT.md)
   maps required topics, records consistency evidence and corrections, and
   owns the clean-room onboarding result.
