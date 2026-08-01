@@ -483,6 +483,25 @@ A single-ADR proposal remains subject to exact-artifact review and the ADR
 workflow. It does not require a separate package manifest beyond the ADR and
 normal handoff unless another document is part of the same proposed decision.
 
+### Chief Architect acceptance record
+
+On 2026-08-01, the Chief Architect accepted the architecture-proposal
+chain-of-custody proposal in pull request 42 at exact head
+`8471b56bfd139097f9988aeff8c7924f5e74a526`.
+
+Acceptance is limited to the pull request's documentation-only ten-file
+manifest: the Proposal v1 abandonment evidence boundary, the historical Work
+Mode findings, repository-backed exact-head custody requirements, the recovery
+matrix, proposal-scoped worktree and review-checklist clarifications, and the
+related status and navigation updates. It does not authorize Sprint 006
+Proposal v2, implementation, deployment, live-system action, or a change to
+role authority or ADRs 0001 through 0005.
+
+The chain-of-custody rule added by pull request 42 remains inactive until that
+pull request merges to `main`. Recording this acceptance creates a new branch
+head and therefore requires final exact-head review before merge; it does not
+broaden the accepted scope or itself grant merge authority.
+
 ### Proposal recovery matrix
 
 | Recovery condition | Required action | Custody result |
