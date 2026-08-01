@@ -43,6 +43,8 @@ to the [Definition of Done](DEFINITION_OF_DONE.md).
 | Repository paths and artifacts | `docs/REPOSITORY_STANDARDS.md` |
 | Language-independent engineering quality | `docs/ENGINEERING_STANDARDS.md` |
 | Documentation policy | `docs/DOCUMENTATION_STANDARDS.md` |
+| Project role authority, workflow gates, handoffs, and coordination evidence labels | `docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md` |
+| Documentation Suite role and post-merge closeout | `docs/governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md` |
 | Project Genesis execution | `docs/genesis/PROJECT_GENESIS_PLAN.md` |
 | JCS definition phase execution | `docs/JCS_DEFINITION_PLAN.md` |
 | Proposed and future accepted JCS contract | `docs/JCS_SPECIFICATION.md` |
@@ -55,7 +57,7 @@ to the [Definition of Done](DEFINITION_OF_DONE.md).
 | Component identity, maturity, and ownership | `docs/reference/COMPONENT_REGISTRY.md` |
 | Tool-agnostic AI onboarding | `AGENTS.md` |
 | Codex operations | `CODEX_BOOTSTRAP.md` |
-| Human and AI collaboration | `.ai/COLLABORATION.md` |
+| Human and AI collaboration behavior within approved role authority | `.ai/COLLABORATION.md` |
 | AI memory policy | `docs/AI_MEMORY_CONTRACT.md` |
 | Data ownership categories | `docs/DATA_OWNERSHIP.md` |
 | Digital Twin intent | `docs/design/DIGITAL_TWIN_POSITION.md` |
@@ -84,6 +86,13 @@ material.
 
 Use for immutable decision records once the ADR framework is approved. Current
 architecture still updates when an ADR changes the system.
+
+### `docs/governance/`
+
+Use for substantive cross-role governance protocols with permanent ownership,
+review gates, and maintenance responsibility. Governance protocols link to
+the canonical standards they apply and do not become a second copy of Git,
+documentation, sprint, or ADR policy.
 
 ### `docs/genesis/`
 

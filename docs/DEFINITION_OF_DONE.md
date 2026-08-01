@@ -24,6 +24,9 @@ A change is done when:
 - Known facts, reported facts, assumptions, and open questions are labeled
   when relevant.
 - ADR impact has been assessed and a required ADR is accepted.
+- The applicable role, review, handoff, and authority gates in the
+  [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
+  are satisfied.
 - Required human and Chief Architect reviews have explicit decisions.
 - Review comments are resolved or deliberately deferred with ownership.
 - The branch is safe to merge and the repository remains understandable.

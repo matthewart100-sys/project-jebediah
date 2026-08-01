@@ -192,9 +192,13 @@ documented.
 
 ### Human-authority boundary
 
-The maintainer retains final project authority. Sensitive or irreversible
-actions require human approval unless an accepted decision defines a narrower
-safe automated boundary. AI output cannot grant itself authority.
+The human maintainer retains repository custody, access, licensing, legal
+control, and approval of sensitive or irreversible external actions. The Chief
+Architect role holds final strategy, architecture, scope, ADR, sprint, merge,
+and roadmap authority under the
+[Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
+A person occupying both roles must state which authority is being exercised.
+AI output and tool capability cannot grant themselves authority.
 
 ### External-input boundary
 

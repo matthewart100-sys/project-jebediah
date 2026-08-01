@@ -21,26 +21,37 @@ These artifacts must not contradict one another.
 
 ## Roles
 
-### Maintainer
-
-- Sets final priorities and authority.
-- Accepts sprint scope.
-- Resolves business or ownership questions.
-- Controls repository merges and releases.
+The
+[Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
+owns role authority and the mandatory plan-to-closeout sequence. Within a
+sprint:
 
 ### Chief Architect
 
-- Reviews architecture-significant scope and artifacts.
-- Protects design intent and decision quality.
-- Returns explicit checkpoint decisions.
-- Does not approve artifacts it cannot inspect.
+- Sets final strategy and roadmap direction.
+- Authorizes sprint scope and scope changes.
+- Accepts or rejects architecture and ADR decisions.
+- Grants final merge approval for exact reviewed artifacts.
 
-### Lead Engineer or implementing contributor
+### Work Mode
+
+- Independently reviews sprint plans and implementation artifacts.
+- Challenges assumptions and requires evidence.
+- May block implementation or merge.
+- Does not replace the Chief Architect's final decision.
+
+### Codex — Implementation Engineer
 
 - Converts accepted scope into reviewable work.
 - Identifies dependencies and uncertainty.
 - Provides actual diffs, validation, and handoffs.
 - Keeps canonical documentation accurate.
+
+### Documentation Suite
+
+- Performs closeout only after a successful, verified merge.
+- Reconciles current documentation without inventing behavior or priority.
+- Preserves future work, risks, and blockers.
 
 ## Sprint lifecycle
 
@@ -62,6 +73,8 @@ Write the sprint goal first. Then define:
 - Risks and responses
 
 Do not commit work merely because it is interesting or technically adjacent.
+Work Mode reviews architecture before the Chief Architect authorizes
+implementation.
 
 ### 3. Execute
 
@@ -83,6 +96,9 @@ At each logical checkpoint:
 - Assess ADR impact.
 - Obtain the required explicit decision.
 
+Work Mode validates the exact implementation first. The Chief Architect then
+grants or withholds merge approval for the exact reviewed head.
+
 Rejected or revision-required work remains open; it is not declared complete.
 
 ### 5. Close
@@ -95,6 +111,9 @@ At sprint end:
 - Record process lessons.
 - Identify newly resolved or newly discovered risks.
 - Define the next sprint before beginning unrelated work.
+
+Codex performs the controlled merge. The Documentation Suite begins closeout
+only after clean synchronized `main` and the final merge commit are confirmed.
 
 ## Scope changes
 

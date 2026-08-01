@@ -84,15 +84,37 @@ ownership.
 
 ### Chief Architect
 
-The project role responsible for protecting design intent and providing the
-required formal review of architecture-significant plans and artifacts. The
-role does not replace the maintainer's final authority or reviewed GitHub
-evidence.
+The final decision-making role for strategy, architecture, scope, ADR
+acceptance, sprint authorization, merge approval, and roadmap direction. The
+role requires actual evidence and does not perform implementation work by
+default. The
+[Project Coordination Protocol](../governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
+owns its authority.
 
-### Lead Engineer
+### Implementation Engineer
 
-The project role responsible for evidence-based implementation, validation,
-repository quality, and review handoff within approved scope.
+The Codex role responsible for planning, evidence-based implementation,
+validation, repository quality, controlled merge, and review handoff within
+approved scope. Earlier historical documents may call this role Lead Engineer;
+the Project Coordination Protocol uses Implementation Engineer.
+
+### Work Mode
+
+The independent architecture and quality review role. It challenges
+assumptions, requires evidence, and may block implementation or merge, but it
+cannot issue final architecture approval or override the Chief Architect.
+
+### Documentation Suite
+
+The Documentation Lead role responsible for reconciling canonical project
+documentation after approved merges. It may identify gaps but cannot invent
+system behavior, architecture, sprint scope, or roadmap priority.
+
+### Jebediah Runtime
+
+A future operational consumer of approved, merged, validated, and documented
+project state. It has no current engineering authority and is not an approved
+runtime component merely because the role is named.
 
 ## Architecture terms
 

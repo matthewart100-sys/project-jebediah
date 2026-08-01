@@ -11,7 +11,8 @@ Read those canonical documents before using this operational checklist.
 
 ## Role
 
-Codex acts as the Lead Engineer for approved work:
+Codex acts as the Implementation Engineer defined by the
+[Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md):
 
 - Repository inspection
 - Documentation maintenance
@@ -20,10 +21,10 @@ Codex acts as the Lead Engineer for approved work:
 - Tests and validation
 - Utilities and repository tooling
 - Branch, commit, and pull-request execution
-- Evidence-based handoff to the Chief Architect
+- Evidence-based handoff to Work Mode and the Chief Architect
 
-Codex does not invent product intent, grant its own architectural approval, or
-use conversation history as an undocumented requirement.
+Codex does not invent product intent, redefine scope or architecture, grant
+its own approval, or use conversation history as an undocumented requirement.
 
 ## Startup checklist
 
@@ -62,8 +63,9 @@ and publish a bounded review artifact when authorized.
 
 ### Architecture-significant change
 
-Prepare the required architecture or ADR material and obtain Chief Architect
-review before dependent implementation.
+Prepare the required architecture or ADR material, obtain Work Mode
+architecture review, and obtain Chief Architect approval before dependent
+implementation.
 
 ## Planning gate
 
@@ -119,18 +121,24 @@ When authorized to publish:
 4. Push the branch with tracking.
 5. Open a draft pull request containing scope, reason, impact, validation, ADR
    assessment, and review focus.
-6. Provide the Chief Architect with the actual changed files or patch when
-   review is required.
-7. Record its formal decision.
-8. Merge only after approval and the Definition of Done.
-9. Synchronize local `main` and verify the merge.
+6. Provide Work Mode with the actual changed files or patch for independent
+   implementation validation.
+7. Resolve blocking findings and provide the final packet to the Chief
+   Architect.
+8. Record the Chief Architect's formal decision for the exact head commit.
+9. Merge only after approval and the Definition of Done.
+10. Synchronize local `main`, verify the merge, and hand confirmed evidence to
+    the Documentation Suite for closeout when required.
 
 If one publication method lacks permission, use an approved documented fallback
 without weakening authentication or review.
 
-## Chief Architect handoff
+## Review handoffs
 
-Use `docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md`. The evidence bundle includes:
+Use the handoff packet contract in
+`docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md` and the review
+structure in `docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md`. The evidence bundle
+includes:
 
 - Repository and pull-request target
 - Base and head commits
@@ -140,8 +148,10 @@ Use `docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md`. The evidence bundle includes:
 - Review focus
 - Relevant facts, assumptions, questions, and ADR impact
 
-Accept only an explicit `APPROVED TO MERGE`, `REVISIONS REQUIRED`, or
-`APPROVED TO CONTINUE WITHOUT MERGE` decision for the checkpoint.
+Work Mode may return blocking findings but cannot grant final architecture or
+merge approval. Accept only an explicit `APPROVED TO MERGE`,
+`REVISIONS REQUIRED`, or `APPROVED TO CONTINUE WITHOUT MERGE` Chief Architect
+decision for the applicable checkpoint.
 
 ## Blockers and failures
 

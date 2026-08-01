@@ -48,16 +48,16 @@ A project-wide decision that changes enduring principles, major platform
 direction, roadmap ordering, authority, or a constraint inherited by several
 systems.
 
-Foundational ADRs require Chief Architect review and final maintainer
-authority. Dependent implementation waits for acceptance.
+Foundational ADRs require Work Mode architecture review and final Chief
+Architect acceptance. Dependent implementation waits for acceptance.
 
 ### System
 
 A decision defining a subsystem's responsibility, major boundary, data
 authority, public interface, deployment model, or critical technology.
 
-System ADRs require Chief Architect review and final maintainer authority.
-Dependent components wait for acceptance.
+System ADRs require Work Mode architecture review and final Chief Architect
+acceptance. Dependent components wait for acceptance.
 
 ### Implementation
 
@@ -65,9 +65,9 @@ A lasting lower-level choice within approved architecture, such as a
 compatibility strategy, persistence pattern, or significant dependency whose
 consequences outlive one code change.
 
-Implementation ADRs use normal technical review. Chief Architect review is
-also required when the choice crosses system boundaries, changes risk
-materially, or is escalated by the maintainer or reviewer.
+Implementation ADRs use normal technical review plus Work Mode review and
+final Chief Architect acceptance. Review depth remains proportional to the
+choice's boundary and risk.
 
 Decision level reflects scope and consequence, not the number of changed
 files.
@@ -119,11 +119,11 @@ replaces an earlier one.
 8. **Update current documents.** Change architecture, glossary, component
    registry, data ownership, standards, status, and roadmap where the accepted
    decision changes their meaning.
-9. **Review actual artifacts.** Use the
+9. **Review actual artifacts.** Obtain Work Mode architecture review and use the
    [Chief Architect Review Template](../reviews/ARCHITECT_REVIEW_TEMPLATE.md)
-   when required.
-10. **Record the result.** Set the ADR status, record review evidence in the
-    pull request, and merge through the
+   for the final Chief Architect decision when required.
+10. **Record the result.** Set the ADR status only after the Chief Architect
+    decision, record review evidence in the pull request, and merge through the
     [Git Workflow](../GIT_WORKFLOW.md).
 11. **Implement afterward.** Foundational and System implementation begins
     only after acceptance. A bounded Implementation ADR may accompany its
@@ -159,8 +159,12 @@ An acceptable ADR:
 - Uses no secret or private operational detail
 
 Do not write an ADR to rationalize a completed implementation after the fact.
-If an emergency forced action first, record that exception, immediate evidence,
-and follow-up decision explicitly.
+Repository emergency implementation follows the bounded declaration,
+authorization, deferred-review, and merge gates in the
+[Project Coordination Protocol](../governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
+If separately authorized operational containment must precede an ADR, record
+the exception, immediate evidence, and follow-up decision explicitly without
+using containment to authorize repository architecture or scope changes.
 
 ## Relationship to project memory
 
@@ -194,6 +198,9 @@ decision.
 - [ADR 0004: Embedding Model Identity and Vector Compatibility](0004-embedding-model-identity-and-vector-compatibility.md)
   is accepted and pins the embedding provider, model artifact, geometry, and
   compatibility contract.
+- [ADR 0005: Project Coordination and Role Authority](0005-project-coordination-and-role-authority.md)
+  is accepted and defines the permanent multi-role authority, workflow,
+  reviewer-independence, blocker-disposition, and handoff decision.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 
