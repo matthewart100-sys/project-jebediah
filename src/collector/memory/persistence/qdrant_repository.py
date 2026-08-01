@@ -9,6 +9,13 @@ from qdrant_client.models import (
 )
 
 from .repository import MemoryRepository
+from ..governance import (
+    ensure_memory_governance,
+    lifecycle_from_payload,
+    lifecycle_to_payload,
+    provenance_from_payload,
+    provenance_to_payload,
+)
 from ..models import MemoryItem, MemoryType
 
 
@@ -74,23 +81,32 @@ class QdrantMemoryRepository(MemoryRepository):
         memory: MemoryItem,
     ) -> str:
 
+        governed_memory = ensure_memory_governance(memory)
+
 
         point = PointStruct(
-            id=memory.id,
+            id=governed_memory.id,
 
             vector=[
-                memory.importance
+                governed_memory.importance
             ],
 
             payload={
-                "source_identity": memory.source_identity,
-                "content": memory.content,
-                "memory_type": memory.memory_type.value,
-                "importance": memory.importance,
+                "source_identity": governed_memory.source_identity,
+                "content": governed_memory.content,
+                "memory_type": governed_memory.memory_type.value,
+                "importance": governed_memory.importance,
                 "created_at": (
-                    memory.created_at.isoformat()
+                    governed_memory.created_at.isoformat()
                 ),
-                "metadata": memory.metadata,
+                "metadata": governed_memory.metadata,
+                "provenance": provenance_to_payload(
+                    governed_memory.provenance,
+                    governed_memory.source_identity,
+                ),
+                "lifecycle": lifecycle_to_payload(
+                    governed_memory.lifecycle
+                ),
             },
         )
 
@@ -103,7 +119,7 @@ class QdrantMemoryRepository(MemoryRepository):
         )
 
 
-        return memory.id
+        return governed_memory.id
 
 
 
@@ -128,12 +144,13 @@ class QdrantMemoryRepository(MemoryRepository):
         point = results[0]
 
 
+        source_identity = point.payload["source_identity"]
+
+
         return MemoryItem(
             id=str(point.id),
 
-            source_identity=(
-                point.payload["source_identity"]
-            ),
+            source_identity=source_identity,
 
             content=(
                 point.payload["content"]
@@ -156,6 +173,15 @@ class QdrantMemoryRepository(MemoryRepository):
                     "metadata",
                     {},
                 )
+            ),
+
+            provenance=provenance_from_payload(
+                point.payload.get("provenance"),
+                source_identity,
+            ),
+
+            lifecycle=lifecycle_from_payload(
+                point.payload.get("lifecycle")
             ),
         )
 

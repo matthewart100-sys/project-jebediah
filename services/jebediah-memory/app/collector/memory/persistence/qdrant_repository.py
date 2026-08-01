@@ -4,12 +4,22 @@ from datetime import datetime
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
+    Distance,
+    FieldCondition,
+    Filter,
+    MatchValue,
     PointStruct,
     VectorParams,
-    Distance,
 )
 
 from .repository import MemoryRepository
+from ..governance import (
+    ensure_memory_governance,
+    lifecycle_from_payload,
+    lifecycle_to_payload,
+    provenance_from_payload,
+    provenance_to_payload,
+)
 from ..models import MemoryItem, MemoryType
 
 
@@ -69,6 +79,8 @@ class QdrantMemoryRepository(MemoryRepository):
         memory: MemoryItem,
     ) -> str:
 
+        governed_memory = ensure_memory_governance(memory)
+
         qdrant_id = str(uuid.uuid4())
 
 
@@ -76,15 +88,22 @@ class QdrantMemoryRepository(MemoryRepository):
 
 
         payload = {
-            "memory_id": memory.id,
-            "source_identity": memory.source_identity,
-            "content": memory.content,
-            "memory_type": memory.memory_type.value,
-            "importance": memory.importance,
+            "memory_id": governed_memory.id,
+            "source_identity": governed_memory.source_identity,
+            "content": governed_memory.content,
+            "memory_type": governed_memory.memory_type.value,
+            "importance": governed_memory.importance,
             "created_at": (
-                memory.created_at.isoformat()
+                governed_memory.created_at.isoformat()
             ),
-            "metadata": memory.metadata,
+            "metadata": governed_memory.metadata,
+            "provenance": provenance_to_payload(
+                governed_memory.provenance,
+                governed_memory.source_identity,
+            ),
+            "lifecycle": lifecycle_to_payload(
+                governed_memory.lifecycle
+            ),
         }
 
 
@@ -100,7 +119,7 @@ class QdrantMemoryRepository(MemoryRepository):
         )
 
 
-        return memory.id
+        return governed_memory.id
 
 
     def find(
@@ -110,16 +129,16 @@ class QdrantMemoryRepository(MemoryRepository):
 
         results = self.client.scroll(
             collection_name=self.collection_name,
-            scroll_filter={
-                "must": [
-                    {
-                        "key": "memory_id",
-                        "match": {
-                            "value": memory_id
-                        }
-                    }
+            scroll_filter=Filter(
+                must=[
+                    FieldCondition(
+                        key="memory_id",
+                        match=MatchValue(
+                            value=memory_id
+                        ),
+                    )
                 ]
-            },
+            ),
             limit=1,
         )[0]
 
@@ -131,9 +150,12 @@ class QdrantMemoryRepository(MemoryRepository):
         point = results[0]
 
 
+        source_identity = point.payload["source_identity"]
+
+
         return MemoryItem(
             id=point.payload["memory_id"],
-            source_identity=point.payload["source_identity"],
+            source_identity=source_identity,
             content=point.payload["content"],
             memory_type=MemoryType(
                 point.payload["memory_type"]
@@ -145,6 +167,13 @@ class QdrantMemoryRepository(MemoryRepository):
             metadata=point.payload.get(
                 "metadata",
                 {},
+            ),
+            provenance=provenance_from_payload(
+                point.payload.get("provenance"),
+                source_identity,
+            ),
+            lifecycle=lifecycle_from_payload(
+                point.payload.get("lifecycle")
             ),
         )
 

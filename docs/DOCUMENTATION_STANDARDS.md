@@ -49,6 +49,7 @@ to the [Definition of Done](DEFINITION_OF_DONE.md).
 | Chief Architect review evidence and decision | `docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md` |
 | Architecture principles | `docs/ARCHITECTURE_PRINCIPLES.md` |
 | Current architecture | `docs/ARCHITECTURE.md` |
+| Memory-service architecture | `docs/ARCHITECTURE_MEMORY_SYSTEM.md` |
 | Architecture decisions | `docs/adr/` |
 | Shared project terminology | `docs/reference/GLOSSARY.md` |
 | Component identity, maturity, and ownership | `docs/reference/COMPONENT_REGISTRY.md` |

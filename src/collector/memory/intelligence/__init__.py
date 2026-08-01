@@ -8,6 +8,8 @@ from .models import (
 from .scoring import MemoryScorer
 
 from .confidence import ConfidenceEvaluator
+from .deduplication import MemoryDeduplicator
+from .governor import MemoryGovernor
 
 
 __all__ = [
@@ -17,4 +19,6 @@ __all__ = [
     "MemoryScore",
     "RetentionLevel",
     "MemoryScorer",
+    "MemoryDeduplicator",
+    "MemoryGovernor",
 ]

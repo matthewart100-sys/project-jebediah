@@ -1,189 +1,233 @@
 # Jebediah Memory Architecture
 
+**Status:** Implemented repository candidate; deployment unverified
+
 ## Purpose
 
-The Jebediah Memory System provides persistent semantic memory capabilities for the Jebediah AI infrastructure.
+The Jebediah memory system provides governed semantic memory for the local-first
+platform. It stores, retrieves, classifies, and evaluates memory candidates
+while keeping probabilistic embedding behavior behind deterministic policy and
+metadata boundaries.
 
-The goal is to allow Jebediah to store, retrieve, classify, and reason over previous information using vector-based semantic search.
+## Current system
 
----
+```mermaid
+flowchart TD
+    Input["User or agent input"]
+    API["Memory service API"]
+    Pipeline["Memory pipeline"]
+    Consolidation["Consolidation engine"]
+    Governor["Intelligence governor"]
+    Policy["Memory policy"]
+    Embeddings["Ollama embedding adapter"]
+    Qdrant["Qdrant vector storage"]
+    Retrieval["Retrieval candidate and ranker boundary"]
 
-# System Overview
+    Input --> API
+    API --> Pipeline
+    Pipeline --> Consolidation
+    Consolidation --> Governor
+    Governor --> Policy
+    Policy --> Embeddings
+    Embeddings --> Qdrant
+    Qdrant --> Retrieval
+    Retrieval --> API
+```
 
-Current architecture:
+The repository verifies this implementation exists. It does not verify that
+the service, Qdrant, Ollama, or the reported home-lab environment is currently
+deployed or operational.
 
-User / Agent Input
+## Components
 
-        |
-        v
+### Collector memory domain
 
-Collector Layer
+Locations:
 
-        |
-        v
-
-Memory Service API
-
-        |
-        +----------------+
-        |                |
-        v                v
-
-Ollama Embeddings     Memory Logic
-
-(nomic-embed-text)        |
-
-        |
-        v
-
-Qdrant Vector Database
-
-
----
-
-# Components
-
-## Collector
-
-Location:
-
-services/jebediah-memory/app/collector/
+- `src/collector/memory/`
+- `services/jebediah-memory/app/collector/memory/`
 
 Responsibilities:
 
-- Receive incoming memory candidates
-- Evaluate memory importance
-- Prepare memory objects
-- Handle future memory intelligence workflows
+- Represent memory candidates
+- Apply promotion and consolidation policy
+- Evaluate importance, retention, confidence, and duplicates
+- Attach provenance and lifecycle governance
+- Coordinate persistence through a repository boundary
 
----
+The two source trees are an existing repository constraint. Sprint 004 keeps
+equivalent governance contracts in both trees; consolidating them is a
+separate refactor.
 
-## Memory API
+### Memory API
 
-Location:
-
-services/jebediah-memory/app/main.py
+Location: `services/jebediah-memory/app/main.py`
 
 Responsibilities:
 
-- Store memories
-- Generate embeddings
-- Query semantic memory
-- Provide context retrieval
+- Accept store and context requests
+- Preserve existing API response fields
+- Invoke the governed memory pipeline
+- Generate embeddings after policy acceptance
+- Persist derived vectors and approved payload metadata
+- Convert search results into retrieval candidates
 
----
+### Embedding adapter
 
-## Embedding System
+Location: `services/jebediah-memory/app/embeddings/`
 
-Current model:
+The current candidate uses Ollama with `nomic-embed-text:latest` and expects
+768-dimensional vectors. The adapter converts approved text into a derived
+vector. It does not determine memory identity, provenance, verification, or
+lifecycle.
 
-nomic-embed-text:latest
+### Vector database
 
-Provider:
+The current candidate uses the `jebediah_memory` Qdrant collection. Qdrant
+stores derived vectors and payload metadata for semantic retrieval. It is not
+automatically authoritative for the source information represented by a
+memory.
 
-Ollama
+### Retrieval boundary
 
-Purpose:
+Locations:
 
-Convert text meaning into vector representations.
+- `src/collector/memory/retrieval/`
+- `services/jebediah-memory/app/collector/memory/retrieval/`
 
-Current vector size:
+The boundary represents retrieval candidates independently from Qdrant result
+objects. It exposes semantic relevance, confidence, importance, creation time,
+and lifecycle state. The current ranker uses semantic relevance only, which
+preserves existing context-search behavior.
 
-768 dimensions
+## Memory model
 
----
+### Existing identity and content
 
-## Vector Database
+`MemoryItem` retains:
 
-System:
+- application memory identifier
+- stable source identity
+- content
+- memory type
+- importance
+- creation time
+- general metadata
 
-Qdrant
+Sprint 004 adds defaulted governance fields and does not change identity.
 
-Collection:
+### Provenance
 
-jebediah_memory
+`MemoryProvenance` records:
 
-Purpose:
+- source category
+- optional creator
+- optional creation context
+- optional confidence basis
+- verification state
+- supporting-evidence references
 
-Store semantic representations of memories.
+Provenance explains origin and confidence; it does not make a claim true.
+New and legacy memories default to `unverified` unless an authorized future
+process records another state.
 
----
+### Lifecycle
 
-# Memory Lifecycle
+`MemoryLifecycle` records one of:
 
-Current:
+- `active`
+- `reinforced`
+- `superseded`
+- `archived`
 
-Input
- |
-Generate embedding
- |
-Store vector + metadata
- |
-Retrieve using semantic similarity
+It also provides minimal reinforcement count, supersession reference, and
+transition-time fields. Sprint 004 represents these states but does not decide
+or execute transitions.
 
+## Store flow
 
-Future:
+1. The API constructs a `MemoryItem` without changing existing required
+   request fields.
+2. The consolidation engine evaluates importance, confidence, and duplicate
+   evidence.
+3. The intelligence governor produces retention and explainable confidence
+   metadata.
+4. The governance layer fills missing provenance and the active lifecycle
+   default.
+5. The memory policy decides whether persistence is allowed.
+6. The embedding adapter generates a vector only after acceptance.
+7. Qdrant receives the existing payload plus additive `provenance` and
+   `lifecycle` objects.
 
-Input
- |
-Classification
- |
-Importance scoring
- |
-Deduplication
- |
-Memory consolidation
- |
-Long-term storage
+## Retrieval flow
 
----
+1. The API embeds the context query.
+2. Qdrant returns semantic matches and payloads.
+3. The API maps each match to a storage-independent retrieval candidate.
+4. The semantic ranker orders candidates by Qdrant relevance score.
+5. The API renders the existing `score`, `content`, and `metadata` fields.
 
-# Current Capabilities
+Future ranking may evaluate additional candidate signals only after a reviewed
+policy defines weights, missing-value behavior, lifecycle treatment, and
+compatibility.
 
-Completed:
+## Persistence compatibility
 
-- Dockerized memory service
-- Ollama integration
-- Semantic embeddings
-- Qdrant vector storage
-- Semantic retrieval API
-- GitHub source control
+Existing Qdrant payload fields remain unchanged. New payloads add:
 
----
+```text
+provenance
+lifecycle
+```
 
-# Future Development
+Readers use safe defaults for payloads created before Sprint 004:
 
-## Memory Intelligence
+- `source` derives from `source_identity`
+- verification is `unverified`
+- lifecycle is `active`
+- optional evidence and transition fields remain empty
 
-Planned:
+This avoids a destructive collection migration or mandatory backfill.
 
-- Memory classification
-- Confidence scoring
-- Deduplication
-- Importance weighting
-- Automatic consolidation
+## Data ownership
 
+- Submitted source content retains the authority of its actual source; the
+  memory service does not declare it true.
+- Memory metadata, confidence, embeddings, and vector indexes are derived
+  information.
+- Verification state is explicit and defaults to unverified.
+- Lifecycle state does not grant action authority.
+- Deletion, archival automation, retention periods, and restoration behavior
+  require later owned policies.
 
-## Collector Intelligence
+The project-wide requirements in [Data Ownership](DATA_OWNERSHIP.md) remain
+authoritative.
 
-Planned:
+## Compatibility and failure posture
 
-- Determine whether information should become memory
-- Identify permanent decisions
-- Identify temporary state
-- Manage memory lifecycle
+- Existing constructors and API request fields remain valid.
+- Existing response fields are retained.
+- Unknown legacy governance fields use safe defaults.
+- Invalid stored enum values fail visibly rather than being presented as a
+  valid state.
+- Embedding or persistence failure must not be reported as successful storage.
+- Provenance and lifecycle metadata must not contain credentials, personal
+  data, private endpoints, or raw sensitive evidence.
 
+## Deferred work
 
-## Self Improvement
+- Authorized verification workflows
+- Confidence history and evidence-quality evaluation
+- Lifecycle transition policy and APIs
+- Reinforcement and supersession detection
+- Archived-memory filtering
+- Multi-factor ranking formula and evaluation
+- Qdrant backfill or schema migration, if later required
+- Package-tree consolidation
+- Deployment, live health, backup, restore, and operations verification
 
-Future goal:
+## Design principle
 
-Allow Jebediah to improve workflows, documentation, and operational knowledge while maintaining human approval boundaries.
-
----
-
-# Design Principle
-
-Jebediah should not simply remember more.
-
-Jebediah should remember better.
+Jebediah should not simply remember more. It should preserve enough origin,
+state, and ranking context to remember better without claiming intelligence it
+has not yet earned.

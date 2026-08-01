@@ -107,9 +107,11 @@ may be refined when a language and source layout are approved.
 
 ### Source directories
 
-No `src/`, service, or package tree is approved during Project Genesis. The
-first implementation layout must follow an accepted architecture and identify
-language, build, test, packaging, and ownership expectations.
+`src/collector/` contains the tested Python Collector package.
+`services/jebediah-memory/` contains the memory-service runtime candidate.
+New source or service trees still require an approved responsibility, language,
+build, test, packaging, and ownership boundary; existing trees do not authorize
+speculative peers.
 
 ## Creation rule
 

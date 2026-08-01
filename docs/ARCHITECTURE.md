@@ -4,10 +4,11 @@
 
 ## Purpose
 
-This document describes the approved current architecture of Project
-Jebediah at Phase 0. It records conceptual layers, system context, known
-boundaries, named future subsystems, and unresolved decisions without
-pretending that unimplemented services or contracts already exist.
+This document describes the approved conceptual architecture and current
+repository implementation evidence for Project Jebediah. It records layers,
+system context, known boundaries, implemented candidates, named future
+subsystems, and unresolved decisions without presenting deployment as
+verified.
 
 The [Architecture Principles](ARCHITECTURE_PRINCIPLES.md) constrain decisions.
 The [component registry](reference/COMPONENT_REGISTRY.md) tracks named
@@ -19,12 +20,10 @@ lasting choices are made.
 This baseline covers the project as an intended local-first platform. It does
 not:
 
-- Describe an implemented application
 - Verify the home-lab inventory
-- Define JCS, Collector Engine, Knowledge Graph, Digital Twin, Automation, or
-  Reasoning Engine contracts
-- Approve ports, protocols, APIs, schemas, languages, frameworks, network
-  layout, storage assignments, or deployment composition
+- Define JCS, Knowledge Graph, Digital Twin, Automation, or Reasoning Engine
+  contracts
+- Approve a production network layout or deployment composition
 - Treat a reported product as a permanent architecture choice
 
 ## Evidence and uncertainty
@@ -32,10 +31,10 @@ not:
 ### Verified facts
 
 - The GitHub repository is the authoritative engineering record.
-- The repository contains Phase 0 documentation and no Project Jebediah
-  application code, infrastructure definitions, schemas, or workflow exports.
-- The roadmap requires JCS definition before collector implementation or
-  dependency.
+- The repository contains a Python Collector package, automated tests, and a
+  Dockerized semantic memory-service candidate.
+- JCS was deferred after Milestone C1, and the Collector and memory service
+  have no JCS dependency.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -112,9 +111,9 @@ interfaces remain clear.
 | Layer | Responsibility | Current state |
 | --- | --- | --- |
 | Infrastructure | Compute, storage, networking, virtualization, and physical availability | Reported environment only; not inventoried |
-| Services | Reusable runtime capabilities such as model execution, data services, and workflow runtime | Products are reported; assignments and guarantees are unapproved |
+| Services | Reusable runtime capabilities such as model execution, data services, and workflow runtime | Memory-service, Ollama, and Qdrant adapter candidates exist; deployment guarantees remain unverified |
 | Automation | Controlled orchestration and actions with policy, idempotency, approval, and rollback | Named future capability; no tracked workflows |
-| Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Named future subsystems; contracts unapproved |
+| Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Bounded Collector and semantic memory candidates are implemented; later knowledge contracts remain unapproved |
 | Reasoning | Bounded inference over trusted context with validation and tool authority | Named future capability; no engine implemented |
 | User experience | Human interaction, explanation, approval, feedback, and operational visibility | Requirements and interface unapproved |
 
@@ -170,8 +169,9 @@ security, compatibility, or permanent selection.
 
 | Name | Preserved design intent | Approved now | Explicitly unresolved |
 | --- | --- | --- | --- |
-| JCS | A named foundational subsystem that must be specified first in Phase 1 | Its definition precedes implementation and collector dependency | Name expansion, purpose, responsibilities, interfaces, data authority, deployment |
-| Collector Engine | Controlled ingestion from approved sources | It follows an approved JCS specification and data ownership model | Sources, contract, lifecycle, retry, technology, deployment |
+| JCS | A named foundational subsystem whose C1 outcome is **DEFER JCS** | Collector and memory work have no JCS dependency | Name expansion, purpose, responsibilities, interfaces, data authority, deployment |
+| Collector Engine | Controlled ingestion from approved sources | A bounded Python contract and repository implementation candidate exist | Source authorization, full contract conformance, deployment, and operational ownership |
+| Memory Service | Governed semantic memory over approved Collector inputs | API, pipeline, intelligence, embedding, Qdrant, provenance, lifecycle, and retrieval candidates exist in the repository | Deployment, live data, verification authority, lifecycle automation, and multi-factor ranking |
 | Knowledge Graph | Traceable entities and relationships | It follows stable collector outputs and knowledge contracts | Model, storage, identity, query interface, relationship to Qdrant |
 | Digital Twin | A bounded, time-aware, provenance-rich representation of selected relevant state | Its conceptual position, exclusions, derived-information default, and implementation gates are approved | First subject and use case, entities, sources, freshness thresholds, interfaces, implementation |
 | Automation | Controlled action from trusted state and policy | Approval, idempotency, rollback, and auditability are required | Workflow boundaries, n8n role, triggers, tools, deployment |
@@ -219,12 +219,13 @@ separate concepts.
 
 ## Conceptual information lifecycle
 
-No runtime data flow is approved yet. The roadmap nevertheless establishes the
-order in which contracts must become safe:
+The implemented Collector and memory candidate refine the first controlled
+runtime path. Later capabilities still follow this safe contract order:
 
 1. Apply the categories and responsibilities in
    [Data Ownership](DATA_OWNERSHIP.md).
-2. Specify JCS and its guarantees.
+2. Resolve any JCS dependency through an approved contract or an explicit
+   no-dependency decision.
 3. Authorize and validate sources.
 4. Collect with provenance and bounded failure behavior.
 5. Build knowledge representations from owned information.
@@ -254,8 +255,9 @@ requirements into tested procedures.
 
 ## Interface governance
 
-The architecture currently approves no runtime interface. Future interfaces
-must follow the [Engineering Standards](ENGINEERING_STANDARDS.md) and identify:
+The memory service currently exposes bounded store, context, and health API
+routes. New or changed interfaces must follow the
+[Engineering Standards](ENGINEERING_STANDARDS.md) and identify:
 
 - Owning component and consumers
 - Meaning of inputs, outputs, identifiers, time, and missing values

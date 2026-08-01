@@ -1,6 +1,7 @@
 import os
 
 from ..models import MemoryItem
+from ..governance import ensure_memory_governance
 from ..policy import MemoryPolicy
 
 from ..persistence.memory_repository import (
@@ -57,8 +58,22 @@ class MemoryService:
         memory: MemoryItem,
     ) -> MemoryServiceResult:
 
+        intelligence = memory.metadata.get(
+            "intelligence",
+            {},
+        )
+        confidence_basis = (
+            intelligence.get("confidence_reason")
+            if isinstance(intelligence, dict)
+            else None
+        )
+        governed_memory = ensure_memory_governance(
+            memory,
+            confidence_basis=confidence_basis,
+        )
+
         decision = self.policy.evaluate(
-            memory
+            governed_memory
         )
 
         stored = False
@@ -66,14 +81,14 @@ class MemoryService:
         if decision.accepted:
 
             self.repository.save(
-                memory
+                governed_memory
             )
 
             stored = True
 
 
         return MemoryServiceResult(
-            memory=memory,
+            memory=governed_memory,
             promoted=decision.accepted,
             stored=stored,
         )

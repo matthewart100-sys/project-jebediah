@@ -1,17 +1,19 @@
 # Collector 1.0 Specification
 
-**Status:** Proposed
+**Status:** Implemented candidate; conformance review incomplete
 
 **Component maturity:** Defined candidate
 
-**Implementation status:** Not authorized
+**Implementation status:** Repository implementation exists; deployment not authorized
 
 **Last reviewed:** 2026-07-31
 
 ## Review warning
 
-This document proposes the Collector 1.0 contract. It is not current runtime
-architecture and does not authorize server, workflow, database, model, or
+This document defines the intended Collector 1.0 contract. A repository
+implementation candidate now exists, but full conformance, isolated
+integration, and deployment are not established by code presence alone. This
+document does not authorize live server, workflow, database, model, or
 deployment changes.
 
 ## Responsibility

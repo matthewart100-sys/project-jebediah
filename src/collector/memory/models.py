@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 
+from .governance import MemoryLifecycle, MemoryProvenance
+
 
 class MemoryType(str, Enum):
     FACT = "fact"
@@ -9,6 +11,7 @@ class MemoryType(str, Enum):
     DECISION = "decision"
     EVENT = "event"
     CONTEXT = "context"
+    MILESTONE = "milestone"
 
 
 @dataclass(frozen=True)
@@ -27,3 +30,7 @@ class MemoryItem:
         default_factory=lambda: datetime.now(timezone.utc)
     )
     metadata: dict = field(default_factory=dict)
+    provenance: MemoryProvenance | None = None
+    lifecycle: MemoryLifecycle = field(
+        default_factory=MemoryLifecycle
+    )

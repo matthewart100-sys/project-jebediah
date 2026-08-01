@@ -184,8 +184,10 @@ decision.
 
 ## Decision log
 
-No numbered Project Jebediah ADR has been accepted yet. The repository contains
-only the maintained [ADR template](0000-template.md).
+- [ADR 0001: Project Engineering Foundation](0001-project-engineering-foundation.md)
+  is accepted and establishes the shared engineering-policy baseline.
+- [ADR 0000](0000-template.md) remains the maintained template and is not a
+  decision.
 
 Update this section in the same pull request that adds or changes an ADR's
 status.

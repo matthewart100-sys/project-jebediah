@@ -17,12 +17,13 @@ evidence.
 
 ### Verified facts
 
-- The repository currently contains documentation and governance, not Project
-  Jebediah application or infrastructure implementation.
-- No language, framework, test runner, coverage tool, schema validator, or CI
-  platform configuration has been selected.
-- Documentation checks are currently performed manually and recorded in pull
-  requests.
+- The repository contains documentation, a Python Collector package, a memory
+  service candidate, and automated unit tests.
+- Python, `pytest`, Pydantic, and Qdrant client boundaries are selected for the
+  current bounded implementation; no numeric coverage target is approved.
+- Documentation validation runs locally and in the
+  `documentation-quality` GitHub Actions workflow. Application tests are
+  currently local evidence unless a later CI change adds them.
 
 ### Reported facts
 
