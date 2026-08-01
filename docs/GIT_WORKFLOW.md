@@ -107,7 +107,9 @@ evidence.
 
 Work Mode performs the required architecture or implementation review first.
 The Chief Architect then grants or withholds final approval for the exact
-artifacts. The Project Coordination Protocol owns this sequence.
+artifacts. The Project Coordination Protocol owns this sequence, the required
+same-artifact reviewer separation, and the written disposition of blocking
+findings.
 
 The [ADR Process](adr/README.md) defines Foundational, System, and
 Implementation decision levels, their triggers, and when dependent
@@ -122,6 +124,22 @@ The review decision must be one of:
 
 Record the decision or a durable summary in the pull request.
 
+### Proportional documentation review
+
+Classify documentation-only changes using the
+[Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md):
+
+- Editorial corrections use documentation, link, and whitespace validation
+  plus Chief Architect exact-head merge approval. They do not require Work
+  Mode architecture or implementation review unless meaning changes or the
+  classification is disputed.
+- Architecture-significant documentation follows the full Work Mode and Chief
+  Architect sequence.
+- Documentation Suite closeout receives independent Work Mode documentation
+  and evidence review followed by Chief Architect exact-head merge approval.
+  Merging that closeout pull request completes the closeout and does not create
+  a recursive closeout requirement.
+
 ### Merge
 
 Squash merge is the default. The pull-request title becomes the commit subject
@@ -130,7 +148,8 @@ on `main` and must summarize the complete result.
 Merge only when:
 
 - Required review is approved.
-- Work Mode has no unresolved blocking finding.
+- Every Work Mode blocking finding is corrected or has the explicit Chief
+  Architect disposition required by the Project Coordination Protocol.
 - The Chief Architect approved the exact pull request and head commit.
 - Checks pass.
 - Review comments are resolved.
@@ -167,17 +186,30 @@ state changes.
 
 ## Emergency changes
 
-An emergency does not eliminate traceability.
+An emergency does not eliminate traceability or a merge gate. Only the Chief
+Architect may declare a repository engineering emergency under the
+[Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
 
-1. Create the smallest safe branch.
-2. Describe the incident and immediate risk.
-3. Implement the narrow correction.
+1. Record the active material risk, time boundary, exact scope, rollback, and
+   the pre-implementation Work Mode architecture-review gate being deferred.
+2. Obtain Chief Architect authorization before repository implementation.
+3. Create the smallest safe branch and implement only the reversible
+   containment or correction that was authorized.
 4. Validate the correction and rollback path.
-5. Use a pull request unless GitHub itself is unavailable.
-6. Document any exceptional direct action immediately afterward.
-7. Create follow-up work for root cause, tests, and permanent documentation.
+5. Before merge, obtain the deferred Work Mode architecture review and the
+   normal independent implementation validation.
+6. Correct or obtain an explicit Chief Architect disposition for every
+   finding, then obtain Chief Architect approval for the exact pull request and
+   head commit.
+7. Use the normal pull request, checks, controlled merge, and post-merge
+   process. If GitHub is unavailable, repository merge waits until the review
+   record and controls are available.
+8. Record follow-up work for root cause, tests, and permanent documentation.
 
-Emergency procedure must not become a shortcut for ordinary work.
+Emergency work may not change architecture, ADR decisions, roadmap priority,
+sprint scope, interfaces, features, migrations, or broad design. It does not
+authorize deployment or live-data mutation. Emergency procedure must not
+become a shortcut for ordinary work.
 
 ## Release tags
 

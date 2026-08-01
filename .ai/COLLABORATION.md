@@ -91,7 +91,8 @@ Within the repository:
 2. Reviewed GitHub `main` records the authoritative project state.
 3. Accepted architecture and ADRs govern implementation.
 4. Work Mode independently reviews and may block but may not grant final
-   architecture approval.
+   architecture approval. Blocking findings require correction or the written
+   Chief Architect disposition defined by the Project Coordination Protocol.
 5. Codex implements and merges only within exact approved authority.
 6. The Documentation Suite documents confirmed merged state without inventing
    behavior or priority.
@@ -141,6 +142,11 @@ assess what was built, not what a summary claims was built. Work Mode performs
 implementation validation before the Chief Architect considers merge
 approval.
 
+The author or implementer of an artifact cannot satisfy Work Mode's independent
+review for that same artifact by announcing a role change. Work Mode must be a
+distinct review instance that did not author or materially modify the reviewed
+artifacts. If that separation is unavailable, the gate remains blocked.
+
 ### 6. Record the decision
 
 Use one formal result:
@@ -149,8 +155,10 @@ Use one formal result:
 - `REVISIONS REQUIRED`
 - `APPROVED TO CONTINUE WITHOUT MERGE`
 
-Blocking changes are completed before merge. Accepted recommendations are added
-to a canonical plan, sprint, roadmap, issue, standard, or ADR.
+Blocking changes are completed before merge or receive the explicit, written
+Chief Architect disposition required by the Project Coordination Protocol.
+Accepted recommendations are added to a canonical plan, sprint, roadmap,
+issue, standard, or ADR.
 
 ### 7. Merge and update memory
 
@@ -205,7 +213,8 @@ A durable handoff follows the complete packet contract in the
 [Project Coordination Protocol](../docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md),
 including:
 
-- Repository, branch, pull request, and commits
+- Repository identity, workstream, pull request or issue, branch, and commits
+- Base and head relationship and exact compare target
 - Completed outcome
 - Exact artifacts changed
 - Validation results

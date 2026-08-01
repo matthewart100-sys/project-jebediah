@@ -159,8 +159,12 @@ An acceptable ADR:
 - Uses no secret or private operational detail
 
 Do not write an ADR to rationalize a completed implementation after the fact.
-If an emergency forced action first, record that exception, immediate evidence,
-and follow-up decision explicitly.
+Repository emergency implementation follows the bounded declaration,
+authorization, deferred-review, and merge gates in the
+[Project Coordination Protocol](../governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
+If separately authorized operational containment must precede an ADR, record
+the exception, immediate evidence, and follow-up decision explicitly without
+using containment to authorize repository architecture or scope changes.
 
 ## Relationship to project memory
 

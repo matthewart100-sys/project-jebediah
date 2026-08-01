@@ -88,8 +88,10 @@ Work Mode independently reviews plans and implementation artifacts. Work Mode:
 - may block implementation or merge until required corrections are complete
 
 Work Mode does not perform final architecture approval and cannot override the
-Chief Architect. A Work Mode pass is required evidence for the next Chief
-Architect decision; it is not that decision.
+Chief Architect. A Work Mode review disposition is required evidence for the
+next Chief Architect decision; it is not that decision. A blocking finding
+pauses work until it is corrected or receives the explicit Chief Architect
+disposition defined below; it does not create an undocumented permanent veto.
 
 ### Documentation Suite — Documentation Lead
 
@@ -128,7 +130,7 @@ operations, and recovery review.
 | Architecture and ADR acceptance | Chief Architect | Work Mode reviews; Codex supplies artifacts | Work Mode may block but may not give final approval |
 | Sprint and scope authorization | Chief Architect | Codex plans; Work Mode reviews architecture | Codex may not self-authorize or expand scope |
 | Implementation | Codex | Chief Architect supplies approved scope | Review or documentation roles do not implement by default |
-| Implementation validation | Work Mode | Codex supplies evidence and corrections | A self-review alone cannot satisfy independent review |
+| Implementation validation | Work Mode | Codex supplies evidence and corrections | The author or implementer may not review the same artifact as Work Mode |
 | Merge approval | Chief Architect | Work Mode supplies implementation disposition | Codex may not grant its own merge authority |
 | Controlled merge and merge verification | Codex | Chief Architect identifies the exact approved artifacts | Approval does not itself perform or prove the merge |
 | Documentation closeout | Documentation Suite | Codex supplies merged commit and validation evidence | Documentation may not precede or manufacture merged reality |
@@ -152,7 +154,8 @@ risks, validation, rollback, and requested decision.
 
 Work Mode reviews the actual plan and relevant repository evidence. It returns
 blocking corrections, non-blocking risks, and an explicit review disposition.
-Unresolved blocking findings stop the workflow.
+Blocking findings stop the workflow until corrected or explicitly disposed by
+the Chief Architect under the blocker-disposition rules below.
 
 ### 3. Chief Architect approval
 
@@ -170,7 +173,7 @@ invalidates the approved plan.
 
 Work Mode reviews the exact implementation, tests, validation output, diff,
 and remaining risk. Blocking findings return to Codex for bounded correction
-and revalidation.
+and revalidation or to the Chief Architect for an explicit disposition.
 
 ### 6. Chief Architect merge approval
 
@@ -191,10 +194,15 @@ not deploy or mutate live systems unless separately authorized.
 After the merge is proven, the Documentation Suite reconciles status,
 changelog, roadmap, plans, validation records, indexes, and other affected
 canonical documentation without adding unapproved behavior or future scope.
+Merging the approved closeout pull request completes that closeout; it does not
+recursively require a second closeout for the closeout itself.
 
 ## Mandatory gates
 
 ### No implementation without
+
+Except for the narrowly bounded emergency deferral defined below, no
+implementation begins without:
 
 - a defined scope and non-goals
 - architecture review by Work Mode
@@ -207,7 +215,8 @@ missing decision or evidence.
 
 - exact implementation evidence
 - all required validation passing or a reviewed exception
-- Work Mode implementation review with no unresolved blocker
+- Work Mode implementation review with every blocking finding corrected or
+  explicitly disposed by the Chief Architect under this protocol
 - explicit Chief Architect approval for the exact pull request and head commit
 
 If the head commit changes after approval, the merge gate reopens.
@@ -221,6 +230,104 @@ If the head commit changes after approval, the merge gate reopens.
 A release, deployment, or live-system claim requires its own evidence and is
 not implied by a successful repository merge.
 
+## Emergency implementation path
+
+Only the Chief Architect may declare a repository engineering emergency. The
+declaration records the active risk, affected scope, exact authorized
+containment or correction, evidence available, time boundary, rollback, and
+the single gate being deferred.
+
+An emergency exists only when delay would materially worsen an active threat
+to security, data integrity, service availability, or repository access. The
+Chief Architect may defer the pre-implementation Work Mode architecture review
+long enough to perform the smallest reversible correction. Chief Architect
+authorization before implementation may not be deferred. If that authority is
+unavailable, repository implementation remains blocked.
+
+Emergency work may not introduce or change architecture, ADR decisions,
+roadmap priority, sprint scope, interfaces, features, migrations, or broad
+refactors. It may not authorize deployment, live-data mutation, or another
+external action unless that action has its own explicit authority under the
+applicable security and operations rules.
+
+Before an emergency correction may merge:
+
+1. Work Mode performs the deferred architecture review and implementation
+   validation on the exact artifacts.
+2. Every finding receives the normal correction or Chief Architect
+   disposition.
+3. Required validation and the Definition of Done pass, or a permitted
+   exception is recorded.
+4. The Chief Architect approves the exact pull request and head commit.
+5. Codex uses the normal controlled merge and post-merge process.
+
+No merge gate is deferred. The pull request records the emergency declaration,
+deferred gate, retrospective review, decisions, validation, and follow-up work.
+Operational containment that does not change the repository follows separately
+authorized security or operations procedures and does not weaken this path.
+
+## Work Mode blocker disposition
+
+Work Mode classifies each finding as a reproducible evidence or validation
+failure, an architecture or quality concern, or a non-blocking recommendation.
+A blocking finding must identify the affected artifact, evidence, risk, and
+condition required to clear it.
+
+The Chief Architect disposes each blocking finding in writing by exactly one
+of these actions:
+
+- **Sustain:** require correction and revalidation before the next gate.
+- **Resolve:** determine from cited evidence that the condition is corrected,
+  inapplicable, or factually unsupported.
+- **Reclassify:** accept a non-prohibited residual risk through a documented
+  architecture decision or permitted exception that records rationale,
+  consequence, owner, and a review or expiration condition.
+
+The Chief Architect may not relabel a failed required check, exposed sensitive
+data, missing legal or repository authority, or another non-waivable boundary
+as passing. Exceptions are valid only where the owning standard and the
+[Definition of Done](../DEFINITION_OF_DONE.md) permit them.
+
+Once every blocker has a recorded disposition, Work Mode cannot create an
+unintended permanent veto. Changed artifacts still require the applicable
+independent re-review, and the Chief Architect must approve the exact final
+head before merge. Silent override, omission, or unexplained reclassification
+is prohibited.
+
+## Proportional documentation paths
+
+Documentation work is classified by its effect before editing:
+
+### Editorial documentation correction
+
+An editorial correction changes spelling, formatting, or a broken reference
+without changing meaning, authority, status, scope, roadmap priority, ADR
+content, or a claim about runtime behavior. It requires a documentation-only
+diff, documentation and link validation, whitespace validation, and Chief
+Architect merge approval for the exact head. The Work Mode architecture and
+implementation-review gates are not required unless the classification is
+disputed or the diff changes meaning.
+
+### Architecture-significant documentation
+
+Documentation that changes authority, architecture, ADR meaning or status,
+scope, roadmap priority, interfaces, or lasting technical direction follows
+the full mandatory workflow, including independent Work Mode review before
+implementation and before Chief Architect merge approval.
+
+### Documentation Suite closeout
+
+A post-merge closeout begins from the confirmed merge handoff rather than a new
+feature plan. The Documentation Suite prepares only the authorized canonical
+reconciliation. Work Mode performs an independent documentation and evidence
+review, and the Chief Architect grants or withholds merge approval for the
+exact closeout head. The merge of that approved pull request is the terminal
+closeout event and does not trigger another mandatory closeout.
+
+If a documentation change does not clearly fit a path, work pauses for Chief
+Architect classification. A documentation label may not be used to bypass an
+architecture or implementation gate.
+
 ## Handoff packet contract
 
 Every role-to-role handoff contains all of these fields. Use `Not applicable`
@@ -228,9 +335,12 @@ with a reason rather than silently omitting a field.
 
 | Field | Required content |
 | --- | --- |
+| Repository identity | Exact `owner/name` and authoritative remote URL |
 | Current sprint | Sprint name and status, or an explicit statement that no active sprint is authorized |
+| Workstream / pull request / issue | Workstream name plus exact pull request and issue or work-item identifiers or URLs; use `Not applicable` with a reason |
 | Branch | Exact local and remote branch relevant to the handoff |
 | Commit hash | Full reviewed or merged commit hash |
+| Base/head relationship | Base branch and full commit, head branch and full commit, and the compare or diff target |
 | Related ADRs | Accepted, proposed, superseded, or not-applicable ADRs and their effect |
 | Scope | Included outcome and explicit non-goals |
 | Evidence | Actual files, diff, tests, validation, reviews, and source labels |
@@ -273,6 +383,14 @@ controlled system check. The packet identifies the command or method, target
 commit, environment, and result. Validation does not prove facts outside the
 tested boundary.
 
+When raw validation evidence is sensitive, the public packet records a
+sanitized result, commit, command or method, environment class, date, evidence
+custodian, and an opaque private evidence identifier when safe. The raw record
+must remain in an approved access-controlled location with an owner, retention
+period, and enough integrity information for authorized re-verification. If no
+approved retention path exists for evidence required by a gate, the claim is
+not `Validation Verified` and the gate remains blocked.
+
 ### Architecture Decision
 
 A decision made by the Chief Architect and recorded in the appropriate
@@ -306,6 +424,12 @@ validation success.
   engineering authority.
 - A person or tool performing multiple roles must announce each role
   transition and satisfy the evidence gate between them.
+- The person, tool, chat, session, or process that authored or materially
+  modified an artifact may not satisfy Work Mode's independent review for that
+  same artifact merely by announcing a role transition.
+- Work Mode review for an artifact must be performed by a distinct review
+  instance that did not author or modify it. If none is available, the review
+  gate remains blocked.
 - Repository state, validation evidence, and architecture decisions remain
   distinct. One label must not be used as a substitute for another.
 
@@ -318,8 +442,8 @@ resuming.
 
 Plans, findings, approvals, merges, and closeouts become durable only through
 reviewed GitHub artifacts. Chat transcripts are not copied as authority.
-Sensitive evidence remains in an approved private channel while the public
-record contains only a sanitized conclusion and verification method.
+Sensitive evidence follows the retention contract under `Validation Verified`;
+raw sensitive material is never copied into the public repository or packet.
 
 Changes to role authority, mandatory gate order, or final decision ownership
 are Foundational decisions and require a new or superseding ADR plus Chief

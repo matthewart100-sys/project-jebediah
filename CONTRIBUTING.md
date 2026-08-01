@@ -42,7 +42,7 @@ constraint. Do not invent the missing policy inside implementation code.
 A contribution should have one coherent outcome. Before implementation:
 
 - Confirm that the work belongs in the current sprint or has explicit
-  maintainer authorization.
+  Chief Architect authorization.
 - Describe the problem, intended outcome, non-goals, and acceptance criteria.
 - Identify affected canonical documents.
 - Determine whether the work changes architecture or requires an ADR.

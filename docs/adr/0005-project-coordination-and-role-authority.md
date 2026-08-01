@@ -8,7 +8,8 @@
 
 **Owner:** Chief Architect
 
-**Reviewers:** Work Mode, Chief Architect, and project maintainer
+**Reviewers:** Work Mode and Chief Architect; project maintainer for repository
+custody impact
 
 ## Context
 
@@ -26,6 +27,15 @@ This creates several risks:
 - a future runtime can be treated as an authority rather than a consumer
 - handoffs can omit the exact commit, evidence, blocker, or requested decision
 - overlapping role text can drift across governance documents
+- maintainer custody can be mistaken for Chief Architect scope authority
+- an undefined emergency path can bypass mandatory review gates
+- a Work Mode blocker can become either an unintended permanent veto or an
+  undocumented override
+- an implementer can relabel itself as the independent reviewer of its own
+  artifact
+- a context-isolated handoff can identify a branch or commit without the
+  repository, workstream, pull request, or base/head relationship needed to
+  resolve it safely
 
 A permanent operating model changes project-wide authority and gates. That is
 a Foundational decision under the
@@ -49,6 +59,17 @@ The protocol establishes:
 - the Documentation Suite as Documentation Lead after approved merges
 - the future Jebediah Runtime as a consumer without current engineering
   authority
+- same-artifact independence: an author or implementer cannot satisfy Work
+  Mode review for the artifact it created or materially modified
+- written Chief Architect disposition of every Work Mode blocker, preventing
+  both silent override and unintended permanent veto
+- a narrowly bounded emergency path in which only pre-implementation Work Mode
+  architecture review may be deferred, while Chief Architect authorization and
+  every merge gate remain mandatory
+- context-complete handoffs that identify repository, workstream, pull request
+  or issue, and exact base/head relationship
+- proportional review paths for editorial documentation,
+  architecture-significant documentation, and post-merge closeout
 
 The mandatory sequence is:
 
@@ -59,6 +80,9 @@ approval → Codex controlled merge → Documentation Suite closeout**
 The
 [Documentation Lead Protocol](../governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md)
 defines the subordinate documentation-only closeout procedure.
+
+Merging an approved Documentation Suite closeout pull request completes that
+closeout and does not recursively create another closeout requirement.
 
 ## Alternatives considered
 
@@ -97,14 +121,22 @@ authorize its own design, scope, or repository changes.
 - Documentation closeout is based on confirmed merged state.
 - Handoffs carry consistent commits, evidence, risks, blockers, and next
   actions.
+- Emergency corrections retain pre-implementation authority, retrospective
+  independent review, and all merge controls.
+- Blocking findings have a traceable final disposition without transferring
+  final architecture authority to Work Mode.
+- Context-isolated reviewers can resolve the exact repository, workstream,
+  pull request, and base/head comparison from the packet alone.
 - Future Runtime behavior cannot silently become project authority.
 
 ### Negative
 
 - Even small implementation-bearing work has more explicit handoffs.
-- A single person or tool performing several roles must declare role changes
-  and preserve separation through evidence.
+- A role holder may transition between roles for unrelated artifacts, but the
+  author or implementer cannot act as Work Mode for the same artifact.
 - Work can pause when an assigned review role is unavailable.
+- Written blocker dispositions and sensitive-evidence retention add governance
+  overhead.
 
 ### Neutral
 
@@ -122,6 +154,12 @@ protocol and removing conflicting authority language. Historical pull
 requests and decisions remain valid under the authority recorded at their
 time.
 
+Repository custody remains with the maintainer, while sprint, scope,
+architecture, ADR, roadmap, and merge decisions remain with the Chief
+Architect. Documentation changes are classified before work so editorial
+corrections do not inherit architecture review gates and
+architecture-significant changes cannot hide behind an editorial label.
+
 This decision does not authorize Sprint 006 or any implementation. Work in
 progress at the time of acceptance must identify its current gate and produce
 the required next handoff rather than replaying already completed, reviewed
@@ -136,14 +174,26 @@ ADR that explicitly supersedes this record.
 
 When a required role is unavailable, work stops at that role's gate. No other
 role silently substitutes its approval. The Chief Architect may explicitly
-assign a qualified role holder without collapsing the defined authorities.
+assign a qualified role holder without collapsing the defined authorities or
+allowing an author or implementer to independently review the same artifact.
+
+In an engineering emergency, the Chief Architect may defer only the
+pre-implementation Work Mode architecture review for the smallest reversible
+correction. Chief Architect authorization remains required before work, and
+the deferred review, independent implementation validation, all required
+checks, blocker disposition, exact-head approval, and controlled merge remain
+required before merge.
 
 ## Security and privacy
 
 Handoff evidence must contain no credentials, private addresses, personal
 data, raw sensitive logs, or exploitable topology. Sensitive evidence remains
-in an approved private channel; the public packet records a sanitized result,
-owner, and verification method.
+in an approved access-controlled location with an owner, retention period, and
+integrity information sufficient for authorized re-verification. The public
+packet records only a sanitized result, commit, method, environment class,
+date, custodian, and an opaque private evidence identifier when safe. A
+required validation claim remains blocked if no approved evidence-retention
+path exists.
 
 ## Validation
 
@@ -151,6 +201,20 @@ Acceptance requires:
 
 - Work Mode architecture review of the actual protocol and integration diff
 - Chief Architect approval of this ADR and the exact protocol artifacts
+- proof that maintainer custody does not grant sprint or scope authority
+- proof that emergency work can defer only pre-implementation Work Mode
+  architecture review and cannot bypass Chief Architect authorization or any
+  merge gate
+- proof that every Work Mode blocker has a written Chief Architect disposition
+  path without silent override or permanent veto
+- proof that the author or implementer cannot satisfy same-artifact Work Mode
+  review through a role transition
+- a handoff packet containing repository identity, workstream, pull request or
+  issue, and exact base/head relationship
+- explicit review paths for editorial documentation,
+  architecture-significant documentation, and terminal post-merge closeout
+- defined sanitized and private retention metadata for sensitive validation
+  evidence
 - consistent authority language in agent, collaboration, sprint, glossary,
   documentation, and contributor guidance
 - valid documentation links and indexes
@@ -176,6 +240,16 @@ Acceptance requires:
 
 ## Review record
 
-Pending Work Mode architecture review and Chief Architect decision on the
-exact pull-request artifacts. No implementation, sprint, merge, deployment,
-or live-system authority is granted by this proposed ADR.
+Work Mode reviewed pull request 41 at head
+`c114dd6282ba09138e5c9412e10cf62a36c754fa` and returned `CHANGES REQUIRED
+BEFORE ACCEPTANCE`. This revision addresses maintainer-versus-Chief-Architect
+scope authority, emergency gate behavior, blocker disposition, same-artifact
+reviewer independence, context-complete handoffs, proportional documentation
+paths, terminal closeout, and sensitive-evidence retention.
+
+The ADR remains `Proposed` pending independent Work Mode review of the revised
+head and Chief Architect acceptance. After that acceptance, the status change
+to `Accepted` creates a new head that must itself receive the required Work
+Mode review and Chief Architect exact-head merge approval before merge. No
+implementation, sprint, merge, deployment, or live-system authority is granted
+by this proposed ADR.

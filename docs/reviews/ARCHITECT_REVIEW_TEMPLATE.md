@@ -14,9 +14,12 @@ changed files is not sufficient evidence for approval.
 
 ### Change
 
+- Repository identity and authoritative remote:
+- Workstream:
 - Pull request:
 - Base branch and commit:
 - Head branch and commit:
+- Compare or diff target:
 - Milestone or issue:
 
 ### Intended outcome
@@ -40,7 +43,8 @@ Also include:
 
 - Commit list
 - Validation commands and results
-- Work Mode review disposition and unresolved blockers
+- Work Mode review disposition, reviewer independence, and blocker status
+- Chief Architect disposition for any blocker not corrected in the artifacts
 - Relevant ADRs
 - Known facts, reported facts, working assumptions, and open questions
 
@@ -57,6 +61,10 @@ Also include:
 - [ ] Backward compatibility and migration impact are addressed when relevant.
 - [ ] Unknowns are explicitly labeled.
 - [ ] Cross-links resolve and documents do not contradict one another.
+- [ ] Work Mode review was performed by a distinct review instance that did
+      not author or materially modify the reviewed artifacts.
+- [ ] Every Work Mode blocker is corrected or has the explicit disposition
+      required by the Project Coordination Protocol.
 - [ ] Security, data ownership, operations, recovery, and observability impacts
       are considered where relevant.
 - [ ] The change is maintainable by a future engineer or AI using the

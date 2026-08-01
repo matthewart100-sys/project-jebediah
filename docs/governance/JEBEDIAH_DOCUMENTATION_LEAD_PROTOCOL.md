@@ -112,8 +112,17 @@ At minimum:
 
 ### 6. Request review
 
-Open a documentation-only pull request. Do not merge it without the required
-review. The handoff identifies the exact head commit and requested decision.
+Open a documentation-only pull request. Work Mode performs the independent
+documentation and evidence review for the exact artifacts. After every
+blocking finding is corrected or receives the disposition required by the
+Project Coordination Protocol, the Chief Architect grants or withholds merge
+approval for the exact head commit. The handoff identifies both requested
+decisions and the transition between them.
+
+Merging the approved closeout pull request completes the Documentation Suite
+closeout. The closeout merge does not recursively create another closeout;
+later defects follow the editorial or architecture-significant documentation
+path defined by the Project Coordination Protocol.
 
 ## Documentation handoff packet
 
@@ -121,9 +130,12 @@ Every Documentation Suite handoff includes:
 
 | Field | Documentation Lead requirement |
 | --- | --- |
+| Repository identity | Exact `owner/name` and authoritative remote URL |
 | Current sprint | Name and status, including an explicit no-active-sprint statement when applicable |
+| Workstream / pull request / issue | Closeout workstream plus exact implementation and documentation pull requests and any issue or work-item identifiers or URLs |
 | Branch | Exact documentation branch and target branch |
 | Commit hash | Full documentation head and the merged implementation commit being documented |
+| Base/head relationship | Target branch and full base commit, documentation branch and full head commit, and the compare or diff target |
 | Related ADRs | Status and documentation impact; accepted ADR rationale remains unchanged |
 | Scope | Canonical documents updated and explicit exclusions |
 | Evidence | Merge record, files, validation, links, and evidence labels |
@@ -139,6 +151,9 @@ The packet also states:
 - whether `PROJECT_STATUS.md`, `CURRENT_SPRINT.md`, `ROADMAP.md`, and
   `CHANGELOG.md` were changed or explicitly evaluated as not applicable
 - whether anything remains uncommitted or untracked
+- where required sensitive validation evidence is retained, using only the
+  sanitized metadata and private evidence identifier permitted by the Project
+  Coordination Protocol
 
 ## Gap and conflict handling
 
@@ -170,7 +185,12 @@ A Documentation Suite closeout is complete only when:
 - documentation and link validation pass
 - the diff is documentation-only and whitespace-clean
 - the pull request records the exact evidence and decision requested
-- the required review approves the exact artifacts
+- Work Mode completed independent documentation and evidence review
+- every blocker was corrected or explicitly disposed under the Project
+  Coordination Protocol
+- the Chief Architect approved the exact closeout head for merge
+- the approved closeout pull request was merged, which terminates the closeout
+  without creating a recursive closeout requirement
 
 The [Definition of Done](../DEFINITION_OF_DONE.md) remains binding.
 
