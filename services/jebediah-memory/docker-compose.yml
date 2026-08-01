@@ -1,6 +1,8 @@
 services:
   jebediah-memory:
-    build: .
+    build:
+      context: ../..
+      dockerfile: services/jebediah-memory/Dockerfile
     container_name: jebediah-memory
 
     restart: unless-stopped
@@ -15,7 +17,7 @@ services:
       QDRANT_URL: http://qdrant:6333
       COLLECTION_NAME: jebediah_memory
       OLLAMA_URL: http://host.docker.internal:11434
-      EMBEDDING_MODEL: nomic-embed-text:latest
+      EMBEDDING_MODEL: nomic-embed-text:v1.5
 
 networks:
   jebediah_internal:

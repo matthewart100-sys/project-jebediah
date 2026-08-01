@@ -1,131 +1,144 @@
 # Current Sprint
 
-## Sprint 004: Memory Governance and Intelligence Expansion
+## Sprint 005: Memory Architecture Consolidation
 
-**Status:** Active implementation and review
+**Status:** Implementation complete; validation blocked
 
-**Deployment status:** Blocked; this sprint changes repository artifacts only
+**Implementation status:** Completed on
+`agent/sprint-005-memory-consolidation`; Quality Control corrections are
+applied, uncommitted, and unmerged. The complete 142-test suite and all
+available local gates pass. Review handoff remains blocked until the mandatory
+container build/import smoke runs in an environment with a container runtime.
+
+**Deployment status:** Not authorized
 
 ## Sprint goal
 
-Extend the implemented memory service with provenance, lifecycle awareness,
-and a replaceable retrieval-ranking boundary while preserving current storage
-and API behavior.
+Consolidate the duplicate memory architecture into one canonical domain,
+Qdrant path, and embedding contract while preserving the merged Sprint 004
+governance and API behavior.
 
-The complete implementation contract is the
-[Sprint 004 Specification](docs/SPRINT_004_SPECIFICATION.md).
+The complete execution contract is the
+[Sprint 005 Implementation Plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md). The
+required evidence is defined by the
+[Sprint 005 Validation Requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md).
 
-## Context
+## Current state
 
-Sprint 003 added the repository implementation of the memory API, Ollama
-embedding adapter, Qdrant persistence, memory pipeline, consolidation engine,
-intelligence governor, confidence scoring, retention scoring, and metadata
-enrichment. The unit baseline before Sprint 004 is 53 passing tests.
+Sprint 004 Memory Governance and Intelligence Expansion is merged into
+`main`. Its repository baseline has 66 passing tests and includes:
 
-Repository evidence verifies that source and tests exist. Deployment, live
-service health, live Qdrant contents, and the reported home-lab environment
-remain unverified and are not changed by this sprint.
+- Provenance representation
+- Verification-state representation
+- Active, reinforced, superseded, and archived lifecycle states
+- Confidence and retention metadata
+- Storage-independent retrieval candidates
+- Semantic-only ranking
 
-The previous sprint, status, architecture, and foundation documents still
-contained planning-only statements after the implementation was added. Sprint
-004 includes the smallest documentation reconciliation needed to make current
-repository reality explicit.
+The repository candidate now has one memory domain under
+`src/collector/memory/`, one embedding implementation under
+`src/collector/embeddings/`, and one canonical Qdrant durable-record and
+semantic-search adapter. The FastAPI tree contains composition and HTTP
+translation only. Deployment and live collection compatibility remain
+unverified and unauthorized.
 
-## Committed scope
+## Accepted architecture decisions
 
-### Phase 1: Provenance foundation
+- [ADR 0002](docs/adr/0002-canonical-memory-domain-and-dependency-direction.md)
+  makes `src/collector/memory/` canonical and limits the service to
+  composition, HTTP, packaging, and deployment responsibilities.
+- [ADR 0003](docs/adr/0003-qdrant-repository-collection-and-payload-consolidation.md)
+  selects Qdrant option A: Qdrant temporarily owns the durable operational
+  Memory Service record and attached semantic index through one adapter and
+  one acknowledged point write.
+- [ADR 0004](docs/adr/0004-embedding-model-identity-and-vector-compatibility.md)
+  selects Ollama `nomic-embed-text:v1.5`, pins its full manifest digest,
+  requires 768 raw finite values with no application normalization, and
+  prohibits mutable tags as compatibility identities.
 
-- Add typed source, creator, creation-context, confidence-basis, verification,
-  and supporting-evidence metadata.
-- Preserve `source_identity` and `created_at` semantics.
-- Attach safe defaults for legacy callers.
-- Persist and retrieve provenance without presenting unverified data as
-  verified.
+All three ADRs were accepted for implementation after Chief Architect final
+review and explicit maintainer authorization on 2026-07-31.
 
-### Phase 2: Lifecycle foundation
+## Current authorized scope
 
-- Add `active`, `reinforced`, `superseded`, and `archived` states.
-- Preserve minimal reinforcement and supersession metadata.
-- Default new and legacy memories to `active`.
-- Do not automate state transitions or deletion.
+The branch may implement only the phased canonical-package, service cutover,
+Qdrant-adapter, embedding-contract, packaging, test, and documentation work
+defined by the accepted plan. It may not deploy, mutate live data, commit,
+open a pull request, or merge without separate authorization.
 
-### Phase 3: Retrieval preparation
+## Implementation phases
 
-- Add an internal retrieval candidate and ranker boundary.
-- Expose semantic relevance, confidence, importance, creation time, and
-  lifecycle state to that boundary.
-- Retain semantic-only ranking as the current behavior.
-- Preserve the context API response contract.
+1. Baseline characterization
+2. Contract definition
+3. Compatibility layer
+4. Service cutover
+5. Duplicate removal
+6. Final validation and review
 
-### Documentation reconciliation
+Each phase stops at its checkpoint and retains the preceding reviewed state as
+its rollback point.
 
-- Complete the previously truncated Sprint 004 specification.
-- Update current status, sprint, architecture, component maturity, roadmap,
-  navigation, and changelog statements that would otherwise remain stale.
-- Repair existing documentation-validation findings that affect this change.
+## Governance invariants
+
+- Provenance remains origin metadata, not truth.
+- Verification remains explicit representation and defaults to `unverified`.
+- Lifecycle remains representation only and defaults to `active`.
+- No automatic verification or lifecycle transition is introduced.
+- Retrieval remains semantic-only.
+- API paths, request schemas, response schemas, and status meanings remain
+  compatible.
+- Compatible legacy payload defaults do not imply vector compatibility.
+- A one-dimensional collection cannot be queried with a 768-dimensional
+  vector.
+- Placeholder vectors require isolated future migration.
 
 ## Non-goals
 
-- Live deployment or modification of Docker, Qdrant, Ollama, n8n, or home-lab
-  state
-- Backfilling or rewriting a live Qdrant collection
-- Automatic claim verification
-- Automatic lifecycle transitions, filtering, or deletion
-- A multi-factor ranking formula or learned ranking model
-- Knowledge-graph relationships
-- Autonomous collection or action
-- Replacing or consolidating the duplicate package and service source trees
-- Changing deterministic Collector identity
+- Collector 1.0
+- Agents or autonomous behavior
+- n8n orchestration
+- Autonomous verification
+- Lifecycle automation
+- Intelligent reranking
+- Live Qdrant migration or re-embedding
+- A separate durable database
+- Distributed transactions
+- Memory identity or idempotency redesign
+- Deployment or home-lab changes
 
-## Acceptance criteria
+## Implementation-review acceptance criteria
 
-- Existing callers can still construct and store a memory without new fields.
-- New persistence carries provenance and lifecycle payloads.
-- Legacy Qdrant payloads remain readable with safe defaults.
-- All four lifecycle states are represented and documented.
-- Retrieval remains ordered by semantic similarity while carrying the future
-  signals internally.
-- Existing store and context response fields are preserved.
-- Existing tests and new focused tests pass.
-- `python scripts/validate_docs.py` and `git diff --check` pass.
-- The final diff contains no private operational data or real memory content.
-- The uncommitted exact diff receives review before any commit.
-
-## Dependencies
-
-- The existing memory architecture and service boundaries remain in force.
-- Qdrant and embeddings remain derived information under
-  [Data Ownership](docs/DATA_OWNERSHIP.md).
-- The [Security Policy](SECURITY.md),
-  [Testing Philosophy](docs/TESTING_PHILOSOPHY.md), and
-  [Definition of Done](docs/DEFINITION_OF_DONE.md) remain binding.
-- JCS remains deferred and is not a memory-service dependency.
-
-## Risks and responses
-
-| Risk | Response |
-| --- | --- |
-| New metadata breaks existing callers. | Add only defaulted domain fields and optional API inputs. |
-| Legacy Qdrant payloads fail to load. | Derive unverified provenance and active lifecycle when fields are absent. |
-| Lifecycle labels imply automated policy. | Add state representation only; explicitly defer transitions and filtering. |
-| Retrieval behavior changes unexpectedly. | Use a semantic-only default ranker and test stable ordering and response keys. |
-| Provenance is mistaken for truth. | Keep verification explicit and default it to `unverified`. |
-| Duplicate source trees drift further. | Apply equivalent domain changes to both active trees and validate their shared governance modules. |
-| Documentation overstates operations. | Separate repository implementation evidence from unverified deployment claims. |
+- Root and service use the same installed canonical package.
+- API, Sprint 004 governance, lifecycle representation, verification
+  boundaries, and semantic-only ranking remain compatible.
+- Embedding and Qdrant failures cannot report stored success.
+- Qdrant success requires a completed acknowledgement or confirmed read-back;
+  unknown outcomes are never retried automatically.
+- Model identity, vector geometry, no-normalization behavior, legacy payload
+  reading, and incompatible-vector rejection match accepted ADRs.
+- Full tests, compilation, packaging, documentation, lock, diff, and sensitive
+  data checks pass before review.
+- The exact uncommitted artifacts receive implementation review before any
+  commit, pull request, or merge.
 
 ## Work status
 
 | Work item | State | Evidence |
 | --- | --- | --- |
-| Orientation and baseline | Complete | Current `origin/main` inspected; 53 tests passed before changes |
-| Canonical Sprint 004 contract | Complete | Specification, status, architecture, and affected standards reconciled in this branch |
-| Provenance implementation | Complete | Domain, persistence, pipeline, API, legacy-default, and round-trip tests pass |
-| Lifecycle implementation | Complete | Four states, persistence metadata, safe defaults, and serialization tests pass |
-| Retrieval foundation | Complete | Candidate/ranker boundary is integrated with semantic-only API ordering |
-| Validation and review handoff | Awaiting maintainer review | 66 tests, compilation, documentation validation, lock check, `git diff --check`, exact local diff inspection, and sensitive-data scans pass; commit withheld |
+| Architecture review packet | Accepted | Chief Architect final review and maintainer authorization recorded |
+| ADR 0002 | Accepted | Canonical domain, dependency direction, packaging, and removal criteria defined |
+| ADR 0003 | Accepted | Qdrant option A, authority, write success, failure, consistency, recovery, and legacy separation defined |
+| ADR 0004 | Accepted | Exact Ollama model artifact, mutable-tag prohibition, geometry, normalization, and migration defined |
+| Baseline characterization | Complete | Pre-change focused and 66-test baselines passed |
+| Canonical contracts | Complete | Embedding and Qdrant compatibility suites pass in isolation |
+| Service cutover | Complete | API and interaction tests prove one canonical orchestration path |
+| Duplicate removal | Complete | Service app contains only `main.py`; import-origin and boundary tests pass |
+| Quality Control corrections | Complete | Bare Ollama digest canonicalization, per-operation digest verification, and fail-closed post-scan Qdrant candidate validation pass regression tests |
+| Validation requirements | Blocked | 142 tests, compilation, documentation, lock, diff, sensitive-data, and clean wheel/import checks pass; Docker, Podman, and nerdctl are unavailable for the mandatory container run |
+| Implementation | Complete | Exact artifacts remain uncommitted and unmerged pending review |
 
 ## Update and close rules
 
-Update this file when scope, acceptance criteria, risk, or evidence changes.
-At close, record exact validation, review disposition, merge evidence, any
-deployment limitation, and the next authorized lifecycle or retrieval decision.
+Update this file when implementation scope, risk, evidence, or review status
+changes. Merge remains blocked until the exact artifacts receive review and
+separate authorization.

@@ -71,8 +71,9 @@ stable conceptual contract.
 **Objective:** Establish controlled, observable ingestion from approved
 sources.
 
-**Status:** In progress; bounded Collector and memory foundations exist in the
-repository, while deployment remains unverified and unauthorized by Sprint 004
+**Status:** In progress; bounded Collector and consolidated memory foundations
+exist in the repository, while deployment remains unverified and unauthorized
+by Sprint 005
 
 Required outcomes:
 

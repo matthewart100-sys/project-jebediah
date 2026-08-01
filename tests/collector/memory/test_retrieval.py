@@ -73,3 +73,15 @@ def test_legacy_retrieval_payload_defaults_to_active():
     assert candidate.signals.importance is None
     assert candidate.signals.created_at is None
     assert candidate.signals.lifecycle_state == MemoryLifecycleState.ACTIVE
+
+
+def test_retrieval_candidate_preserves_unknown_additive_payload_fields():
+    candidate = RetrievalCandidate.from_payload(
+        semantic_relevance=0.5,
+        payload={
+            "content": "Synthetic additive payload.",
+            "future_field": {"synthetic": True},
+        },
+    )
+
+    assert candidate.metadata["future_field"] == {"synthetic": True}

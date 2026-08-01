@@ -18,6 +18,10 @@ development. Changes not assigned to a published version remain under
   compatible Qdrant payload serialization, and a semantic-first retrieval
   ranking boundary prepared for future confidence, importance, recency, and
   lifecycle signals.
+- Added an explicit embedding persistence identity for Ollama
+  `nomic-embed-text:v1.5`, including its pinned manifest digest, 768-value
+  geometry, no-normalization contract, readiness validation, and failure-safe
+  vector checks.
 - Approved the JCS definition implementation plan with repository-backed
   requirements, evidence and maturity separation, documentation ownership,
   decision inventory, implementation order, review gates, dependencies,
@@ -25,6 +29,15 @@ development. Changes not assigned to a published version remain under
   Milestone C1 for a proposed specification and proposed ADRs only.
 
 ### Changed
+
+- Consolidated the memory domain, embedding provider, Qdrant durable-record
+  and semantic-index adapter, and application orchestration under the root
+  package; the FastAPI service now contains composition and HTTP translation
+  only, with its duplicate source trees removed.
+- Corrected Ollama digest canonicalization for the real bare `/api/tags`
+  response, removed permanent model-readiness authorization, and made Qdrant
+  semantic results fail closed on post-scan identity or vector
+  incompatibility.
 
 - Reconciled current sprint, status, architecture, component maturity, data
   ownership, testing, security, operations, release, and navigation documents

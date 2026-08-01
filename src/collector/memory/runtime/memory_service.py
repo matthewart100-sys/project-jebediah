@@ -1,15 +1,9 @@
-import os
-
 from ..models import MemoryItem
 from ..governance import ensure_memory_governance
 from ..policy import MemoryPolicy
 
 from ..persistence.memory_repository import (
     InMemoryMemoryRepository,
-)
-
-from ..persistence.qdrant_repository import (
-    QdrantMemoryRepository,
 )
 
 from .result import MemoryServiceResult
@@ -24,9 +18,9 @@ class MemoryService:
     - apply memory policy
     - persist approved memories
 
-    Storage backend can be selected through:
-    MEMORY_BACKEND=memory
-    MEMORY_BACKEND=qdrant
+    The default in-memory repository remains a reference implementation.
+    Durable semantic persistence is explicitly composed by the memory
+    application service; this coordinator never fabricates a Qdrant vector.
     """
 
     def __init__(
@@ -37,25 +31,13 @@ class MemoryService:
 
         self.policy = policy or MemoryPolicy()
 
-        if repository:
-            self.repository = repository
-
-        else:
-            backend = os.getenv(
-                "MEMORY_BACKEND",
-                "memory",
-            )
-
-            if backend.lower() == "qdrant":
-                self.repository = QdrantMemoryRepository()
-
-            else:
-                self.repository = InMemoryMemoryRepository()
+        self.repository = repository or InMemoryMemoryRepository()
 
 
     def process(
         self,
         memory: MemoryItem,
+        persist: bool = True,
     ) -> MemoryServiceResult:
 
         intelligence = memory.metadata.get(
@@ -78,7 +60,7 @@ class MemoryService:
 
         stored = False
 
-        if decision.accepted:
+        if decision.accepted and persist:
 
             self.repository.save(
                 governed_memory

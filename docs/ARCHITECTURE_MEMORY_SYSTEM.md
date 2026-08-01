@@ -15,23 +15,27 @@ metadata boundaries.
 flowchart TD
     Input["User or agent input"]
     API["Memory service API"]
+    Application["Canonical memory application service"]
     Pipeline["Memory pipeline"]
     Consolidation["Consolidation engine"]
     Governor["Intelligence governor"]
     Policy["Memory policy"]
     Embeddings["Ollama embedding adapter"]
-    Qdrant["Qdrant vector storage"]
+    Qdrant["Qdrant durable memory and vector storage"]
     Retrieval["Retrieval candidate and ranker boundary"]
 
     Input --> API
-    API --> Pipeline
+    API --> Application
+    Application --> Pipeline
     Pipeline --> Consolidation
     Consolidation --> Governor
     Governor --> Policy
-    Policy --> Embeddings
+    Policy --> Application
+    Application --> Embeddings
     Embeddings --> Qdrant
     Qdrant --> Retrieval
-    Retrieval --> API
+    Retrieval --> Application
+    Application --> API
 ```
 
 The repository verifies this implementation exists. It does not verify that
@@ -42,10 +46,7 @@ deployed or operational.
 
 ### Collector memory domain
 
-Locations:
-
-- `src/collector/memory/`
-- `services/jebediah-memory/app/collector/memory/`
+Location: `src/collector/memory/`
 
 Responsibilities:
 
@@ -53,11 +54,11 @@ Responsibilities:
 - Apply promotion and consolidation policy
 - Evaluate importance, retention, confidence, and duplicates
 - Attach provenance and lifecycle governance
-- Coordinate persistence through a repository boundary
+- Coordinate evaluation, embedding, persistence, and retrieval through owned
+  boundaries
 
-The two source trees are an existing repository constraint. Sprint 004 keeps
-equivalent governance contracts in both trees; consolidating them is a
-separate refactor.
+This is the sole `collector.memory` implementation. The service installs the
+root package and contains no copied domain tree.
 
 ### Memory API
 
@@ -67,33 +68,30 @@ Responsibilities:
 
 - Accept store and context requests
 - Preserve existing API response fields
-- Invoke the governed memory pipeline
-- Generate embeddings after policy acceptance
-- Persist derived vectors and approved payload metadata
-- Convert search results into retrieval candidates
+- Compose the canonical application service, embedding provider, and Qdrant
+  repository
+- Translate HTTP requests and responses without owning domain decisions
 
 ### Embedding adapter
 
-Location: `services/jebediah-memory/app/embeddings/`
+Location: `src/collector/embeddings/`
 
-The current candidate uses Ollama with `nomic-embed-text:latest` and expects
-768-dimensional vectors. The adapter converts approved text into a derived
-vector. It does not determine memory identity, provenance, verification, or
-lifecycle.
+The canonical provider uses Ollama with `nomic-embed-text:v1.5`, verifies the
+accepted immutable manifest digest, and requires 768 finite values with no
+application normalization. It does not determine memory identity, provenance,
+verification, or lifecycle.
 
 ### Vector database
 
-The current candidate uses the `jebediah_memory` Qdrant collection. Qdrant
-stores derived vectors and payload metadata for semantic retrieval. It is not
-automatically authoritative for the source information represented by a
+The current candidate uses the `jebediah_memory` Qdrant collection. Under ADR
+0003, each acknowledged point temporarily owns the durable operational record
+of what the Memory Service stored and its derived semantic vector. Qdrant is
+not authoritative for the truth of the source information represented by a
 memory.
 
 ### Retrieval boundary
 
-Locations:
-
-- `src/collector/memory/retrieval/`
-- `services/jebediah-memory/app/collector/memory/retrieval/`
+Location: `src/collector/memory/retrieval/`
 
 The boundary represents retrieval candidates independently from Qdrant result
 objects. It exposes semantic relevance, confidence, importance, creation time,
@@ -162,10 +160,10 @@ or execute transitions.
 ## Retrieval flow
 
 1. The API embeds the context query.
-2. Qdrant returns semantic matches and payloads.
-3. The API maps each match to a storage-independent retrieval candidate.
-4. The semantic ranker orders candidates by Qdrant relevance score.
-5. The API renders the existing `score`, `content`, and `metadata` fields.
+2. The canonical Qdrant adapter returns semantic matches as
+   storage-independent retrieval candidates.
+3. The semantic ranker orders candidates by Qdrant relevance score.
+4. The API renders the existing `score`, `content`, and `metadata` fields.
 
 Future ranking may evaluate additional candidate signals only after a reviewed
 policy defines weights, missing-value behavior, lifecycle treatment, and
@@ -173,11 +171,12 @@ compatibility.
 
 ## Persistence compatibility
 
-Existing Qdrant payload fields remain unchanged. New payloads add:
+Existing Qdrant payload fields remain compatible. New payloads include:
 
 ```text
 provenance
 lifecycle
+embedding_identity
 ```
 
 Readers use safe defaults for payloads created before Sprint 004:
@@ -214,6 +213,124 @@ authoritative.
 - Provenance and lifecycle metadata must not contain credentials, personal
   data, private endpoints, or raw sensitive evidence.
 
+## Sprint 005 consolidation architecture
+
+The repository implementation follows accepted
+[ADR 0002](adr/0002-canonical-memory-domain-and-dependency-direction.md),
+[ADR 0003](adr/0003-qdrant-repository-collection-and-payload-consolidation.md), and
+[ADR 0004](adr/0004-embedding-model-identity-and-vector-compatibility.md).
+Deployment and live collection compatibility remain unverified.
+
+### Canonical domain and service boundary
+
+`src/collector/memory/` is the only implementation of
+`collector.memory`. It owns memory models, governance, policy, intelligence,
+pipeline behavior, persistence boundaries, retrieval candidates, and
+semantic-only ranking.
+
+`services/jebediah-memory/` is the composition, HTTP, process, packaging,
+and deployment boundary. It installs the canonical package and must not retain
+a copied `app/collector/` tree, a second embedding adapter, direct Qdrant
+domain logic, or duplicate intelligence evaluation after cutover.
+
+Dependencies point from the FastAPI service to the canonical package. The
+canonical domain never imports the service or its deployment configuration.
+
+### Temporary Qdrant authority
+
+Sprint 005 selects Qdrant option A. Until a separate durable record store is
+approved, one Qdrant point temporarily contains both:
+
+- The authoritative operational record of what the Memory Service accepted
+- The derived semantic vector used to search that record
+
+This does not make Qdrant authoritative for the truth of a source claim. The
+originating source retains that authority, and verification remains explicit
+metadata.
+
+The canonical adapter under `src/collector/memory/persistence/` owns the
+single write, lookup, and semantic-search path. An accepted memory is reported
+as stored only after Qdrant acknowledges completed application of the point
+operation. Policy rejection, embedding failure, collection incompatibility,
+or Qdrant rejection returns no stored success. A lost acknowledgement is an
+unknown outcome that must be reconciled by application `memory_id` before an
+operator-authorized retry. No distributed transaction or second durable write
+is introduced.
+
+The adapter does not permanently cache vector-space approval. Each index and
+search operation rescans the current collection identity and vector contract.
+Search also requests and validates the vector and exact non-null
+`embedding_identity` of every returned candidate. This closes both later-write
+and scan-to-query race windows without assuming exclusive collection
+ownership. A missing identity, different digest, different normalization
+policy, wrong dimension, or placeholder vector fails visibly before a
+candidate is returned.
+
+The canonical collection contract is:
+
+- Configurable name with default `jebediah_memory`
+- One unnamed dense vector
+- 768 dimensions
+- Cosine distance
+- Adapter-generated point UUID
+- Application memory ID in payload `memory_id`
+
+An existing collection is inspected and never silently recreated or resized.
+A supported deployment requires sanitized Qdrant persistence, snapshot, and
+restore evidence because Qdrant temporarily owns the only durable Memory
+Service record.
+
+### Exact embedding identity
+
+The embedding persistence contract is:
+
+| Property | Required value |
+| --- | --- |
+| Provider | `ollama` |
+| Model | `nomic-embed-text:v1.5` |
+| Manifest digest | `sha256:0a109f422b47e3a30ba2b10eca18548e944e8a23073ee3f3e947efcf3c45e59f` |
+| Dimensions | 768 |
+| Application normalization | `none` |
+| Qdrant distance | `cosine` |
+
+Mutable tags such as `:latest` are not permitted as configured or persisted
+compatibility identities. The service must verify the local full manifest
+digest before declaring embedding readiness or accepting a write. New points
+persist an additive `embedding_identity` object containing the provider,
+versioned model reference, full digest, dimensions, and normalization.
+
+Ollama's `/api/tags` inventory represents the digest as 64 hexadecimal
+characters without the `sha256:` prefix used by the persistence contract. The
+adapter validates that exact SHA-256 shape and canonicalizes it to lowercase
+`sha256:<hex>` before comparison. Missing, malformed, incorrectly sized, or
+different digests fail. Readiness is checked before every embedding operation;
+a successful startup check does not authorize a later tag resolution after
+the installed artifact changes.
+
+Compatibility requires the complete identity tuple to match. Equal dimensions
+or related model names alone are insufficient.
+
+### Legacy payloads and vector geometry
+
+Legacy payload compatibility and vector migration are separate concerns.
+
+Compatible payload readers may default missing Sprint 004 governance fields,
+derive a legacy application ID from a root-adapter point ID, and preserve
+unknown additive fields. Missing embedding identity remains legacy/unknown.
+These rules do not make a stored vector compatible.
+
+A one-dimensional collection cannot be queried with a 768-dimensional query
+vector. Zero vectors and other placeholders are not semantic embeddings.
+One-dimensional, zero, wrong-dimension, differently normalized, or
+model-incompatible vectors require an isolated future migration using
+approved source content, a separate collection, backup, validation, cutover,
+and rollback. Sprint 005 performs no live vector migration.
+
+### Validation ownership
+
+Implementation and future deployment gates are defined in the
+[Sprint 005 Validation Requirements](SPRINT_005_VALIDATION_REQUIREMENTS.md).
+
 ## Deferred work
 
 - Authorized verification workflows
@@ -223,7 +340,6 @@ authoritative.
 - Archived-memory filtering
 - Multi-factor ranking formula and evaluation
 - Qdrant backfill or schema migration, if later required
-- Package-tree consolidation
 - Deployment, live health, backup, restore, and operations verification
 
 ## Design principle

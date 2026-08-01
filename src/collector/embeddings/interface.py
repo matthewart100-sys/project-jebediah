@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from .identity import EmbeddingIdentity
+
 
 class EmbeddingProvider(ABC):
     """
@@ -13,6 +15,15 @@ class EmbeddingProvider(ABC):
     Memory logic should not depend
     on a specific embedding backend.
     """
+
+    @property
+    @abstractmethod
+    def identity(self) -> EmbeddingIdentity:
+        raise NotImplementedError
+
+    @abstractmethod
+    def ensure_ready(self) -> None:
+        raise NotImplementedError
 
     @abstractmethod
     def embed(

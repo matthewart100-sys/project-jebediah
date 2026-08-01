@@ -1,12 +1,17 @@
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+RUN pip install --no-cache-dir uv==0.11.32
 
-RUN pip install --no-cache-dir -r requirements.txt
+COPY pyproject.toml uv.lock ./
+COPY src ./src
 
-COPY app .
+RUN uv sync --frozen --no-dev --group service --no-editable
+
+ENV PATH="/app/.venv/bin:$PATH"
+
+COPY services/jebediah-memory/app/main.py ./main.py
 
 EXPOSE 8000
 

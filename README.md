@@ -75,11 +75,12 @@ Platform**
 ## Current contribution gate
 
 The current gate is
-[Sprint 004: Memory Governance and Intelligence Expansion](CURRENT_SPRINT.md).
-It adds provenance, lifecycle-state foundations, and an internal retrieval
-ranking boundary without deploying the service or changing live data. JCS
-remains deferred and is not a dependency. All changes use short-lived
-branches, pull-request review, and small, understandable commits.
+[Sprint 005: Memory Architecture Consolidation](CURRENT_SPRINT.md). It
+consolidates the memory domain, Qdrant adapter, embedding identity, and service
+composition while preserving Sprint 004 governance and semantic-only ranking.
+It does not deploy the service or change live data. JCS remains deferred and
+is not a dependency. All changes use short-lived branches, pull-request review,
+and small, understandable commits.
 
 The [Git workflow](docs/GIT_WORKFLOW.md) defines the branch and review
 lifecycle. The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to
