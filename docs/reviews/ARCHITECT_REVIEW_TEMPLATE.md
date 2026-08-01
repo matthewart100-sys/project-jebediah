@@ -20,6 +20,8 @@ changed files is not sufficient evidence for approval.
 - Base branch and commit:
 - Head branch and commit:
 - Compare or diff target:
+- Proposal custody: single ADR or multi-document remote exact head
+- Complete proposal artifact manifest:
 - Milestone or issue:
 
 ### Intended outcome
@@ -42,6 +44,8 @@ Provide at least one:
 Also include:
 
 - Commit list
+- Confirmation that every required proposal artifact is tracked at the stated
+  head and no necessary artifact remains uncommitted or untracked
 - Validation commands and results
 - Work Mode review disposition, reviewer independence, and blocker status
 - Chief Architect disposition for any blocker not corrected in the artifacts
@@ -61,6 +65,11 @@ Also include:
 - [ ] Backward compatibility and migration impact are addressed when relevant.
 - [ ] Unknowns are explicitly labeled.
 - [ ] Cross-links resolve and documents do not contradict one another.
+- [ ] A multi-document proposal exists on one accessible remote branch at the
+      exact reviewed head, with a complete artifact manifest and
+      repository-backed diff.
+- [ ] Chat attachments, downloads, archives, and model memory are not being
+      used as the canonical review target.
 - [ ] Work Mode review was performed by a distinct review instance that did
       not author or materially modify the reviewed artifacts.
 - [ ] Every Work Mode blocker is corrected or has the explicit disposition

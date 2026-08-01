@@ -150,3 +150,12 @@ Sprint 005 is closed. This closeout does not define Sprint 006 or authorize
 deployment, live-data access, vector migration, or other deferred work. A
 future sprint must be selected from the existing roadmap and authorized
 through the normal review process.
+
+## Sprint 006 proposal history
+
+[Sprint 006 Proposal v1](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md) is
+permanently **Abandoned** because its source artifacts and exact review head
+are unrecoverable. Its successor, Sprint 006 Proposal v2, is not yet authored
+and is not an active or authorized sprint. Any v2 proposal must follow the
+architecture-proposal chain-of-custody rule and receive separate review and
+authorization.

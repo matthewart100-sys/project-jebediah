@@ -49,6 +49,11 @@ Documentation work is done when:
 
 Architecture work is done when:
 
+- A multi-document proposal was committed and pushed to one short-lived branch
+  in the authoritative repository before independent Work Mode review.
+- The review packet identifies the full base and head commits, complete
+  artifact manifest, and repository-backed diff; no required proposal artifact
+  exists only in chat, an attachment, an archive, or an uncommitted worktree.
 - Context and problem boundaries are explicit.
 - Verified facts, reported facts, assumptions, and open questions are
   separated.
@@ -60,6 +65,10 @@ Architecture work is done when:
 - The current architecture is updated with the decision.
 - The Chief Architect reviews the actual artifacts and records a formal
   decision.
+- Work Mode and Chief Architect decisions resolve the exact proposal head; a
+  changed head receives the applicable re-review.
+- An unrecoverable predecessor proposal is recorded as `Abandoned` with its
+  reason and successor rather than reconstructed from summaries or findings.
 - No implementation detail is presented as approved without evidence.
 
 ## Code changes

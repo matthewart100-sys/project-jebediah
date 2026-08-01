@@ -438,6 +438,46 @@ identify the conflicting owners, preserve the current state, and request a
 Chief Architect decision. Update the canonical owner through review before
 resuming.
 
+## Architecture proposal chain of custody
+
+A multi-document architecture proposal is a review target whose substantive
+design spans more than a single ADR, including a combination of proposed
+specifications, plans, ADRs, or architecture documents. Required index updates
+belong in its artifact manifest but do not by themselves turn one ADR into a
+multi-document proposal. Authoring these planning artifacts is not
+implementation and does not grant implementation, merge, deployment, or
+live-system authority.
+
+Before Work Mode begins independent architecture review of a multi-document
+proposal:
+
+- every proposal artifact and required index update must exist on one
+  short-lived remote branch in the authoritative repository
+- the proposal must be committed, and the handoff must identify the full base
+  and head commit hashes
+- the handoff must include the complete artifact manifest and an accessible
+  pull-request diff, compare link, or equivalent repository-backed diff
+- the proposal worktree must contain no uncommitted or untracked artifact that
+  is necessary to interpret the review target
+- Work Mode must verify that the repository head and manifest resolve before
+  treating the review as evidence
+
+Chat messages, attachments, local archives, generated downloads, and model
+memory may duplicate the proposal for convenience but are not the canonical
+review target. A head change after review reopens the applicable exact-head
+review gate.
+
+If the remote branch, exact commit, or complete artifact set cannot be
+recovered, the proposal must be recorded as `Abandoned` with its reason and
+successor. Findings from an earlier review may inform a newly authored
+successor, but they must not be used to reconstruct, continue, or approve the
+lost proposal. The successor starts from the current reviewed `main` baseline
+and receives its own identity, commit history, and review.
+
+A single-ADR proposal remains subject to exact-artifact review and the ADR
+workflow. It does not require a separate package manifest beyond the ADR and
+normal handoff unless another document is part of the same proposed decision.
+
 ## Record and maintenance
 
 Plans, findings, approvals, merges, and closeouts become durable only through

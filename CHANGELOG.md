@@ -10,6 +10,9 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added a durable Sprint 006 Proposal v1 abandonment record and a recoverable
+  exact-head chain-of-custody requirement for multi-document architecture
+  proposals before independent review.
 - Added the permanent Project Coordination Protocol, Documentation Lead
   Protocol, and Foundational ADR 0005 for separated architecture,
   implementation, independent review, merge, documentation, and future
