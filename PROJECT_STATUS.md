@@ -2,8 +2,8 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Sprint 004 merged; Sprint 005 implementation validation blocked;
-deployment unverified
+**Status:** Sprint 005 complete and merged; deployment unverified and
+unauthorized
 
 **Last reviewed:** 2026-08-01
 
@@ -23,16 +23,16 @@ specification remains **Proposed**, and Collector work has no JCS dependency.
 Sprint 003 added memory consolidation, an intelligence governor, confidence
 and retention scoring, metadata enrichment, Qdrant persistence, and semantic
 retrieval. Sprint 004 merged additive provenance, lifecycle, and
-retrieval-ranking foundations. Sprint 005 architecture is accepted and its
-bounded repository implementation has consolidated the duplicate memory,
-Qdrant, and embedding paths while preserving Sprint 004 behavior. Repository
-implementation is verified by source and tests. A clean locked wheel/import
-smoke passes. Quality Control corrections now canonicalize Ollama's bare API
-digest, reverify model identity for every embedding, and reject post-scan
-Qdrant identity or vector drift before semantic candidates are returned. The
-complete 142-test suite passes, but the mandatory container build remains
-unverified because no container runtime is available. Deployment and
-live-service operation are not verified.
+retrieval-ranking foundations. Sprint 005 consolidated the duplicate memory,
+Qdrant, and embedding paths while preserving Sprint 004 behavior. Quality
+Control corrections canonicalize Ollama's bare API digest, reverify model
+identity for every embedding, and reject post-scan Qdrant identity or vector
+drift before semantic candidates are returned. Pull request #39 squash-merged
+reviewed source commit `5a27358e4132a4ba14550b47c64f8538fe29094a`
+into `main` at `5f1b58767b54aed797d1ec6a2fafa084a00d6de7`. The
+complete 142-test suite, clean locked wheel/import smoke, and Python 3.12
+container build/import validation passed. Deployment, live-data compatibility,
+and live-service operation remain unverified and unauthorized.
 
 The initial GitHub baseline was commit
 `e42edd0c67e144b556adb77416a1e079eb106b93`, which contained only a one-line
@@ -50,12 +50,20 @@ reviewed pull requests.
   tree, Docker service artifacts, and automated tests.
 - The untouched Sprint 004 baseline passed 53 unit tests with `pytest`; the
   Sprint 004 implementation expands the suite to 66 passing tests.
-- The corrected uncommitted Sprint 005 candidate passes 142 tests, including
+- Sprint 005 was implemented at reviewed source commit
+  `5a27358e4132a4ba14550b47c64f8538fe29094a` and squash-merged through pull
+  request #39 at `5f1b58767b54aed797d1ec6a2fafa084a00d6de7`.
+- The merged Sprint 005 implementation passes 142 tests, including
   model-digest drift and post-scan Qdrant compatibility regressions.
+- Sprint 005 container validation passed on Python 3.12.13: the installed
+  canonical `collector.memory` package resolved from `site-packages`, the
+  service-local `/app/collector` tree was absent, and `/app/main.py` imported
+  successfully.
 - Sprint 004 merged into `main` at
   `ea0b5f8d0dc829dd9722850ef6940abda0bcdb60`.
 - Repository evidence does not verify that the service is deployed or that
-  live Qdrant, Ollama, n8n, or home-lab state matches the tracked candidate.
+  live Qdrant, Ollama, n8n, or home-lab state matches the merged
+  implementation.
 - The first Genesis source-of-truth checkpoint was approved by the Chief
   Architect and merged through pull request #1.
 - Genesis Sprint 1 established the planning, contribution, repository,
@@ -180,26 +188,17 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-The active
-[Sprint 005 Implementation Plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md)
-implements the accepted architecture consolidation without deployment.
-
-The current review must verify:
-
-- The canonical memory-domain dependency direction is implemented without a
-  service-local shadow package.
-- Qdrant option A is implemented behind one canonical adapter.
-- The accepted embedding model identity and compatibility contract is
-  enforced.
-- Keep Sprint 004 provenance, lifecycle, verification, API, and semantic-only
-  ranking behavior unchanged.
-- Separate compatible legacy payload reading from incompatible vector
-  geometry migration.
-- No accepted compatibility or validation gate failed.
-- Keep deployment and live-data changes outside Sprint 005.
+Sprint 005 is complete and its
+[implementation plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md) and
+[validation requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md) now
+record the merged outcome. This closeout does not define Sprint 006. The next
+bounded sprint must be selected from the existing roadmap and separately
+authorized before implementation begins.
 
 JCS remains deferred. The Collector and memory service do not depend on JCS,
-and Sprint 005 does not reopen JCS C1 or authorize JCS C2.
+and Sprint 005 did not reopen JCS C1 or authorize JCS C2. Deployment, live
+Qdrant or Ollama inspection, vector migration, and the other deferred work
+recorded by Sprint 005 remain outside the completed scope.
 
 ## Phase 0 completion evidence
 

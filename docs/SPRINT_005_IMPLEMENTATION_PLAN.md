@@ -2,15 +2,18 @@
 
 **Subject:** Memory architecture consolidation
 
-**Status:** Quality Control corrections complete; final validation blocked
+**Status:** Complete and merged
 
 **Review disposition:** Approved for implementation after the mandatory
 ownership, Qdrant authority, embedding identity, and legacy-vector decisions
 were resolved in accepted ADRs 0002 through 0004.
 
-**Implementation state:** Completed on
-`agent/sprint-005-memory-consolidation`; Quality Control corrections applied,
-uncommitted, and unmerged
+**Implementation state:** Reviewed source commit
+`5a27358e4132a4ba14550b47c64f8538fe29094a` was squash-merged through pull
+request #39 at `5f1b58767b54aed797d1ec6a2fafa084a00d6de7`
+
+**Validation state:** Complete. The approved suite passed with 142 tests, and
+the Python 3.12 container build/import gate passed.
 
 **Deployment state:** Not authorized
 
@@ -21,13 +24,15 @@ capabilities are added. It selects one canonical memory domain, removes the
 service-local shadow implementation after compatibility is proven, and places
 Qdrant and embeddings behind explicit, tested boundaries.
 
-This packet provides the accepted decisions and phased execution plan for the
-authorized repository implementation. It does not authorize deployment,
-live-data changes, a commit, a pull request, or a merge.
+This packet provided the accepted decisions and phased execution plan for the
+completed repository implementation. Its architecture approval did not itself
+authorize deployment or live-data changes; those activities remain outside
+the merged Sprint 005 scope.
 
-## Implementation review requested
+## Implementation outcome
 
-Confirm that the implementation conforms to the accepted direction:
+Review and validation confirmed that the implementation conforms to the
+accepted direction:
 
 1. `src/collector/memory/` is the only implementation of the
    `collector.memory` domain.
@@ -61,14 +66,15 @@ Confirm that the implementation conforms to the accepted direction:
 
 ## Evidence and uncertainty
 
-### Verified facts
+### Verified baseline facts before implementation
 
 - The root project packages `src/collector` through `pyproject.toml`.
 - The root test suite imports `collector` from that packaged `src/` tree.
-- The service image currently copies only
+- The baseline service image copied only
   `services/jebediah-memory/app/`, which contains its own `collector` package.
-- Running the service from its app directory causes `collector.memory` imports
-  to resolve to the service-local copy rather than the root package.
+- Running the baseline service from its app directory caused
+  `collector.memory` imports to resolve to the service-local copy rather than
+  the root package.
 - The two memory trees contain 29 corresponding Python files. Twenty-five are
   byte-identical and four differ.
 - `intelligence/__init__.py`, `intelligence/governor.py`, and
@@ -77,16 +83,28 @@ Confirm that the implementation conforms to the accepted direction:
 - The two `persistence/qdrant_repository.py` files differ materially.
 - `services/jebediah-memory/app/main.py` contains a third Qdrant write and
   search path that bypasses both repository adapters.
-- The service currently evaluates intelligence once in `main.py` and again in
+- The baseline service evaluated intelligence once in `main.py` and again in
   the memory pipeline.
-- The pipeline defaults to an in-memory persistence write before the API makes
-  a separate Qdrant write.
-- The root package requires Python 3.12 or newer; the service Dockerfile uses
-  Python 3.11.
-- The current service embedding path uses Ollama,
+- The baseline pipeline defaulted to an in-memory persistence write before the
+  API made a separate Qdrant write.
+- The root package required Python 3.12 or newer; the baseline service
+  Dockerfile used Python 3.11.
+- The baseline service embedding path used Ollama,
   `nomic-embed-text:latest`, 768-dimensional vectors, and no application-level
   vector normalization.
 - The merged Sprint 004 baseline has 66 passing tests.
+
+### Verified closeout facts
+
+- Pull request #39 squash-merged reviewed source commit
+  `5a27358e4132a4ba14550b47c64f8538fe29094a` into `main` at
+  `5f1b58767b54aed797d1ec6a2fafa084a00d6de7`.
+- The complete approved suite passes with 142 tests.
+- The Python 3.12 container build and import smoke passed. It loaded
+  `collector.memory` from installed `site-packages`, found no
+  `/app/collector` shadow tree, and imported `/app/main.py` successfully.
+- No deployment, live Qdrant or Ollama access, vector migration, or live-data
+  mutation was performed by Sprint 005.
 
 ### Reported but unverified facts
 
@@ -115,12 +133,12 @@ Confirm that the implementation conforms to the accepted direction:
 | Are duplicate payload `memory_id` values present? | Random Qdrant point IDs do not make repeat writes idempotent. | Separate identity/idempotency decision; not Sprint 005 |
 | What HTTP error contract should represent embedding or Qdrant failure? | Consolidation must not accidentally create a breaking API change. | Characterization tests and ADR review before cutover |
 
-### Known documentation inconsistency
+### Resolved documentation inconsistency
 
-The current status, architecture, and component registry describe an
-implemented Collector and memory-service candidate. The glossary still uses
-earlier future or unapproved wording for Collector and Qdrant. Sprint 005 must
-reconcile those canonical statements before implementation depends on them.
+At the implementation baseline, the status, architecture, component registry,
+and glossary contained inconsistent maturity wording for Collector and
+Qdrant. Sprint 005 reconciled those canonical statements without treating
+deployment or live-service operation as verified.
 
 ## 1. Canonical Memory Domain Decision
 
@@ -855,8 +873,9 @@ duplicative and equal or stronger coverage exists at the canonical boundary.
 
 ## 7. Required ADRs
 
-The required ADRs are accepted and authoritative for this bounded Sprint 005
-implementation. Merge remains subject to review of the actual artifacts.
+The required ADRs remain accepted and authoritative for the completed Sprint
+005 implementation. The actual artifacts were reviewed and merged through
+pull request #39.
 
 ### [ADR 0002: Canonical Memory Domain and Dependency Direction](adr/0002-canonical-memory-domain-and-dependency-direction.md)
 
@@ -911,8 +930,8 @@ compatible; model changes require isolated migration.
 
 ADR 0002 establishes ownership and dependency direction. ADR 0003 defines the
 storage/index boundary within that direction. ADR 0004 defines the vector
-identity accepted by ADR 0003. All three must be accepted before dependent
-cutover code begins.
+identity accepted by ADR 0003. All three were accepted before dependent
+cutover code began.
 
 ## 8. Cutover and Rollback
 
@@ -1023,9 +1042,9 @@ commit and revert service packaging/import changes together.
 
 ### Phase 6: Final validation and review
 
-**State:** Blocked pending the mandatory container build/import smoke. The
-Quality Control corrections and all other available repository, package, and
-clean-install checks pass.
+**State:** Complete. Quality Control corrections, all repository and package
+checks, the 142-test suite, and the mandatory Python 3.12 container
+build/import smoke passed before merge.
 
 **Work:**
 
@@ -1034,8 +1053,8 @@ clean-install checks pass.
 - Update final architecture and current-state documents.
 - Submit actual artifacts to Chief Architect review.
 
-**Checkpoint:** The formal decision is `APPROVED TO MERGE`, required checks
-pass, and the Definition of Done is satisfied.
+**Checkpoint:** The formal decision was `APPROVED TO MERGE`, required checks
+passed, and pull request #39 squash-merged the exact reviewed artifacts.
 
 **Rollback point:** Keep the branch unmerged and address review findings. No
 deployment occurs in Sprint 005.
@@ -1100,9 +1119,9 @@ Sprint 005 also excludes:
 Any of these requires its own approved scope after consolidation is merged and
 validated.
 
-## Implementation review acceptance criteria
+## Implementation review acceptance criteria (satisfied)
 
-The implementation is review-ready when reviewers can answer:
+The completed implementation review answered:
 
 - Which package owns memory behavior?
 - Which direction may dependencies point?
@@ -1116,6 +1135,8 @@ The implementation is review-ready when reviewers can answer:
 - At which checkpoint can each phase stop or roll back?
 - Which feature areas are explicitly excluded?
 
-Commit, pull-request, merge, deployment, and live migration approval remain
-withheld until the exact implementation artifacts receive the formal review
-and separate authorization required by the project workflow.
+Commit, pull-request, and merge authorization was granted for the exact
+reviewed source, producing pull request #39 and merged commit
+`5f1b58767b54aed797d1ec6a2fafa084a00d6de7`. Deployment, live-data access,
+vector migration, and all other deferred work remain unauthorized and require
+separate scope and review.

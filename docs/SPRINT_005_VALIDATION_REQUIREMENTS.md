@@ -1,9 +1,11 @@
 # Sprint 005 Validation Requirements
 
-**Status:** Active for implementation review
+**Status:** Satisfied for Sprint 005 merge review
 
-**Implementation state:** Quality Control corrections complete; container
-validation blocked; deployment remains unauthorized
+**Implementation state:** Reviewed source commit
+`5a27358e4132a4ba14550b47c64f8538fe29094a` passed the complete validation
+gate and was squash-merged through pull request #39 at
+`5f1b58767b54aed797d1ec6a2fafa084a00d6de7`; deployment remains unauthorized
 
 ## Purpose
 
@@ -13,6 +15,18 @@ validation from deployment and live-data validation.
 
 It does not authorize source-code changes, deployment, live Qdrant access, or
 data migration.
+
+## Closeout evidence
+
+- The complete frozen suite passed with 142 tests.
+- Python compilation, documentation, lockfile, diff, sensitive-data, package,
+  and clean import-origin checks passed.
+- The repository-root service image built successfully on Python 3.12.13.
+- The container smoke loaded `collector.memory` from installed
+  `site-packages`, proved `/app/collector` absent, and imported `/app/main.py`
+  successfully without contacting live Qdrant or Ollama services.
+- Sprint 005 performed no deployment, live collection access, data rewrite,
+  re-embedding, or migration.
 
 ## Governing decisions
 
@@ -61,7 +75,7 @@ New untracked or newly added Markdown files must also be passed directly
 through the repository validator's Markdown and sensitive-value checks until
 they are included by the tracked-file scan.
 
-## Future implementation baseline
+## Implementation baseline (completed)
 
 Before any implementation file is changed, record:
 
@@ -296,9 +310,9 @@ The smoke command must report Python 3.12, load `collector.memory` from the
 installed canonical package, prove no service-local shadow tree exists, and
 import `main.py` without contacting live Qdrant or Ollama services.
 
-These commands apply to the current implementation-review handoff. They do not
-authorize deployment, live collection access, a commit, a pull request, or a
-merge.
+These commands were validation gates only. Subsequent formal review authorized
+pull request #39 and the recorded merge. The validation did not authorize
+deployment, live collection access, data migration, or other deferred work.
 
 ## Stop conditions
 
