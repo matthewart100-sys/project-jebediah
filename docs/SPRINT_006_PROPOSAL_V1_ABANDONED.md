@@ -18,23 +18,26 @@ proposal existed outside the authoritative repository, and its exact source
 artifacts, package contents, branch, and review head cannot be recovered.
 Project Jebediah therefore has no reviewable chain of custody for v1.
 
-## Recovery evidence
+## Recovery evidence boundary
 
-Repository checks found:
+Recovery established the absence of a verifiable immutable review target:
 
-- no remote branch named
-  `agent/sprint-006-grounded-interaction-architecture`
-- no tracked Sprint 006 proposal documents or ADRs after ADR 0005
-- no matching pull request or reachable proposal commit
+- no committed Sprint 006 proposal head was found
+- no recoverable Git object or immutable proposal commit was found
+- no pull request or repository-backed exact review target was found
+- no cryptographically verifiable artifact identity was available
 
-Working-session checks found:
+Recovery did not establish the absence of every possible transient or local
+proposal-shaped copy. A transient local file, working-session copy, chat
+attachment, or download cannot be proven identical to the artifact reviewed by
+Work Mode without an immutable artifact identity and exact review target.
+Transient files therefore cannot restore chain of custody and must not be
+presented as recovered Proposal v1.
 
-- no local proposal branch or matching recoverable reflog entry
-- no proposal package in the supplied attachment; only revision instructions
-  remained available
-
-These facts prove absence from the inspected repository and working session.
-They do not establish the exact content of the lost proposal.
+The distinction is material: absence of a recoverable immutable review target
+is proven within the inspected repository and working session; absence of
+every possible transient copy is not claimed. Proposal v1 remains permanently
+abandoned because no transient copy can satisfy exact-artifact review.
 
 ## Consequences
 
@@ -43,8 +46,9 @@ They do not establish the exact content of the lost proposal.
 - No implementation, sprint, architecture, deployment, or live-system
   authority derives from v1 or from a review that cannot resolve its exact
   artifacts.
-- Every surviving independent Work Mode blocking finding is a mandatory design
-  input for the successor; the findings are not a substitute for v1 and do not
+- The seven surviving independent Work Mode findings are preserved as
+  [historical design inputs for Sprint 006 Proposal v2](reviews/SPRINT_006_PROPOSAL_V1_WORK_MODE_FINDINGS.md).
+  They are mandatory successor inputs, not a substitute for v1, and do not
   reconstruct it.
 - Proposal v2 must be newly authored from the then-current reviewed `main`
   baseline and must not claim document continuity or byte-level equivalence

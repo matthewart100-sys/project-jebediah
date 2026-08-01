@@ -65,11 +65,12 @@ Also include:
 - [ ] Backward compatibility and migration impact are addressed when relevant.
 - [ ] Unknowns are explicitly labeled.
 - [ ] Cross-links resolve and documents do not contradict one another.
-- [ ] A multi-document proposal exists on one accessible remote branch at the
-      exact reviewed head, with a complete artifact manifest and
-      repository-backed diff.
-- [ ] Chat attachments, downloads, archives, and model memory are not being
-      used as the canonical review target.
+- [ ] If this is a multi-document architecture proposal, it exists on one
+      accessible remote branch at the exact reviewed head, with a complete
+      artifact manifest and repository-backed diff.
+- [ ] If this is a multi-document architecture proposal, chat attachments,
+      downloads, archives, and model memory are not being used as the canonical
+      review target.
 - [ ] Work Mode review was performed by a distinct review instance that did
       not author or materially modify the reviewed artifacts.
 - [ ] Every Work Mode blocker is corrected or has the explicit disposition

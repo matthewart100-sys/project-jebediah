@@ -462,6 +462,11 @@ proposal:
 - Work Mode must verify that the repository head and manifest resolve before
   treating the review as evidence
 
+The worktree requirement is scoped to the proposal review target. It does not
+require unrelated local work to be absent. Unrelated work must remain
+preserved and outside the artifact manifest, and no uncommitted or untracked
+file may be necessary to interpret the proposal.
+
 Chat messages, attachments, local archives, generated downloads, and model
 memory may duplicate the proposal for convenience but are not the canonical
 review target. A head change after review reopens the applicable exact-head
@@ -477,6 +482,16 @@ and receives its own identity, commit history, and review.
 A single-ADR proposal remains subject to exact-artifact review and the ADR
 workflow. It does not require a separate package manifest beyond the ADR and
 normal handoff unless another document is part of the same proposed decision.
+
+### Proposal recovery matrix
+
+| Recovery condition | Required action | Custody result |
+| --- | --- | --- |
+| Exact commit remains reachable but its branch or tag ref was deleted | Restore a ref to the exact commit, verify its complete artifact manifest and base relationship, and reverify the review evidence | Custody may resume only after the restored immutable target matches the recorded review target |
+| Head commit or artifact manifest changed | Publish the new exact head and manifest, then repeat the applicable Work Mode exact-head review | Earlier review does not authorize the changed target |
+| Exact commit is lost or required artifacts are incomplete | Record the proposal as `Abandoned` with its reason and successor | Findings may inform a new proposal but cannot reconstruct or continue the lost target |
+| Required evidence is sensitive | Retain raw evidence in an approved private location and publish only the sanitized metadata required by the `Validation Verified` contract | Review may proceed when authorized reviewers can reverify the retained evidence safely |
+| No acceptable evidence-retention path exists | Stop and report the missing retention authority or location | The review gate remains blocked |
 
 ## Record and maintenance
 
