@@ -199,8 +199,8 @@ decision.
   is accepted and pins the embedding provider, model artifact, geometry, and
   compatibility contract.
 - [ADR 0005: Project Coordination and Role Authority](0005-project-coordination-and-role-authority.md)
-  is proposed and defines the permanent multi-role authority and workflow
-  decision under review.
+  is accepted and defines the permanent multi-role authority, workflow,
+  reviewer-independence, blocker-disposition, and handoff decision.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 

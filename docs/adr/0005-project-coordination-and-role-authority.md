@@ -1,6 +1,6 @@
 # ADR 0005: Project Coordination and Role Authority
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Date:** 2026-08-01
 
@@ -247,9 +247,16 @@ scope authority, emergency gate behavior, blocker disposition, same-artifact
 reviewer independence, context-complete handoffs, proportional documentation
 paths, terminal closeout, and sensitive-evidence retention.
 
-The ADR remains `Proposed` pending independent Work Mode review of the revised
-head and Chief Architect acceptance. After that acceptance, the status change
-to `Accepted` creates a new head that must itself receive the required Work
-Mode review and Chief Architect exact-head merge approval before merge. No
-implementation, sprint, merge, deployment, or live-system authority is granted
-by this proposed ADR.
+On 2026-08-01, the Chief Architect accepted the architecture and approved ADR
+0005 for acceptance at revised head
+`e1d2c7dc31baa930910743c3af6ae992528fa291`. The only stated correction before
+merge was to make pull request 41's description report the actual 19-file
+documentation scope.
+
+This status transition creates a new head. It must receive the same-artifact
+independent Work Mode review and Chief Architect exact-head merge approval
+required by this ADR before merge. Acceptance does not itself perform the
+merge or make the branch canonical; the protocol becomes authoritative project
+memory only after the approved pull request merges to `main`. No
+implementation, sprint, deployment, or live-system authority is granted by
+this ADR.

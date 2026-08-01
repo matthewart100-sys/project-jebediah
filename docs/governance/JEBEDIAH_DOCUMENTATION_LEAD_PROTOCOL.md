@@ -1,7 +1,7 @@
 # Project Jebediah Documentation Lead Protocol
 
-**Status:** Proposed; becomes active only after the required review and merge
-to `main`
+**Status:** Accepted by the Chief Architect on 2026-08-01; becomes active after
+the required exact-head review and merge to `main`
 
 ## Purpose
 

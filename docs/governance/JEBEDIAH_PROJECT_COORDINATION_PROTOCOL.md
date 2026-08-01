@@ -1,7 +1,7 @@
 # Jebediah Project Coordination Protocol
 
-**Status:** Proposed; becomes active only after the required review and merge
-to `main`
+**Status:** Accepted by the Chief Architect on 2026-08-01; becomes active after
+the required exact-head review and merge to `main`
 
 **Decision level:** Foundational under
 [ADR 0005](../adr/0005-project-coordination-and-role-authority.md)
