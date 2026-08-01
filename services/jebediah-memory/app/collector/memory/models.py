@@ -9,7 +9,7 @@ class MemoryType(str, Enum):
     DECISION = "decision"
     EVENT = "event"
     CONTEXT = "context"
-
+    MILESTONE = "milestone"
 
 @dataclass(frozen=True)
 class MemoryItem:
