@@ -1,3 +1,5 @@
+from dataclasses import replace
+
 from ..models import MemoryItem
 from ..consolidation.engine import MemoryConsolidationEngine
 from ..consolidation.models import ConsolidationAction
@@ -23,13 +25,13 @@ class MemoryPipeline:
     Memory Governor
         |
         v
+    Intelligence Metadata Attachment
+        |
+        v
     Memory Service
         |
         v
     Repository
-
-    The pipeline coordinates lifecycle decisions.
-    Intelligence evaluation happens before storage.
     """
 
     def __init__(
@@ -94,25 +96,47 @@ class MemoryPipeline:
                 accepted=False,
                 consolidated=True,
                 stored=False,
-                reason=(
-                    "memory rejected by confidence evaluation"
-                ),
+                reason="memory rejected by confidence evaluation",
             )
 
 
+        intelligence_metadata = {
+            **memory.metadata,
+            "intelligence": {
+                "retention": (
+                    intelligence.score.retention.value
+                ),
+                "confidence": (
+                    intelligence.confidence.value
+                ),
+                "confidence_reason": (
+                    intelligence.confidence.reason
+                ),
+            },
+        }
+
+
+        enriched_memory = replace(
+            memory,
+            metadata=intelligence_metadata,
+        )
+
+
         result = self.memory_service.process(
-            memory
+            enriched_memory
         )
 
 
         return MemoryPipelineResult(
-            memory=memory,
+            memory=enriched_memory,
             accepted=True,
             consolidated=True,
             stored=result.stored,
             reason=(
                 f"{consolidation.reason}; "
-                f"retention={intelligence.score.retention.value}; "
-                f"confidence={intelligence.confidence.value}"
+                f"retention="
+                f"{intelligence.score.retention.value}; "
+                f"confidence="
+                f"{intelligence.confidence.value}"
             ),
         )
