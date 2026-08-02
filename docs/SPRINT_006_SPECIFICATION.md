@@ -28,8 +28,10 @@ Question
 
 The governing principle is:
 
-> Every grounded answer must be explainable, traceable, and reproducible under
-> a recorded policy and model identity.
+> Every grounded answer must be explainable and traceable. Its configuration,
+> policy, evidence selection, and observed model-inventory metadata must be
+> recorded sufficiently for investigation and replay attempts; identical
+> generated output is not guaranteed.
 
 This specification defines architecture and validation requirements only. It
 does not authorize implementation, deployment, live-service access, or data
@@ -68,11 +70,13 @@ conversation memory, or general-purpose reasoning authority.
 ### Architecture input requiring implementation-time revalidation
 
 The Chief Architect supplied a sanitized local Ollama inventory for the
-generation proposal. The proposed identity is recorded in
+generation proposal. The proposed configured tag and required observed
+inventory fields are recorded in
 [ADR 0010](adr/0010-generation-model-identity-and-policy-defaults.md). This
 input does not prove that a future implementation or deployment still resolves
 the same tag, digest, capabilities, or capacity. Preflight and post-generation
-identity checks are mandatory.
+inventory observations are mandatory and do not prove which artifact served a
+request.
 
 ### Proposal v1 separation
 
@@ -93,7 +97,7 @@ The seven tracked findings are addressed as first-class v2 requirements:
 | Missing trace-event and state-machine contract | Eight exact trace events, ordering, cardinality, fields, terminals, retention, and cancellation behavior are defined below. |
 | Uncalibrated relevance threshold and missing token-capacity validation | `0.50` remains provisional; calibration and full-prompt token fixtures are implementation-acceptance gates. |
 | Unresolved roadmap and phase classification | Sprint 006 is explicitly a Phase 2 memory-client validation and not Phase 6 Reasoning Engine work. |
-| Overstated atomic model-identity binding and missing identity-drift handling | ADR 0010 defines preflight and post-generation checks, discards uncertain results, and records the residual tag-resolution race. |
+| Overstated atomic model-identity binding and missing identity-drift handling | ADR 0010 defines preflight and post-generation inventory observations, discards uncertain results, and records that matching observations do not prove the serving artifact because a residual race exists before, during, and after tag-based generation. |
 
 These resolutions are newly authored architecture. They are not recovered
 Proposal v1 content or implementation authority.
@@ -107,7 +111,8 @@ Sprint 006 proposes:
 - a narrow read-only memory retrieval capability
 - deterministic retrieval-candidate integrity and context assembly
 - whole-record model context with separate bounded public excerpts
-- evidence-grounded Ollama generation under an exact model identity and policy
+- evidence-grounded Ollama generation under a configured tag, fixed policy,
+  and recorded preflight and postflight inventory evidence
 - a retrieved-content trust boundary and mechanically testable prompt structure
 - safe public evidence packaging
 - an ephemeral trace-event and state-machine contract
@@ -159,7 +164,8 @@ The interaction domain owns:
 - deterministic context selection and decision records
 - prompt construction and structural separation
 - generation-provider interfaces and failure classification
-- model-identity continuity checks at the adapter boundary
+- model-inventory observation and continuity classification at the adapter
+  boundary
 - provider-response validation
 - evidence packaging and result states
 - trace state-machine rules
@@ -264,7 +270,8 @@ arbitrary provider, Qdrant, trace, or memory metadata.
 - at least one usable evidence record was selected
 - context integrity and token-capacity checks passed
 - generation completed under the required policy
-- preflight and post-generation identity continuity checks passed
+- preflight and post-generation inventory observations matched the required
+  fields and were classified `observed_consistent`
 - provider response and citations passed the generation contract
 - public evidence packaging succeeded
 
@@ -275,13 +282,21 @@ A grounded response also contains a closed `policy` object with:
 
 - `context_policy_version`
 - `prompt_policy_version`
-- the exact generation provider, model tag, and digest used
+- `generation_provider`
+- `configured_model_tag`
+- `preflight_observed_digest`
+- `postflight_observed_digest`
+- `identity_continuity_status: observed_consistent`
 
-The answer is limited to 8,000 Unicode scalar values. The provider contract
-returns a nonempty answer plus a nonempty list of cited application memory
-identifiers. Every citation must resolve exactly once to selected evidence;
-unknown, duplicate, malformed, or uncited results fail with
-`generation_contract_error`. Public evidence contains only cited records in
+These fields report observed inventory continuity, not cryptographic or atomic
+proof of the artifact that served generation. The answer is limited to 8,000
+Unicode scalar values. Before prompt construction, selected records receive
+response-scoped aliases in deterministic selected order: `evidence-1`,
+`evidence-2`, and so on. The provider sees those aliases rather than raw memory
+IDs and returns a nonempty answer plus a nonempty list of
+`cited_evidence_aliases`. Every citation must resolve exactly once to a selected
+response alias; unknown, duplicate, malformed, or uncited results fail with
+`generation_contract_error`. Public evidence contains only cited aliases in
 deterministic selected order.
 
 ### `insufficient_evidence`
@@ -325,8 +340,15 @@ arbitrary exception text.
 | `context_integrity_error` | 500 | Candidate conflict or context integrity made evidence unsafe to use. |
 | `generation_contract_error` | 500 | Provider output, citations, body shape, or continuity could not be validated. |
 | `internal_contract_error` | 500 | An internal state or packaging invariant failed. |
-| `capacity_unavailable` | 503 | Queue, concurrency, response-size, token, or resource policy blocked safe generation. |
+| `capacity_unavailable` | 503 | Queue, concurrency, token, or runtime resource policy blocked safe generation. |
 | `request_cancelled` | 499 when a response channel remains; otherwise no response after disconnect | Cancellation terminates work and records failure without false success. |
+
+This table is the exhaustive public failure-code vocabulary. Internal provider,
+parser, sanitizer, and state-machine reasons must map deterministically to one
+of these nine codes and must never enter `error_code`. In particular, response-
+body overflow, malformed or unsupported provider output, and citation or
+evidence mismatch map to `generation_contract_error`; a provider timeout after
+readiness maps to `generation_unavailable`.
 
 No error triggers automatic retry, fallback model selection, context trimming,
 or a second generation attempt.
@@ -388,10 +410,11 @@ Every candidate receives one final ephemeral decision:
 | `aggregate_budget_exhausted` | The complete deterministic evidence block would exceed 12,000 characters. |
 | `malformed_candidate` | Required identity, content, score, or material metadata was invalid. |
 
-Decision records contain only safe identifiers, ordinal positions, numeric
-counts, and reason codes. Rejected raw content is never logged. They are
-temporary diagnostic values, not public response fields or durable interaction
-records.
+Decision records contain only response-scoped aliases or approved nonreversible
+trace-local fingerprints, ordinal positions, numeric counts, and reason codes.
+Raw memory IDs and rejected raw content are not logged by default. The
+alias-to-memory mapping is process-ephemeral for one request and is not a public
+response field or durable interaction record.
 
 ### Ordering and selection
 
@@ -412,6 +435,17 @@ After duplicate integrity:
 including labels, separators, and evidence metadata. It is not merely a sum of
 source-content lengths.
 
+### Response-scoped evidence aliases
+
+After final selection, assign aliases by deterministic selected order:
+`evidence-1` through `evidence-N`. The alias is stable everywhere within that
+one prompt, provider response, and public response. It reveals no memory ID,
+must not be interpreted as durable identity across requests, and maps to the
+selected memory only in an in-process request-lifetime table. The table is
+destroyed when the request terminates and is never persisted. Raw application
+memory IDs remain internal to retrieval, deduplication, and integrity checks
+and are not logged with aliases by default.
+
 ### Whole-record and excerpt separation
 
 - Model context uses whole selected source records only.
@@ -431,19 +465,42 @@ Each evidence object is a closed allowlist:
 
 | Field | Limit and meaning |
 | --- | --- |
-| `memory_id` | Safe application identifier, maximum 128 printable characters; no control characters |
-| `excerpt` | UTF-8 text, maximum 600 Unicode scalar values, with control characters safely encoded or rejected |
-| `excerpt_truncated` | Explicit boolean |
+| `evidence_alias` | Response-scoped `evidence-N` value assigned in selected order; not a durable identifier |
+| `disclosure_status` | Exactly `disclosed` or `withheld` |
+| `excerpt` | For `disclosed`, safe UTF-8 text of at most 600 Unicode scalar values; for `withheld`, `null` |
+| `excerpt_truncated` | For `disclosed`, explicit boolean; for `withheld`, `null` |
 | `semantic_relevance` | Finite number in the provider's documented cosine range; selected records meet the provisional threshold |
 | `memory_type` | One existing `MemoryType` value |
 | `created_at` | Valid ISO 8601 timestamp with timezone |
 | `lifecycle_state` | `active`, `reinforced`, `superseded`, or `archived` |
 | `verification_state` | `unverified`, `verified`, or `disputed` |
-| `provenance_summary` | Optional deterministic sanitized summary, maximum 300 characters |
 
-The sanitizer omits a provenance summary when it cannot prove the value safe.
-Evidence must not expose Qdrant point IDs, internal paths, private URLs,
-network addresses, tenant identifiers, arbitrary metadata, secrets, raw
+Sprint 006 returns no public raw provenance or source text field. Public
+excerpt disclosure uses the fixed `public-evidence-v1` policy. It first takes
+the bounded 600-character view without changing the whole record supplied to
+model context, then validates exact Unicode encoding and rejects uncertain or
+matched filesystem paths, localhost or private-network URLs, any public or
+private IP address, hostnames, tenant or account identifiers, credentials,
+API keys, token-like or secret-like strings, and arbitrary nested metadata.
+It does not partially redact an uncertain excerpt.
+
+When the excerpt passes, `disclosure_status` is `disclosed`. When it does not,
+the response still returns the safe alias and non-text allowlisted fields with
+`disclosure_status: withheld`, `excerpt: null`, and
+`excerpt_truncated: null`. This is the only excerpt-failure behavior. A failure
+to construct even that closed safe record is evidence-packaging failure and
+maps to `internal_contract_error` with no grounded response.
+
+Withholding an excerpt does not remove the whole selected record from model
+context or invalidate its internal citation. A grounded response may therefore
+contain a cited `withheld` evidence alias when the answer and remaining public
+fields pass disclosure validation.
+
+The validated generated answer is subject to the same prohibited-value and
+Unicode disclosure checks. Unsafe or uncertain answer text maps to
+`generation_contract_error`; no answer or evidence is returned. Evidence must
+never expose raw memory IDs, Qdrant point IDs, internal paths, URLs, network
+addresses, hostnames, tenant identifiers, arbitrary metadata, secrets, raw
 prompts, provider payloads, or full trace events.
 
 ## Retrieved-content trust boundary
@@ -491,30 +548,44 @@ tool_capability = present but unauthorized
 ```
 
 `qwen3:4b` is inventory-only and is never a fallback. The generation adapter
-uses the exact model tag plus full digest and validates family, parameter size,
-quantization, completion capability, thinking policy, tool policy, and a
-minimum context capacity of 8,192 tokens.
+is configured with the mutable `qwen3:8b` tag. It inspects Ollama inventory and
+requires the observed digest, family, parameter size, quantization, completion
+capability, thinking policy, tool policy, and minimum context capacity of 8,192
+tokens to match the values above before generation.
 
 ### Identity continuity
 
-Ollama tag-based generation is not atomic content-addressed execution.
+Ollama generation is invoked by mutable model tag. It is not atomic or
+content-addressed execution and does not prove the exact digest that served a
+request.
 
 For every generation operation:
 
-1. Preflight the current tag resolution and complete required identity.
-2. Reject missing, malformed, changed, or insufficient identity before
-   generation.
+1. Preflight the current tag and record its observed digest, family, parameter
+   size, quantization, context capacity, and completion capability.
+2. Reject missing, malformed, ambiguous, changed, or insufficient observations
+   before generation.
 3. Issue one generation call by the approved tag with no fallback or retry.
 4. Read and validate the complete bounded response.
-5. Reinspect the model identity immediately after generation.
-6. Discard the answer and return `generation_contract_error` if postflight
-   continuity cannot be established.
+5. Postflight the tag and record the same observed inventory fields after
+   generation.
+6. Classify continuity as `observed_consistent` only when every required
+   preflight and postflight observation matches.
+7. Discard the answer and return `generation_contract_error` if any observation
+   differs or postflight evidence is missing or ambiguous.
 
-Controlled operations must prevent model pulls, removals, and tag mutation
-during active requests. A residual race remains between inventory inspection
-and tag-based provider execution; the postflight check detects drift but
-cannot prove which artifact served every instant of execution. The residual
-risk is explicit and no result survives uncertainty.
+Matching observations increase confidence that inventory did not visibly
+drift; they do not cryptographically or atomically bind generation to an exact
+digest. A residual race exists before, during, and after tag-based execution,
+including a mutation that is reversed between observations. Controlled
+operations must prevent model pulls, removals, and tag mutation during active
+requests. No result survives an observed mismatch, missing or ambiguous
+postflight evidence, or another continuity uncertainty.
+
+Public policy metadata and trace metadata record the configured model tag,
+preflight observed digest, postflight observed digest, and
+`identity_continuity_status: observed_consistent`. This is observed inventory
+continuity evidence, not proof of the serving artifact.
 
 ### Generation defaults
 
@@ -534,11 +605,15 @@ keep_alive = 10m
 
 The 180-second value is one total wall-clock deadline from
 `generation.started` through response-body read, provider-contract validation,
-and the post-generation identity check. Timeout or cancellation discards all
-partial output. Thinking output is never requested, stored, logged, or
-returned. Tools are never registered or sent. `keep_alive = 10m` retains model
-capacity after a request and must be included in memory and concurrency
-planning.
+and the post-generation inventory observation. Timeout or cancellation
+discards all partial output. Thinking output is never requested, stored,
+logged, or returned. Tools are never registered or sent. `keep_alive = 10m`
+retains model capacity after a request and must be included in memory and
+concurrency planning.
+
+Fixed parameters and seed improve repeatability under one stable runtime; they
+do not make generated output deterministic or guarantee identical output
+across Ollama versions, model runtimes, hardware, or provider changes.
 
 ## Token-capacity validation
 
@@ -618,8 +693,8 @@ clock. Wall-clock timestamps are informational and do not calculate duration.
 | `retrieval.started` | `candidate_limit`, embedding compatibility-key hash or approved public identity |
 | `retrieval.completed` | `candidate_count`, `duration_ms` |
 | `context.assembled` | `selected_count`, reason-code counts, `context_characters`, `duration_ms`, `context_policy_version` |
-| `generation.started` | provider, model tag, digest, `num_ctx`, `num_predict`, `prompt_policy_version` |
-| `generation.completed` | `duration_ms`, `response_body_bytes`, `postflight_identity_match` |
+| `generation.started` | provider, configured model tag, preflight observed digest, family, parameter size, quantization, context capacity, capability, `num_ctx`, `num_predict`, `prompt_policy_version` |
+| `generation.completed` | `duration_ms`, `response_body_bytes`, postflight observed tag, digest, family, parameter size, quantization, context capacity, capability, `identity_continuity_status` |
 | `response.packaged` | result status, evidence count, `total_duration_ms` |
 | `interaction.failed` | error code, failed stage, cancellation flag, `total_duration_ms` |
 

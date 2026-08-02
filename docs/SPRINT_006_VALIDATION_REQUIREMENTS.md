@@ -21,7 +21,8 @@ proposal text as implemented behavior.
 
 Validation must prove governed retrieval, deterministic whole-record context
 assembly, safe evidence-grounded generation, read-only memory access, exact
-model-policy identity, and honest failure. It must not contact or mutate live
+configured policy with honest observed inventory evidence, and honest failure.
+It must not contact or mutate live
 Qdrant data, modify the live Ollama inventory, deploy a service, or persist
 interaction data.
 
@@ -54,8 +55,9 @@ block unapproved network access.
 ### Calibration and capacity evidence
 
 Versioned synthetic or sanitized fixtures measure retrieval policy and token
-capacity under exact model identities. Fixture provenance, identity, method,
-and acceptance criteria must be reviewable without exposing live memory data.
+capacity under the configured model tag and recorded expected inventory values.
+Fixture provenance, method, and acceptance criteria must be reviewable without
+exposing live memory data.
 
 ### Container evidence
 
@@ -92,7 +94,10 @@ Before Work Mode review, the proposal branch must prove:
 The proposal-specific assertions must check exact endpoint, result states,
 failure codes, reason codes, trace events, context defaults, generation
 identity, generation defaults, authority gates, and the historical-input
-mapping across the package.
+mapping across the package. They must reject an unknown or conflicting public
+failure code, public raw memory-ID or provenance disclosure, and affirmative
+claims of atomic or content-addressed Ollama execution, exact serving-artifact
+proof, deterministic generation, or guaranteed-identical output.
 
 ## Baseline characterization before future implementation
 
@@ -126,11 +131,13 @@ Focused deterministic tests must cover:
 - result construction for exactly three states
 - stable error-code classification and safe messages
 - public evidence allowlist, encoding, and every length limit
-- public excerpt creation and exact `excerpt_truncated` behavior
+- response-scoped evidence-alias assignment and citation resolution
+- public excerpt disclosure, withholding, and exact nullable
+  `excerpt_truncated` behavior
 - provider response schema and citation validation
 - answer length, missing citation, unknown citation, duplicate citation, and
   extra provider-field rejection
-- policy and model identity packaging
+- policy and observed model-inventory metadata packaging
 - monotonic duration calculation and trace-sequence validation
 
 Tests must never assert a provider answer is true merely because its contract
@@ -157,6 +164,41 @@ Contract tests must freeze:
 - compatibility of existing `/health`, `/memory/store`, and `/memory/context`
 
 API tests must prove no partial answer or evidence appears in failed results.
+
+## Canonical public failure-code assertions
+
+The exhaustive public vocabulary and HTTP mapping is:
+
+| Public `error_code` | HTTP behavior |
+| --- | --- |
+| `invalid_request` | 422 |
+| `retrieval_unavailable` | 503 |
+| `generation_unavailable` | 503 |
+| `generation_provider_not_ready` | 503 |
+| `context_integrity_error` | 500 |
+| `generation_contract_error` | 500 |
+| `internal_contract_error` | 500 |
+| `capacity_unavailable` | 503 |
+| `request_cancelled` | 499 when a response channel remains; otherwise no response after disconnect |
+
+Proposal and future implementation assertions must enumerate every public
+`error_code` occurrence and fail on any value outside this table. They must
+also fail when one code has different HTTP behavior in any artifact.
+
+Focused mappings must prove:
+
+- response-body overflow, malformed or unsupported provider output, unsafe
+  answer disclosure, and citation or evidence mismatch map to
+  `generation_contract_error`;
+- provider timeout after readiness maps to `generation_unavailable`;
+- preflight inventory mismatch maps to `generation_provider_not_ready`;
+- postflight mismatch, absence, or ambiguity maps to
+  `generation_contract_error`;
+- queue or token-capacity exhaustion maps to `capacity_unavailable`;
+- internal reasons never leak as public `error_code` values.
+
+Every failed body has exactly `status: failed`, `trace_id`, one canonical
+`error_code`, a safe message, `answer: null`, and `evidence: []`.
 
 ## Architecture-boundary tests
 
@@ -189,7 +231,9 @@ Tests inspect the exact structured generation request and prove:
 
 - system policy is a distinct trusted region
 - user question is encoded inside a delimited untrusted data region
-- every evidence record has an application-generated label and delimiter
+- every evidence record has an application-generated response-scoped alias and
+  delimiter
+- raw application memory IDs are absent from the provider request
 - source content cannot close or create a trusted region
 - evidence instructions remain data and cannot modify generation settings
 - provider output-schema instructions are separate from evidence
@@ -255,8 +299,43 @@ Tests must prove:
   candidate does not fit
 - public excerpts stop at 600 Unicode scalar values
 - `excerpt_truncated` is false for exact or shorter content and true only for
-  longer selected content
+  longer selected content when `disclosure_status` is `disclosed`
+- unsafe or uncertain excerpt content yields `disclosure_status: withheld`,
+  `excerpt: null`, and `excerpt_truncated: null` without changing model context
 - public excerpt truncation never changes the model-context record
+
+## Public evidence disclosure and leakage assertions
+
+Tests assign `evidence-1` through `evidence-N` by deterministic selected order
+and prove that each alias is stable across one prompt, provider citation, and
+public response. A second request creates a new response scope; an alias is not
+a durable or cross-request identity. The request-lifetime mapping is destroyed
+after success, failure, timeout, and cancellation.
+
+Raw memory-ID sentinel values must be absent from provider metadata, public
+answers, public evidence, ordinary traces, and captured logs. Raw provenance
+fields and arbitrary nested metadata must never enter the public response.
+
+The `public-evidence-v1` fixture matrix includes:
+
+- Windows drive, UNC, and Unix absolute paths;
+- localhost, loopback, link-local, and private-network URLs;
+- otherwise public URLs;
+- public and private IPv4 and IPv6 addresses;
+- bare and URL-form hostnames;
+- API keys, credentials, and token- or secret-like strings;
+- tenant and account identifiers;
+- malformed Unicode, disallowed controls, and invalid encoding;
+- values at and beyond every length limit;
+- arbitrary nested provenance and metadata;
+- safe ordinary Unicode content.
+
+Every unsafe or uncertain excerpt returns only the opaque alias and safe
+non-text allowlist with `disclosure_status: withheld`, `excerpt: null`, and
+`excerpt_truncated: null`. No partial redaction is accepted. Safe content is
+`disclosed`. If the closed withheld record cannot be built, packaging maps to
+`internal_contract_error`; unsafe generated answer text maps to
+`generation_contract_error`. Both failure paths return no answer or evidence.
 
 ## Trace state-machine tests
 
@@ -288,8 +367,9 @@ Tests prove:
   response is possible
 - durations are nonnegative monotonic-clock values
 - only event-specific allowlisted fields are present
-- traces exclude full or partial question, content, provenance, prompt,
-  answer, provider body, thinking output, exception body, paths, and endpoints
+- traces exclude raw memory IDs, alias-to-memory mappings, full or partial
+  question, content, provenance, prompt, answer, provider body, thinking
+  output, exception body, paths, and endpoints
 - telemetry is process-ephemeral or retained no longer than seven days in an
   approved sink
 
@@ -344,9 +424,9 @@ produce `capacity_unavailable` before generation, with no silent evidence or
 prompt trimming. The tokenizer or provider-counting method, version, and
 measurement uncertainty are recorded.
 
-## Generation identity tests
+## Generation inventory-continuity tests
 
-The proposed required identity is:
+The proposed configured tag and required observed inventory values are:
 
 ```text
 provider = Ollama
@@ -361,22 +441,32 @@ required_capability = completion
 
 Controlled doubles using the real Ollama inventory response shape must prove:
 
-- exact preflight identity passes
+- matching required preflight observations permit one tag-based generation
 - wrong, missing, malformed, or incorrectly sized digest fails
 - wrong tag, family, parameter size, quantization, capability, or insufficient
   context fails
 - thinking present is accepted only with `think = false`
 - tool capability present grants no tool authority
 - `qwen3:4b` remains inventory-only and never receives a call
-- identity is rechecked before every generation
-- post-generation exact identity passes
+- inventory is reinspected before every generation
+- matching post-generation observations classify continuity as
+  `observed_consistent`
 - tag or digest drift after preflight discards the result
-- missing or failed postflight inspection discards the result
+- missing, ambiguous, or failed postflight inspection discards the result
 - no automatic retry or fallback occurs after any failure
 - no result is reported as grounded when continuity is uncertain
 
-Tests record the residual inspection-to-execution race rather than asserting
-atomic content-addressed generation.
+Metadata assertions require the configured model tag, preflight observed
+digest, postflight observed digest, and `observed_consistent` classification.
+They also require an explicit statement that this is observed inventory
+continuity rather than cryptographic execution proof.
+
+Proposal wording assertions fail on affirmative claims of atomic digest
+binding, content-addressed Ollama execution, proof of the exact serving
+artifact, deterministic generation, or guaranteed-identical output. Required
+language records the residual race before, during, and after tag-based
+generation and states that fixed parameters and seed only improve repeatability
+under one stable runtime.
 
 ## Generation-policy and provider-contract tests
 
@@ -398,8 +488,9 @@ keep_alive = 10m
 
 Tests prove all values are sent once and cannot be overridden by a request or
 evidence record. The bounded provider response accepts only the approved
-answer-and-citation schema, rejects extra or malformed fields, never requests
-or accepts thinking output, and never sends tools.
+answer-and-`cited_evidence_aliases` schema, rejects extra or malformed fields,
+never requests or accepts thinking output, and never sends tools. Fixed
+parameters do not create an identical-output assertion.
 
 ## Cancellation, timeout, and response-size tests
 
@@ -477,14 +568,15 @@ Preflight identity or capability failure produces
 
 ### Generation failure
 
-Provider transport or service failure after readiness produces
+Provider transport, service failure, or timeout after readiness produces
 `generation_unavailable`, HTTP 503, with no retry or partial output.
 
 ### Context and provider-contract failure
 
-Candidate conflict produces `context_integrity_error`. Invalid provider body,
-citation mismatch, response overflow, or failed postflight continuity produces
-`generation_contract_error`. Both return HTTP 500 and no successful payload.
+Candidate conflict produces `context_integrity_error`. Invalid or unsupported
+provider body, citation mismatch, unsafe answer disclosure, response overflow,
+or failed postflight continuity produces `generation_contract_error`. Both
+return HTTP 500 and no successful payload.
 
 ## Python 3.12 container validation
 
@@ -535,7 +627,7 @@ diff, scope, ADR, and sensitive-data checks.
 | Proposal package | Complete exact-head documents, proposed ADRs, validation, and independent review | Reviewed `main` at the proposal base |
 | Characterization | Existing APIs, package boundaries, test count, and zero interaction persistence recorded | Accepted proposal merge |
 | Domain contracts | Interaction models, read-only retrieval port, reason codes, trace state machine, and tests pass without service cutover | Characterization commit |
-| Adapter and prompt boundary | Generation identity, prompt structure, response validation, calibration, and token fixtures pass through controlled doubles | Domain-contract commit |
+| Adapter and prompt boundary | Generation inventory observations, prompt structure, response validation, calibration, and token fixtures pass through controlled doubles | Domain-contract commit |
 | Service cutover | One route composes canonical packages; API, zero-write, timeout, cancellation, and capacity tests pass | Adapter commit |
 | Container and final review | Full suite and Python 3.12 canonical import origin pass at exact implementation head | Pre-service-cutover commit or Git revert; no live data was changed |
 
@@ -551,13 +643,18 @@ Stop proposal review or implementation acceptance when:
 - a runtime, test, dependency, Docker, Compose, or live-system change enters
   the proposal branch
 - the public endpoint or result states diverge
+- an unknown public failure code or conflicting HTTP mapping appears
+- a raw memory ID, raw provenance value, or unsafe public field can leave the
+  interaction boundary
 - candidate order changes a conflict or selection outcome
 - a reason code, trace event, identity, or policy default is missing or
   inconsistent
 - model context truncation, automatic retry, fallback, thinking output, or
   tool registration appears
 - a request can reach generation over token capacity
-- model continuity uncertainty can return a result
+- model continuity uncertainty can return a result, or documentation claims
+  atomic/content-addressed execution, exact serving-artifact proof,
+  deterministic generation, or guaranteed-identical output
 - any interaction path can write memory or persist interaction data
 - a required fixture uses unsanitized live content
 - sensitive values or private topology enter review artifacts

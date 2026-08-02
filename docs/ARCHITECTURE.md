@@ -149,10 +149,11 @@ component registry.
 If the proposal is accepted and separately authorized for implementation, the
 canonical `collector.interaction` domain will consume a read-only semantic
 query port from `collector.memory`, deterministically assemble bounded evidence,
-invoke one digest-qualified Ollama completion model without tools, and package
-a traceable response. The FastAPI service will remain composition and HTTP
-translation only. n8n, if later used, will be an ordinary HTTP client with no
-domain or architecture authority.
+invoke one configured Ollama completion tag without tools, record matching
+preflight and postflight inventory observations without claiming serving-
+artifact proof, and package a traceable response. The FastAPI service will
+remain composition and HTTP translation only. n8n, if later used, will be an
+ordinary HTTP client with no domain or architecture authority.
 
 ```mermaid
 flowchart LR

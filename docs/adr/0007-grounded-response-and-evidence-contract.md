@@ -46,8 +46,8 @@ also expose storage IDs, metadata, paths, or sensitive provenance.
 - An additive endpoint can coexist with current memory routes.
 - A closed, versioned contract is preferable to exposing provider or storage
   response objects.
-- Application memory IDs can be sanitized and exposed without revealing
-  Qdrant point IDs.
+- Selected application memory IDs can remain internal while response-scoped
+  opaque aliases expose evidence relationships without revealing identity.
 
 ### Open questions
 
@@ -160,17 +160,22 @@ It means none of the following:
 - automated verification or lifecycle transition
 
 A grounded result includes a closed `policy` object naming the context-policy
-version, prompt-policy version, generation provider, model tag, and exact
-digest. The answer is a nonempty string of at most 8,000 Unicode scalar values.
+version, prompt-policy version, generation provider, configured model tag,
+preflight observed digest, postflight observed digest, and
+`identity_continuity_status: observed_consistent`. Those observations do not
+prove which artifact served generation. The answer is a nonempty string of at
+most 8,000 Unicode scalar values.
 
 The provider contract returns only:
 
 - `answer`
-- `cited_memory_ids`
+- `cited_evidence_aliases`
 
-The citation list is nonempty, contains no duplicate, and contains only safe
-application memory IDs selected into context. Every ID resolves exactly once.
-Unknown, malformed, duplicate, or missing citations produce
+Aliases are assigned as `evidence-1` through `evidence-N` in deterministic
+selected order and map to raw memory IDs only in a request-lifetime in-process
+table. The citation list is nonempty, contains no duplicate, and contains only
+aliases selected into context. Every alias resolves exactly once. Unknown,
+malformed, duplicate, or missing citations produce
 `generation_contract_error`. Public evidence contains only cited selected
 records in deterministic context order.
 
@@ -211,8 +216,15 @@ returned.
 | `context_integrity_error` | 500 | Conflicting or unsafe retrieval context |
 | `generation_contract_error` | 500 | Invalid provider output, citation, response size, or identity continuity |
 | `internal_contract_error` | 500 | Internal state or packaging invariant failed |
-| `capacity_unavailable` | 503 | Queue, concurrency, token, deadline, or resource capacity unavailable |
+| `capacity_unavailable` | 503 | Queue, concurrency, token, deadline, or runtime resource capacity unavailable |
 | `request_cancelled` | 499 when the connection remains | Request cancelled without successful completion |
+
+These nine values are the exhaustive public `error_code` vocabulary. Internal
+reasons map deterministically to one value and never become public codes.
+Provider response-body overflow, malformed or unsupported output, unsafe answer
+disclosure, and citation or evidence mismatch map to
+`generation_contract_error`. Provider timeout after readiness maps to
+`generation_unavailable`.
 
 If the client has disconnected, no HTTP response may be possible; cancellation
 still terminates the trace as failed and never records success. The service
@@ -222,25 +234,41 @@ performs no automatic retry or fallback for any code.
 
 Each evidence object may contain only:
 
-- `memory_id`, maximum 128 printable characters
-- `excerpt`, maximum 600 Unicode scalar values
-- `excerpt_truncated`, explicit boolean
+- `evidence_alias`, response-scoped `evidence-N`, never a durable identity
+- `disclosure_status`, exactly `disclosed` or `withheld`
+- `excerpt`, maximum 600 Unicode scalar values when disclosed, otherwise `null`
+- `excerpt_truncated`, explicit boolean when disclosed, otherwise `null`
 - finite `semantic_relevance`
 - existing `memory_type`
 - timezone-qualified `created_at`
 - existing `lifecycle_state`
 - existing `verification_state`
-- optional deterministic sanitized `provenance_summary`, maximum 300
-  characters
 
 The public excerpt may be shorter than the whole selected record. That fact is
 represented only by `excerpt_truncated`; it never implies model-context
 truncation.
 
-The response must not expose Qdrant point IDs, internal paths, private URLs,
-network addresses, tenant IDs, arbitrary metadata, secrets, provider request
-or response objects, raw prompts, or trace payloads. Unsafe provenance is
-omitted rather than returned partially or guessed safe.
+Sprint 006 returns no raw provenance or source text field. The
+`public-evidence-v1` policy validates bounded excerpt Unicode and fails closed
+on internal Windows or Unix paths, localhost or private-network URLs, any
+public or private IP address, hostnames, tenant or account identifiers,
+credentials, API keys, token-like or secret-like strings, and arbitrary nested
+metadata. It does not partially redact uncertain content.
+
+When safe, an excerpt is `disclosed`. When unsafe or uncertain, the evidence
+record remains as a safe alias with `disclosure_status: withheld`,
+`excerpt: null`, and `excerpt_truncated: null`. Failure to construct that closed
+record maps to `internal_contract_error` and prevents a grounded response. The
+whole selected record remains in model context, so a safe grounded answer may
+cite a `withheld` alias. The generated answer passes the same disclosure
+checks; unsafe answer output maps to `generation_contract_error` with no answer
+or evidence returned.
+
+The response must not expose raw application memory IDs, Qdrant point IDs,
+internal paths, URLs, network addresses, hostnames, tenant IDs, arbitrary
+metadata, secrets, provider request or response objects, raw prompts, or trace
+payloads. The alias-to-memory mapping is process-ephemeral, not logged with raw
+IDs by default, and destroyed at request termination.
 
 ### Existing-route compatibility
 
@@ -274,9 +302,9 @@ client is silently redirected to generation.
 ## Data and provenance impact
 
 Answers and public evidence are temporary derived information. Evidence
-preserves application memory identity, governance state, and bounded
-provenance without granting truth authority. No result is persisted by Sprint
-006.
+preserves only a response-scoped alias and allowlisted governance state without
+exposing application memory identity or raw provenance and without granting
+truth authority. No result is persisted by Sprint 006.
 
 ## Security and privacy impact
 
@@ -311,6 +339,10 @@ Acceptance and implementation require:
 - no partial success on any failure
 - answer-and-citation schema validation
 - public evidence allowlist and bound tests
+- response-scoped alias stability and raw memory-ID non-disclosure tests
+- fail-closed excerpt and generated-answer disclosure tests for paths, URLs,
+  IP addresses, hostnames, tenant or account identifiers, secrets, malformed
+  Unicode, oversize, and nested metadata
 - excerpt versus model-context separation tests
 - existing memory API regressions
 - the complete

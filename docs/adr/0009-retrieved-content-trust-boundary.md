@@ -105,28 +105,48 @@ and grants no authority.
 The provider returns a structured answer containing:
 
 - `answer`;
-- `cited_memory_ids`.
+- `cited_evidence_aliases`.
 
-The application validates the schema, size limits, and that every cited ID is
-present in the selected evidence set. Unknown citations, malformed output,
-oversized output, or an empty citation set for a purported grounded answer fail
-as `generation_invalid_response`. Provider text cannot add public evidence or
-override the interaction result state.
+The application validates the schema, size limits, and that every cited alias is
+present in the response-scoped selected alias set. The provider never receives
+raw memory IDs. Unknown citations, malformed or unsupported output, oversized
+output, an empty citation set for a purported grounded answer, or an answer
+that fails public disclosure validation maps to
+`generation_contract_error`. Provider text cannot add public evidence,
+introduce a public error code, or override the interaction result state.
 
 ### Public evidence boundary
 
-Only ADR 0007's evidence allowlist may be returned. Raw payloads, embeddings,
-internal collection names, point IDs, creation context, confidence basis,
-provider prompts, fingerprints, traces containing content, and private
-operational metadata are excluded.
+Only ADR 0007's evidence allowlist may be returned. Public records use
+response-scoped `evidence-N` aliases and never raw memory IDs. Raw payloads,
+provenance text, embeddings, internal collection names, point IDs, creation
+context, confidence basis, provider prompts, fingerprints, traces containing
+content, and private operational metadata are excluded.
+
+The fixed `public-evidence-v1` disclosure policy validates a bounded excerpt
+without changing the whole record supplied to model context. Windows and Unix
+paths, localhost or private-network URLs, public or private IP addresses,
+hostnames, tenant or account identifiers, credentials, API keys, token-like or
+secret-like strings, malformed Unicode, oversize values, and arbitrary nested
+metadata are unsafe. Uncertain content is unsafe.
+
+Unsafe excerpt disclosure does not expose partial text. The public record
+retains its alias and safe non-text fields, sets
+`disclosure_status: withheld`, `excerpt: null`, and
+`excerpt_truncated: null`, and omits provenance. If even that closed record
+cannot be constructed, packaging maps to `internal_contract_error` and no
+grounded response is returned. The generated answer passes the same disclosure
+policy and maps to `generation_contract_error` when unsafe.
 
 ### Logging and retention
 
-Question text, retrieved content, rendered prompts, and generated answer text
-must not be logged by default. Approved telemetry may contain bounded IDs,
-counts, reason codes, policy versions, durations, result state, and error code
-for no more than seven days. If an approved retention sink is unavailable,
-trace metadata remains process-ephemeral.
+Question text, raw memory IDs, alias-to-memory mappings, retrieved content,
+rendered prompts, and generated answer text must not be logged by default.
+Approved telemetry may contain response-scoped aliases, approved
+nonreversible trace-local fingerprints, counts, reason codes, policy versions,
+durations, result state, and canonical error code for no more than seven days.
+If an approved retention sink is unavailable, trace metadata remains
+process-ephemeral.
 
 ## Alternatives considered
 
@@ -192,6 +212,10 @@ implemented.
 - proof that no tools or side-effect-capable dependency are configured;
 - provider-output schema, size, and citation allowlist tests;
 - public evidence field allowlist tests;
+- path, URL, public/private IP, hostname, tenant/account identifier,
+  credential, token, malformed-Unicode, oversize, and nested-metadata
+  disclosure tests;
+- response-scoped alias stability and raw memory-ID leakage tests;
 - log-capture tests proving content is absent;
 - cancellation and failure tests proving no partial grounded response;
 - sensitive-data scan of proposal and implementation artifacts.
