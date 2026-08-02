@@ -831,6 +831,27 @@ Stop proposal or future implementation work when:
 - validation requires live Qdrant mutation, Ollama inventory mutation, secrets,
   private topology, or deployment
 
+## Chief Architect acceptance record
+
+On 2026-08-01, the Chief Architect accepted the Sprint 006 Proposal v2
+architecture in pull request 43 at exact head
+`288b248fd660785bed25d9afbee1800f13f2bc99`.
+
+Acceptance is limited to the existing documentation-only 16-file proposal
+manifest at that exact head: the bounded Phase 2 interaction scope, ADRs 0006
+through 0010, validation requirements, and the related canonical status,
+architecture, navigation, roadmap, and changelog updates. It does not broaden
+the proposal or change its implementation requirements.
+
+ADRs 0006 through 0010 remain `Proposed` until the proposal merges to `main`.
+This acceptance does not authorize Sprint 006 implementation, deployment,
+live-system work, or any runtime change. Merge authorization has not been
+granted.
+
+Recording this acceptance creates a new branch head and therefore requires
+final exact-head review before any later merge authorization. It does not
+itself authorize merge or implementation.
+
 ## Review and chain of custody
 
 This proposal receives independent review only after all proposal artifacts
