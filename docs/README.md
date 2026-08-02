@@ -34,6 +34,12 @@ searchable, linkable, and version controlled.
   architecture and records the completed repository implementation phases.
 - [Sprint 005 Validation Requirements](SPRINT_005_VALIDATION_REQUIREMENTS.md)
   defines implementation-review and future deployment evidence gates.
+- [Sprint 006 Proposal v1 Abandonment Record](SPRINT_006_PROPOSAL_V1_ABANDONED.md)
+  records the unrecoverable proposal's permanent abandonment and the gate for
+  a newly authored v2 successor without reconstructing lost architecture.
+- [Sprint 006 Proposal v1 Work Mode Findings](reviews/SPRINT_006_PROPOSAL_V1_WORK_MODE_FINDINGS.md)
+  preserves seven historical design inputs for v2 without treating them as
+  recovered or accepted architecture.
 - [Project Genesis Foundation Audit](genesis/GENESIS_FOUNDATION_AUDIT.md)
   maps required topics, records consistency evidence and corrections, and
   owns the clean-room onboarding result.

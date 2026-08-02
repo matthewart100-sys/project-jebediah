@@ -438,6 +438,80 @@ identify the conflicting owners, preserve the current state, and request a
 Chief Architect decision. Update the canonical owner through review before
 resuming.
 
+## Architecture proposal chain of custody
+
+A multi-document architecture proposal is a review target whose substantive
+design spans more than a single ADR, including a combination of proposed
+specifications, plans, ADRs, or architecture documents. Required index updates
+belong in its artifact manifest but do not by themselves turn one ADR into a
+multi-document proposal. Authoring these planning artifacts is not
+implementation and does not grant implementation, merge, deployment, or
+live-system authority.
+
+Before Work Mode begins independent architecture review of a multi-document
+proposal:
+
+- every proposal artifact and required index update must exist on one
+  short-lived remote branch in the authoritative repository
+- the proposal must be committed, and the handoff must identify the full base
+  and head commit hashes
+- the handoff must include the complete artifact manifest and an accessible
+  pull-request diff, compare link, or equivalent repository-backed diff
+- the proposal worktree must contain no uncommitted or untracked artifact that
+  is necessary to interpret the review target
+- Work Mode must verify that the repository head and manifest resolve before
+  treating the review as evidence
+
+The worktree requirement is scoped to the proposal review target. It does not
+require unrelated local work to be absent. Unrelated work must remain
+preserved and outside the artifact manifest, and no uncommitted or untracked
+file may be necessary to interpret the proposal.
+
+Chat messages, attachments, local archives, generated downloads, and model
+memory may duplicate the proposal for convenience but are not the canonical
+review target. A head change after review reopens the applicable exact-head
+review gate.
+
+If the remote branch, exact commit, or complete artifact set cannot be
+recovered, the proposal must be recorded as `Abandoned` with its reason and
+successor. Findings from an earlier review may inform a newly authored
+successor, but they must not be used to reconstruct, continue, or approve the
+lost proposal. The successor starts from the current reviewed `main` baseline
+and receives its own identity, commit history, and review.
+
+A single-ADR proposal remains subject to exact-artifact review and the ADR
+workflow. It does not require a separate package manifest beyond the ADR and
+normal handoff unless another document is part of the same proposed decision.
+
+### Chief Architect acceptance record
+
+On 2026-08-01, the Chief Architect accepted the architecture-proposal
+chain-of-custody proposal in pull request 42 at exact head
+`8471b56bfd139097f9988aeff8c7924f5e74a526`.
+
+Acceptance is limited to the pull request's documentation-only ten-file
+manifest: the Proposal v1 abandonment evidence boundary, the historical Work
+Mode findings, repository-backed exact-head custody requirements, the recovery
+matrix, proposal-scoped worktree and review-checklist clarifications, and the
+related status and navigation updates. It does not authorize Sprint 006
+Proposal v2, implementation, deployment, live-system action, or a change to
+role authority or ADRs 0001 through 0005.
+
+The chain-of-custody rule added by pull request 42 remains inactive until that
+pull request merges to `main`. Recording this acceptance creates a new branch
+head and therefore requires final exact-head review before merge; it does not
+broaden the accepted scope or itself grant merge authority.
+
+### Proposal recovery matrix
+
+| Recovery condition | Required action | Custody result |
+| --- | --- | --- |
+| Exact commit remains reachable but its branch or tag ref was deleted | Restore a ref to the exact commit, verify its complete artifact manifest and base relationship, and reverify the review evidence | Custody may resume only after the restored immutable target matches the recorded review target |
+| Head commit or artifact manifest changed | Publish the new exact head and manifest, then repeat the applicable Work Mode exact-head review | Earlier review does not authorize the changed target |
+| Exact commit is lost or required artifacts are incomplete | Record the proposal as `Abandoned` with its reason and successor | Findings may inform a new proposal but cannot reconstruct or continue the lost target |
+| Required evidence is sensitive | Retain raw evidence in an approved private location and publish only the sanitized metadata required by the `Validation Verified` contract | Review may proceed when authorized reviewers can reverify the retained evidence safely |
+| No acceptable evidence-retention path exists | Stop and report the missing retention authority or location | The review gate remains blocked |
+
 ## Record and maintenance
 
 Plans, findings, approvals, merges, and closeouts become durable only through

@@ -105,6 +105,15 @@ use the [Chief Architect Review Template](reviews/ARCHITECT_REVIEW_TEMPLATE.md).
 Provide the actual diff or changed files. A summary alone is insufficient
 evidence.
 
+Before independent Work Mode review, a proposal spanning multiple documents
+must be committed and pushed to one short-lived branch in the authoritative
+repository. Its review packet identifies the full base and head commits,
+complete file manifest, and repository-backed compare or pull-request diff.
+All artifacts needed to interpret the proposal must be tracked at that head;
+chat attachments and uncommitted files cannot satisfy the review target. The
+[Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
+owns abandonment and successor handling when an exact proposal target is lost.
+
 Work Mode performs the required architecture or implementation review first.
 The Chief Architect then grants or withholds final approval for the exact
 artifacts. The Project Coordination Protocol owns this sequence, the required

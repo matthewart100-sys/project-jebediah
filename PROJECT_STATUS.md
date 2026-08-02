@@ -22,6 +22,16 @@ requires independent plan and implementation review, exact Chief Architect
 approvals, controlled merge verification, and evidence-based post-merge
 documentation closeout. It does not authorize Sprint 006 or runtime work.
 
+Sprint 006 Proposal v1 is permanently **Abandoned** because its source
+artifacts and exact review head are unrecoverable. The surviving Work Mode
+blocking findings are mandatory design inputs for a newly authored successor
+but cannot reconstruct or authorize v1. The
+[abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md) names Sprint 006
+Proposal v2 as the successor, but v2 has not been authored or authorized. The
+architecture-proposal chain-of-custody rule requires any v2 review target to
+exist on a recoverable remote branch at an exact commit before independent
+review.
+
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
 `5895e8f5896cf0687a43c978ec2f17da53d6b78c`. JCS remains **Named**, its
@@ -204,6 +214,12 @@ Sprint 005 is complete and its
 record the merged outcome. This closeout does not define Sprint 006. The next
 bounded sprint must be selected from the existing roadmap and separately
 authorized before implementation begins.
+
+The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
+records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and
+`Successor: Sprint 006 Proposal v2`. Proposal v2 has not been authored or
+authorized and must follow the architecture-proposal chain-of-custody rule.
+This status does not authorize Sprint 006 implementation.
 
 JCS remains deferred. The Collector and memory service do not depend on JCS,
 and Sprint 005 did not reopen JCS C1 or authorize JCS C2. Deployment, live
