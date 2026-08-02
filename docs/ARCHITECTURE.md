@@ -139,6 +139,39 @@ higher layer to depend on every lower layer and do not mandate a request or
 data flow. Architecture proposals may refine cross-layer interactions through
 ADRs without collapsing responsibility ownership.
 
+### Proposed Sprint 006 Phase 2 validation boundary
+
+**Future Design:** [Sprint 006 Proposal v2](SPRINT_006_SPECIFICATION.md)
+proposes a bounded memory-client validation inside Phase 2. It does not approve
+or activate the Phase 6 Reasoning Engine and does not change the current
+component registry.
+
+If the proposal is accepted and separately authorized for implementation, the
+canonical `collector.interaction` domain will consume a read-only semantic
+query port from `collector.memory`, deterministically assemble bounded evidence,
+invoke one digest-qualified Ollama completion model without tools, and package
+a traceable response. The FastAPI service will remain composition and HTTP
+translation only. n8n, if later used, will be an ordinary HTTP client with no
+domain or architecture authority.
+
+```mermaid
+flowchart LR
+    Question["Question"]
+    Validation["Request validation"]
+    Retrieval["Semantic retrieval\nread-only memory port"]
+    Assembly["Deterministic context assembly"]
+    Generation["Ollama generation\nno tools"]
+    Evidence["Evidence packaging"]
+    Response["Traceable response"]
+
+    Question --> Validation --> Retrieval --> Assembly --> Generation --> Evidence --> Response
+```
+
+All retrieved text remains untrusted data. Retrieval ranking remains
+semantic-only, no memory writes or governance transitions are permitted, and
+the five associated ADRs remain Proposed pending exact-head review and Chief
+Architect acceptance.
+
 ## Reported deployment context
 
 The following view preserves the bootstrap report without promoting it to

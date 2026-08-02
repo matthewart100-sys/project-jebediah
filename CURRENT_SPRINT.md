@@ -155,7 +155,15 @@ through the normal review process.
 
 [Sprint 006 Proposal v1](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md) is
 permanently **Abandoned** because its source artifacts and exact review head
-are unrecoverable. Its successor, Sprint 006 Proposal v2, is not yet authored
-and is not an active or authorized sprint. Any v2 proposal must follow the
-architecture-proposal chain-of-custody rule and receive separate review and
-authorization.
+are unrecoverable. Its successor,
+[Sprint 006 Proposal v2](docs/SPRINT_006_SPECIFICATION.md), is newly authored
+from the accepted post-Sprint 005 baseline and is not a reconstruction of v1.
+It is a Proposed architecture package, not an active or authorized
+implementation sprint. Its [validation requirements](docs/SPRINT_006_VALIDATION_REQUIREMENTS.md)
+and proposed ADRs 0006 through 0010 require exact-head Work Mode review, Chief
+Architect acceptance, and explicit sprint authorization before implementation.
+
+The proposed classification is: **A bounded Phase 2 memory-client validation
+that proves governed retrieval, deterministic context assembly, and
+evidence-grounded generation. Sprint 006 does not activate or implement the
+Phase 6 Reasoning Engine.**

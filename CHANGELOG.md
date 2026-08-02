@@ -10,6 +10,11 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added the newly authored Sprint 006 Proposal v2 specification, validation
+  contract, and five Proposed ADRs for a canonical interaction boundary,
+  grounded-result contract, deterministic context assembly, retrieved-content
+  trust boundary, and digest-qualified generation policy. The proposal does
+  not authorize implementation or the Phase 6 Reasoning Engine.
 - Added a durable Sprint 006 Proposal v1 abandonment record and a recoverable
   exact-head chain-of-custody requirement for multi-document architecture
   proposals before independent review.

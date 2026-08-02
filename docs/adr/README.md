@@ -201,6 +201,21 @@ decision.
 - [ADR 0005: Project Coordination and Role Authority](0005-project-coordination-and-role-authority.md)
   is accepted and defines the permanent multi-role authority, workflow,
   reviewer-independence, blocker-disposition, and handoff decision.
+- [ADR 0006: Canonical Interaction Domain and Dependency Direction](0006-canonical-interaction-domain-and-dependency-direction.md)
+  is proposed and defines a read-only interaction-domain and service-composition
+  boundary.
+- [ADR 0007: Grounded Response and Evidence Contract](0007-grounded-response-and-evidence-contract.md)
+  is proposed and defines the endpoint, result states, failures, and public
+  evidence allowlist.
+- [ADR 0008: Deterministic Retrieval and Context Assembly](0008-deterministic-retrieval-context-assembly.md)
+  is proposed and defines stable duplicate handling, candidate reasons,
+  ordering, budgets, and calibration.
+- [ADR 0009: Retrieved Content Trust Boundary](0009-retrieved-content-trust-boundary.md)
+  is proposed and treats all retrieved content as untrusted data without tool
+  authority.
+- [ADR 0010: Generation Model Identity and Policy Defaults](0010-generation-model-identity-and-policy-defaults.md)
+  is proposed and pins the generation artifact, drift checks, request policy,
+  and capacity defaults.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 
