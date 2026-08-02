@@ -73,8 +73,11 @@ sources.
 
 **Status:** In progress; Sprint 005 completed and merged the bounded memory
 architecture consolidation through pull request #39 at
-`5f1b58767b54aed797d1ec6a2fafa084a00d6de7`, while deployment remains
-unverified and unauthorized
+`5f1b58767b54aed797d1ec6a2fafa084a00d6de7`. Sprint 006 Proposal v2 is a
+Proposed bounded Phase 2 memory-client validation for governed retrieval,
+deterministic context assembly, and evidence-grounded generation. It does not
+activate or implement Phase 6. Implementation and deployment remain
+unauthorized.
 
 Required outcomes:
 

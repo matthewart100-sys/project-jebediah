@@ -40,6 +40,14 @@ searchable, linkable, and version controlled.
 - [Sprint 006 Proposal v1 Work Mode Findings](reviews/SPRINT_006_PROPOSAL_V1_WORK_MODE_FINDINGS.md)
   preserves seven historical design inputs for v2 without treating them as
   recovered or accepted architecture.
+- [Sprint 006 Proposal v2 Specification](SPRINT_006_SPECIFICATION.md) newly
+  proposes a bounded Phase 2 memory-client validation, canonical interaction
+  boundary, exact API contract, deterministic context policy, trust boundary,
+  and configured-tag generation policy with observed inventory continuity
+  evidence. It does not authorize implementation.
+- [Sprint 006 Proposal v2 Validation Requirements](SPRINT_006_VALIDATION_REQUIREMENTS.md)
+  defines the architecture, contract, governance, failure, capacity, package,
+  and future implementation evidence required before Sprint 006 can complete.
 - [Project Genesis Foundation Audit](genesis/GENESIS_FOUNDATION_AUDIT.md)
   maps required topics, records consistency evidence and corrections, and
   owns the clean-room onboarding result.

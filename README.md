@@ -82,13 +82,17 @@ The most recently completed gate is
 request #39 merged its canonical memory domain, Qdrant adapter, embedding
 identity, and service composition while preserving Sprint 004 governance and
 semantic-only ranking. Sprint 005 did not deploy the service or change live
-data. This closeout does not define a successor sprint. JCS remains deferred
-and is not a dependency. All changes use short-lived branches, pull-request
-review, and small, understandable commits.
+data. [Sprint 006 Proposal v2](docs/SPRINT_006_SPECIFICATION.md) is now a
+documentation-only architecture proposal for a bounded Phase 2 memory-client
+validation. Its ADRs remain Proposed, and it does not authorize implementation,
+deployment, live-system access, or the Phase 6 Reasoning Engine. JCS remains
+deferred and is not a dependency. All changes use short-lived branches,
+pull-request review, and small, understandable commits.
 
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
-The protocol does not authorize Sprint 006, deployment, or live-system work.
+The protocol requires exact-head review and Chief Architect authorization
+before Sprint 006 implementation, deployment, or live-system work.
 
 The [Git workflow](docs/GIT_WORKFLOW.md) defines the branch and review
 lifecycle. The [Definition of Done](docs/DEFINITION_OF_DONE.md) applies to

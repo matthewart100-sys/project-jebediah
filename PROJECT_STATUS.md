@@ -2,8 +2,8 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Sprint 005 complete and merged; deployment unverified and
-unauthorized
+**Status:** Sprint 005 complete and merged; Sprint 006 Proposal v2 proposed;
+implementation and deployment unauthorized
 
 **Last reviewed:** 2026-08-01
 
@@ -27,10 +27,11 @@ artifacts and exact review head are unrecoverable. The surviving Work Mode
 blocking findings are mandatory design inputs for a newly authored successor
 but cannot reconstruct or authorize v1. The
 [abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md) names Sprint 006
-Proposal v2 as the successor, but v2 has not been authored or authorized. The
-architecture-proposal chain-of-custody rule requires any v2 review target to
-exist on a recoverable remote branch at an exact commit before independent
-review.
+Proposal v2 as the successor. Proposal v2 is now newly authored as a
+documentation-only architecture package from the accepted post-Sprint 005
+baseline. It is neither a reconstruction of v1 nor an authorized sprint. The
+architecture-proposal chain-of-custody rule requires its review target to exist
+on a recoverable remote branch at an exact commit before independent review.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -211,15 +212,19 @@ addresses, sensitive topology, or personal data during that audit.
 Sprint 005 is complete and its
 [implementation plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md) and
 [validation requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md) now
-record the merged outcome. This closeout does not define Sprint 006. The next
-bounded sprint must be selected from the existing roadmap and separately
-authorized before implementation begins.
+record the merged outcome. The newly authored
+[Sprint 006 Proposal v2](docs/SPRINT_006_SPECIFICATION.md) and its
+[validation requirements](docs/SPRINT_006_VALIDATION_REQUIREMENTS.md) propose
+a bounded Phase 2 memory-client validation. All five associated ADRs remain
+Proposed. Work Mode exact-head review, Chief Architect acceptance, and explicit
+sprint authorization are required before implementation begins.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and
-`Successor: Sprint 006 Proposal v2`. Proposal v2 has not been authored or
-authorized and must follow the architecture-proposal chain-of-custody rule.
-This status does not authorize Sprint 006 implementation.
+`Successor: Sprint 006 Proposal v2`. Proposal v2 newly authors its own
+architecture while treating the seven surviving findings as historical design
+inputs. It must follow the architecture-proposal chain-of-custody rule and does
+not recover v1 or authorize Sprint 006 implementation.
 
 JCS remains deferred. The Collector and memory service do not depend on JCS,
 and Sprint 005 did not reopen JCS C1 or authorize JCS C2. Deployment, live

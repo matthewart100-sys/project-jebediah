@@ -169,6 +169,21 @@ Future ranking may evaluate additional candidate signals only after a reviewed
 policy defines weights, missing-value behavior, lifecycle treatment, and
 compatibility.
 
+### Proposed read-only interaction consumer
+
+**Future Design:** [Sprint 006 Proposal v2](SPRINT_006_SPECIFICATION.md)
+proposes `src/collector/interaction/` as a separate canonical client of the
+memory retrieval boundary. It may receive only storage-independent semantic
+retrieval candidates through a minimal read-only query protocol. It must not
+receive `MemoryApplicationService`, a repository with write methods, a Qdrant
+client, the embedding adapter, or any other object capable of memory mutation.
+
+The proposed client will preserve semantic-only ranking, Sprint 004 provenance,
+verification, and lifecycle boundaries, and all Sprint 005 Qdrant and embedding
+contracts. It will perform deterministic context assembly outside the memory
+domain and will not change, verify, reinforce, supersede, archive, consolidate,
+or persist a memory. The proposal remains unauthorized for implementation.
+
 ## Persistence compatibility
 
 Existing Qdrant payload fields remain compatible. New payloads include:
