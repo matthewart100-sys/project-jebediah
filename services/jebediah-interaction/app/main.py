@@ -65,6 +65,11 @@ class OpenAIChatCompletionRequest(BaseModel):
     messages: list[dict] | None = None
     prompt: str | None = None
 
+    # allow extra OpenAI-style fields (temperature, stream, max_tokens, etc.)
+    model_config = {
+        "extra": "allow"
+    }
+
 
 @app.post("/v1/chat/completions")
 async def openai_chat_completions(request: OpenAIChatCompletionRequest):
