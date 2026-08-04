@@ -38,10 +38,10 @@ fi
 info "Using OLLAMA_URL=${OLLAMA_URL}"
 
 info "Testing memory service health via docker network"
-docker run --rm --network ${NETWORK} curlimages/curl:8.4.0 -sS -I http://${MEMORY_SVC}:8000/health -w '\nHTTP_STATUS:%{http_code}\n' || true
+docker run --rm --network ${NETWORK} curlimages/curl:8.4.0 -sS http://${MEMORY_SVC}:8000/health -w '\nHTTP_STATUS:%{http_code}\n' || true
 
 info "Testing interaction service health via docker network"
-docker run --rm --network ${NETWORK} curlimages/curl:8.4.0 -sS -I http://${INTERACTION_SVC}:8001/health -w '\nHTTP_STATUS:%{http_code}\n' || true
+docker run --rm --network ${NETWORK} curlimages/curl:8.4.0 -sS http://${INTERACTION_SVC}:8001/health -w '\nHTTP_STATUS:%{http_code}\n' || true
 
 info "Testing qdrant HTTP reachability"
 docker run --rm --network ${NETWORK} curlimages/curl:8.4.0 -sS -I http://${QDRANT_SVC}:6333 -w '\nHTTP_STATUS:%{http_code}\n' || true
