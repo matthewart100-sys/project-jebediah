@@ -2,10 +2,14 @@ import uuid
 from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-from collector.embeddings import OllamaEmbeddingProvider
+from collector.embeddings import (
+    OllamaEmbeddingProvider,
+    EmbeddingConfigurationError,
+    EmbeddingVectorError,
+)
 from collector.memory.governance import MemoryProvenance
 from collector.memory.models import MemoryItem, MemoryType
 from collector.memory.persistence import QdrantMemoryRepository
@@ -34,7 +38,20 @@ def get_memory_application_service() -> MemoryApplicationService:
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    get_memory_application_service().ensure_ready()
+    # Attempt to verify external dependencies at startup, but do not fail
+    # the entire application if the embedding provider is temporarily
+    # unreachable. Runtime calls will return 503 when the provider is
+    # unavailable.
+    try:
+        get_memory_application_service().ensure_ready()
+    except Exception as exc:
+        # Only log the startup verification failure and allow the app to
+        # start; request-time handling will map provider errors to 503.
+        import logging
+
+        logging.getLogger("jebediah.memory").warning(
+            "embedding provider verification failed at startup: %s", exc
+        )
     yield
 
 
@@ -124,10 +141,17 @@ def store_memory(request: MemoryRequest):
 
 @app.post("/memory/context")
 def memory_context(request: ContextRequest):
-    candidates = get_memory_application_service().context(
-        request.content,
-        limit=5,
-    )
+    try:
+        candidates = get_memory_application_service().context(
+            request.content,
+            limit=5,
+        )
+    except (EmbeddingConfigurationError, EmbeddingVectorError) as exc:
+        # Dependency / provider failures should map to 503 Service Unavailable
+        # so callers can retry or degrade gracefully. Let other unexpected
+        # exceptions bubble up for visibility and debugging.
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
     memories = [
         {
             "score": candidate.signals.semantic_relevance,

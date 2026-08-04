@@ -1,0 +1,25 @@
+services:
+  jebediah-interaction:
+    build:
+      context: ../..
+      dockerfile: services/jebediah-interaction/Dockerfile
+
+    container_name: jebediah-interaction
+
+    restart: unless-stopped
+
+    networks:
+      - jebediah_internal
+
+    environment:
+      MEMORY_URL: http://jebediah-memory:8000
+      OLLAMA_URL: http://100.110.120.15:11434
+      GENERATION_MODEL: qwen3:8b
+
+    ports:
+      - "8001:8001"
+
+
+networks:
+  jebediah_internal:
+    external: true

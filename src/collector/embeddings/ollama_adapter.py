@@ -95,7 +95,17 @@ class OllamaEmbeddingProvider(
                     prompt=text,
                 )
                 vector = _field(response, "embedding")
+        except ConnectionError as exc:
+            # Network or service-level connectivity issues should surface as
+            # embedding configuration/availability problems so upstream
+            # callers (the memory service) can map them to 503 Service
+            # Unavailable.
+            raise EmbeddingConfigurationError(
+                "embedding provider is unavailable"
+            ) from exc
         except Exception as exc:
+            # Other exceptions (serialization, provider errors) are
+            # embedding generation failures.
             raise EmbeddingVectorError(
                 "embedding generation failed"
             ) from exc
