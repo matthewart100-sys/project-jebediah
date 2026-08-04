@@ -57,3 +57,74 @@ async def chat(request: ChatRequest):
         "response": response,
         "context_used": context
     }
+
+
+# OpenAI-compatible adapter for Open WebUI and similar clients
+class OpenAIChatCompletionRequest(BaseModel):
+    model: str | None = None
+    messages: list[dict] | None = None
+    prompt: str | None = None
+
+
+@app.post("/v1/chat/completions")
+async def openai_chat_completions(request: OpenAIChatCompletionRequest):
+    """Minimal OpenAI-compatible endpoint that routes through the canonical
+    interaction flow: retrieve memory context, assemble messages, and call the
+    existing generation adapter. This preserves memory retrieval and evidence
+    usage rather than bypassing the memory layer.
+    """
+
+    # Determine user message text from OpenAI-style input
+    user_text = None
+    if request.messages:
+        # Prefer the last user-role message; fall back to the last message content
+        for msg in reversed(request.messages):
+            role = (msg.get("role") or "").lower()
+            if role == "user":
+                user_text = msg.get("content")
+                break
+        if user_text is None and len(request.messages) > 0:
+            user_text = request.messages[-1].get("content")
+
+    if not user_text and request.prompt:
+        user_text = request.prompt
+
+    if not user_text:
+        from fastapi import HTTPException
+
+        raise HTTPException(status_code=400, detail="no user message provided")
+
+    # Preserve existing memory retrieval
+    context = await retrieve_context(user_text)
+
+    # Reuse existing deterministic context builder
+    model_messages = build_messages(user_text, context)
+
+    # Call existing generation adapter
+    response_text = await generate(model_messages)
+
+    # Return a minimal OpenAI-compatible response
+    import time
+    import uuid
+
+    created = int(time.time())
+    resp = {
+        "id": f"jeb-{uuid.uuid4()}",
+        "object": "chat.completion",
+        "created": created,
+        "model": None,
+        "choices": [
+            {
+                "index": 0,
+                "message": {
+                    "role": "assistant",
+                    "content": response_text,
+                },
+                "finish_reason": "stop",
+            }
+        ],
+        # usage is optional; left minimal for demo
+        "usage": {},
+    }
+
+    return resp

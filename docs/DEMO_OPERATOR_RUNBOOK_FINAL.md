@@ -36,6 +36,18 @@ Quick start (single commands)
    curl -sS -X POST http://localhost:8001/chat -H 'Content-Type: application/json' -d '{"message":"Hello Jebediah. Introduce yourself and explain what you can do."}' -w '\nHTTP_STATUS:%{http_code}\n' -o /tmp/jeb_response.json
    jq -r '.response' /tmp/jeb_response.json
 
+   Open WebUI configuration (OpenAI-compatible adapter):
+   - To route Open WebUI through the Jebediah Interaction Gateway, point the WebUI backend API to the OpenAI-compatible endpoint implemented by the interaction service:
+    - If Open WebUI is running in a browser on the demo laptop (host):
+      http://host.docker.internal:8001/v1/chat/completions
+    - If Open WebUI is running as a container on the same Docker network as the services:
+      http://jebediah-interaction:8001/v1/chat/completions
+    - If Open WebUI is running locally on the host and accessible as localhost:
+      http://localhost:8001/v1/chat/completions
+
+   - Test the Open WebUI backend by sending a simple chat completion request (example using curl):
+    curl -sS -X POST http://localhost:8001/v1/chat/completions -H 'Content-Type: application/json' -d '{"messages":[{"role":"user","content":"Hello"}]}' | jq -r '.choices[0].message.content'
+
 Detailed operator checklist
 ---------------------------
 1. Preconditions

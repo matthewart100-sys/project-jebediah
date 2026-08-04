@@ -8,7 +8,7 @@ Operator instructions
 ---------------------
 - Ensure the runbook preconditions and health checks are satisfied before beginning.
 - Start the services and wait for Qdrant indexing (or run commit/optimize if desired).
-- Have the Open WebUI or a terminal ready to run the example POST /chat requests.
+- Have the Open WebUI or a terminal ready to run the example POST /chat requests. If using Open WebUI, configure its backend to point to the interaction gateway's OpenAI-compatible endpoint: http://host.docker.internal:8001/v1/chat/completions (or http://jebediah-interaction:8001/v1/chat/completions when Open WebUI runs as a container on the same Docker network).
 - Use the exact prompts below. Pause after each response to allow the system to display generated text.
 
 Demo flow
