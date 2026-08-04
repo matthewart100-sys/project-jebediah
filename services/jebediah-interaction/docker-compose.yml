@@ -12,7 +12,7 @@ services:
       - jebediah_internal
 
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:100.110.120.15"
 
     environment:
       MEMORY_URL: http://jebediah-memory:8000
