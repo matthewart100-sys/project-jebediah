@@ -29,9 +29,13 @@ Prereqs on the VM:
 1. Verify Docker and network exist:
    - docker network ls | grep jebediah_internal
 2. Start services (project root):
-   - docker compose -f services/jebediah-memory/docker-compose.yml up -d --build
-   - docker compose -f services/jebediah-interaction/docker-compose.yml up -d --build
-   - Ensure qdrant is running (docker compose -f services/jebediah-memory/docker-compose.yml up -d qdrant or as per platform)
+   - The repository includes helper scripts to simplify demo startup and teardown:
+     - ./scripts/demo_start.sh — starts qdrant, memory and interaction services and runs post-start checks
+     - ./scripts/demo_stop.sh — stops interaction and memory services while preserving persistent volumes
+   - Or manually:
+     - docker compose -f services/jebediah-memory/docker-compose.yml up -d --build
+     - docker compose -f services/jebediah-interaction/docker-compose.yml up -d --build
+     - Ensure qdrant is running (docker compose -f services/jebediah-memory/docker-compose.yml up -d qdrant or as per platform)
 
 Ollama availability
 -------------------

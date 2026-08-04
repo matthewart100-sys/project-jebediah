@@ -34,4 +34,8 @@ async def retrieve_context(query: str) -> str:
 
         data = response.json()
 
-        return str(data)
+        # Return structured JSON so callers can consume memory results programmatically
+        # instead of relying on raw Python string conversion which is non-deterministic
+        # and loses structure. The memory service returns a dict with keys like
+        # {"query": ..., "memories": [...]}
+        return data

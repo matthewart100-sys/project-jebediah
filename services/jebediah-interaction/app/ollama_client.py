@@ -1,5 +1,6 @@
 import os
 import httpx
+from fastapi import HTTPException
 
 
 OLLAMA_URL = os.getenv(
@@ -26,7 +27,13 @@ async def generate(messages: list[dict]) -> str:
             json=payload,
         )
 
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            # Map remote generation failures to 503 so callers can treat model
+            # unavailability as a dependency outage rather than an internal error.
+            status = exc.response.status_code if exc.response is not None else 503
+            raise HTTPException(status_code=503, detail="generation model unavailable") from exc
 
         data = response.json()
 
