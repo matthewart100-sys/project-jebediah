@@ -112,7 +112,7 @@ async def openai_chat_completions(request: OpenAIChatCompletionRequest):
         "id": f"jeb-{uuid.uuid4()}",
         "object": "chat.completion",
         "created": created,
-        "model": None,
+        "model": "jebediah",
         "choices": [
             {
                 "index": 0,
@@ -128,3 +128,25 @@ async def openai_chat_completions(request: OpenAIChatCompletionRequest):
     }
 
     return resp
+
+
+@app.get("/v1/models")
+def openai_models():
+    """Return a minimal OpenAI-compatible models list containing the
+    single public model 'jebediah' so Open WebUI can discover it automatically.
+    """
+    import time
+
+    now = int(time.time())
+    return {
+        "object": "list",
+        "data": [
+            {
+                "id": "jebediah",
+                "object": "model",
+                "created": now,
+                "owned_by": "project-jebediah",
+                "permissions": [],
+            }
+        ],
+    }
