@@ -10,6 +10,7 @@ services:
 
     networks:
       - jebediah_internal
+      - jebediah_external
 
     extra_hosts:
       - "host.docker.internal:100.110.120.15"
@@ -25,7 +26,8 @@ services:
     ports:
       - "8001:8001"
 
-
 networks:
   jebediah_internal:
+    external: true
+  jebediah_external:
     external: true
