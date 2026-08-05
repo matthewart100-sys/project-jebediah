@@ -77,15 +77,15 @@ Platform**
 
 ## Current contribution gate
 
-The [current sprint](CURRENT_SPRINT.md) is Knowledge Manager 1.0 Phase 1:
-Knowledge Registry Foundation. It authorizes only immutable governance-metadata
-models, a storage-neutral repository abstraction, an in-memory reference
-adapter, and synthetic tests under accepted ADR 0014. A validated implementation
-candidate now awaits independent Work Mode review and exact-head Chief Architect
-approval. Ingestion, external information, memory integration, embeddings,
-Qdrant writes, services, deployment, and autonomous promotion remain excluded.
+[Knowledge Manager 1.0 Phase 1](CURRENT_SPRINT.md) is complete. Pull request #49
+merged the validated metadata-only Knowledge Registry library at
+`4ed2ac283e4df6aec30b67f7c4aa50338924c435`; the
+[Phase 1 closeout](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) records the
+post-merge evidence and exclusions.
 
-Sprint 005 remains the most recently completed implementation sprint. JCS
+No active implementation sprint is authorized. Ingestion, external
+information, memory integration, embeddings, Qdrant writes, services,
+deployment, document uploads, and autonomous promotion remain excluded. JCS
 remains deferred and is not a dependency. All changes use short-lived branches,
 pull-request review, and small, understandable commits.
 

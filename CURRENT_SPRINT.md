@@ -2,24 +2,29 @@
 
 ## Active sprint
 
-**Name:** Knowledge Manager 1.0 Phase 1 - Knowledge Registry Foundation
+**Name:** None
 
-**Status:** Active; bounded implementation candidate validated and awaiting
-independent review
+**Status:** No active implementation sprint is authorized; Knowledge Manager
+1.0 Phase 1 is complete and independently validated
 
-**Target window:** 2026-08-04 to 2026-08-18
+**Target window:** Not applicable until the Chief Architect authorizes another
+sprint
 
 **Deployment status:** Not authorized
 
 **Information-use status:** Synthetic test metadata only; external and
 organizational information use is not authorized
 
-## Sprint goal
+## Most recently completed sprint
+
+**Name:** Knowledge Manager 1.0 Phase 1 - Knowledge Registry Foundation
+
+**Closed:** 2026-08-05
 
 Determine whether Project Jebediah can safely represent governed knowledge
 objects before learning from, retrieving, exposing, or acting on them.
 
-The sprint will implement only the accepted metadata-only Knowledge Registry
+The completed sprint implemented only the accepted metadata-only Knowledge Registry
 domain, storage-neutral repository abstraction, in-memory reference adapter,
 and deterministic validation defined by the
 [Phase 1 Implementation Plan](docs/KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md).
@@ -39,6 +44,14 @@ and deterministic validation defined by the
 - The canonical activation closeout merged into `main` at
   `e418479bbb10f48c1a3c7dd207c299cc49226896`, which is the implementation
   base.
+- Independent Work Mode approved exact implementation head
+  `7b06b1df831ad2a7a4726fa5e92746538cec34b4` with no findings, and the Chief
+  Architect approved that head for merge and closeout.
+- Pull request #49 squash-merged the exact reviewed source into canonical
+  `main` as `4ed2ac283e4df6aec30b67f7c4aa50338924c435`.
+- Post-merge validation passed 93 targeted tests, the 235-test full suite,
+  Python compilation, frozen-lock, documentation, import-boundary, whitespace,
+  and sensitive-value checks.
 - During implementation, the required unchanged full-suite command exposed a
   pytest module-name collision between the new and existing `test_models.py`
   files. The Chief Architect authorized
@@ -49,11 +62,11 @@ and deterministic validation defined by the
 - The Knowledge Vault remains **Named**. This sprint does not satisfy its full
   component-specification, implementation, deployment, or operations gates.
 
-Sprint 006 Proposal v2 remains a separate proposed workstream. Activating this
-sprint does not accept or authorize Sprint 006, the VBA demonstration, live
+Sprint 006 Proposal v2 remains a separate proposed workstream. Completion of
+this sprint does not accept or authorize Sprint 006, the VBA demonstration, live
 information use, or an organizational-intelligence implementation.
 
-## Committed scope
+## Delivered scope
 
 The exact implementation targets are:
 
@@ -74,7 +87,7 @@ tests/collector/knowledge/
         test_package_boundaries.py
 ```
 
-The sprint includes only:
+The delivered implementation includes only:
 
 - Immutable registry metadata domain types accepted in ADR 0014.
 - Explicit source, transformation, evidence, ownership, governance, freshness,
@@ -85,9 +98,9 @@ The sprint includes only:
 - Model, repository, dependency-boundary, compatibility, and regression tests.
 - Directly required documentation and implementation-review evidence.
 
-## Non-goals
+## Excluded scope
 
-The sprint must not implement:
+The completed sprint did not implement:
 
 - Document ingestion, quarantine, PDF or DOCX processing, extraction,
   transformation, or admission evaluation.
@@ -107,12 +120,12 @@ The sprint must not implement:
 Any requested non-goal stops work for plan revision, Work Mode review, and
 Chief Architect authorization.
 
-## Acceptance criteria
+## Completion evidence
 
-The sprint is complete only when:
+The sprint completed every accepted criterion:
 
-1. Checkpoint 0 reconfirms clean `main`, this active sprint, accepted ADR 0014,
-   the accepted plan, and the full pre-change test baseline.
+1. Checkpoint 0 reconfirmed clean `main`, the then-active sprint, accepted ADR
+   0014, the accepted plan, and the full pre-change test baseline.
 2. Registry records contain fixed governance metadata and no source or derived
    content, arbitrary metadata bag, embedding, score, model response, memory
    object, or action.
@@ -147,22 +160,24 @@ The normative evidence matrix is the
 | --- | --- | --- |
 | Architecture and plan | Accepted | Work Mode approval and Chief Architect decisions recorded on PR #47 at exact source head `00db845a98f63fc3b8d1bb1135adcafa9d306b97` |
 | Planning merge | Complete | PR #47 squash merge `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e` |
-| Sprint activation | Active | This closeout reconciles canonical status, sprint, roadmap, architecture, ownership, and decision records; it becomes authoritative when merged |
+| Sprint activation | Complete | Activation closeout merge `e418479bbb10f48c1a3c7dd207c299cc49226896` |
 | Checkpoint 0 | Complete | Clean synchronized `main` at implementation base `e418479bbb10f48c1a3c7dd207c299cc49226896`; package absent; documentation validation passed; 142 baseline tests passed |
-| Domain types | Candidate complete | Immutable metadata contract and invariant tests implemented on `feature/knowledge-registry-foundation` |
-| Repository abstraction and reference adapter | Candidate complete | Three-method ABC, typed conflict, and in-memory reference adapter implemented without runtime composition |
-| Validation and compatibility proof | Candidate complete | 93 targeted tests and 235 full-suite tests pass; import smoke, documentation validation, package-boundary tests, and diff checks pass |
-| Work Mode implementation review | Pending | Review the exact committed implementation head, complete diff, and evidence packet |
-| Chief Architect implementation merge decision | Pending | Requires exact reviewed implementation head |
+| Domain types | Complete | Immutable metadata contract and invariant tests merged at `4ed2ac283e4df6aec30b67f7c4aa50338924c435` |
+| Repository abstraction and reference adapter | Complete | Three-method ABC, typed conflict, and in-memory reference adapter merged without runtime composition |
+| Validation and compatibility proof | Complete | Post-merge 93 targeted and 235 full-suite tests plus compilation, lock, docs, package-boundary, diff, and sensitive-value checks passed |
+| Work Mode implementation review | Complete | Exact head `7b06b1df831ad2a7a4726fa5e92746538cec34b4` approved with no findings |
+| Chief Architect implementation merge decision | Complete | Exact reviewed implementation head approved for merge and closeout |
+| Implementation merge | Complete | PR #49 squash merge `4ed2ac283e4df6aec30b67f7c4aa50338924c435` |
+| Documentation closeout | Complete | [Phase 1 Closeout](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md); its reviewed merge is the terminal closeout event |
 
 ## Dependencies
 
 - Accepted ADRs 0002, 0003, 0011, 0012, 0013, and 0014 remain unchanged.
-- The implementation branch starts from clean synchronized `main` after this
-  closeout.
+- The implementation branch started from clean synchronized `main` after the
+  activation closeout.
 - The existing Python package, Python 3.12-or-newer requirement, and pytest
   configuration remain available.
-- The 142-test planning baseline is rerun before implementation.
+- The 142-test planning baseline was rerun before implementation.
 
 The sprint does not depend on JCS, Qdrant availability, Ollama availability,
 Docker, a service, organizational information, or the VBA demonstration.
@@ -180,16 +195,12 @@ Docker, a service, organizational information, or the VBA demonstration.
 | Existing behavior regresses | Leave existing code unchanged and run the full suite |
 | Scope changes after review | Stop and obtain revised architecture, review, and exact authorization |
 
-## Update and close rules
+## Closed-sprint boundary
 
-- Update work status only from repository and validation evidence.
-- Do not mark implementation complete because types compile or targeted tests
-  pass.
-- Any architecture, dependency, runtime, information-use, or file-scope change
-  requires Chief Architect authorization before implementation continues.
-- Work Mode reviews the exact final implementation before the Chief Architect
-  merge decision.
-- After a verified implementation merge, the Documentation Suite performs the
-  normal documentation closeout.
-- Deployment, external information, and Knowledge Manager Phase 2 remain
-  separately gated after this sprint closes.
+- The [Phase 1 Closeout](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) owns the
+  merge, validation, exclusions, maturity, rollback, and limitations evidence.
+- No Phase 2 implementation begins from the completed Phase 1 plan.
+- Deployment, external information, and real document handling remain
+  unauthorized.
+- Another implementation sprint requires a canonical plan, independent review,
+  and explicit Chief Architect authorization.

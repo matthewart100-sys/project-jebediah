@@ -2,12 +2,12 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 1 active; the bounded metadata-only
-Knowledge Registry implementation candidate is validated and awaiting
-independent review; Sprint 006, external information, runtime integration, and
-deployment remain unauthorized
+**Status:** Knowledge Manager 1.0 Phase 1 complete; the bounded metadata-only
+Knowledge Registry library is merged and post-merge validated; no active
+implementation sprint, external information, runtime integration, or deployment
+is authorized
 
-**Last reviewed:** 2026-08-04
+**Last reviewed:** 2026-08-05
 
 ## Summary
 
@@ -18,13 +18,13 @@ unit tests, and a Dockerized semantic memory service using FastAPI, Ollama, and
 Qdrant adapter boundaries.
 
 Project governance now defines a permanent multi-role operating model with
-separate Chief Architect, Codex Implementation Engineer, Work Mode,
+separate Chief Architect, Implementation Engineer, Work Mode,
 Documentation Suite, and future Jebediah Runtime responsibilities. The model
 requires independent plan and implementation review, exact Chief Architect
 approvals, controlled merge verification, and evidence-based post-merge
-documentation closeout. The active Knowledge Registry sprint follows those
-gates and does not authorize Sprint 006, external information, deployment, or
-other runtime work.
+documentation closeout. Knowledge Manager 1.0 Phase 1 completed those gates
+without authorizing Sprint 006, external information, deployment, or other
+runtime work.
 
 [ADR 0011](docs/adr/0011-knowledge-vault-authority-and-boundary-model.md)
 defines the accepted Knowledge Vault authority boundary as a derived governed
@@ -41,11 +41,13 @@ head `00db845a98f63fc3b8d1bb1135adcafa9d306b97`; the Chief Architect ratified
 the package placement as repository packaging only, accepted ADR 0014, and
 authorized the bounded implementation. Pull request #47 squash-merged the
 reviewed plan at `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`.
-The implementation candidate on `feature/knowledge-registry-foundation`
-contains only synthetic metadata models, a storage-neutral repository interface,
-an in-memory reference adapter, and tests. It passes 93 targeted tests and the
-235-test full suite, but remains unmerged pending exact-head Work Mode review
-and Chief Architect approval.
+Pull request #49 squash-merged exact reviewed implementation head
+`7b06b1df831ad2a7a4726fa5e92746538cec34b4` into `main` as
+`4ed2ac283e4df6aec30b67f7c4aa50338924c435`. The implementation contains only
+synthetic metadata models, a storage-neutral repository interface, an in-memory
+reference adapter, and tests. Post-merge validation passed 93 targeted tests,
+the 235-test full suite, compilation, frozen-lock, documentation,
+import-boundary, whitespace, and sensitive-value checks.
 
 Sprint 006 Proposal v1 is permanently **Abandoned** because its source
 artifacts and exact review head are unrecoverable. The surviving Work Mode
@@ -72,8 +74,11 @@ ADRs 0012 and 0013 define accepted architecture boundaries for a read-only
 executive interface and quarantine-first PDF, DOCX, TXT, and Markdown
 admission. Their specifications and validation requirements select no
 implementation technology and grant no source, live-information, deployment,
-verification, or action authority. The active registry sprint does not
-implement either boundary.
+verification, or action authority. Phase 1 implements neither boundary.
+Pull request #50 contains a separately reviewed Phase 2 document-inspection
+proposal at exact head `d28e1b35d7e495ff1a33d159dbd37f0c2321c8e7`; it remains
+unmerged until Phase 1 closeout is canonical and does not authorize
+implementation or real document use.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -114,11 +119,12 @@ reviewed pull requests.
   `00db845a98f63fc3b8d1bb1135adcafa9d306b97` at
   `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`; the exact bounded Phase 1
   implementation was authorized.
-- The implementation branch starts from activation-closeout merge
-  `e418479bbb10f48c1a3c7dd207c299cc49226896` and contains a validated,
-  unmerged registry candidate with 93 targeted and 235 full-suite tests passing.
-  It adds no external information, durable state, memory integration, runtime,
-  service, deployment, or autonomous capability.
+- Pull request #49 squash-merged exact reviewed head
+  `7b06b1df831ad2a7a4726fa5e92746538cec34b4` as
+  `4ed2ac283e4df6aec30b67f7c4aa50338924c435`. Post-merge validation passed 93
+  targeted and 235 full-suite tests. The implementation adds no external
+  information, durable state, memory integration, runtime, service, deployment,
+  or autonomous capability.
 - Accepted ADRs 0012 and 0013 define architecture boundaries for an executive
   read model and governed document admission; neither grants implementation
   authority.
@@ -275,18 +281,20 @@ addresses, sensitive topology, or personal data during that audit.
 
 ## Current work
 
-Knowledge Manager 1.0 Phase 1 is the active sprint. Its accepted
+Knowledge Manager 1.0 Phase 1 is complete. Its accepted
 [implementation plan](docs/KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
 and
 [validation requirements](docs/KNOWLEDGE_MANAGER_1_PHASE_1_VALIDATION_REQUIREMENTS.md)
-authorize only a synthetic, metadata-only registry domain, repository
-abstraction, in-memory reference adapter, and tests. Checkpoint 0 must
-reconfirm the clean baseline and authority before code begins.
+produced only a synthetic, metadata-only registry domain, repository
+abstraction, in-memory reference adapter, and tests. The
+[closeout record](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) owns the exact
+merge, post-merge evidence, exclusions, and remaining gates.
 
-Sprint 005 remains the most recently completed implementation sprint. Its
+Knowledge Manager 1.0 Phase 1 is the most recently completed implementation
+sprint. Sprint 005's
 [implementation plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md) and
 [validation requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md) record
-the merged memory-consolidation outcome.
+the earlier merged memory-consolidation outcome.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and
