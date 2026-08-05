@@ -14,8 +14,9 @@
 
 Define the first executive organizational-intelligence interface as a
 read-only presentation consumer of an evidence-bearing read model organized
-around four executive questions. The interface may present facts and derived
-material but owns no source truth, verification, ingestion, knowledge
+around “What is happening?”, “What needs attention?”, “What does Jebediah
+know?”, and “What should happen next?”. The interface may present facts and
+derived material but owns no source truth, verification, ingestion, knowledge
 derivation, or action authority.
 
 ## Context
@@ -122,10 +123,14 @@ Select an evidence-bearing organizational-intelligence read model as the only
 ordinary input to the first executive interface.
 
 The interface organizes items into `happening`, `attention`, `know`, and
-`next`. Each item identifies its evidence classification, safe source
-references, source time when known, assembly time, freshness, confidence
-basis, lifecycle, transformation identity when derived, material limitations,
-and permitted human next step.
+`next`, corresponding to the four named executive questions. The knowledge
+section states coverage and limitations so that the interface cannot imply
+complete organizational knowledge. The next section treats “should” as a
+supported proposal for human decision, not action authority. Each item
+identifies its evidence classification, safe source references, source time
+when known, assembly time, freshness, confidence basis, lifecycle,
+transformation identity when derived, material limitations, and permitted
+human next step.
 
 The interface owns presentation and navigation only. It cannot ingest source
 content, verify claims, transform or index knowledge, mutate authoritative

@@ -25,6 +25,30 @@ have been accepted.
 Proposed documents are not authoritative implementation contracts until the
 required review and acceptance are recorded.
 
+## Objective traceability
+
+This proposal maps the active organizational-intelligence objective to
+reviewable evidence without claiming implementation:
+
+| Objective requirement | Proposed evidence | Remaining gate |
+| --- | --- | --- |
+| Reuse existing architecture | ADR 0013 retains the Collector admission direction; both ADRs preserve the Memory Service, Qdrant, and Sprint 006 boundaries | Work Mode and Chief Architect acceptance |
+| What is happening? | Interface specification current-state and change semantics | Approved domain and read-model component |
+| What needs attention? | Evidence-bearing attention items with visible rules and human review | Domain urgency and ownership policy |
+| What does Jebediah know? | Covered-domain, evidence, uncertainty, conflict, and limitation semantics | Approved sources and consumer eligibility |
+| What should happen next? | Supported proposals separated from approval and action authority | Future action-boundary decision where applicable |
+| PDF, DOCX, TXT, and Markdown | Candidate format contracts and synthetic contract-test requirements | Parser threat and technology decisions |
+| Source identity and provenance | Submission envelope, source/content identity, and transformation lineage | Approved source-domain contract |
+| Timestamps | Distinct source, submission, admission, processing, and transition semantics | Concrete interface and persistence contract |
+| Validation and processing state | Append-only admission vocabulary, validation requirements, retry, and failure behavior | Concrete component and recovery contract |
+| Source through user interaction | Future Design flow in Current Architecture plus distinct admission, derivation, retrieval, read-model, and presentation responsibilities | ADR 0011 or replacement plus accepted component interfaces |
+| Derived knowledge is not authoritative | Data Ownership mapping and ADRs 0012–0013 | Information-owner approval for each domain |
+| Independent audit | Exact-head PR, proposal gate, stop conditions, and evidence-report requirements | Work Mode review and Chief Architect decision |
+
+Runtime implementation, live information, deployment, and external action
+remain incomplete and unauthorized; this table must not be read as evidence
+that those outcomes exist.
+
 ## Documentation-only proposal gate
 
 Before architecture review, the actual proposal diff must prove:

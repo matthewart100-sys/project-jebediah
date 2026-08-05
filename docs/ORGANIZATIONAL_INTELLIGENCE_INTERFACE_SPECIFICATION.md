@@ -22,8 +22,8 @@ The first useful interface must answer four questions plainly:
 
 1. What is happening?
 2. What needs attention?
-3. What should I know?
-4. What can I do next?
+3. What does Jebediah know?
+4. What should happen next?
 
 Each answer must expose its evidence, freshness, uncertainty, and limits. When
 the project lacks admissible information, the interface must say so instead of
@@ -127,20 +127,23 @@ urgency basis, owner when known, and review deadline when known are visible.
 An attention item is a request for human review. Ranking does not grant action
 authority, and absence from the section does not prove that no risk exists.
 
-### What should I know?
+### What does Jebediah know?
 
 This section presents material changes, decisions, risks, opportunities, and
-knowledge gaps supported by admissible evidence. Direct facts, reported facts,
-derived summaries, assumptions, and open questions must remain
+knowledge gaps supported by admissible evidence. It states the covered
+information domains and material limits so that “Jebediah knows” cannot imply
+complete organizational knowledge or factual certainty. Direct facts, reported
+facts, derived summaries, assumptions, and open questions must remain
 distinguishable.
 
-### What can I do next?
+### What should happen next?
 
 This section presents approved plans, unresolved gates, and bounded action
-candidates. Every candidate identifies whether it is navigation, review,
-drafting, or a separately governed external action. The initial interface may
-navigate or prepare information, but it must not execute an organizational or
-external action.
+candidates in priority order under a visible rule. Every candidate identifies
+whether it is navigation, review, drafting, or a separately governed external
+action. “Should” expresses a supported proposal for human decision, not system
+authority. The initial interface may navigate or prepare information, but it
+must not execute an organizational or external action.
 
 ## Assistance boundary
 

@@ -125,7 +125,8 @@ The proposal combines two review targets without changing the roadmap order:
 - A quarantine-first extension of the Collector boundary for candidate PDF,
   DOCX, TXT, and Markdown submissions
 - A read-only executive interface over eligible evidence-bearing read-model
-  items organized as happening, attention, knowledge, and next steps
+  items answering what is happening, what needs attention, what Jebediah knows,
+  and what should happen next
 
 The document-admission boundary may refine Phase 2 only after source,
 information-owner, security, retention, component, ADR, and sprint gates are

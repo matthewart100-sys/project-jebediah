@@ -270,7 +270,7 @@ flowchart LR
     Admission -.->|"accepted source representation"| Derived
     Derived -.->|"eligible derived evidence"| ReadModel
     Source -.->|"approved direct facts"| ReadModel
-    ReadModel -.->|"happening, attention, know, next"| Interface
+    ReadModel -.->|"happening, attention, Jebediah knowledge, next"| Interface
     Interface -.->|"evidence and bounded options"| Human
 ```
 
