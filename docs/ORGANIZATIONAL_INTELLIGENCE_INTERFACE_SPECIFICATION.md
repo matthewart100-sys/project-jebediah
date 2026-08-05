@@ -275,8 +275,8 @@ The accepted specification satisfies its architecture criteria because:
 - Empty, partial, stale, unauthorized, and unavailable states are defined.
 - The interface cannot directly ingest sources, mutate authoritative records,
   or execute external actions.
-- No implementation technology or live information use is authorized by the
-  proposal.
+- No implementation technology or live information use is authorized by this
+  accepted specification.
 - Validation requirements trace these obligations to future evidence.
 
 ## Open questions
