@@ -79,7 +79,7 @@ topology belongs in this public document.
 | What does JCS stand for, own, and guarantee? | The authoritative information boundary and downstream dependencies cannot be assigned. | Phase 1 JCS specification and review |
 | Which reported infrastructure is actually running? | Deployment, operations, recovery, and capacity claims cannot be verified. | Sanitized infrastructure audit |
 | Which future component owns each concrete information item? | Categories are approved, but component authority and consistency behavior remain unassigned. | JCS and component specifications under [Data Ownership](DATA_OWNERSHIP.md) |
-| How will a future Knowledge Vault relate to the Memory Service, Knowledge Graph, and reasoning components? | The proposed derived-repository boundary does not assign implementation, interface, or deployment responsibilities. | ADR 0011 acceptance followed by separately reviewed component and relationship decisions |
+| How will a future Knowledge Vault relate to the Memory Service, Knowledge Graph, and reasoning components? | The accepted derived-repository boundary does not assign implementation, interface, or deployment responsibilities. | Separately reviewed component and relationship decisions |
 | What subject and use case will the first Digital Twin support? | The conceptual position is approved, but concrete scope and source mappings remain intentionally undefined. | Future Digital Twin specification under the [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) |
 | What data classifications apply? | Trust boundaries, retention, model access, and repository exposure cannot be finalized. | Security and data-classification work |
 | Which interfaces connect future subsystems? | Compatibility, failure, and deployment decisions remain open. | Subsystem specifications and ADRs |
@@ -385,13 +385,11 @@ or compatibility require the appropriate ADR before dependent implementation.
   identity, maturity, and component ownership.
 - [Data Ownership](DATA_OWNERSHIP.md) owns information categories and
   responsibility.
-- Proposed [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md)
-  owns the Knowledge Vault decision rationale while it remains under review; it
-  does not change current architecture until accepted and merged.
-- Proposed [ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
+- Accepted [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md)
+  owns the Knowledge Vault authority-boundary decision rationale.
+- Accepted [ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
   and [ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md)
-  own the executive-interface and document-admission rationale while under
-  review; they do not change current architecture until accepted and merged.
+  own the executive-interface and document-admission decision rationale.
 - The [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) owns Digital
   Twin intent, exclusions, and implementation gates.
 

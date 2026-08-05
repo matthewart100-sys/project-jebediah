@@ -32,7 +32,7 @@ inventing a complete answer.
 
 ## Scope
 
-This proposal governs:
+This specification governs:
 
 - The executive-facing information structure for the four questions
 - A read-only organizational-intelligence read model
@@ -44,7 +44,7 @@ This proposal governs:
 
 ## Non-goals
 
-This proposal does not:
+This specification does not:
 
 - Select a frontend framework, visual design system, API protocol, model,
   database, hosting platform, or deployment topology
@@ -258,17 +258,11 @@ decisions.
 
 Implementation waits for all applicable gates:
 
-1. Acceptance of ADR 0011 or an approved replacement for the Knowledge Vault
-   authority boundary
-2. Acceptance of Proposed ADR 0012 for the interface read-model boundary
-3. Acceptance of the document-admission decision when document-derived
-   evidence is in scope
-4. Approval of initial information domains, owners, producers, consumers,
+1. Approval of initial information domains, owners, producers, consumers,
    classification, retention, and freshness policies
-5. A component responsibility and interface contract for read-model assembly
-6. Security and privacy threat review
-7. Work Mode architecture review, Chief Architect acceptance, proposal merge,
-   and separate sprint authorization
+2. A component responsibility and interface contract for read-model assembly
+3. Security and privacy threat review
+4. Separate implementation-plan review and sprint authorization
 
 ## Acceptance criteria for this specification
 

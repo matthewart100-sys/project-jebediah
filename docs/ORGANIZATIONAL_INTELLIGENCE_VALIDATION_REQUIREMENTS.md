@@ -41,7 +41,7 @@ reviewable evidence without claiming implementation:
 | Source identity and provenance | Submission envelope, source/content identity, and transformation lineage | Approved source-domain contract |
 | Timestamps | Distinct source, submission, admission, processing, and transition semantics | Concrete interface and persistence contract |
 | Validation and processing state | Append-only admission vocabulary, validation requirements, retry, and failure behavior | Concrete component and recovery contract |
-| Source through user interaction | Future Design flow in Current Architecture plus distinct admission, derivation, retrieval, read-model, and presentation responsibilities | ADR 0011 or replacement plus accepted component interfaces |
+| Source through user interaction | Future Design flow in Current Architecture plus distinct admission, derivation, retrieval, read-model, and presentation responsibilities | Accepted component interfaces and ownership assignments |
 | Derived knowledge is not authoritative | Data Ownership mapping and ADRs 0012–0013 | Information-owner approval for each domain |
 | Independent audit | Exact-head PR, architecture gate, stop conditions, and evidence-report requirements | Completed for architecture head `c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250`; future implementation requires separate review |
 

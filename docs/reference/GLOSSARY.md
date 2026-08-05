@@ -184,7 +184,7 @@ authority. Its retention and cleanup behavior remain explicit.
 
 ### Derived representation
 
-As proposed by
+As defined by accepted
 [ADR 0011](../adr/0011-knowledge-vault-authority-and-boundary-model.md), an
 information artifact produced from one or more source records by a documented
 transformation for a bounded knowledge use. It retains sufficient source and
@@ -194,7 +194,7 @@ embedding, indexing, summarization, or retrieval.
 
 ### Quarantined candidate information
 
-As proposed by ADR 0011, untrusted, non-authoritative, non-consumable candidate
+As defined by ADR 0011, untrusted, non-authoritative, non-consumable candidate
 input awaiting admissibility evaluation. It remains temporary unless a separate
 accepted contract assigns another category. Evaluation may establish policy
 admissibility but does not verify source truth.
@@ -211,7 +211,8 @@ pending, and no live organizational pilot is authorized.
 
 ### Knowledge Vault
 
-A **Named** proposed future component boundary described by Proposed
+A **Named** future component boundary whose authority model is defined by
+accepted
 [ADR 0011](../adr/0011-knowledge-vault-authority-and-boundary-model.md) as a
 derived governed knowledge repository. It is not GitHub `main`, an original
 authoritative source, the Memory Service, Qdrant, a vector index, a model

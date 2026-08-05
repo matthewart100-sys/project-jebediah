@@ -5,7 +5,7 @@
 ## Purpose
 
 This document defines how Project Jebediah classifies and governs information
-before JCS, collectors, the proposed Knowledge Vault, knowledge components, the
+before JCS, collectors, the Knowledge Vault, knowledge components, the
 Digital Twin, automation, or reasoning are designed. It prevents a cache, model
 output, vector index, workflow state, or convenient copy from becoming an
 accidental source of truth.
@@ -22,8 +22,8 @@ It does not:
 
 - Select a database, schema, serialization, protocol, or storage location
 - Define JCS responsibilities
-- Accept the proposed Knowledge Vault boundary or authorize its implementation,
-  external information use, or operation
+- Authorize Knowledge Vault implementation, external information use, or
+  operation
 - Verify the reported Qdrant, n8n, Ollama, or home-lab state
 - Classify data that has not been inventoried
 - Grant a component permission to collect, retain, transform, or act on data
@@ -294,11 +294,11 @@ dependent derived information deliberately.
 - Deleted or reclassified source data must have an owned propagation path to
   prompts, caches, embeddings, indexes, and other derivatives.
 
-## Proposed Knowledge Vault mapping
+## Accepted Knowledge Vault mapping
 
-Proposed
-[ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) applies
-the existing categories without creating a new authority category:
+Accepted
+[ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) applies the
+existing categories without creating a new authority category:
 
 - Canonical project records remain authoritative engineering memory within each
   canonical owner's subject.
@@ -420,8 +420,8 @@ unauthorized information. Reconciliation after restore is part of recovery.
 | Chats and model context | Temporary working context unless promoted | Active participant for safe handling | Not authoritative project memory |
 | Memory Service Qdrant point payload | Authoritative operational record of what the service accepted and durably stored | Jebediah Memory Service repository candidate | Does not own source truth; deployment, live contents, retention, and recovery remain unverified |
 | Embeddings, vector indexes, confidence, and retrieval signals | Derived information | Jebediah Memory Service repository candidate | Model identity is explicit; source authority and live compatibility remain separate |
-| Proposed Knowledge Vault | Unassigned; ADR 0011 proposes governed derived representations only | Unassigned pending ADR acceptance and component specification | **Named**, not implemented or operational; no source, external-use, or action authority |
-| Proposed organizational document submission and read-model items | Cached, operational, or derived as defined by the approved domain and transformation | Unassigned pending ADR and component acceptance | Proposed only; no live information, implementation, retention, retrieval, display, or action authority |
+| Knowledge Vault boundary | ADR 0011 defines governed derived representations only | Unassigned pending component specification | **Named**, not implemented or operational; no source, external-use, or action authority |
+| Future organizational document submission and read-model items | Cached, operational, or derived as defined by the approved domain and transformation | Unassigned pending component and domain approval | Accepted architecture only; no live information, implementation, retention, retrieval, display, or action authority |
 | Other future runtime records, caches, indexes, embeddings, and inferences | Unassigned | Unassigned pending specification | No authority follows from the implemented memory candidate |
 
 ### Sprint 005 memory-record mapping
