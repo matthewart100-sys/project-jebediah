@@ -2,10 +2,11 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 1 complete; the bounded metadata-only
-Knowledge Registry library is merged and post-merge validated; no active
-implementation sprint, external information, runtime integration, or deployment
-is authorized
+**Status:** Knowledge Manager 1.0 Phase 1 complete; the Phase 2
+document-inspection architecture and validation baseline is canonical; a
+documentation-only synthetic implementation-activation package is proposed,
+but no active implementation sprint, external information, runtime integration,
+or deployment is authorized
 
 **Last reviewed:** 2026-08-05
 
@@ -22,9 +23,10 @@ separate Chief Architect, Implementation Engineer, Work Mode,
 Documentation Suite, and future Jebediah Runtime responsibilities. The model
 requires independent plan and implementation review, exact Chief Architect
 approvals, controlled merge verification, and evidence-based post-merge
-documentation closeout. Knowledge Manager 1.0 Phase 1 completed those gates
-without authorizing Sprint 006, external information, deployment, or other
-runtime work.
+documentation closeout. Knowledge Manager 1.0 Phase 1 completed those gates,
+and pull request #50 established the Phase 2 document-inspection architecture
+and validation baseline without authorizing external information,
+implementation, deployment, or other runtime work.
 
 [ADR 0011](docs/adr/0011-knowledge-vault-authority-and-boundary-model.md)
 defines the accepted Knowledge Vault authority boundary as a derived governed
@@ -72,13 +74,19 @@ pilot authorization.
 
 ADRs 0012 and 0013 define accepted architecture boundaries for a read-only
 executive interface and quarantine-first PDF, DOCX, TXT, and Markdown
-admission. Their specifications and validation requirements select no
-implementation technology and grant no source, live-information, deployment,
-verification, or action authority. Phase 1 implements neither boundary.
-Pull request #50 contains a separately reviewed Phase 2 document-inspection
-proposal at exact head `d28e1b35d7e495ff1a33d159dbd37f0c2321c8e7`; it remains
-unmerged until Phase 1 closeout is canonical and does not authorize
-implementation or real document use.
+admission. Pull request #50 squash-merged the independently reviewed Phase 2
+document-inspection plan, validation requirements, and safe preparation
+guidance as canonical commit
+`92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. The accepted baseline selects no
+parser, scanner, isolation product, production store, service, or deployment
+and grants no source, live-information, verification, or action authority.
+
+The proposed
+[Phase 2 synthetic implementation activation](docs/KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
+defines exact standard-library-only contracts and process-local synthetic
+reference adapters. It is not an active sprint or implementation
+authorization. It requires independent exact-head Work Mode review, a Chief
+Architect exact-head decision, and canonical merge before code may begin.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -128,6 +136,13 @@ reviewed pull requests.
 - Accepted ADRs 0012 and 0013 define architecture boundaries for an executive
   read model and governed document admission; neither grants implementation
   authority.
+- Pull request #50 squash-merged the independently reviewed Phase 2 plan and
+  validation baseline as
+  `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`; no implementation or
+  real-information authority followed from the merge.
+- The current Phase 2 synthetic implementation-activation package is a
+  documentation-only proposal pending exact-head Work Mode review, Chief
+  Architect decision, and canonical merge.
 - Draft pull request #43 contains Sprint 006 Proposal v2 as a
   documentation-only architecture package. It is not an active or authorized
   implementation sprint.
@@ -295,6 +310,14 @@ sprint. Sprint 005's
 [implementation plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md) and
 [validation requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md) record
 the earlier merged memory-consolidation outcome.
+
+The accepted Phase 2 architecture and validation baseline is canonical at
+`92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. The current work is a
+documentation-only synthetic implementation-activation proposal containing the
+exact candidate scope, threat model, dependency assessment, owner assignments,
+rollback, validation, future manifest, and proposed authorization. No Phase 2
+code, parser, service, real document, runtime integration, or deployment is
+authorized by preparing the package.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and

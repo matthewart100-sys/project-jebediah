@@ -10,6 +10,11 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added the proposed Knowledge Manager 1.0 Phase 2 synthetic implementation-
+  activation package with exact contracts, threat model, dependency assessment,
+  owner assignments, rollback, validation, future file manifest, and a proposed
+  bounded authorization; no code or real-document use is authorized by the
+  proposal.
 - Added a proposed Knowledge Manager 1.0 Phase 2 document-inspection plan,
   synthetic validation requirements, and safe local VBA evidence-preparation
   guide; the package does not authorize code, real documents, ingestion,
@@ -61,6 +66,11 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Recorded pull request #50's squash merge of the independently reviewed
+  Phase 2 document-inspection architecture and validation baseline as
+  `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`, while preserving separate
+  implementation, dependency, runtime, and real-information authorization
+  gates.
 - Closed Knowledge Manager 1.0 Phase 1 after post-merge validation passed 93
   targeted and 235 full-suite tests plus compilation, frozen-lock,
   documentation, import-boundary, whitespace, and sensitive-value checks. The

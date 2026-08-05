@@ -1,6 +1,6 @@
 # Knowledge Manager 1.0 Phase 2 Validation Requirements
 
-**Status:** Proposed
+**Status:** Accepted validation baseline
 
 **Phase:** Document Inspection Pipeline
 
@@ -9,8 +9,8 @@
 **Applies to:** A future bounded implementation authorized from the
 [Phase 2 Document Inspection Plan](KNOWLEDGE_MANAGER_1_PHASE_2_DOCUMENT_INSPECTION_PLAN.md)
 
-**Authorization state:** Proposal only. These requirements do not authorize
-code, dependencies, services, deployment, real document use, or live
+**Authorization state:** Accepted requirements only. These requirements do not
+authorize code, dependencies, services, deployment, real document use, or live
 information.
 
 ## Purpose
@@ -467,9 +467,9 @@ It must also record:
 If the selected parser or isolation mechanism requires an additional existing
 project check, the accepted implementation plan must name it before coding.
 
-## Documentation-only proposal validation
+## Documentation-only baseline validation
 
-Before architecture review of this proposal:
+The exact-head architecture review required the proposal branch to:
 
 - run the documentation validator and link checks;
 - run `git diff --check`;
@@ -498,3 +498,17 @@ A future synthetic implementation is review-ready only when:
 Even then, real VBA inspection remains unauthorized until a separate
 information-domain, policy, operations, and exact-scope decision is reviewed
 and recorded.
+
+## Acceptance and activation record
+
+Independent Work Mode approved exact head
+`a6917965236a0897ea2adf8284bb7190a78f488f` with no findings after the
+mechanical branch-currency update. Pull request #50 squash-merged the accepted
+requirements with the Phase 2 plan as canonical commit
+`92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`.
+
+The
+[Phase 2 Synthetic Implementation Activation](KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
+refines these requirements into exact model, interface, test, dependency,
+threat, owner, rollback, and future-file decisions. That package remains a
+separate exact-head review and authorization gate.
