@@ -94,7 +94,7 @@ authority boundary can still be reviewed independently of technology.
 - Processing and failure state must be auditable without implying truth.
 - Duplicate receipt, retry, partial extraction, deletion, and recovery need
   explicit semantics.
-- The design must preserve ADR 0011's proposed non-authoritative derived-
+- The design must preserve ADR 0011's accepted non-authoritative derived-
   knowledge boundary.
 - Implementation technology must remain open until source and threat evidence
   are approved.
@@ -240,7 +240,7 @@ indexes must be rebuildable from eligible records.
 ## Compatibility and migration
 
 The existing bounded text-record contract and memory APIs remain unchanged by
-this proposal. Later implementation must characterize and preserve accepted
+this decision. Later implementation must characterize and preserve accepted
 Collector behavior or explicitly version a new document-submission contract.
 
 No live binary-document consumer or stored organizational dataset exists in
@@ -250,7 +250,7 @@ and rollback plan.
 
 ## Validation
 
-The proposal is validated by the
+The decision is validated by the
 [Organizational Intelligence Validation Requirements](../ORGANIZATIONAL_INTELLIGENCE_VALIDATION_REQUIREMENTS.md).
 Synthetic implementation tests must cover format detection, malformed and
 resource-unsafe inputs, identity, provenance, time, held and unavailable

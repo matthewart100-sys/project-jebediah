@@ -57,8 +57,8 @@ Project Jebediah already distinguishes authoritative, cached, derived, and
 temporary information. It requires explicit provenance, ownership, lifecycle,
 recovery, and trust boundaries before dependent implementation.
 
-The term `Jebediah Knowledge Vault` does not yet have an accepted architectural
-boundary. Without one, it could be interpreted as:
+Before this decision, the term `Jebediah Knowledge Vault` did not have an
+accepted architectural boundary. Without one, it could be interpreted as:
 
 - A replacement for, or competing authority to, canonical project records
   maintained on reviewed GitHub `main`
@@ -101,7 +101,7 @@ boundary implicitly.
 
 ### Working assumptions
 
-- `Jebediah Knowledge Vault` is a useful stable label for the proposed
+- `Jebediah Knowledge Vault` is a useful stable label for the governed
   knowledge-layer responsibility.
 - Future approved consumers will need source-linked derived representations
   without transferring source authority into a retrieval repository.
@@ -680,15 +680,16 @@ this ADR creates no runtime compatibility obligation.
 
 ## Validation
 
-This decision is ready for acceptance when review confirms:
+This decision was accepted after review confirmed:
 
 - `canonical project records` is used consistently and remains scoped to each
   canonical owner.
 - `derived representation` has one clear meaning.
 - Unchanged source mirrors remain cached rather than being mislabeled as
   derived.
-- Status remains Proposed and maturity remains Named until acceptance.
-- The proposed Specified transition cannot be read as implementation,
+- Component maturity remains **Named** after acceptance until the separately
+  reviewed **Specified** criteria are satisfied.
+- The target **Specified** transition cannot be read as implementation,
   migration, deployment, operational, or external-use readiness.
 - The conceptual flow includes source authorization, quarantine, evaluation,
   accept/reject/hold disposition, transformation, retrieval, and an approved
@@ -707,7 +708,7 @@ This decision is ready for acceptance when review confirms:
 - JCS remains deferred.
 - No schema, API, storage, model, deployment, migration, or runtime
   implementation is selected.
-- The complete exact artifact receives independent Work Mode review and the
+- The complete exact artifact received independent Work Mode review and the
   Chief Architect's final decision under the Project Coordination Protocol.
 
 Reconsideration is required if a later proposal would:

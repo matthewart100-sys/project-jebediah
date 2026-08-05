@@ -24,11 +24,11 @@ derivation, or action authority.
 ## Context
 
 Project Jebediah has Collector and Memory Service implementation candidates and
-a proposed Knowledge Vault authority boundary. It has no approved executive
-interface, organizational read model, live information domain, or action
-contract. An interface implemented directly against parsers, vector results,
-or model output would silently decide data authority, failure semantics, and
-human-action boundaries.
+an accepted Knowledge Vault authority boundary. Before this decision, it had no
+approved executive interface, organizational read model, live information
+domain, or action contract. An interface implemented directly against parsers,
+vector results, or model output would silently decide data authority, failure
+semantics, and human-action boundaries.
 
 ### Verified facts
 
@@ -234,7 +234,7 @@ proposal is neither accepted nor superseded by this decision.
 
 ## Validation
 
-The proposal is validated by the
+The decision is validated by the
 [Organizational Intelligence Validation Requirements](../ORGANIZATIONAL_INTELLIGENCE_VALIDATION_REQUIREMENTS.md).
 Future tests must prove evidence completeness, state distinctions, action
 non-authority, accessibility, privacy, injection resistance, and deterministic
