@@ -2,10 +2,10 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 1 complete; the Phase 2 synthetic
-document-inspection implementation is an active, bounded repository candidate
-awaiting exact-head review; external information, runtime integration,
-deployment, and operational use remain unauthorized
+**Status:** Knowledge Manager 1.0 Phase 2 synthetic document inspection is
+merged and post-merge validated; documentation-only closeout is in review;
+external information, runtime integration, deployment, operational use, and
+Phase 3 remain unauthorized
 
 **Last reviewed:** 2026-08-05
 
@@ -26,9 +26,10 @@ documentation closeout. Knowledge Manager 1.0 Phase 1 completed those gates,
 and pull request #50 established the Phase 2 document-inspection architecture
 and validation baseline. Pull request #52 then merged the independently reviewed
 synthetic-only activation package as
-`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca` and authorized the current bounded
-implementation candidate without authorizing external information, deployment,
-or runtime work.
+`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. Pull request #53 then
+squash-merged the exact independently reviewed implementation as
+`ccba7951f280f2b09e932db3979034dc6c2e5b68` without authorizing external
+information, deployment, runtime work, or Phase 3.
 
 [ADR 0011](docs/adr/0011-knowledge-vault-authority-and-boundary-model.md)
 defines the accepted Knowledge Vault authority boundary as a derived governed
@@ -86,11 +87,11 @@ and grants no source, live-information, verification, or action authority.
 The accepted
 [Phase 2 synthetic implementation activation](docs/KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
 defines exact standard-library-only contracts and process-local synthetic
-reference adapters. The current implementation branch contains that disconnected
-repository candidate and 226 targeted tests; the 461-test full suite,
-compilation, frozen-lock, diagnostics, and whitespace checks pass. The candidate
-is not merged or operational and still requires one exact-head Work Mode review
-and Chief Architect merge decision.
+reference adapters. Pull request #53 merged that disconnected repository
+package after exact-head Work Mode review and Chief Architect approval.
+Canonical post-merge validation passed 226 targeted tests, 461 full-suite
+tests, 9 package-boundary tests, and all required repository gates. The package
+has **Implemented** repository maturity but is not operational.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -146,9 +147,12 @@ reviewed pull requests.
   real-information authority followed from the merge.
 - Pull request #52 squash-merged exact reviewed activation head
   `a9d27f03454906db2771e3635c541bc5dca3e4ce` as
-  `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. The authorized implementation
-  branch contains a disconnected synthetic repository candidate pending exact-
-  head Work Mode review and Chief Architect merge disposition.
+  `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`.
+- Pull request #53 squash-merged exact reviewed implementation head
+  `31a92c5f4bc10e79fe4e00955941c6128bffe7b1` as
+  `ccba7951f280f2b09e932db3979034dc6c2e5b68`. Post-merge validation passed,
+  the remote implementation branch was deleted, and canonical `main` was clean
+  and synchronized.
 - Draft pull request #43 contains Sprint 006 Proposal v2 as a
   documentation-only architecture package. It is not an active or authorized
   implementation sprint.
@@ -311,19 +315,19 @@ abstraction, in-memory reference adapter, and tests. The
 [closeout record](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) owns the exact
 merge, post-merge evidence, exclusions, and remaining gates.
 
-Knowledge Manager 1.0 Phase 1 is the most recently completed implementation
-sprint. Sprint 005's
+Knowledge Manager 1.0 Phase 2 is the most recently completed implementation
+sprint. Its [closeout record](docs/KNOWLEDGE_MANAGER_1_PHASE_2_CLOSEOUT.md)
+owns the exact merge and post-merge evidence. Sprint 005's
 [implementation plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md) and
 [validation requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md) record
 the earlier merged memory-consolidation outcome.
 
-The accepted Phase 2 architecture and validation baseline is canonical at
-`92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. The current work is a
-documentation-only synthetic implementation-activation proposal containing the
-exact candidate scope, threat model, dependency assessment, owner assignments,
-rollback, validation, future manifest, and proposed authorization. No Phase 2
-code, parser, service, real document, runtime integration, or deployment is
-authorized by preparing the package.
+The Phase 2 architecture, activation, exact synthetic implementation, review,
+Chief Architect approval, merge, and post-merge validation are complete. The
+current work is a documentation-only closeout that reconciles canonical
+evidence, scope, exclusions, rollback, and remaining gates. No active
+implementation sprint, parser, service, real document, runtime integration,
+deployment, or Phase 3 work is authorized.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and

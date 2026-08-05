@@ -19,9 +19,10 @@ synthetic-only activation
 
 **Authorization state:** Pull request #52 merged the separately reviewed
 synthetic implementation activation as
-`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. Only the exact disconnected
-repository candidate is authorized; dependencies, services, deployment, and
-real document use remain unauthorized.
+`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. Pull request #53 later merged the
+exact independently reviewed disconnected implementation as
+`ccba7951f280f2b09e932db3979034dc6c2e5b68`. Dependencies, services,
+deployment, real document use, and further implementation remain unauthorized.
 
 ## Purpose
 
@@ -734,11 +735,17 @@ Pull request #50 squash-merged the five-file documentation package to canonical
 passed for 69 Markdown files and 213 tracked files. Whitespace checks passed.
 Acceptance and merge granted no implementation or real-document authority.
 
-## Exact next decision
+## Implementation and next decision
 
 The separately stated
 [Phase 2 Synthetic Implementation Activation](KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
-must receive independent exact-head Work Mode review, a Chief Architect
-exact-head authorization decision, and canonical merge before code begins. It
-must not authorize real VBA inspection, production persistence, deployment, or
-runtime integration.
+received independent review, Chief Architect authorization, and canonical merge
+before code began. The implementation later received exact-head Work Mode
+approval and Chief Architect merge approval at
+`31a92c5f4bc10e79fe4e00955941c6128bffe7b1`, then squash-merged through pull
+request #53 as `ccba7951f280f2b09e932db3979034dc6c2e5b68`.
+
+Implementation and post-merge validation are complete. The exact next decision
+is independent review and a Chief Architect merge decision for the
+documentation-only Phase 2 closeout. Real VBA inspection, production
+persistence, deployment, runtime integration, and Phase 3 remain unauthorized.

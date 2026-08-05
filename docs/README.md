@@ -116,6 +116,10 @@ searchable, linkable, and version controlled.
   defines the accepted exact models, states, interfaces, reference adapters,
   tests, owners, rollback, files, and implementation gates merged through pull
   request #52.
+- [Knowledge Manager 1.0 Phase 2 Closeout](KNOWLEDGE_MANAGER_1_PHASE_2_CLOSEOUT.md)
+  records the exact reviewed implementation head, pull request #53 squash merge,
+  post-merge validation, synthetic-only boundary, exclusions, rollback, and
+  remaining authorization gates.
 - [Knowledge Manager 1.0 Phase 2 Threat Model](KNOWLEDGE_MANAGER_1_PHASE_2_THREAT_MODEL.md)
   assigns prevention, detection, safe failure, audit evidence, tests, and
   canonical owners for the complete synthetic threat inventory.
@@ -123,8 +127,9 @@ searchable, linkable, and version controlled.
   selects a standard-library-only candidate with no dependency or lock change
   and defers parser, scanner, isolation, and persistence technologies.
 - [Phase 2 Implementation Authorization](governance/KNOWLEDGE_MANAGER_1_PHASE_2_IMPLEMENTATION_AUTHORIZATION.md)
-  records the exact bounded Chief Architect decision while preserving separate
-  implementation-review, merge, deployment, and real-information gates.
+  records the adopted bounded Chief Architect decision and its completed
+  implementation execution while preserving separate deployment and
+  real-information gates.
 - [Safe VBA Evidence Preparation Guide](VBA_EVIDENCE_PREPARATION_GUIDE.md)
   provides local-only blank preparation structures and checklists while keeping
   real VBA material outside Jebediah.
