@@ -1,6 +1,7 @@
 # Organizational Intelligence Phase 3B Implementation Activation
 
-**Status:** Prepared; not adopted; implementation remains unauthorized
+**Status:** Adopted for status activation only; implementation remains
+unauthorized
 
 **Program phase:** Phase 3B - Governed Real-Document Intake and Inspection
 
@@ -10,6 +11,15 @@
 
 **Required prior evidence:** Independent Work Mode exact-head architecture
 review
+
+**Adopted architecture head:** `bfa18ab35ae1bcd0cf6a91090dba62ab9220076a`
+
+**Chief Architect decision:** Pull request #58, 2026-08-05 - adopt ADR 0016 and
+the Phase 3B architecture package; authorize only this bounded status activation
+
+**Still unauthorized:** Architecture merge, implementation, deployment, real
+Virginia B. Andes or other organizational document use, and every Phase 3C or
+Phase 3D capability
 
 ## Recommended disposition
 

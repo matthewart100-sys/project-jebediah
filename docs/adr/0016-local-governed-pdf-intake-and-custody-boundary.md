@@ -1,6 +1,6 @@
 # ADR 0016: Local Governed PDF Intake and Custody Boundary
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Decision level:** System
 
@@ -10,6 +10,14 @@
 
 **Required reviewers:** Independent Work Mode architecture review, then Chief
 Architect final decision
+
+**Adopted architecture head:** `bfa18ab35ae1bcd0cf6a91090dba62ab9220076a`
+
+**Chief Architect decision:** Adopted on 2026-08-05 in pull request #58;
+status activation only
+
+**Authority boundary:** Implementation, architecture merge, deployment, and real
+organizational document use remain unauthorized
 
 ## Decision summary
 
