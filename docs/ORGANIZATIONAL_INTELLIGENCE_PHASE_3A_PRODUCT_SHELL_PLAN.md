@@ -528,6 +528,23 @@ ordinary item rendering.
 | `eligible_for_briefing` | Explicit Boolean; false for held, failed, rejected, unauthorized, superseded, or archived state |
 | `limitations` | Explicit state and content-visibility limits |
 
+The exact kind-to-state matrix is:
+
+| `WorkspaceKind` | Permitted `WorkspaceState` values |
+| --- | --- |
+| `source_record` | `eligible`, `ineligible`, `held`, `unauthorized`, `unavailable`, `deleted`, `superseded`, `archived` |
+| `document` | `received`, `quarantined`, `validating`, `accepted`, `rejected`, `held`, `evaluation_failed`, `deleted` |
+| `quarantine` | `quarantined`, `validating`, `accepted`, `rejected`, `held`, `evaluation_failed`, `deleted` |
+| `review` | `review_pending`, `review_approved`, `review_rejected`, `held`, `unavailable`, `archived` |
+| `lineage` | `processing`, `ready`, `processing_failed`, `unavailable`, `deleted`, `superseded`, `archived` |
+| `knowledge_object` | `processing`, `ready`, `processing_failed`, `review_pending`, `review_approved`, `review_rejected`, `eligible`, `ineligible`, `held`, `unauthorized`, `unavailable`, `deleted`, `superseded`, `archived` |
+
+`eligible_for_briefing` may be true only for `(source_record, eligible)` or
+`(knowledge_object, eligible)`. Every other pair requires false. `accepted`,
+`ready`, or `review_approved` records do not establish truth, general
+eligibility, or action authority. Phase 2 state names are rendered as synthetic
+metadata only; the shell owns no transition or workflow behavior.
+
 #### `ActivityEntry`
 
 | Field | Rule |

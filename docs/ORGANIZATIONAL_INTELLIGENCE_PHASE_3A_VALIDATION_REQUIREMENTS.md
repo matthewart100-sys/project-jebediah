@@ -174,8 +174,11 @@ uv run --frozen pytest
   exposes sanitized subject labels without held content;
 - source references reject paths, URLs, locators, unbounded authority, and
   non-synthetic identities;
-- workspace state is valid for record kind and ineligible state cannot set
-  `eligible_for_briefing`;
+- every workspace kind-state pair matches the exact matrix in the plan;
+- `eligible_for_briefing` is true only for `(source_record, eligible)` or
+  `(knowledge_object, eligible)`;
+- `accepted`, `ready`, and `review_approved` do not imply truth, general
+  eligibility, action authority, or shell-owned transition behavior;
 - activity entries use fabricated role labels and exact workspace result states;
 - Ask response IDs are the three allowlisted presets, grounded responses require
   evidence, and insufficient or failed responses cannot contain an answer;
