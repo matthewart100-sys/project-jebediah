@@ -47,11 +47,18 @@ def test_valid_submission_records_exact_transition_chain():
     assert not hasattr(result, "memory_write_allowed")
 
 
-def _phase3b_pdf(*, text: bytes = b"Board roster", ocr: bytes = b"OCR fallback") -> bytes:
+SYNTHETIC_PDF_FIXTURE = (
+    b"%PDF-1.7\n"
+    b"SYNTHETIC-TEXT[1]:Board roster fixture\n"
+    b"%%EOF\n"
+)
+
+
+def _phase3b_pdf(*, text: bytes = b"Board roster fixture") -> bytes:
     return (
         b"%PDF-1.7\n"
         b"SYNTHETIC-TEXT[1]:" + text + b"\n"
-        b"SYNTHETIC-OCR[2]:" + ocr + b"\n%%EOF\n"
+        b"%%EOF\n"
     )
 
 

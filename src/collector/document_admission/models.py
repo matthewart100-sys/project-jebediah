@@ -1409,7 +1409,7 @@ class Phase3BPageCapture:
 
     def __post_init__(self) -> None:
         _require_positive(self.page_number, "page_number")
-        if self.method not in {"native", "ocr"}:
+        if self.method != "native":
             raise _invalid("method")
         _require_non_empty(self.text, "text")
         object.__setattr__(

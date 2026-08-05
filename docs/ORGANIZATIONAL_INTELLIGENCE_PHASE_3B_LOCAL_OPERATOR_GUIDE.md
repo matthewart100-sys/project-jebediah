@@ -9,7 +9,7 @@ Run the Executive Product Shell locally with:
 
 `python -B -m apps.jebediah_executive --port 8765`
 
-The shell remains loopback-only and synthetic-only. It is not a deployment.
+The shell remains loopback-only and synthetic-only.
 
 ## Milestone 1 workflow
 

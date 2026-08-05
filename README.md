@@ -77,13 +77,6 @@ Platform**
 
 ## Current contribution gate
 
-The `feature/phase3b-milestone1-synthetic-intake` review branch now carries the
-bounded Phase 3B Milestone 1 synthetic PDF intake and custody foundation:
-receipt-validated PDF admission, encrypted local custody, review-state tracking,
-duplicate detection, expiry, deletion, recovery, and loopback-only operator
-workspace wiring. It remains synthetic-only and does not authorize Phase 3C,
-Phase 3D, deployment, or real-information handling.
-
 Knowledge Manager 1.0 Phase 1 is complete. Pull request #49
 merged the validated metadata-only Knowledge Registry library at
 `4ed2ac283e4df6aec30b67f7c4aa50338924c435`; the

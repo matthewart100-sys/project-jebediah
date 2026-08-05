@@ -14,7 +14,6 @@ from .failures import (
 from .interfaces import (
     ByteIntegrityVerifier,
     ConsumerEligibilityEvaluator,
-    DocumentWorkerRunner,
     DurableCustodyRepository,
     DocumentAdmissionOrchestrator,
     EvidenceJournal,
@@ -99,7 +98,7 @@ from .crypto import (
 )
 from .durable_repository import Phase3BDurableRepository
 from .lifecycle import Phase3BLifecycleService
-from .pdf_pipeline import InProcessSyntheticWorkerRunner, Phase3BPDFPipeline
+from .pdf_pipeline import Phase3BPDFPipeline
 from .policies import (
     AdmissionPolicies,
     DigestPolicy,
@@ -117,7 +116,6 @@ from .policies import (
 )
 from .review import Phase3BReviewService
 from .runtime import SyntheticPhase3BDocumentAdmissionRuntime
-from .worker_protocol import WorkerPageResult, WorkerResult, coerce_worker_result
 
 __all__ = [
     "AdmissionAttemptRecord",
@@ -136,7 +134,6 @@ __all__ = [
     "ConsumerEligibilityOutcome",
     "ContentIdentity",
     "DigestPolicy",
-    "DocumentWorkerRunner",
     "DocumentAdmissionConflict",
     "DocumentAdmissionError",
     "DocumentAdmissionNotFound",
@@ -158,7 +155,6 @@ __all__ = [
     "InspectionResult",
     "InMemoryEvidenceJournal",
     "InMemoryQuarantineRepository",
-    "InProcessSyntheticWorkerRunner",
     "IntegrityVerification",
     "IsolatedInspector",
     "LegalHoldEvidence",
@@ -204,11 +200,8 @@ __all__ = [
     "SubmissionEnvelope",
     "SyntheticConsumerPolicy",
     "SyntheticDocumentAdmissionOrchestrator",
-    "WorkerPageResult",
-    "WorkerResult",
     "audit_hmac_hex",
     "canonical_receipt_payload",
-    "coerce_worker_result",
     "create_master_key_envelope",
     "decrypt_object",
     "encrypt_object",

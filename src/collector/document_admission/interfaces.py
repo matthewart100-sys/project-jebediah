@@ -328,12 +328,6 @@ class DurableCustodyRepository(ABC):
         raise NotImplementedError
 
 
-class DocumentWorkerRunner(ABC):
-    @abstractmethod
-    def run(self, worker_kind: str, payload: bytes) -> dict[str, object]:
-        raise NotImplementedError
-
-
 class Phase3BDocumentAdmissionRuntime(ABC):
     @abstractmethod
     def admit_signed_pdf(

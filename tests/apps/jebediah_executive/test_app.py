@@ -87,12 +87,12 @@ class FakeWorkspaceService:
                 sha256_hex="a" * 64,
                 byte_count=128,
                 duplicate_of=None,
-                warnings=("ocr_fallback_used",),
+                warnings=("native_text_unavailable",),
             ),
             native_text_sufficient=False,
             page_count=2,
             review_entries=(),
-            warnings=("ocr_fallback_used",),
+            warnings=("native_text_unavailable",),
             limitations=("Synthetic only.",),
         )
         self.last_admitted_payload = b""

@@ -83,12 +83,6 @@ class SyntheticConsumerPolicy:
     expires_at: datetime
     runtime_access_allowed: bool
     api_access_allowed: bool
-    registry_access_allowed: bool
-    memory_access_allowed: bool
-    retrieval_access_allowed: bool
-    model_access_allowed: bool
-    interface_access_allowed: bool
-    real_information_access_allowed: bool
 
     def __post_init__(self) -> None:
         exact = {
@@ -120,12 +114,6 @@ class SyntheticConsumerPolicy:
         for name in (
             "runtime_access_allowed",
             "api_access_allowed",
-            "registry_access_allowed",
-            "memory_access_allowed",
-            "retrieval_access_allowed",
-            "model_access_allowed",
-            "interface_access_allowed",
-            "real_information_access_allowed",
         ):
             if getattr(self, name) is not False:
                 raise _invalid(name)
@@ -225,7 +213,6 @@ class ResourceLimitPolicy:
     external_fetch_allowed: bool
     macro_allowed: bool
     embedded_payload_allowed: bool
-    ocr_allowed: bool
 
     def __post_init__(self) -> None:
         if (
@@ -248,7 +235,6 @@ class ResourceLimitPolicy:
             "external_fetch_allowed",
             "macro_allowed",
             "embedded_payload_allowed",
-            "ocr_allowed",
         ):
             if getattr(self, name) is not False:
                 raise _invalid(name)
@@ -426,12 +412,6 @@ def synthetic_consumer_policy(
         expires_at=expires_at,
         runtime_access_allowed=False,
         api_access_allowed=False,
-        registry_access_allowed=False,
-        memory_access_allowed=False,
-        retrieval_access_allowed=False,
-        model_access_allowed=False,
-        interface_access_allowed=False,
-        real_information_access_allowed=False,
     )
 
 
@@ -469,7 +449,6 @@ def synthetic_resource_limit_policy() -> ResourceLimitPolicy:
         external_fetch_allowed=False,
         macro_allowed=False,
         embedded_payload_allowed=False,
-        ocr_allowed=False,
     )
 
 

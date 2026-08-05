@@ -1,6 +1,0 @@
-FROM python:3.13-slim
-
-WORKDIR /worker
-COPY scan.py /worker/scan.py
-
-ENTRYPOINT ["python", "/worker/scan.py"]

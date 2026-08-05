@@ -49,7 +49,7 @@ def _artifact(submission_id: str) -> Phase3BInspectionArtifact:
             ),
         ),
         warnings=(),
-        omissions=("phase3c_consumer_absent",),
+        omissions=(),
         limitations=("Synthetic only.",),
         native_text_sufficient=True,
         created_at=datetime(2025, 1, 1, tzinfo=timezone.utc),

@@ -9,7 +9,6 @@ from collector.document_admission import (
     AdmissionAttemptRecord,
     ByteIntegrityVerifier,
     ConsumerEligibilityEvaluator,
-    DocumentWorkerRunner,
     DocumentAdmissionOrchestrator,
     EvidenceJournal,
     FormatDetector,
@@ -43,7 +42,6 @@ SOURCE_MANIFEST = {
     "review.py",
     "runtime.py",
     "state_transitions.py",
-    "worker_protocol.py",
 }
 TEST_MANIFEST = {
     "__init__.py",
@@ -67,7 +65,6 @@ TEST_MANIFEST = {
     "test_package_boundaries.py",
     "test_pdf_pipeline.py",
     "test_review.py",
-    "test_worker_protocol.py",
 }
 
 
@@ -160,7 +157,6 @@ def test_all_external_behavior_contracts_remain_abstract():
         ConsumerEligibilityEvaluator,
         DocumentAdmissionOrchestrator,
         SourceAuthorizationVerifier,
-        DocumentWorkerRunner,
         Phase3BDocumentAdmissionRuntime,
     )
     assert all(inspect.isabstract(contract) for contract in contracts)
@@ -200,8 +196,8 @@ def test_existing_source_does_not_import_document_admission():
 def test_public_package_grants_no_runtime_or_truth_authority():
     prohibited_exports = {
         "MemoryItem",
-        "KnowledgeRegistry",
-        "QdrantRepository",
+        "PersistentRegistry",
+        "ExternalVectorStore",
         "RuntimeService",
         "TruthAuthority",
         "approve",

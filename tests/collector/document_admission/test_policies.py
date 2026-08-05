@@ -63,12 +63,6 @@ def test_consumer_policy_requires_expiry_after_effect():
     [
         "runtime_access_allowed",
         "api_access_allowed",
-        "registry_access_allowed",
-        "memory_access_allowed",
-        "retrieval_access_allowed",
-        "model_access_allowed",
-        "interface_access_allowed",
-        "real_information_access_allowed",
     ],
 )
 def test_consumer_policy_cannot_enable_access(flag):
@@ -153,7 +147,6 @@ def test_resource_policy_uses_exact_small_limits():
         "external_fetch_allowed",
         "macro_allowed",
         "embedded_payload_allowed",
-        "ocr_allowed",
     ],
 )
 def test_resource_policy_cannot_enable_prohibited_capability(flag):

@@ -18,7 +18,7 @@ from .models import (
     SignedSourceAuthorizationReceipt,
     SourceAuthorizationReceipt,
 )
-from .pdf_pipeline import InProcessSyntheticWorkerRunner, Phase3BPDFPipeline
+from .pdf_pipeline import Phase3BPDFPipeline
 from .policies import phase3b_policy_bundle
 from .review import Phase3BReviewService
 
@@ -40,10 +40,7 @@ class SyntheticPhase3BDocumentAdmissionRuntime(Phase3BDocumentAdmissionRuntime):
         }
         self._verifier = SyntheticReceiptVerifier(self._public_keys)
         self._repository = Phase3BDurableRepository(root_dir, passphrase)
-        self._pipeline = Phase3BPDFPipeline(
-            self._policy,
-            InProcessSyntheticWorkerRunner(),
-        )
+        self._pipeline = Phase3BPDFPipeline(self._policy)
         self._review = Phase3BReviewService(self._repository)
         self._lifecycle = Phase3BLifecycleService(self._repository)
 
@@ -61,9 +58,9 @@ class SyntheticPhase3BDocumentAdmissionRuntime(Phase3BDocumentAdmissionRuntime):
             expected_sha256 = hash_content_identity(expected_payload).digest_hex
         receipt = SourceAuthorizationReceipt(
             receipt_id=receipt_id,
-            organization_id="synthetic-vba-board-governance",
-            source_record_id="synthetic-board-roster-record",
-            authority_role="synthetic_corporate_secretary",
+            organization_id="synthetic-phase3b-authority",
+            source_record_id="synthetic-phase3b-source-record",
+            authority_role="synthetic-phase3b-authority-role",
             principal_id="synthetic_phase3b_operator",
             purpose="phase3b_synthetic_intake_validation",
             classification="internal-governance-limited-personal-data",

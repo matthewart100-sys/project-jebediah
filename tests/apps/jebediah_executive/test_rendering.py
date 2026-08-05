@@ -197,7 +197,7 @@ def test_phase3b_workspace_renders_intake_controls() -> None:
                 sha256_hex="a" * 64,
                 byte_count=128,
                 duplicate_of=None,
-                warnings=("ocr_fallback_used",),
+                warnings=("native_text_unavailable",),
             ),
         ),
         recent_events=("submission_accepted",),
@@ -219,7 +219,7 @@ def test_phase3b_submission_detail_renders_review_controls() -> None:
             sha256_hex="a" * 64,
             byte_count=128,
             duplicate_of=None,
-            warnings=("ocr_fallback_used",),
+            warnings=("native_text_unavailable",),
         ),
         native_text_sufficient=False,
         page_count=2,
@@ -230,7 +230,7 @@ def test_phase3b_submission_detail_renders_review_controls() -> None:
                 created_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
             ),
         ),
-        warnings=("ocr_fallback_used",),
+        warnings=("native_text_unavailable",),
         limitations=("Synthetic only.",),
     )
     html = render_phase3b_submission_detail(BRIEFING, detail)

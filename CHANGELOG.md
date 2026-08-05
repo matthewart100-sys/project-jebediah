@@ -17,12 +17,6 @@ development. Changes not assigned to a published version remain under
   activation. The package names the Virginia B. Andes board-governance roster
   domain but authorizes no implementation, real document access, source
   discovery, deployment, Phase 3C consumer, or Phase 3D behavior.
-- Implemented the bounded Organizational Intelligence Product Program Phase 3B
-  Milestone 1 synthetic PDF intake and custody foundation on the review branch:
-  signed synthetic receipt validation, PDF-only admission, encrypted local
-  custody, duplicate detection, audit metadata, review-state tracking, expiry,
-  deletion, recovery, deterministic worker stubs, loopback-only Executive
-  Product Shell workspace routes, and targeted CI coverage.
 - Terminally closed the Organizational Intelligence Product Program Phase 3A
   Executive Product Shell through independently reviewed implementation pull
   request #56, Chief Architect exact-head squash-merge approval, canonical merge

@@ -370,12 +370,6 @@ activate or rename canonical Roadmap Phase 3 - Knowledge Graph.
 
 ## Proposed Phase 3B governed PDF intake refinement
 
-The review branch implements Milestone 1 of this refinement only: synthetic
-signed-receipt validation, PDF-only admission, encrypted local custody,
-deterministic worker protocol stubs, review-state tracking, expiry, deletion,
-recovery, and a loopback-only operator workspace. No Knowledge Vault, registry
-promotion, retrieval, model, or deployment behavior is introduced.
-
 Proposed System
 [ADR 0016](adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
 refines the Source-to-Admission edge only:
@@ -406,9 +400,8 @@ change an Ask answer.
 The complete proposal, limits, lifecycle, dependencies, validation, exact file
 scope, and later real-source gate are owned by the
 [Phase 3B Governed Intake Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md).
-Nothing in this section authorizes Phase 3C, Phase 3D, real information,
-deployment, or later consumers before the required Work Mode and Chief
-Architect decisions.
+Nothing in this Proposed section changes current accepted architecture before
+the required Work Mode and Chief Architect decisions.
 
 ## Architectural boundaries
 

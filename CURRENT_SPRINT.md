@@ -2,15 +2,13 @@
 
 ## Active sprint
 
-**Name:** Organizational Intelligence Product Program Phase 3B - Milestone 1
-Synthetic Intake and Custody Foundation
+**Name:** None
 
-**Status:** Implementation is complete on review branch
-`feature/phase3b-milestone1-synthetic-intake` and awaiting independent Work
-Mode review. Scope remains synthetic-only: signed receipt validation, PDF-only
-admission, encrypted local custody, review workflow, expiry, deletion, and
-recovery. Phase 3C, Phase 3D, deployment, and real-information handling remain
-excluded.
+**Status:** No implementation sprint is active. Organizational Intelligence
+Product Program Phase 3A is terminally closed. A documentation-only Phase 3B
+governed PDF intake architecture and prepared implementation activation are
+Proposed for independent exact-head review. Phase 3B implementation remains
+unauthorized.
 
 **Deployment status:** Not authorized
 

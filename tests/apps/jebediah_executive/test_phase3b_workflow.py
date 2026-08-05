@@ -20,7 +20,7 @@ class _WorkflowService:
             sha256_hex="a" * 64,
             byte_count=128,
             duplicate_of=None,
-            warnings=("ocr_fallback_used",),
+            warnings=("native_text_unavailable",),
         )
 
     def workspace_page(self) -> Phase3BWorkspaceView:
@@ -45,7 +45,7 @@ class _WorkflowService:
                     created_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
                 ),
             ),
-            warnings=("ocr_fallback_used",),
+            warnings=("native_text_unavailable",),
             limitations=("Synthetic only.",),
         )
 

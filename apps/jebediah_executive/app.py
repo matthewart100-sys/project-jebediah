@@ -302,8 +302,8 @@ _FALLBACK_ERROR_HTML = (
     "is echoed and no organizational action is taken.</p>"
     "<p>Synthetic demonstration only.</p></main>"
     "<footer class=\"site-footer\"><p class=\"no-action\">This preview takes no "
-    "organizational action and records no decision. It is non-operational and "
-    "is not a deployment.</p><div class=\"footer-limitations\">"
+    "organizational action and records no decision. It is non-operational.</p>"
+    "<div class=\"footer-limitations\">"
     "<h2>Material limitations</h2><ul><li>No live information or service is "
     "available.</li></ul></div></footer></body></html>"
 )
