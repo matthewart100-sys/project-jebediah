@@ -46,9 +46,13 @@ not:
   and governed document admission. They authorize no implementation or live
   information use.
 - ADR 0014 is an Accepted System decision for a metadata-only Knowledge
-  Registry library. Its exact bounded implementation is authorized but not
-  started; it authorizes no content, external information, memory integration,
-  durable storage, retrieval, service, or deployment.
+  Registry library. Its bounded Phase 1 implementation is complete and has
+  **Implemented** repository maturity: immutable domain models, lifecycle
+  representation, a storage-neutral repository abstraction, and an in-memory
+  reference implementation. The Knowledge Vault remains **Named**, and Phase 2
+  is not implemented. No document ingestion, document parsing, real
+  organizational-information authorization, durable storage, Qdrant or memory
+  integration, retrieval, service, or deployment exists.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -128,7 +132,7 @@ interfaces remain clear.
 | Infrastructure | Compute, storage, networking, virtualization, and physical availability | Reported environment only; not inventoried |
 | Services | Reusable runtime capabilities such as model execution, data services, and workflow runtime | Memory-service, Ollama, and Qdrant adapter candidates exist; deployment guarantees remain unverified |
 | Automation | Controlled orchestration and actions with policy, idempotency, approval, and rollback | Named future capability; no tracked workflows |
-| Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Bounded Collector and semantic memory candidates are implemented; Knowledge Vault and organizational-intelligence authority boundaries are accepted; a validated metadata-only registry candidate awaits independent review |
+| Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Bounded Collector, semantic memory, and metadata-only Knowledge Registry libraries are implemented; Knowledge Vault and organizational-intelligence authority boundaries are accepted; no registry runtime consumer or external information is authorized |
 | Reasoning | Bounded inference over trusted context with validation and tool authority | Named future capability; no engine implemented |
 | User experience | Human interaction, explanation, approval, feedback, and operational visibility | The read-only executive-interface boundary is accepted but not implemented |
 
@@ -187,7 +191,7 @@ security, compatibility, or permanent selection.
 | JCS | A named foundational subsystem whose C1 outcome is **DEFER JCS** | Collector and memory work have no JCS dependency | Name expansion, purpose, responsibilities, interfaces, data authority, deployment |
 | Collector Engine | Controlled ingestion from approved sources | A bounded Python contract and repository implementation candidate exist | Source authorization, full contract conformance, deployment, and operational ownership |
 | Memory Service | Governed semantic memory over approved Collector inputs | API, pipeline, intelligence, embedding, Qdrant, provenance, lifecycle, and retrieval candidates exist in the repository | Deployment, live data, verification authority, lifecycle automation, and multi-factor ranking |
-| Knowledge Vault | A derived governed knowledge repository boundary | ADR 0011 accepts its authority boundary; ADR 0014 accepts a separate metadata-only registry library foundation; a validated Phase 1 library candidate exists while component maturity remains **Named** | Information domains, component and operational ownership, real producers and consumers, durable interfaces, relationship to existing memory, operations, recovery, component implementation, deployment |
+| Knowledge Vault | A derived governed knowledge repository boundary | ADR 0011 accepts its authority boundary; ADR 0014 accepts a separate metadata-only registry library foundation; the bounded Phase 1 library is implemented while component maturity remains **Named** | Information domains, component and operational ownership, real producers and consumers, durable interfaces, relationship to existing memory, operations, recovery, component implementation, deployment |
 | Knowledge Graph | Traceable entities and relationships | It follows stable collector outputs and knowledge contracts | Model, storage, identity, query interface, relationship to Qdrant |
 | Digital Twin | A bounded, time-aware, provenance-rich representation of selected relevant state | Its conceptual position, exclusions, derived-information default, and implementation gates are approved | First subject and use case, entities, sources, freshness thresholds, interfaces, implementation |
 | Automation | Controlled action from trusted state and policy | Approval, idempotency, rollback, and auditability are required | Workflow boundaries, n8n role, triggers, tools, deployment |
@@ -271,16 +275,15 @@ acknowledges. It does not contain source or derived content and does not make a
 claim true, current, generally authorized, retrievable, actionable, or
 authoritative. Human review does not grant source or action authority.
 
-The active Phase 1 plan may implement immutable models, a three-method
-storage-neutral repository interface, an in-memory reference adapter, and
-synthetic tests. It may not import or integrate with the Memory Service,
-Collector pipelines, Qdrant, Ollama, embeddings, services, or runtime
-composition. No existing source module may consume the registry during Phase 1.
+Phase 1 implemented immutable models, a three-method storage-neutral repository
+interface, an in-memory reference adapter, and synthetic tests at canonical
+merge `4ed2ac283e4df6aec30b67f7c4aa50338924c435`. The library imports no Memory
+Service, Collector pipeline, Qdrant, Ollama, embedding, service, or runtime
+module, and no existing source module consumes the registry.
 
-The implementation is not present on reviewed `main`. Durable persistence,
-real producers and consumers, external information, identifier generation,
-policy enforcement, mutation, retrieval, operations, and deployment remain
-separately gated.
+Durable persistence, real producers and consumers, external information,
+identifier generation, policy enforcement, mutation, retrieval, operations,
+and deployment remain separately gated.
 
 ## Accepted organizational-intelligence boundaries
 

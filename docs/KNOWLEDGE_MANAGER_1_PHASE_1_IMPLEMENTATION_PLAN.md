@@ -539,22 +539,27 @@ resolve at least:
 
 No Phase 2 work begins from this plan alone.
 
-## Implementation evidence
+## Implementation and closeout evidence
 
 - Implementation base:
   `e418479bbb10f48c1a3c7dd207c299cc49226896`.
 - Implementation branch: `feature/knowledge-registry-foundation`.
 - Checkpoint 0 passed with a clean synchronized base, absent registry package,
   successful documentation validation, and 142 baseline tests.
-- The candidate contains only the reviewed metadata domain, three-method
+- The merged implementation contains only the reviewed metadata domain, three-method
   repository abstraction, typed conflict, in-memory reference adapter, tests,
   and directly required status and validation documentation.
 - Targeted registry validation passes 93 tests.
 - The full regression suite passes 235 tests.
 - Registry imports, public exports, immutable records, package boundaries,
   documentation, import smoke, and diff scope checks pass.
-- The candidate remains unmerged and requires independent Work Mode review and
-  exact-head Chief Architect approval.
+- Independent Work Mode approved exact implementation head
+  `7b06b1df831ad2a7a4726fa5e92746538cec34b4` with no findings.
+- The Chief Architect approved that exact head for merge and closeout.
+- Pull request #49 squash-merged the reviewed source as
+  `4ed2ac283e4df6aec30b67f7c4aa50338924c435`.
+- The complete post-merge evidence and exclusions are recorded in the
+  [Phase 1 closeout](KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md).
 
 ## Review and authorization record
 

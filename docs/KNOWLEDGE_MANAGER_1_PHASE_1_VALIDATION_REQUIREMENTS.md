@@ -318,9 +318,11 @@ The pull request records the exact Python executable or environment class,
 accepted base, tested head, command, result, and date. The GitHub
 `documentation-quality` check must also pass.
 
-## Candidate validation evidence
+## Post-merge validation evidence
 
-On `feature/knowledge-registry-foundation`, based on
+Canonical merge `4ed2ac283e4df6aec30b67f7c4aa50338924c435`
+contains exact reviewed source
+`7b06b1df831ad2a7a4726fa5e92746538cec34b4`, based on
 `e418479bbb10f48c1a3c7dd207c299cc49226896`:
 
 - `python -m pytest tests/collector/knowledge/registry -q` passes 93 tests.
@@ -330,13 +332,17 @@ On `feature/knowledge-registry-foundation`, based on
   no existing source imports the registry, and no root or memory re-export was
   added.
 - Documentation validation passes for 65 Markdown files and 209 tracked files.
+- Python compilation and frozen-lock verification pass.
 - Diff scope and whitespace checks pass.
+- Sensitive-value scanning passes.
 - Test fixtures use only fabricated identifiers, labels, explanations, and
   timestamps.
 
-These results establish only an unmerged implementation candidate. The exact
-committed head and GitHub checks remain evidence for the implementation-review
-packet.
+These results establish only the bounded metadata and in-memory repository
+implementation. They do not authorize external information, ingestion, durable
+storage, runtime use, or deployment. The
+[Phase 1 closeout](KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) records the complete
+merge and validation evidence.
 
 ## Evidence matrix
 

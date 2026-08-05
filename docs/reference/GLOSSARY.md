@@ -218,7 +218,13 @@ source or derived content, integrating with memory, selecting durable storage,
 or granting source, truth, retrieval, action, or runtime authority.
 `collector.knowledge.registry` is repository packaging only and does not assign
 Collector Engine component authority. The bounded Phase 1 implementation is
-authorized but not present on reviewed `main`.
+complete on reviewed `main` and has **Implemented** repository maturity. It
+provides immutable domain models, lifecycle representation, a storage-neutral
+repository abstraction, and an in-memory reference implementation. The
+Knowledge Vault remains **Named**, and Phase 2 is not implemented. No document
+ingestion, document parsing, real organizational-information authorization,
+durable storage, Qdrant integration, retrieval integration, runtime service, or
+deployment exists.
 
 ### Knowledge Vault
 
