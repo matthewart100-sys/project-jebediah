@@ -23,6 +23,9 @@ not:
 - Verify the home-lab inventory
 - Define JCS, Knowledge Graph, Digital Twin, Automation, or Reasoning Engine
   contracts
+- Treat the proposed Knowledge Vault boundary as accepted or implemented before
+  [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) completes
+  review and merge
 - Approve a production network layout or deployment composition
 - Treat a reported product as a permanent architecture choice
 
@@ -35,6 +38,9 @@ not:
   Dockerized semantic memory-service candidate.
 - JCS was deferred after Milestone C1, and the Collector and memory service
   have no JCS dependency.
+- ADR 0011 exists as a Proposed System decision for a Knowledge Vault authority
+  boundary. No Knowledge Vault implementation or deployment exists on reviewed
+  `main`.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -69,6 +75,7 @@ topology belongs in this public document.
 | What does JCS stand for, own, and guarantee? | The authoritative information boundary and downstream dependencies cannot be assigned. | Phase 1 JCS specification and review |
 | Which reported infrastructure is actually running? | Deployment, operations, recovery, and capacity claims cannot be verified. | Sanitized infrastructure audit |
 | Which future component owns each concrete information item? | Categories are approved, but component authority and consistency behavior remain unassigned. | JCS and component specifications under [Data Ownership](DATA_OWNERSHIP.md) |
+| How will a future Knowledge Vault relate to the Memory Service, Knowledge Graph, and reasoning components? | The proposed derived-repository boundary does not assign implementation, interface, or deployment responsibilities. | ADR 0011 acceptance followed by separately reviewed component and relationship decisions |
 | What subject and use case will the first Digital Twin support? | The conceptual position is approved, but concrete scope and source mappings remain intentionally undefined. | Future Digital Twin specification under the [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) |
 | What data classifications apply? | Trust boundaries, retention, model access, and repository exposure cannot be finalized. | Security and data-classification work |
 | Which interfaces connect future subsystems? | Compatibility, failure, and deployment decisions remain open. | Subsystem specifications and ADRs |
@@ -172,6 +179,7 @@ security, compatibility, or permanent selection.
 | JCS | A named foundational subsystem whose C1 outcome is **DEFER JCS** | Collector and memory work have no JCS dependency | Name expansion, purpose, responsibilities, interfaces, data authority, deployment |
 | Collector Engine | Controlled ingestion from approved sources | A bounded Python contract and repository implementation candidate exist | Source authorization, full contract conformance, deployment, and operational ownership |
 | Memory Service | Governed semantic memory over approved Collector inputs | API, pipeline, intelligence, embedding, Qdrant, provenance, lifecycle, and retrieval candidates exist in the repository | Deployment, live data, verification authority, lifecycle automation, and multi-factor ranking |
+| Knowledge Vault | A proposed derived governed knowledge repository | The name and proposed authority boundary are recorded in Proposed ADR 0011; maturity remains **Named** | ADR acceptance, information domains, ownership, producers, consumers, interfaces, relationship to existing memory, implementation, deployment |
 | Knowledge Graph | Traceable entities and relationships | It follows stable collector outputs and knowledge contracts | Model, storage, identity, query interface, relationship to Qdrant |
 | Digital Twin | A bounded, time-aware, provenance-rich representation of selected relevant state | Its conceptual position, exclusions, derived-information default, and implementation gates are approved | First subject and use case, entities, sources, freshness thresholds, interfaces, implementation |
 | Automation | Controlled action from trusted state and policy | Approval, idempotency, rollback, and auditability are required | Workflow boundaries, n8n role, triggers, tools, deployment |
@@ -180,6 +188,58 @@ security, compatibility, or permanent selection.
 Names are not contracts. The
 [Glossary](reference/GLOSSARY.md) defines their current limited meanings, and
 the component registry records their maturity without inventing ownership.
+
+## Proposed Knowledge Vault boundary
+
+This section records the review target established by Proposed
+[ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md). It is
+**Future Design**, not accepted current architecture. The Knowledge Vault
+remains **Named**; no implementation, storage, API, deployment, migration, live
+data use, or external information authorization exists.
+
+If ADR 0011 is accepted, the Knowledge Vault will be a **derived governed
+knowledge repository**. A derived representation is produced from one or more
+source records by a documented transformation for a bounded knowledge use,
+retains sufficient source and transformation provenance, and does not become
+authoritative for the represented source facts through curation, persistence,
+embedding, summarization, indexing, or retrieval.
+
+The proposed authority order is:
+
+1. Reviewed GitHub `main` owns canonical project records within each canonical
+   document's subject.
+2. Approved original authoritative sources own facts within their defined
+   domains.
+3. The Knowledge Vault governs derived representations and their provenance.
+4. Future runtime systems own only approved execution state and operational
+   outputs.
+
+Authority remains scoped. GitHub does not become authoritative for external
+facts or live runtime state, and a runtime observation does not become a
+canonical project record without normal evidence classification and repository
+review.
+
+```mermaid
+flowchart LR
+    GitHub["Reviewed GitHub main\ncanonical project records"]
+    Sources["Approved original sources\nsource-domain authority"]
+    Demo["VBA demonstration artifacts\nunmerged and validation pending"]
+    Vault["Knowledge Vault\nNamed proposed derived repository"]
+    Runtime["Future runtime systems\nexecution state and outputs"]
+
+    GitHub -->|"governance and accepted design"| Vault
+    Sources -.->|"separately authorized future acquisition,\nquarantine, evaluation, transformation"| Vault
+    Demo -.->|"demonstration material only;\nno source or pilot authority"| Vault
+    Vault -.->|"future approved retrieval contract"| Runtime
+    Runtime -.->|"reviewed promotion only"| GitHub
+```
+
+The dotted relationships are not implemented data flows. Candidate information
+must remain quarantined, non-authoritative, and unavailable to ordinary
+retrieval consumers until a separately approved evaluation establishes
+admissibility. Evaluation does not verify source truth. The VBA artifacts in
+open pull request #44 remain unmerged demonstration material; their evidence
+validation is pending, and no live organizational pilot is authorized.
 
 ## Architectural boundaries
 
@@ -286,6 +346,9 @@ or compatibility require the appropriate ADR before dependent implementation.
   identity, maturity, and component ownership.
 - [Data Ownership](DATA_OWNERSHIP.md) owns information categories and
   responsibility.
+- Proposed [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md)
+  owns the Knowledge Vault decision rationale while it remains under review; it
+  does not change current architecture until accepted and merged.
 - The [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) owns Digital
   Twin intent, exclusions, and implementation gates.
 

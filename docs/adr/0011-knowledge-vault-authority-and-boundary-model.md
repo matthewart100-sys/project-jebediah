@@ -8,7 +8,8 @@
 
 **Decision owner:** Project maintainer
 
-**Reviewers:** Chief Architect
+**Reviewers:** Work Mode and Chief Architect; project maintainer for repository
+authority
 
 **Component maturity:** Named
 
@@ -81,15 +82,18 @@ boundary implicitly.
   component.
 - Qdrant payloads have a narrow operational authority under ADR 0003; Qdrant is
   not authoritative for the truth of represented source claims.
-- The repository contains VBA demonstration materials, but those materials do
-  not establish general source authorization or Knowledge Vault authority.
+- Open pull request #44 contains proposed VBA demonstration materials on its
+  unmerged `feature/interaction-gateway` branch. Those artifacts are not
+  canonical project records and do not establish validation, source
+  authorization, Knowledge Vault authority, or pilot readiness.
 - JCS remains deferred and is not a dependency of this decision.
 
 ### Reported facts
 
-- VBA demonstration content is described as public organizational evidence.
-  This ADR does not verify its accuracy, currency, rights, classification, or
-  authorization for acquisition or use.
+- The VBA demonstration content in open pull request #44 is described there as
+  public organizational evidence. This ADR does not verify its accuracy,
+  currency, rights, classification, validation, or authorization for
+  acquisition or use.
 
 ### Working assumptions
 
@@ -290,6 +294,21 @@ A Vault representation may authoritatively record only that its governed
 process accepted and transformed specified input. That operational fact does
 not make the represented source claim true.
 
+The authority hierarchy is:
+
+1. Reviewed GitHub `main` for canonical project records within each canonical
+   owner's subject.
+2. Approved original authoritative sources for facts within their defined
+   domains.
+3. The Knowledge Vault for governed derived representations and their
+   provenance, not the represented source facts.
+4. Runtime systems for execution state and operational outputs within their
+   approved scopes.
+
+This ordering does not broaden any authority scope. A lower layer cannot
+override a higher layer, and canonical project-record authority does not make
+GitHub authoritative for external source facts or live runtime state.
+
 ## Ownership Boundaries
 
 ### Project Jebediah repository
@@ -346,7 +365,8 @@ The Knowledge Vault does not own:
 VBA demonstration materials may own presentation flow, prompts, bounded
 fixtures, expected demonstration outcomes, and operator guidance. They do not
 define Knowledge Vault authority, project architecture, source truth, or
-production readiness.
+production readiness. Their evidence validation remains pending, and no live
+organizational pilot is authorized.
 
 ### Future runtime systems
 
@@ -563,6 +583,7 @@ This ADR does not:
 - Define reasoning behavior
 - Grant action authority
 - Approve VBA demonstration readiness
+- Authorize a live organizational pilot
 - Make the Knowledge Vault authoritative for source-domain facts
 
 This ADR does not authorize the acquisition, collection, ingestion, retention,
@@ -676,6 +697,8 @@ This decision is ready for acceptance when review confirms:
   model exposure, retrieval, or publication of external information.
 - Canonical project records, sources, the Knowledge Vault, demonstration
   materials, and runtime systems retain distinct authority scopes.
+- VBA demonstration evidence remains pending, and no live organizational pilot
+  is authorized.
 - Information authority remains separate from action authority.
 - JCS remains deferred.
 - No schema, API, storage, model, deployment, migration, or runtime
@@ -739,6 +762,7 @@ specifications to be accepted.
 
 ## Review Record
 
-Chief Architect draft review is complete, and the required draft revisions are
-incorporated in this Proposed artifact. Formal exact-artifact review, final
-maintainer authority, merge, and post-merge read-back remain pending.
+The Chief Architect implementation directive authorized preparation of this
+Proposed artifact. Independent Work Mode review, formal Chief Architect
+exact-head review, final maintainer repository authority, merge, and post-merge
+read-back remain pending.

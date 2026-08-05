@@ -1,6 +1,14 @@
 # Current Sprint
 
-## Sprint 005: Memory Architecture Consolidation
+## Active sprint
+
+**Status:** No active sprint is authorized
+
+Sprint 005 is the most recently completed sprint. Sprint 006 Proposal v2 is
+under architecture review and remains Proposed; it is not an active
+implementation sprint.
+
+## Sprint 005: Memory Architecture Consolidation (most recently completed)
 
 **Status:** Complete and merged
 
@@ -155,7 +163,30 @@ through the normal review process.
 
 [Sprint 006 Proposal v1](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md) is
 permanently **Abandoned** because its source artifacts and exact review head
-are unrecoverable. Its successor, Sprint 006 Proposal v2, is not yet authored
-and is not an active or authorized sprint. Any v2 proposal must follow the
-architecture-proposal chain-of-custody rule and receive separate review and
-authorization.
+are unrecoverable. Its successor, Sprint 006 Proposal v2, is newly authored in
+[draft pull request #43](https://github.com/matthewart100-sys/project-jebediah/pull/43)
+as a documentation-only architecture package from the accepted post-Sprint 005
+baseline. It is not a reconstruction of v1, an active sprint, or implementation
+authority.
+
+The proposal's specification and validation requirements both remain Proposed.
+Its proposed classification is a bounded Phase 2 memory-client validation for
+governed retrieval, deterministic context assembly, and evidence-grounded
+generation. That classification does not activate or implement the Phase 6
+Reasoning Engine. Proposed ADRs 0006 through 0010, exact-head Work Mode review,
+Chief Architect acceptance, proposal merge, and separate sprint authorization
+remain required before implementation.
+
+## VBA demonstration evidence boundary
+
+[Pull request #44](https://github.com/matthewart100-sys/project-jebediah/pull/44)
+contains a separate implementation-bearing interaction branch with VBA
+demonstration scripts, runbooks, readiness material, and data-loading tooling.
+Those artifacts are unmerged and are not current sprint authority. Their
+evidence validation is pending, and no VBA data ingestion, service connection,
+production readiness, or live organizational pilot is authorized.
+
+The files named `SPRINT_006_SPECIFICATION.md` and
+`SPRINT_006_VALIDATION_PLAN.md` on pull request #44 do not supersede the
+Proposal v2 review target in pull request #43. Neither branch may implement
+Sprint 006 without the separately required acceptance and authorization gates.

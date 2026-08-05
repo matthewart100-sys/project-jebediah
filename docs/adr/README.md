@@ -201,6 +201,9 @@ decision.
 - [ADR 0005: Project Coordination and Role Authority](0005-project-coordination-and-role-authority.md)
   is accepted and defines the permanent multi-role authority, workflow,
   reviewer-independence, blocker-disposition, and handoff decision.
+- [ADR 0011: Knowledge Vault Authority and Boundary Model](0011-knowledge-vault-authority-and-boundary-model.md)
+  is proposed and defines a derived governed knowledge repository boundary
+  without implementation, external information use, or source authority.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 

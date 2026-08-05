@@ -74,6 +74,10 @@ searchable, linkable, and version controlled.
   layers, context, boundaries, and unresolved decisions.
 - [ADR Process](adr/README.md) defines decision triggers, levels, lifecycle,
   numbering, and review.
+- [ADR 0011: Knowledge Vault Authority and Boundary Model](adr/0011-knowledge-vault-authority-and-boundary-model.md)
+  is a Proposed System decision for a derived governed knowledge repository;
+  it does not authorize implementation, external information use, or a live
+  organizational pilot.
 - [Glossary](reference/GLOSSARY.md) owns shared project terminology.
 - [Component Registry](reference/COMPONENT_REGISTRY.md) tracks component
   identity, maturity, responsibility, and component ownership.

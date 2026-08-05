@@ -58,6 +58,14 @@ foundation before application or infrastructure implementation.
 The single repository artifact assigned to own a shared concept's current
 meaning or policy.
 
+### Canonical project record
+
+A reviewed repository artifact on GitHub `main` assigned to own Project
+Jebediah governance, architecture, accepted decisions, plans, current status,
+standards, or maintained project evidence within a defined subject. This scoped
+authority does not make the repository authoritative for external
+organizational facts or live runtime state.
+
 ### Architecture Decision Record (ADR)
 
 An immutable record of a lasting architectural choice, including its context,
@@ -174,7 +182,41 @@ Its provenance and recomputation behavior remain explicit.
 Information created for bounded processing and not intended to become durable
 authority. Its retention and cleanup behavior remain explicit.
 
+### Derived representation
+
+As proposed by
+[ADR 0011](../adr/0011-knowledge-vault-authority-and-boundary-model.md), an
+information artifact produced from one or more source records by a documented
+transformation for a bounded knowledge use. It retains sufficient source and
+transformation provenance and does not become authoritative for the underlying
+source facts through review, curation, durability, validation for shape,
+embedding, indexing, summarization, or retrieval.
+
+### Quarantined candidate information
+
+As proposed by ADR 0011, untrusted, non-authoritative, non-consumable candidate
+input awaiting admissibility evaluation. It remains temporary unless a separate
+accepted contract assigns another category. Evaluation may establish policy
+admissibility but does not verify source truth.
+
+### VBA demonstration materials
+
+Proposed scripts, prompts, fixtures, operator guidance, and related artifacts
+for a bounded demonstration. Open pull request #44 contains such artifacts, but
+they are not canonical project records, validated production knowledge,
+Knowledge Vault content, or evidence of pilot readiness. Evidence validation is
+pending, and no live organizational pilot is authorized.
+
 ## Named future capabilities
+
+### Knowledge Vault
+
+A **Named** proposed future component boundary described by Proposed
+[ADR 0011](../adr/0011-knowledge-vault-authority-and-boundary-model.md) as a
+derived governed knowledge repository. It is not GitHub `main`, an original
+authoritative source, the Memory Service, Qdrant, a vector index, a model
+context store, a Knowledge Graph, or a production deployment. No Knowledge
+Vault implementation or external information use is authorized.
 
 ### JCS
 

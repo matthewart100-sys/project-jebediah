@@ -2,10 +2,10 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Sprint 005 complete and merged; deployment unverified and
-unauthorized
+**Status:** Sprint 005 complete and merged; Knowledge Vault and Sprint 006
+architecture proposed; implementation and deployment unauthorized
 
-**Last reviewed:** 2026-08-01
+**Last reviewed:** 2026-08-04
 
 ## Summary
 
@@ -22,15 +22,33 @@ requires independent plan and implementation review, exact Chief Architect
 approvals, controlled merge verification, and evidence-based post-merge
 documentation closeout. It does not authorize Sprint 006 or runtime work.
 
+Proposed
+[ADR 0011](docs/adr/0011-knowledge-vault-authority-and-boundary-model.md)
+defines the Knowledge Vault review target as a derived governed knowledge
+repository. The Knowledge Vault remains **Named** while the ADR is Proposed.
+Reviewed `main` contains no Knowledge Vault implementation, deployment, live
+data, or authorization to acquire or use external information.
+
 Sprint 006 Proposal v1 is permanently **Abandoned** because its source
 artifacts and exact review head are unrecoverable. The surviving Work Mode
 blocking findings are mandatory design inputs for a newly authored successor
 but cannot reconstruct or authorize v1. The
 [abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md) names Sprint 006
-Proposal v2 as the successor, but v2 has not been authored or authorized. The
-architecture-proposal chain-of-custody rule requires any v2 review target to
-exist on a recoverable remote branch at an exact commit before independent
-review.
+Proposal v2 as the successor. Proposal v2 now exists as a documentation-only
+architecture package in
+[draft pull request #43](https://github.com/matthewart100-sys/project-jebediah/pull/43)
+at inspected head `0515f1faa72c48cbd6c6a7264c9fe4b0a42eb9e6`. It remains
+Proposed, unmerged, and unauthorized for implementation. Its specification,
+validation requirements, and proposed ADRs 0006 through 0010 form one exact-head
+review target under the architecture-proposal chain-of-custody rule.
+
+[Pull request #44](https://github.com/matthewart100-sys/project-jebediah/pull/44)
+contains a separate implementation-bearing interaction branch and VBA
+demonstration artifacts at inspected head
+`80373ac7e9b89de8b7b9555446e44c11f987a690`. Those artifacts are not reviewed
+`main`, do not supersede Proposal v2, and do not establish accepted
+architecture, evidence validation, runtime readiness, or live organizational
+pilot authorization.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -62,6 +80,15 @@ reviewed pull requests.
   `matthewart100-sys/project-jebediah`.
 - The default branch is `main`.
 - The repository is public.
+- Proposed ADR 0011 defines a review target for the Knowledge Vault while
+  retaining **Named** maturity; no Knowledge Vault implementation exists on
+  reviewed `main`.
+- Draft pull request #43 contains Sprint 006 Proposal v2 as a
+  documentation-only architecture package. It is not an active or authorized
+  implementation sprint.
+- Pull request #44 contains unmerged VBA demonstration documents and
+  implementation artifacts. Their presence does not prove validation,
+  readiness, deployment, or pilot authority.
 - Project Genesis Phase 0 is complete.
 - The Project Coordination Protocol is the canonical owner of multi-role
   authority, mandatory workflow gates, handoffs, and coordination evidence
@@ -202,6 +229,7 @@ addresses, sensitive topology, or personal data during that audit.
 | What does JCS stand for, own, and guarantee? | Collectors and later knowledge components must not depend on an undefined contract. | Deferred after C1; reconsider only when an explicit purpose, named consumer and need, candidate responsibility and boundary, and failure consequence are available for review. |
 | Which reported infrastructure components are currently running and how are they configured? | Architecture and operations documents must distinguish desired state from actual state. | Perform a sanitized infrastructure inventory. |
 | Which future component owns each concrete information item? | Categories and responsibilities are defined, but JCS and other components remain unspecified. | Map authority in the relevant component specifications before implementation. |
+| Which information domains, producers, consumers, and component relationships may a future Knowledge Vault receive? | Proposed ADR 0011 defines an authority boundary but does not authorize information use or implementation. | Accept ADR 0011, then approve domain-specific source authorization and component decisions. |
 | What data classifications and privacy constraints apply? | A public repository and local AI platform create disclosure and retention risks. | Complete data classification and threat-model work before ingesting data. |
 | Which software license should govern the public repository? | Public visibility does not grant reuse rights. | Maintainer selects a license before inviting external reuse. |
 | What bounded subject and use case should the first Digital Twin support? | The conceptual position and exclusions are defined, but an implementation scope is not. | Approve a future Digital Twin specification after its entry gates are met. |
@@ -211,15 +239,26 @@ addresses, sensitive topology, or personal data during that audit.
 Sprint 005 is complete and its
 [implementation plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md) and
 [validation requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md) now
-record the merged outcome. This closeout does not define Sprint 006. The next
-bounded sprint must be selected from the existing roadmap and separately
-authorized before implementation begins.
+record the merged outcome. It remains the most recently completed sprint.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and
-`Successor: Sprint 006 Proposal v2`. Proposal v2 has not been authored or
-authorized and must follow the architecture-proposal chain-of-custody rule.
-This status does not authorize Sprint 006 implementation.
+`Successor: Sprint 006 Proposal v2`. Proposal v2 is now authored on draft pull
+request #43 as a new proposal from the accepted post-Sprint 005 baseline. Its
+specification and validation requirements both remain Proposed, and
+implementation and deployment remain Unauthorized. Independent Work Mode
+review, Chief Architect acceptance, proposal merge, and separate sprint
+authorization are required before implementation.
+
+Proposed ADR 0011 and its aligned canonical documents define a Knowledge Vault
+authority review target only. Acceptance, component specification, source
+authorization, and implementation remain separate future gates.
+
+The VBA demonstration documents in pull request #44 are unmerged proposal
+artifacts. Their evidence validation is pending. No VBA data ingestion,
+service connection, production readiness, or live organizational pilot is
+authorized. The pull request's implementation-bearing Sprint 006 documents do
+not replace the exact Proposal v2 package in pull request #43.
 
 JCS remains deferred. The Collector and memory service do not depend on JCS,
 and Sprint 005 did not reopen JCS C1 or authorize JCS C2. Deployment, live

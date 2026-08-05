@@ -5,10 +5,10 @@
 ## Purpose
 
 This document defines how Project Jebediah classifies and governs information
-before JCS, collectors, knowledge components, the Digital Twin, automation, or
-reasoning are designed. It prevents a cache, model output, vector index,
-workflow state, or convenient copy from becoming an accidental source of
-truth.
+before JCS, collectors, the proposed Knowledge Vault, knowledge components, the
+Digital Twin, automation, or reasoning are designed. It prevents a cache, model
+output, vector index, workflow state, or convenient copy from becoming an
+accidental source of truth.
 
 This document owns project-wide information categories and ownership
 responsibilities. The [current architecture](ARCHITECTURE.md) owns component
@@ -22,6 +22,8 @@ It does not:
 
 - Select a database, schema, serialization, protocol, or storage location
 - Define JCS responsibilities
+- Accept the proposed Knowledge Vault boundary or authorize its implementation,
+  external information use, or operation
 - Verify the reported Qdrant, n8n, Ollama, or home-lab state
 - Classify data that has not been inventoried
 - Grant a component permission to collect, retain, transform, or act on data
@@ -38,6 +40,8 @@ It does not:
   authoritative application data, or workflow exports.
 - The memory implementation stores derived payload metadata and vectors; it
   does not receive authority over the represented source information.
+- ADR 0011 is Proposed, the Knowledge Vault remains **Named**, and reviewed
+  `main` contains no Knowledge Vault implementation, deployment, or live data.
 
 ### Reported facts
 
@@ -290,6 +294,38 @@ dependent derived information deliberately.
 - Deleted or reclassified source data must have an owned propagation path to
   prompts, caches, embeddings, indexes, and other derivatives.
 
+## Proposed Knowledge Vault mapping
+
+Proposed
+[ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) applies
+the existing categories without creating a new authority category:
+
+- Canonical project records remain authoritative engineering memory within each
+  canonical owner's subject.
+- Approved original authoritative sources retain authority for facts within
+  their defined domains.
+- Quarantined candidate information is temporary, untrusted,
+  non-authoritative, and unavailable to ordinary retrieval consumers pending
+  admissibility evaluation.
+- An unchanged source mirror is cached information.
+- A Vault artifact produced by selection, normalization, segmentation,
+  annotation, aggregation, summarization, embedding, classification, indexing,
+  or correlation is a derived representation.
+- A runtime component may own the operational fact that it accepted or
+  transformed an input, but that fact does not make the represented source claim
+  true.
+
+Evaluation determines authorization and policy admissibility, not factual
+verification. The Knowledge Vault does not become authoritative through
+curation, durability, validation for shape, embedding, indexing, or retrieval.
+Its maturity remains **Named** while ADR 0011 is Proposed.
+
+This mapping authorizes no acquisition, collection, ingestion, retention,
+transformation, model exposure, retrieval, or publication of external
+information. The VBA demonstration artifacts in open pull request #44 remain
+unmerged, their evidence validation is pending, and no live organizational
+pilot is authorized.
+
 ## Automation and action
 
 Information authority and action authority are separate.
@@ -355,6 +391,7 @@ unauthorized information. Reconciliation after restore is part of recovery.
 | Chats and model context | Temporary working context unless promoted | Active participant for safe handling | Not authoritative project memory |
 | Memory Service Qdrant point payload | Authoritative operational record of what the service accepted and durably stored | Jebediah Memory Service repository candidate | Does not own source truth; deployment, live contents, retention, and recovery remain unverified |
 | Embeddings, vector indexes, confidence, and retrieval signals | Derived information | Jebediah Memory Service repository candidate | Model identity is explicit; source authority and live compatibility remain separate |
+| Proposed Knowledge Vault | Unassigned; ADR 0011 proposes governed derived representations only | Unassigned pending ADR acceptance and component specification | **Named**, not implemented or operational; no source, external-use, or action authority |
 | Other future runtime records, caches, indexes, embeddings, and inferences | Unassigned | Unassigned pending specification | No authority follows from the implemented memory candidate |
 
 ### Sprint 005 memory-record mapping
@@ -387,6 +424,10 @@ A Foundational or System ADR is required to:
 Routine mappings inside an already approved component contract may use normal
 review unless their consequence triggers the
 [ADR Process](adr/README.md).
+
+ADR 0011 remains Proposed and therefore does not yet assign a concrete
+Knowledge Vault information owner, component owner, producer, consumer, or
+runtime responsibility.
 
 ## Maintenance
 

@@ -21,6 +21,9 @@ within these principles.
 - The repository contains engineering-foundation documentation, a Python
   Collector package, and a semantic memory-service implementation candidate.
 - Repository implementation does not prove deployment or operational state.
+- ADR 0011 is a Proposed System decision for a Knowledge Vault authority
+  boundary. Proposal presence does not prove acceptance, implementation,
+  deployment, or external information authorization.
 
 ### Reported facts
 
@@ -42,6 +45,8 @@ make any product mandatory.
 - Which reported infrastructure is running and supportable?
 - Which information will be authoritative, cached, derived, or temporary?
 - What responsibilities and guarantees will JCS own?
+- Which information domains, producers, consumers, and component relationships
+  could a future Knowledge Vault receive after ADR 0011 review?
 - Which trust boundaries and data classifications will future use cases
   require?
 
@@ -99,6 +104,13 @@ later decisions depend on them.
 The detailed categories and responsibilities belong to
 [Data Ownership](DATA_OWNERSHIP.md); component design must map concrete
 information without weakening that policy.
+
+Proposed
+[ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) applies
+this principle to the Knowledge Vault: canonical project records and original
+sources retain their scoped authority, while Vault content remains derived.
+That proposal does not become binding or implementation-ready until accepted
+and merged.
 
 ### 6. Deterministic control surrounds probabilistic behavior
 
@@ -170,6 +182,8 @@ These principles do not:
 
 - Confirm the reported infrastructure
 - Assign responsibilities to JCS or another future subsystem
+- Accept ADR 0011 or authorize a Knowledge Vault implementation, external
+  information use, VBA demonstration readiness, or a live organizational pilot
 - Approve a language, framework, protocol, schema, database, model, or service
 - Require microservices, containers, cloud services, or a particular topology
 - Replace data ownership, security, testing, operations, or release policy

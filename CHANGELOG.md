@@ -10,6 +10,9 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added Proposed System ADR 0011 to define the Knowledge Vault as a derived
+  governed knowledge repository while preserving canonical project-record,
+  originating-source, demonstration, and runtime authority boundaries.
 - Added a durable Sprint 006 Proposal v1 abandonment record and a recoverable
   exact-head chain-of-custody requirement for multi-document architecture
   proposals before independent review.
@@ -37,6 +40,10 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Aligned architecture, principles, data ownership, terminology, component
+  maturity, and navigation with the proposed Knowledge Vault boundary without
+  claiming acceptance, implementation, deployment, external information use,
+  VBA evidence validation, or live organizational pilot authorization.
 - Consolidated the memory domain, embedding provider, Qdrant durable-record
   and semantic-index adapter, and application orchestration under the root
   package; the FastAPI service now contains composition and HTTP translation
