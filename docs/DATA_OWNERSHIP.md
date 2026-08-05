@@ -40,7 +40,7 @@ It does not:
   authoritative application data, or workflow exports.
 - The memory implementation stores derived payload metadata and vectors; it
   does not receive authority over the represented source information.
-- ADR 0011 is Proposed, the Knowledge Vault remains **Named**, and reviewed
+- ADR 0011 is Accepted, the Knowledge Vault remains **Named**, and reviewed
   `main` contains no Knowledge Vault implementation, deployment, or live data.
 
 ### Reported facts
@@ -318,7 +318,8 @@ the existing categories without creating a new authority category:
 Evaluation determines authorization and policy admissibility, not factual
 verification. The Knowledge Vault does not become authoritative through
 curation, durability, validation for shape, embedding, indexing, or retrieval.
-Its maturity remains **Named** while ADR 0011 is Proposed.
+Its authority boundary is accepted in ADR 0011, while component maturity
+remains **Named** pending concrete ownership and component contracts.
 
 This mapping authorizes no acquisition, collection, ingestion, retention,
 transformation, model exposure, retrieval, or publication of external
@@ -326,9 +327,9 @@ information. The VBA demonstration artifacts in open pull request #44 remain
 unmerged, their evidence validation is pending, and no live organizational
 pilot is authorized.
 
-## Proposed organizational-intelligence mapping
+## Accepted organizational-intelligence mapping
 
-Proposed ADRs 0012 and 0013 apply the same categories to the candidate
+Accepted ADRs 0012 and 0013 apply the same categories to the future
 executive interface and document-admission flow:
 
 - An original source retains authority for facts in its approved domain.
@@ -350,8 +351,8 @@ factually verified or available to every consumer. Only separately eligible
 `rejected`, `evaluation_failed`, `processing_failed`, partial, unauthorized,
 superseded, archived, or deleted material remains excluded.
 
-This proposed mapping does not classify a real organizational domain or
-authorize collection, retention, transformation, retrieval, display,
+This accepted architecture mapping does not classify a real organizational
+domain or authorize collection, retention, transformation, retrieval, display,
 generation, export, deployment, or action.
 
 ## Automation and action
@@ -454,13 +455,13 @@ Routine mappings inside an already approved component contract may use normal
 review unless their consequence triggers the
 [ADR Process](adr/README.md).
 
-ADR 0011 remains Proposed and therefore does not yet assign a concrete
-Knowledge Vault information owner, component owner, producer, consumer, or
+ADR 0011 accepts the Knowledge Vault authority boundary but does not assign a
+concrete information owner, component owner, producer, consumer, interface, or
 runtime responsibility.
 
-ADRs 0012 and 0013 remain Proposed and therefore do not assign a live
-organizational information owner, read-model owner, submitter, consumer,
-retention policy, or action authority.
+ADRs 0012 and 0013 accept the executive-interface and document-admission
+boundaries but do not assign a live organizational information owner,
+read-model owner, submitter, consumer, retention policy, or action authority.
 
 ## Maintenance
 

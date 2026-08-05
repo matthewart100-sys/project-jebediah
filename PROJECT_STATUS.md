@@ -2,9 +2,9 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Sprint 005 complete and merged; Knowledge Vault, Sprint 006, and
-organizational-intelligence architecture proposed; implementation and
-deployment unauthorized
+**Status:** Sprint 005 complete and merged; Knowledge Vault and
+organizational-intelligence boundaries accepted; Sprint 006 remains proposed;
+implementation and deployment unauthorized
 
 **Last reviewed:** 2026-08-04
 
@@ -23,12 +23,12 @@ requires independent plan and implementation review, exact Chief Architect
 approvals, controlled merge verification, and evidence-based post-merge
 documentation closeout. It does not authorize Sprint 006 or runtime work.
 
-Proposed
 [ADR 0011](docs/adr/0011-knowledge-vault-authority-and-boundary-model.md)
-defines the Knowledge Vault review target as a derived governed knowledge
-repository. The Knowledge Vault remains **Named** while the ADR is Proposed.
-Reviewed `main` contains no Knowledge Vault implementation, deployment, live
-data, or authorization to acquire or use external information.
+defines the accepted Knowledge Vault authority boundary as a derived governed
+knowledge repository. The component remains **Named** pending concrete
+ownership, consumer, interface, operations, recovery, and implementation
+decisions. Reviewed `main` contains no Knowledge Vault implementation,
+deployment, live data, or authorization to acquire or use external information.
 
 Sprint 006 Proposal v1 is permanently **Abandoned** because its source
 artifacts and exact review head are unrecoverable. The surviving Work Mode
@@ -51,12 +51,11 @@ demonstration artifacts at inspected head
 architecture, evidence validation, runtime readiness, or live organizational
 pilot authorization.
 
-The organizational-intelligence proposal defines a review target for a
-read-only executive interface and quarantine-first PDF, DOCX, TXT, and
-Markdown admission. Proposed ADRs 0012 and 0013, their specifications, and
-their validation requirements select no implementation technology and grant no
-source, live-information, deployment, verification, or action authority. They
-are not an active sprint and depend on ADR 0011 or an approved replacement.
+ADRs 0012 and 0013 define accepted architecture boundaries for a read-only
+executive interface and quarantine-first PDF, DOCX, TXT, and Markdown
+admission. Their specifications and validation requirements select no
+implementation technology and grant no source, live-information, deployment,
+verification, or action authority. They are not an active sprint.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -88,11 +87,11 @@ reviewed pull requests.
   `matthewart100-sys/project-jebediah`.
 - The default branch is `main`.
 - The repository is public.
-- Proposed ADR 0011 defines a review target for the Knowledge Vault while
-  retaining **Named** maturity; no Knowledge Vault implementation exists on
-  reviewed `main`.
-- Proposed ADRs 0012 and 0013 define review targets for an executive read model
-  and governed document admission; neither is accepted or implementation
+- Accepted ADR 0011 defines the Knowledge Vault authority boundary while the
+  component retains **Named** maturity; no Knowledge Vault implementation
+  exists on reviewed `main`.
+- Accepted ADRs 0012 and 0013 define architecture boundaries for an executive
+  read model and governed document admission; neither grants implementation
   authority.
 - Draft pull request #43 contains Sprint 006 Proposal v2 as a
   documentation-only architecture package. It is not an active or authorized
@@ -240,7 +239,7 @@ addresses, sensitive topology, or personal data during that audit.
 | What does JCS stand for, own, and guarantee? | Collectors and later knowledge components must not depend on an undefined contract. | Deferred after C1; reconsider only when an explicit purpose, named consumer and need, candidate responsibility and boundary, and failure consequence are available for review. |
 | Which reported infrastructure components are currently running and how are they configured? | Architecture and operations documents must distinguish desired state from actual state. | Perform a sanitized infrastructure inventory. |
 | Which future component owns each concrete information item? | Categories and responsibilities are defined, but JCS and other components remain unspecified. | Map authority in the relevant component specifications before implementation. |
-| Which information domains, producers, consumers, and component relationships may a future Knowledge Vault receive? | Proposed ADR 0011 defines an authority boundary but does not authorize information use or implementation. | Accept ADR 0011, then approve domain-specific source authorization and component decisions. |
+| Which information domains, producers, consumers, and component relationships may a future Knowledge Vault receive? | Accepted ADR 0011 defines an authority boundary but does not authorize information use or implementation. | Approve domain-specific source authorization, component ownership, interfaces, operations, and implementation decisions. |
 | What data classifications and privacy constraints apply? | A public repository and local AI platform create disclosure and retention risks. | Complete data classification and threat-model work before ingesting data. |
 | Which software license should govern the public repository? | Public visibility does not grant reuse rights. | Maintainer selects a license before inviting external reuse. |
 | What bounded subject and use case should the first Digital Twin support? | The conceptual position and exclusions are defined, but an implementation scope is not. | Approve a future Digital Twin specification after its entry gates are met. |
@@ -261,9 +260,13 @@ implementation and deployment remain Unauthorized. Independent Work Mode
 review, Chief Architect acceptance, proposal merge, and separate sprint
 authorization are required before implementation.
 
-Proposed ADR 0011 and its aligned canonical documents define a Knowledge Vault
-authority review target only. Acceptance, component specification, source
-authorization, and implementation remain separate future gates.
+Pull request #45 squash-merged reviewed source
+`c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` to `main` as
+`72099ac555efbb34b8344c5e34db7fb9aad5f69c`. Accepted ADRs 0011 through 0013
+define the Knowledge Vault, executive-interface, and document-admission
+architecture boundaries. Component specification, source authorization,
+implementation planning, and implementation authorization remain separate
+future gates.
 
 The VBA demonstration documents in pull request #44 are unmerged proposal
 artifacts. Their evidence validation is pending. No VBA data ingestion,

@@ -23,11 +23,10 @@ not:
 - Verify the home-lab inventory
 - Define JCS, Knowledge Graph, Digital Twin, Automation, or Reasoning Engine
   contracts
-- Treat the proposed Knowledge Vault boundary as accepted or implemented before
-  [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) completes
-  review and merge
-- Treat the proposed executive read-model or document-admission boundaries as
-  accepted before ADRs 0012 and 0013 complete review and merge
+- Treat the accepted Knowledge Vault boundary as implemented, deployed, or
+  authorized for external information use
+- Treat the accepted executive read-model or document-admission boundaries as
+  implemented or authorized for live information use
 - Approve a production network layout or deployment composition
 - Treat a reported product as a permanent architecture choice
 
@@ -40,12 +39,12 @@ not:
   Dockerized semantic memory-service candidate.
 - JCS was deferred after Milestone C1, and the Collector and memory service
   have no JCS dependency.
-- ADR 0011 exists as a Proposed System decision for a Knowledge Vault authority
+- ADR 0011 is an Accepted System decision for a Knowledge Vault authority
   boundary. No Knowledge Vault implementation or deployment exists on reviewed
   `main`.
-- ADRs 0012 and 0013 exist as Proposed System decisions for an executive read
-  model and governed document admission. They authorize no implementation or
-  live information use.
+- ADRs 0012 and 0013 are Accepted System decisions for an executive read model
+  and governed document admission. They authorize no implementation or live
+  information use.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -125,9 +124,9 @@ interfaces remain clear.
 | Infrastructure | Compute, storage, networking, virtualization, and physical availability | Reported environment only; not inventoried |
 | Services | Reusable runtime capabilities such as model execution, data services, and workflow runtime | Memory-service, Ollama, and Qdrant adapter candidates exist; deployment guarantees remain unverified |
 | Automation | Controlled orchestration and actions with policy, idempotency, approval, and rollback | Named future capability; no tracked workflows |
-| Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Bounded Collector and semantic memory candidates are implemented; later knowledge contracts remain unapproved |
+| Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Bounded Collector and semantic memory candidates are implemented; Knowledge Vault and organizational-intelligence authority boundaries are accepted but not implemented |
 | Reasoning | Bounded inference over trusted context with validation and tool authority | Named future capability; no engine implemented |
-| User experience | Human interaction, explanation, approval, feedback, and operational visibility | Requirements and interface unapproved |
+| User experience | Human interaction, explanation, approval, feedback, and operational visibility | The read-only executive-interface boundary is accepted but not implemented |
 
 ```mermaid
 flowchart BT
@@ -184,7 +183,7 @@ security, compatibility, or permanent selection.
 | JCS | A named foundational subsystem whose C1 outcome is **DEFER JCS** | Collector and memory work have no JCS dependency | Name expansion, purpose, responsibilities, interfaces, data authority, deployment |
 | Collector Engine | Controlled ingestion from approved sources | A bounded Python contract and repository implementation candidate exist | Source authorization, full contract conformance, deployment, and operational ownership |
 | Memory Service | Governed semantic memory over approved Collector inputs | API, pipeline, intelligence, embedding, Qdrant, provenance, lifecycle, and retrieval candidates exist in the repository | Deployment, live data, verification authority, lifecycle automation, and multi-factor ranking |
-| Knowledge Vault | A proposed derived governed knowledge repository | The name and proposed authority boundary are recorded in Proposed ADR 0011; maturity remains **Named** | ADR acceptance, information domains, ownership, producers, consumers, interfaces, relationship to existing memory, implementation, deployment |
+| Knowledge Vault | A derived governed knowledge repository boundary | The authority boundary is accepted in ADR 0011; component maturity remains **Named** | Information domains, ownership, producers, consumers, interfaces, relationship to existing memory, operations, recovery, implementation, deployment |
 | Knowledge Graph | Traceable entities and relationships | It follows stable collector outputs and knowledge contracts | Model, storage, identity, query interface, relationship to Qdrant |
 | Digital Twin | A bounded, time-aware, provenance-rich representation of selected relevant state | Its conceptual position, exclusions, derived-information default, and implementation gates are approved | First subject and use case, entities, sources, freshness thresholds, interfaces, implementation |
 | Automation | Controlled action from trusted state and policy | Approval, idempotency, rollback, and auditability are required | Workflow boundaries, n8n role, triggers, tools, deployment |
@@ -194,22 +193,21 @@ Names are not contracts. The
 [Glossary](reference/GLOSSARY.md) defines their current limited meanings, and
 the component registry records their maturity without inventing ownership.
 
-## Proposed Knowledge Vault boundary
+## Accepted Knowledge Vault boundary
 
-This section records the review target established by Proposed
-[ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md). It is
-**Future Design**, not accepted current architecture. The Knowledge Vault
-remains **Named**; no implementation, storage, API, deployment, migration, live
-data use, or external information authorization exists.
+This section records the accepted authority boundary established by
+[ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md). The
+Knowledge Vault remains **Named**; no implementation, storage, API, deployment,
+migration, live data use, or external information authorization exists.
 
-If ADR 0011 is accepted, the Knowledge Vault will be a **derived governed
-knowledge repository**. A derived representation is produced from one or more
+The Knowledge Vault is defined as a **derived governed knowledge repository**
+boundary. A derived representation is produced from one or more
 source records by a documented transformation for a bounded knowledge use,
 retains sufficient source and transformation provenance, and does not become
 authoritative for the represented source facts through curation, persistence,
 embedding, summarization, indexing, or retrieval.
 
-The proposed authority order is:
+The accepted authority order is:
 
 1. Reviewed GitHub `main` owns canonical project records within each canonical
    document's subject.
@@ -229,7 +227,7 @@ flowchart LR
     GitHub["Reviewed GitHub main\ncanonical project records"]
     Sources["Approved original sources\nsource-domain authority"]
     Demo["VBA demonstration artifacts\nunmerged and validation pending"]
-    Vault["Knowledge Vault\nNamed proposed derived repository"]
+    Vault["Knowledge Vault\nNamed accepted authority boundary"]
     Runtime["Future runtime systems\nexecution state and outputs"]
 
     GitHub -->|"governance and accepted design"| Vault
@@ -246,22 +244,22 @@ admissibility. Evaluation does not verify source truth. The VBA artifacts in
 open pull request #44 remain unmerged demonstration material; their evidence
 validation is pending, and no live organizational pilot is authorized.
 
-## Proposed organizational-intelligence boundaries
+## Accepted organizational-intelligence boundaries
 
-This section records the Future Design review targets in Proposed
+This section records the accepted architecture boundaries in
 [ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
 and
 [ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md).
-Neither decision is accepted, and neither authorizes implementation, live
-information use, deployment, or external action.
+Neither decision authorizes implementation, live information use, deployment,
+or external action.
 
-The proposed document flow preserves separate responsibilities:
+The accepted document flow preserves separate responsibilities:
 
 ```mermaid
 flowchart LR
     Source["Approved original source\ndomain authority"]
     Admission["Collector document admission\nquarantine and validation"]
-    Derived["Knowledge Vault\nproposed derived records"]
+    Derived["Knowledge Vault\nderived records boundary"]
     ReadModel["Organizational-intelligence read model\neligible evidence"]
     Interface["Executive interface\nread-only presentation"]
     Human["Authorized human\ndecision authority"]
@@ -274,9 +272,9 @@ flowchart LR
     Interface -.->|"evidence and bounded options"| Human
 ```
 
-Every dotted edge is unimplemented and separately gated. The Collector would
-own untrusted-input admission, not factual truth. The Knowledge Vault would own
-eligible derived representations and lineage only if ADR 0011 is accepted.
+Every dotted edge is unimplemented and separately gated. The Collector boundary
+owns untrusted-input admission, not factual truth. The Knowledge Vault boundary
+governs eligible derived representations and lineage.
 The read-model assembly component, concrete interfaces, information domains,
 and operational owners remain unassigned. The executive interface would own
 presentation and navigation, not ingestion, verification, derivation,

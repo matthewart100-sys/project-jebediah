@@ -1,6 +1,8 @@
 # ADR 0011: Knowledge Vault Authority and Boundary Model
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted:** 2026-08-04
 
 **Decision level:** System
 
@@ -14,9 +16,10 @@
 
 **Component maturity:** Named
 
-**Proposed maturity after acceptance:** Specified
+**Target component maturity:** Specified after the component-registry criteria
+are satisfied
 
-**Readiness:** Architecture proposal only; not implementation-ready,
+**Readiness:** Accepted architecture only; not implementation-ready,
 migration-ready, deployment-ready, operational, or authorized for external
 information use
 
@@ -42,11 +45,11 @@ reviewed, curated, durable, validated for shape, transformed, indexed,
 embedded, summarized, or retrieved. Information authority does not grant action
 authority.
 
-The Knowledge Vault remains **Named** while this ADR is Proposed. It may advance
-to **Specified** only after this ADR and all affected canonical architecture,
-data-ownership, terminology, component, status, sprint, and roadmap records are
-accepted and merged. Acceptance does not establish **Implemented** or
-**Operational** maturity.
+This ADR accepts the Knowledge Vault authority boundary. The component remains
+**Named** until the component registry's **Specified** criteria, including
+concrete ownership, consumers, interfaces, operations, and recovery, are
+satisfied through separately reviewed documentation. Acceptance does not
+establish **Implemented** or **Operational** maturity.
 
 ## Context
 
@@ -763,7 +766,10 @@ specifications to be accepted.
 
 ## Review Record
 
-The Chief Architect implementation directive authorized preparation of this
-Proposed artifact. Independent Work Mode review, formal Chief Architect
-exact-head decision, any required project-maintainer repository action, merge,
-and post-merge read-back remain pending.
+Work Mode approved exact proposal head
+`c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` with no remaining findings. The
+Chief Architect approved that exact head for merge in pull request #45. The
+proposal was squash-merged to `main` as
+`72099ac555efbb34b8344c5e34db7fb9aad5f69c`. This acceptance establishes the
+architecture boundary only and grants no implementation, deployment,
+external-information-use, migration, or operational authority.

@@ -75,23 +75,23 @@ searchable, linkable, and version controlled.
 - [ADR Process](adr/README.md) defines decision triggers, levels, lifecycle,
   numbering, and review.
 - [ADR 0011: Knowledge Vault Authority and Boundary Model](adr/0011-knowledge-vault-authority-and-boundary-model.md)
-  is a Proposed System decision for a derived governed knowledge repository;
+  is an Accepted System decision for a derived governed knowledge repository;
   it does not authorize implementation, external information use, or a live
   organizational pilot.
 - [Organizational Intelligence Interface Specification](ORGANIZATIONAL_INTELLIGENCE_INTERFACE_SPECIFICATION.md)
-  proposes an evidence-bearing, read-only executive interface organized around
+  defines an accepted evidence-bearing, read-only executive interface organized around
   four plain-language questions without selecting implementation technology.
 - [Organizational Document Ingestion Specification](ORGANIZATIONAL_DOCUMENT_INGESTION_SPECIFICATION.md)
-  proposes quarantine-first PDF, DOCX, TXT, and Markdown admission with source
+  defines accepted quarantine-first PDF, DOCX, TXT, and Markdown admission with source
   identity, provenance, time, state, and derivation boundaries.
 - [Organizational Intelligence Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_VALIDATION_REQUIREMENTS.md)
   defines architecture and future implementation evidence without authorizing
   implementation, live information use, deployment, or action.
 - [ADR 0012: Executive Organizational Intelligence Interface Boundary](adr/0012-executive-organizational-intelligence-interface-boundary.md)
-  is a Proposed System decision for the read-only executive read-model
+  is an Accepted System decision for the read-only executive read-model
   boundary.
 - [ADR 0013: Governed Organizational Document Admission Boundary](adr/0013-governed-organizational-document-admission-boundary.md)
-  is a Proposed System decision for quarantine-first document admission and
+  is an Accepted System decision for quarantine-first document admission and
   non-authoritative derivation.
 - [Glossary](reference/GLOSSARY.md) owns shared project terminology.
 - [Component Registry](reference/COMPONENT_REGISTRY.md) tracks component

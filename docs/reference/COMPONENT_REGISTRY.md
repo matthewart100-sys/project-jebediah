@@ -58,7 +58,7 @@ person or agent implements first.
 | JCS | Named deferred subsystem | Named | C1 outcome is **DEFER JCS**; Collector and memory candidates have no dependency | Unassigned pending reconsideration | Evidence-gated C1 reconsideration |
 | Collector Engine | Controlled ingestion component | Implemented | Validate and normalize bounded text records, derive identity, preserve provenance, and coordinate storage | Maintainer accountable | Contract-conformance and deployment review |
 | Jebediah Memory Service | Semantic memory component | Implemented | Govern memory candidates through one canonical package, persist one acknowledged Qdrant point, and retrieve semantic-only context | Maintainer accountable | Isolated integration and deployment decision |
-| Knowledge Vault | Proposed knowledge repository boundary | Named | No accepted component responsibility; Proposed ADR 0011 describes a derived governed knowledge repository without implementation or source authority | Unassigned pending ADR acceptance and specification | ADR 0011 review, accepted information-domain mapping, ownership, interfaces, security, recovery, and implementation authorization |
+| Knowledge Vault | Governed knowledge repository boundary | Named | ADR 0011 defines a derived governed knowledge repository authority boundary without implementation or source authority | Unassigned pending component specification | Approved information-domain mapping, ownership, producers, consumers, interfaces, security, operations, recovery, and implementation authorization |
 | Knowledge Graph | Named future subsystem | Named | Future representation of traceable entities and relationships | Unassigned pending specification | Stable collector and knowledge contracts |
 | Digital Twin | Named future concept | Named | Future bounded, time-aware, provenance-rich representation of selected relevant state; conceptual position only | Unassigned pending specification | Bounded use case and component specification under the Digital Twin position |
 | Automation | Named future capability | Named | Future controlled actions from trusted state and policy | Unassigned pending specification | State, authority, and action-boundary approval |
@@ -104,12 +104,12 @@ this registry.
 
 Collector and memory components exist as repository implementation candidates;
 neither is verified operational. The reported environment still requires an
-audit. The Knowledge Vault remains **Named** under Proposed ADR 0011 and has no
-implementation, external information authorization, or operational evidence.
-Proposed ADR 0013 may extend the Collector responsibility to quarantine-first
-PDF and DOCX admission, and Proposed ADR 0012 may establish a future executive
-read-model consumer, but neither is accepted and no new component maturity or
-ownership is assigned.
+audit. The Knowledge Vault authority boundary is accepted under ADR 0011, but
+the component remains **Named** and has no implementation, external information
+authorization, or operational evidence. Accepted ADR 0013 defines a future
+quarantine-first Collector admission boundary, and Accepted ADR 0012 defines a
+future executive read-model consumer boundary; neither assigns component
+ownership or implementation authority.
 VBA demonstration artifacts exist only on an unmerged proposal branch; their
 evidence validation is pending, and no live organizational pilot is authorized.
 The Digital Twin has an approved conceptual position but no bounded

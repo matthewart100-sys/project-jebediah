@@ -1,8 +1,9 @@
 # Organizational Intelligence Interface Specification
 
-**Status:** Proposed
+**Status:** Accepted architecture specification
 
-**Maturity:** Review target only; no implementation or deployment authorized
+**Maturity:** Architecture contract only; no implementation or deployment
+authorized
 
 ## Purpose
 
@@ -271,7 +272,7 @@ Implementation waits for all applicable gates:
 
 ## Acceptance criteria for this specification
 
-The proposal is review-ready when:
+The accepted specification satisfies its architecture criteria because:
 
 - All four executive questions have bounded semantics.
 - Source facts, derived summaries, assumptions, open questions, and action
@@ -295,8 +296,8 @@ The proposal is review-ready when:
 | Which actions may later progress beyond navigation or drafting? | Separate Phase 5 authority decision |
 | Is generated assistance needed in the first implementation? | Sprint selection after interaction-architecture disposition |
 
-These questions block implementation where applicable. They do not prevent
-review of the proposed responsibility and evidence boundaries.
+These questions block implementation where applicable. They do not invalidate
+the accepted responsibility and evidence boundaries.
 
 ## Related documents
 
@@ -305,5 +306,5 @@ review of the proposed responsibility and evidence boundaries.
 - [Organizational Document Ingestion Specification](ORGANIZATIONAL_DOCUMENT_INGESTION_SPECIFICATION.md)
 - [Organizational Intelligence Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_VALIDATION_REQUIREMENTS.md)
 - [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md)
-- [Proposed ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
+- [ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
 - [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)

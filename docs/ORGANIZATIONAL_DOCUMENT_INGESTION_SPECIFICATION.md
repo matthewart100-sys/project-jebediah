@@ -1,9 +1,9 @@
 # Organizational Document Ingestion Specification
 
-**Status:** Proposed
+**Status:** Accepted architecture specification
 
-**Maturity:** Review target only; no implementation, source use, or deployment
-authorized
+**Maturity:** Architecture contract only; no implementation, source use, or
+deployment authorized
 
 ## Purpose
 
@@ -352,12 +352,12 @@ Implementation waits for:
 4. A component contract assigning operational ownership and recovery
 5. Parser and processing threat review with explicit resource limits
 6. Technology and interface decisions required by the accepted architecture
-7. Work Mode architecture review, Chief Architect acceptance, proposal merge,
-   and separate sprint authorization
+7. Separate implementation-plan review and sprint authorization after the
+   completed architecture acceptance and merge
 
 ## Acceptance criteria for this specification
 
-The proposal is review-ready when:
+The accepted specification satisfies its architecture criteria because:
 
 - PDF, DOCX, TXT, and Markdown have bounded candidate format contracts.
 - Submission identity and content identity cannot be confused.
@@ -385,8 +385,8 @@ The proposal is review-ready when:
 | How are corrections, deletion, and legal holds propagated? | Information-owner and retention policy |
 | Which transformation outputs are needed by the first consumer? | Accepted consumer and component specifications |
 
-These questions block affected implementation and live use but do not prevent
-review of the proposed admission and authority boundaries.
+These questions block affected implementation and live use but do not
+invalidate the accepted admission and authority boundaries.
 
 ## Related documents
 
@@ -396,4 +396,4 @@ review of the proposed admission and authority boundaries.
 - [Organizational Intelligence Interface Specification](ORGANIZATIONAL_INTELLIGENCE_INTERFACE_SPECIFICATION.md)
 - [Organizational Intelligence Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_VALIDATION_REQUIREMENTS.md)
 - [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md)
-- [Proposed ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md)
+- [ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md)

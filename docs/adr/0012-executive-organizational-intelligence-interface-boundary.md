@@ -1,6 +1,8 @@
 # ADR 0012: Executive Organizational Intelligence Interface Boundary
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted:** 2026-08-04
 
 **Decision level:** System
 
@@ -32,7 +34,7 @@ human-action boundaries.
 
 - Reviewed `main` has no dashboard or executive-interface implementation.
 - No active sprint is authorized.
-- ADR 0011 is Proposed, and the Knowledge Vault remains **Named**.
+- ADR 0011 is Accepted, and the Knowledge Vault remains **Named**.
 - Collector and Memory Service candidates are implemented in the repository,
   but deployment and live information use are unauthorized.
 - Data Ownership requires authority, provenance, freshness, conflict,
@@ -268,5 +270,9 @@ boundary prevents required evidence fidelity.
 
 ## Review record
 
-No review decision has been recorded. Work Mode must review the exact proposal
-head before the Chief Architect accepts, rejects, or requires revisions.
+Work Mode approved exact proposal head
+`c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` with no remaining findings. The
+Chief Architect approved that exact head for merge in pull request #45. The
+proposal was squash-merged to `main` as
+`72099ac555efbb34b8344c5e34db7fb9aad5f69c`. Acceptance grants no
+implementation, deployment, live-information-use, or action authority.

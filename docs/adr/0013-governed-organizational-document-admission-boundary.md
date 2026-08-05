@@ -1,6 +1,8 @@
 # ADR 0013: Governed Organizational Document Admission Boundary
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted:** 2026-08-04
 
 **Decision level:** System
 
@@ -27,9 +29,9 @@ no accepted contract for binary document admission, retention, parser
 isolation, transformation lineage, or Knowledge Vault ingestion.
 
 Implementing parsers or upload routes first would decide security, authority,
-state, retention, and recovery through code. ADR 0011 proposes that the
-Knowledge Vault govern derived representations only, but it is not accepted
-and does not authorize information acquisition or use.
+state, retention, and recovery through code. ADR 0011 establishes that the
+Knowledge Vault governs derived representations only and does not authorize
+information acquisition or use.
 
 ### Verified facts
 
@@ -38,7 +40,7 @@ and does not authorize information acquisition or use.
   normalization, and persistence responsibilities for bounded text records.
 - Reviewed `main` contains no PDF or DOCX parser, upload lifecycle, quarantine
   store, Knowledge Vault implementation, or live source authorization.
-- ADR 0011 is Proposed and the Knowledge Vault remains **Named**.
+- ADR 0011 is Accepted and the Knowledge Vault remains **Named**.
 - No active sprint or external information use is authorized.
 
 ### Reported facts
@@ -287,5 +289,9 @@ boundary.
 
 ## Review record
 
-No review decision has been recorded. Work Mode must review the exact proposal
-head before the Chief Architect accepts, rejects, or requires revisions.
+Work Mode approved exact proposal head
+`c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` with no remaining findings. The
+Chief Architect approved that exact head for merge in pull request #45. The
+proposal was squash-merged to `main` as
+`72099ac555efbb34b8344c5e34db7fb9aad5f69c`. Acceptance grants no
+implementation, deployment, live-information-use, or source authority.
