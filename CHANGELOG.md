@@ -10,6 +10,10 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added a proposed Knowledge Manager 1.0 Phase 2 document-inspection plan,
+  synthetic validation requirements, and safe local VBA evidence-preparation
+  guide; the package does not authorize code, real documents, ingestion,
+  storage, services, deployment, or runtime integration.
 - Added and accepted Knowledge Manager 1.0 Phase 1 implementation and validation
   plans plus System ADR 0014 for a synthetic, metadata-only Knowledge Registry
   foundation; only the exact bounded implementation is authorized, while
