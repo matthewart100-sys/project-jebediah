@@ -221,10 +221,11 @@ Collector Engine component authority. The bounded Phase 1 implementation is
 complete on reviewed `main` and has **Implemented** repository maturity. It
 provides immutable domain models, lifecycle representation, a storage-neutral
 repository abstraction, and an in-memory reference implementation. The
-Knowledge Vault remains **Named**, and Phase 2 is not implemented. No document
-ingestion, document parsing, real organizational-information authorization,
-durable storage, Qdrant integration, retrieval integration, runtime service, or
-deployment exists.
+Knowledge Vault remains **Named**. The separate Phase 2 synthetic document
+inspection package is implemented and terminally closed, but it does not write
+the registry. No real document ingestion, production document parsing,
+organizational-information authorization, durable storage, Qdrant integration,
+retrieval integration, runtime service, or deployment exists.
 
 ### Knowledge Vault
 
@@ -245,8 +246,21 @@ responsibilities, interfaces, and data authority are unresolved.
 
 ### Collector Engine
 
-A named future capability for controlled ingestion from approved sources.
-Sources, contracts, lifecycle, and implementation remain unapproved.
+An **Implemented** repository component for bounded text-record ingestion,
+provenance, deterministic identity, and storage coordination. Accepted ADR 0013
+and the terminally closed Knowledge Manager Phase 2 package add a disconnected
+synthetic document-admission and inspection boundary. Real sources, production
+parsers and scanners, durable quarantine, runtime integration, deployment, and
+operational ownership remain unapproved.
+
+### Executive Product Shell
+
+A **Specified** human-experience component under Accepted
+[ADR 0015](../adr/0015-executive-product-shell-and-local-preview-boundary.md).
+It owns presentation and navigation over immutable compiled fabricated briefing
+fixtures in a loopback-only local preview. It has no source, verification,
+derivation, approval, action, organizational-information, service, deployment,
+or operational authority and is not yet Implemented.
 
 ### Knowledge Graph
 

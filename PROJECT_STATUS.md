@@ -2,10 +2,11 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 2 synthetic document inspection is
-merged and post-merge validated; documentation-only closeout is in review;
+**Status:** Knowledge Manager 1.0 Phase 2 is terminally closed; Organizational
+Intelligence Product Program Phase 3A architecture and its exact bounded
+synthetic implementation scope are accepted, but implementation has not started;
 external information, runtime integration, deployment, operational use, and
-Phase 3 remain unauthorized
+canonical Roadmap Phase 3 remain unauthorized
 
 **Last reviewed:** 2026-08-05
 
@@ -29,7 +30,10 @@ synthetic-only activation package as
 `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. Pull request #53 then
 squash-merged the exact independently reviewed implementation as
 `ccba7951f280f2b09e932db3979034dc6c2e5b68` without authorizing external
-information, deployment, runtime work, or Phase 3.
+information, deployment, runtime work, or Phase 3. Pull request #54 then
+squash-merged the exact independently approved terminal documentation closeout
+head `4de5f2df2d4c82e286890f7f3d5e462693322a1f` as
+`58f40054faba1167c25d828186e74d66e6c0681b`.
 
 [ADR 0011](docs/adr/0011-knowledge-vault-authority-and-boundary-model.md)
 defines the accepted Knowledge Vault authority boundary as a derived governed
@@ -93,6 +97,16 @@ Canonical post-merge validation passed 226 targeted tests, 461 full-suite
 tests, 9 package-boundary tests, and all required repository gates. The package
 has **Implemented** repository maturity but is not operational.
 
+The accepted architecture defines a compiled synthetic
+[Phase 3A Executive Product Shell](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_PRODUCT_SHELL_PLAN.md)
+to refine the ADR 0012 presentation boundary. Accepted System ADR 0015, a threat
+model, dependency assessment, validation requirements, and bounded authorization
+form the exact implementation contract. The Executive Product Shell is
+**Specified**, not Implemented or Operational. No source tree, live adapter,
+service, real-information path, deployment, or action authority exists. The
+Product Program Phase 3A label does not activate or rename canonical Roadmap
+Phase 3 - Knowledge Graph.
+
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
 `5895e8f5896cf0687a43c978ec2f17da53d6b78c`. JCS remains **Named**, its
@@ -141,6 +155,11 @@ reviewed pull requests.
 - Accepted ADRs 0012 and 0013 define architecture boundaries for an executive
   read model and governed document admission; neither grants implementation
   authority.
+- Accepted ADR 0015 defines the compiled-synthetic Executive Product Shell and
+  loopback local-preview boundary. Work Mode approved and the Chief Architect
+  adopted exact planning head
+  `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`; the component is **Specified**,
+  not Implemented or Operational.
 - Pull request #50 squash-merged the independently reviewed Phase 2 plan and
   validation baseline as
   `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`; no implementation or
@@ -153,6 +172,12 @@ reviewed pull requests.
   `ccba7951f280f2b09e932db3979034dc6c2e5b68`. Post-merge validation passed,
   the remote implementation branch was deleted, and canonical `main` was clean
   and synchronized.
+- Pull request #54 squash-merged exact corrected closeout head
+  `4de5f2df2d4c82e286890f7f3d5e462693322a1f` as
+  `58f40054faba1167c25d828186e74d66e6c0681b`. Fresh Work Mode review reported no
+  findings, the Chief Architect approved the head, and terminal documentation,
+  link, manifest, whitespace, boundary, sensitive-value, and clean-worktree
+  checks passed.
 - Draft pull request #43 contains Sprint 006 Proposal v2 as a
   documentation-only architecture package. It is not an active or authorized
   implementation sprint.
@@ -323,11 +348,16 @@ owns the exact merge and post-merge evidence. Sprint 005's
 the earlier merged memory-consolidation outcome.
 
 The Phase 2 architecture, activation, exact synthetic implementation, review,
-Chief Architect approval, merge, and post-merge validation are complete. The
-current work is a documentation-only closeout that reconciles canonical
-evidence, scope, exclusions, rollback, and remaining gates. No active
-implementation sprint, parser, service, real document, runtime integration,
-deployment, or Phase 3 work is authorized.
+Chief Architect approval, merge, post-merge validation, and terminal
+documentation closeout are complete.
+
+The current work activates the accepted Organizational Intelligence Product
+Program Phase 3A architecture. It defines a synthetic Executive Product Shell,
+local-preview boundary, exact view models, routes, states, threat model,
+dependency decision, tests, rollback, file manifest, and bounded implementation
+authorization. Implementation is authorized only from canonical activation
+merge and has not started. No parser, service, real document, runtime
+integration, deployment, or canonical Roadmap Phase 3 work is authorized.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and

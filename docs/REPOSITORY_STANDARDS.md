@@ -109,6 +109,12 @@ may be refined when a language and source layout are approved.
 
 `src/collector/` contains the tested Python Collector package.
 `services/jebediah-memory/` contains the memory-service runtime candidate.
+`apps/` is reserved for independently runnable, user-facing applications whose
+component, language, entry point, dependency, test, security, operations, and
+ownership boundaries are approved. Accepted ADR 0015 assigns
+`apps/jebediah_executive/` to the synthetic Executive Product Shell. The path is
+created only after the accepted architecture activation is canonical and its
+bounded implementation authorization is active.
 New source or service trees still require an approved responsibility, language,
 build, test, packaging, and ownership boundary; existing trees do not authorize
 speculative peers.
@@ -129,6 +135,8 @@ Document planned ownership in canonical standards until content is ready.
 
 - Directory names use lowercase words separated by hyphens unless an external
   tool requires a different convention.
+- Python import-package directories use valid lowercase identifiers with
+  underscores where word separation is needed.
 - Canonical project Markdown files use descriptive uppercase names with
   underscores where established by the Genesis plan.
 - Reference and design filenames identify their subject rather than their
