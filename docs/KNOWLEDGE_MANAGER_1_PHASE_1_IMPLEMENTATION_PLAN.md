@@ -1,6 +1,8 @@
 # Knowledge Manager 1.0 Phase 1 Implementation Plan
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted:** 2026-08-04
 
 **Milestone:** Knowledge Manager 1.0
 
@@ -10,16 +12,17 @@
 
 **Decision owner:** Chief Architect
 
-**Implementation owner:** Implementation Engineer after exact-scope
-authorization
+**Implementation owner:** Implementation Engineer within the exact authorized
+scope
 
 **Reviewers:** Work Mode architecture review before implementation; Work Mode
 implementation review before merge
 
 **Planning base:** `c5693f5995738ddd62acfef7782728dcf815b146`
 
-**Authorization state:** Planning only; implementation is not authorized by this
-proposal
+**Authorization state:** Exact bounded Phase 1 implementation authorized by
+the Chief Architect; execution begins only after the canonical activation
+closeout is on `main` and Checkpoint 0 passes
 
 ## Purpose
 
@@ -94,12 +97,11 @@ review.
   limits Qdrant's current role to Memory Service payload and semantic-index
   responsibilities.
 
-### Required proposed decision
+### Accepted registry decision
 
-[ADR 0014](adr/0014-knowledge-registry-domain-boundary.md) is a System-level
-prerequisite because the work introduces a lasting domain responsibility,
-authority boundary, metadata contract, package boundary, and repository
-interface.
+[ADR 0014](adr/0014-knowledge-registry-domain-boundary.md) is the accepted
+System-level prerequisite for the lasting domain responsibility, authority
+boundary, metadata contract, package boundary, and repository interface.
 
 Implementation may begin only after:
 
@@ -262,7 +264,7 @@ Implementation will create frozen dataclasses and enums for:
   - temporal context
   - uncertainty assessment
   - human review
-  - lifecycle state
+  - lifecycle (`KnowledgeLifecycle`)
 
 No type contains source or derived content, an arbitrary metadata dictionary,
 an embedding, a score, a model response, a memory object, or an action.
@@ -459,8 +461,9 @@ Phase 1 implementation is acceptable only when:
 
 Phase 1 depends on:
 
-- Accepted ADRs 0002, 0003, 0011, 0012, and 0013 remaining unchanged.
-- Work Mode approval and Chief Architect acceptance of proposed ADR 0014.
+- Accepted ADRs 0002, 0003, 0011, 0012, 0013, and 0014 remaining unchanged.
+- Work Mode approval and the Chief Architect's exact-scope decisions remaining
+  recorded.
 - Exact-scope implementation authorization in canonical project state.
 - The existing Python package and test environment.
 
@@ -529,19 +532,25 @@ resolve at least:
 
 No Phase 2 work begins from this plan alone.
 
-## Review and authorization request
+## Review and authorization record
 
-Work Mode is asked to determine whether the proposed ADR, domain contract,
-package boundary, test plan, rollback, and stop conditions preserve accepted
-architecture and are sufficiently bounded for an implementation-authorization
+Independent Work Mode reviewed exact planning head
+`00db845a98f63fc3b8d1bb1135adcafa9d306b97` against base
+`c5693f5995738ddd62acfef7782728dcf815b146`. It returned **APPROVED** with no
+Blocking or High findings and found the package boundary, contract, validation,
+rollback, and stop conditions sufficiently bounded for a Chief Architect
 decision.
 
-If Work Mode approves, the Chief Architect is asked to:
+The Chief Architect then:
 
-1. Accept or reject ADR 0014 at the exact reviewed head.
-2. Authorize or withhold only the bounded Phase 1 implementation described
-   here.
+1. Ratified `collector.knowledge.registry` as repository packaging only, with
+   no Collector Engine authority over registered knowledge.
+2. Accepted ADR 0014 at the exact reviewed head.
+3. Authorized only the bounded Phase 1 implementation described here, subject
+   to Checkpoint 0.
+4. Approved squash merge of pull request #47 at the exact reviewed head.
 
-Approval must identify the exact reviewed commit. Until that decision is
-recorded and reconciled into canonical `main`, implementation remains
-unauthorized.
+Pull request #47 squash-merged that reviewed source into `main` as
+`f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`. Implementation remains not
+started and may begin only after the canonical activation closeout is present
+on reviewed `main` and Checkpoint 0 reconfirms every prerequisite.

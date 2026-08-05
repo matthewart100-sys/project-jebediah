@@ -10,10 +10,11 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
-- Added proposed Knowledge Manager 1.0 Phase 1 implementation and validation
-  plans plus proposed System ADR 0014 for a synthetic, metadata-only Knowledge
-  Registry foundation; implementation, external information, memory
-  integration, durable storage, runtime, and deployment remain unauthorized.
+- Added and accepted Knowledge Manager 1.0 Phase 1 implementation and validation
+  plans plus System ADR 0014 for a synthetic, metadata-only Knowledge Registry
+  foundation; only the exact bounded implementation is authorized, while
+  external information, memory integration, durable storage, runtime, and
+  deployment remain unauthorized.
 - Added and accepted System ADRs 0012 and 0013 plus organizational-intelligence
   interface, document-admission, and validation specifications without
   authorizing implementation or live information use.
@@ -47,6 +48,11 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Recorded pull request #47's squash merge of reviewed planning source
+  `00db845a98f63fc3b8d1bb1135adcafa9d306b97` as
+  `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`, ratified
+  `collector.knowledge.registry` as repository packaging only, accepted ADR
+  0014, and activated the exact bounded Knowledge Registry Phase 1 scope.
 - Recorded pull request #45's squash merge of reviewed source
   `c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` as
   `72099ac555efbb34b8344c5e34db7fb9aad5f69c` and reconciled the accepted

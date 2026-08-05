@@ -211,7 +211,7 @@ decision.
   is accepted and defines quarantine-first PDF, DOCX, TXT, and Markdown
   admission without granting source authority or live information use.
 - [ADR 0014: Knowledge Registry Domain Boundary](0014-knowledge-registry-domain-boundary.md)
-  is proposed and would define a metadata-only registry library without
+  is accepted and defines a metadata-only registry library without
   content, memory integration, durable storage, runtime use, or source
   authority.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a

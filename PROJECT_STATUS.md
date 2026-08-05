@@ -2,9 +2,9 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Sprint 005 complete and merged; Knowledge Vault and
-organizational-intelligence boundaries accepted; Sprint 006 remains proposed;
-implementation and deployment unauthorized
+**Status:** Knowledge Manager 1.0 Phase 1 active for the bounded metadata-only
+Knowledge Registry foundation; implementation not started; Sprint 006,
+external information, runtime integration, and deployment remain unauthorized
 
 **Last reviewed:** 2026-08-04
 
@@ -21,7 +21,9 @@ separate Chief Architect, Codex Implementation Engineer, Work Mode,
 Documentation Suite, and future Jebediah Runtime responsibilities. The model
 requires independent plan and implementation review, exact Chief Architect
 approvals, controlled merge verification, and evidence-based post-merge
-documentation closeout. It does not authorize Sprint 006 or runtime work.
+documentation closeout. The active Knowledge Registry sprint follows those
+gates and does not authorize Sprint 006, external information, deployment, or
+other runtime work.
 
 [ADR 0011](docs/adr/0011-knowledge-vault-authority-and-boundary-model.md)
 defines the accepted Knowledge Vault authority boundary as a derived governed
@@ -29,6 +31,18 @@ knowledge repository. The component remains **Named** pending concrete
 ownership, consumer, interface, operations, recovery, and implementation
 decisions. Reviewed `main` contains no Knowledge Vault implementation,
 deployment, live data, or authorization to acquire or use external information.
+
+[ADR 0014](docs/adr/0014-knowledge-registry-domain-boundary.md) and the
+[Knowledge Manager 1.0 Phase 1 plan](docs/KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
+define an accepted, metadata-only registry library boundary under
+`collector.knowledge.registry`. Independent Work Mode approved exact planning
+head `00db845a98f63fc3b8d1bb1135adcafa9d306b97`; the Chief Architect ratified
+the package placement as repository packaging only, accepted ADR 0014, and
+authorized the bounded implementation. Pull request #47 squash-merged the
+reviewed plan at `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`.
+Implementation is not started. The sprint permits synthetic metadata models,
+a storage-neutral repository interface, an in-memory reference adapter, and
+tests only.
 
 Sprint 006 Proposal v1 is permanently **Abandoned** because its source
 artifacts and exact review head are unrecoverable. The surviving Work Mode
@@ -55,7 +69,8 @@ ADRs 0012 and 0013 define accepted architecture boundaries for a read-only
 executive interface and quarantine-first PDF, DOCX, TXT, and Markdown
 admission. Their specifications and validation requirements select no
 implementation technology and grant no source, live-information, deployment,
-verification, or action authority. They are not an active sprint.
+verification, or action authority. The active registry sprint does not
+implement either boundary.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -90,6 +105,12 @@ reviewed pull requests.
 - Accepted ADR 0011 defines the Knowledge Vault authority boundary while the
   component retains **Named** maturity; no Knowledge Vault implementation
   exists on reviewed `main`.
+- Accepted ADR 0014 defines a metadata-only Knowledge Registry domain separate
+  from memory, content, durable storage, retrieval, and runtime use.
+- Pull request #47 squash-merged reviewed planning source
+  `00db845a98f63fc3b8d1bb1135adcafa9d306b97` at
+  `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`; the exact bounded Phase 1
+  implementation is authorized but not started.
 - Accepted ADRs 0012 and 0013 define architecture boundaries for an executive
   read model and governed document admission; neither grants implementation
   authority.
@@ -239,17 +260,25 @@ addresses, sensitive topology, or personal data during that audit.
 | What does JCS stand for, own, and guarantee? | Collectors and later knowledge components must not depend on an undefined contract. | Deferred after C1; reconsider only when an explicit purpose, named consumer and need, candidate responsibility and boundary, and failure consequence are available for review. |
 | Which reported infrastructure components are currently running and how are they configured? | Architecture and operations documents must distinguish desired state from actual state. | Perform a sanitized infrastructure inventory. |
 | Which future component owns each concrete information item? | Categories and responsibilities are defined, but JCS and other components remain unspecified. | Map authority in the relevant component specifications before implementation. |
-| Which information domains, producers, consumers, and component relationships may a future Knowledge Vault receive? | Accepted ADR 0011 defines an authority boundary but does not authorize information use or implementation. | Approve domain-specific source authorization, component ownership, interfaces, operations, and implementation decisions. |
+| Which information domains, producers, consumers, and component relationships may a future Knowledge Vault receive? | Accepted ADRs 0011 and 0014 define authority and metadata-only registry boundaries, but Phase 1 authorizes no external information or runtime consumer. | Approve domain-specific source authorization, component ownership, interfaces, operations, and later implementation decisions. |
 | What data classifications and privacy constraints apply? | A public repository and local AI platform create disclosure and retention risks. | Complete data classification and threat-model work before ingesting data. |
 | Which software license should govern the public repository? | Public visibility does not grant reuse rights. | Maintainer selects a license before inviting external reuse. |
 | What bounded subject and use case should the first Digital Twin support? | The conceptual position and exclusions are defined, but an implementation scope is not. | Approve a future Digital Twin specification after its entry gates are met. |
 
 ## Current work
 
-Sprint 005 is complete and its
+Knowledge Manager 1.0 Phase 1 is the active sprint. Its accepted
+[implementation plan](docs/KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
+and
+[validation requirements](docs/KNOWLEDGE_MANAGER_1_PHASE_1_VALIDATION_REQUIREMENTS.md)
+authorize only a synthetic, metadata-only registry domain, repository
+abstraction, in-memory reference adapter, and tests. Checkpoint 0 must
+reconfirm the clean baseline and authority before code begins.
+
+Sprint 005 remains the most recently completed implementation sprint. Its
 [implementation plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md) and
-[validation requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md) now
-record the merged outcome. It remains the most recently completed sprint.
+[validation requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md) record
+the merged memory-consolidation outcome.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and
@@ -264,9 +293,10 @@ Pull request #45 squash-merged reviewed source
 `c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` to `main` as
 `72099ac555efbb34b8344c5e34db7fb9aad5f69c`. Accepted ADRs 0011 through 0013
 define the Knowledge Vault, executive-interface, and document-admission
-architecture boundaries. Component specification, source authorization,
-implementation planning, and implementation authorization remain separate
-future gates.
+architecture boundaries. Pull request #47 separately accepted and authorized
+only the metadata-only Knowledge Registry foundation. Component specification,
+source authorization, durable persistence, consumers, runtime integration,
+deployment, and external information use remain future gates.
 
 The VBA demonstration documents in pull request #44 are unmerged proposal
 artifacts. Their evidence validation is pending. No VBA data ingestion,

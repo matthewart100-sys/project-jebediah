@@ -1,20 +1,22 @@
 # Knowledge Manager 1.0 Phase 1 Validation Requirements
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted:** 2026-08-04
 
 **Phase:** Knowledge Registry Foundation
 
 **Date:** 2026-08-04
 
-**Applies to:** The bounded implementation proposed by the
+**Applies to:** The bounded implementation authorized by the
 [Phase 1 Implementation Plan](KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
 
-**Authorization state:** Validation design only; implementation remains
-unauthorized
+**Authorization state:** Normative for the authorized Phase 1 implementation;
+no excluded information use, runtime, or deployment is authorized
 
 ## Purpose
 
-These requirements define the evidence needed to review the proposed
+These requirements define the evidence needed to review the authorized
 metadata-only Knowledge Registry implementation. Passing tests proves only the
 tested domain and repository contracts. It does not authorize external
 information, prove source claims, establish a Knowledge Vault service, or grant

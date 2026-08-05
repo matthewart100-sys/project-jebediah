@@ -1,6 +1,8 @@
 # ADR 0014: Knowledge Registry Domain Boundary
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted:** 2026-08-04
 
 **Decision level:** System
 
@@ -71,9 +73,12 @@ authorization with that name.
   semantic retrieval. Qdrant is one implemented adapter under that boundary.
 - The full repository baseline passes 142 tests in the selected Python 3.14.5
   development environment.
-- No active implementation sprint, external information source, Knowledge
-  Vault storage system, service, deployment, or operator is currently
-  authorized.
+- At planning base `c5693f5995738ddd62acfef7782728dcf815b146`, no active
+  implementation sprint, external information source, Knowledge Vault storage
+  system, service, deployment, or operator was authorized.
+- The Chief Architect ratified `collector.knowledge.registry` as repository
+  packaging only; it does not assign Collector Engine authority or ownership
+  over registered knowledge.
 
 ### Reported facts
 
@@ -85,11 +90,6 @@ authorization with that name.
   content, external information, retrieval, or persistent infrastructure.
   Implementation review must reject the assumption if the proposed code needs
   any of those capabilities.
-- The existing `collector` Python distribution can temporarily host an
-  adjacent `collector.knowledge.registry` library namespace without assigning
-  Collector Engine component authority over registered knowledge. Acceptance
-  requires reviewers to agree that package placement and component authority
-  remain distinct.
 
 ### Open questions
 
@@ -444,6 +444,22 @@ information, or a broader repository API.
 
 ## Review record
 
-Pending independent Work Mode review and Chief Architect decision on the exact
-proposal head. This proposed ADR is not authoritative and does not authorize
-implementation.
+Independent Work Mode reviewed exact proposal head
+`00db845a98f63fc3b8d1bb1135adcafa9d306b97` against base
+`c5693f5995738ddd62acfef7782728dcf815b146` and returned **APPROVED** with no
+Blocking or High findings.
+
+The Chief Architect then:
+
+- Ratified `collector.knowledge.registry` as repository packaging only.
+- Accepted ADR 0014 at that exact reviewed head.
+- Authorized only the bounded Phase 1 implementation defined by the associated
+  plan, subject to its canonical Checkpoint 0.
+- Approved squash merge of pull request #47 at that exact head.
+
+Pull request #47 squash-merged the reviewed proposal into `main` as
+`f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`.
+
+Acceptance does not authorize any excluded ingestion, external information,
+memory integration, durable storage, runtime, deployment, or autonomous
+capability.

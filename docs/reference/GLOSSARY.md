@@ -209,6 +209,17 @@ pending, and no live organizational pilot is authorized.
 
 ## Named future capabilities
 
+### Knowledge Registry
+
+An accepted metadata-only domain library foundation under
+[ADR 0014](../adr/0014-knowledge-registry-domain-boundary.md). It may represent
+immutable governance metadata for a derived knowledge object without storing
+source or derived content, integrating with memory, selecting durable storage,
+or granting source, truth, retrieval, action, or runtime authority.
+`collector.knowledge.registry` is repository packaging only and does not assign
+Collector Engine component authority. The bounded Phase 1 implementation is
+authorized but not present on reviewed `main`.
+
 ### Knowledge Vault
 
 A **Named** future component boundary whose authority model is defined by
@@ -216,8 +227,9 @@ accepted
 [ADR 0011](../adr/0011-knowledge-vault-authority-and-boundary-model.md) as a
 derived governed knowledge repository. It is not GitHub `main`, an original
 authoritative source, the Memory Service, Qdrant, a vector index, a model
-context store, a Knowledge Graph, or a production deployment. No Knowledge
-Vault implementation or external information use is authorized.
+context store, a Knowledge Graph, or a production deployment. The separate
+metadata-only Knowledge Registry foundation is authorized, but no Knowledge
+Vault component implementation or external information use is authorized.
 
 ### JCS
 
