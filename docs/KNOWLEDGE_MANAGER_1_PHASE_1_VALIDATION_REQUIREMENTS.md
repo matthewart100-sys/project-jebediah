@@ -55,6 +55,7 @@ The implementation adds:
 ```text
 tests/collector/knowledge/
     registry/
+        __init__.py
         test_models.py
         test_repository.py
         test_package_boundaries.py
@@ -62,6 +63,11 @@ tests/collector/knowledge/
 
 Tests must use the existing pytest configuration and dependencies. No new test
 tool may be added.
+
+The Chief Architect authorized the empty `__init__.py` test-package marker
+during implementation after the required full-suite command exposed a
+module-name collision with the existing `tests/collector/test_models.py`. The
+marker changes no runtime or validation behavior.
 
 ## Domain model validation
 
@@ -311,6 +317,32 @@ Run from the repository root with the selected project Python executable:
 The pull request records the exact Python executable or environment class,
 accepted base, tested head, command, result, and date. The GitHub
 `documentation-quality` check must also pass.
+
+## Post-merge validation evidence
+
+Canonical merge `4ed2ac283e4df6aec30b67f7c4aa50338924c435`
+contains exact reviewed source
+`7b06b1df831ad2a7a4726fa5e92746538cec34b4`, based on
+`e418479bbb10f48c1a3c7dd207c299cc49226896`:
+
+- `python -m pytest tests/collector/knowledge/registry -q` passes 93 tests.
+- `python -m pytest -q` passes 235 tests.
+- The registry import smoke check passes.
+- AST package-boundary tests prove standard-library and local imports only,
+  no existing source imports the registry, and no root or memory re-export was
+  added.
+- Documentation validation passes for 65 Markdown files and 209 tracked files.
+- Python compilation and frozen-lock verification pass.
+- Diff scope and whitespace checks pass.
+- Sensitive-value scanning passes.
+- Test fixtures use only fabricated identifiers, labels, explanations, and
+  timestamps.
+
+These results establish only the bounded metadata and in-memory repository
+implementation. They do not authorize external information, ingestion, durable
+storage, runtime use, or deployment. The
+[Phase 1 closeout](KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) records the complete
+merge and validation evidence.
 
 ## Evidence matrix
 

@@ -19,6 +19,12 @@
 **Component maturity impact:** None; acceptance or bounded implementation of
 this registry alone does not advance the Knowledge Vault beyond **Named**
 
+**Implementation status:** The bounded metadata-only library was implemented
+through pull request #49 and squash-merged at
+`4ed2ac283e4df6aec30b67f7c4aa50338924c435`. This status note records
+implementation evidence only and does not change this decision or advance the
+Knowledge Vault component beyond **Named**.
+
 ## Decision summary
 
 Introduce a metadata-only Knowledge Registry domain library as a bounded
@@ -309,8 +315,8 @@ separate authorization and review.
 
 ### Ownership
 
-The project maintainer owns repository custody and the reviewable code
-candidate. This ADR does not assign Knowledge Vault component or operational
+The project maintainer owns repository custody and the implemented bounded
+library. This ADR does not assign Knowledge Vault component or operational
 ownership. The component remains unassigned pending specification.
 
 ## Consequences
@@ -356,8 +362,8 @@ Source identity, source revision or observation context, transformation
 identity and version, evidence references, review evidence, classification,
 permitted-use identifiers, and lifecycle remain visible.
 
-No migration applies because no Knowledge Registry implementation or data
-exists.
+No migration applied because Phase 1 began without a Knowledge Registry
+implementation or data and the merged library creates no durable state.
 
 ## Security and privacy impact
 
@@ -414,8 +420,8 @@ information, or a broader repository API.
 
 ## Follow-up work
 
-- Obtain Work Mode review and Chief Architect acceptance of this ADR and the
-  exact Phase 1 plan.
+- Preserve the merged Phase 1 implementation and closeout evidence without
+  expanding its bounded authority.
 - Assign Knowledge Vault component and operational ownership before component
   specification.
 - Approve producers, consumers, interfaces, information domains, policy
@@ -459,6 +465,14 @@ The Chief Architect then:
 
 Pull request #47 squash-merged the reviewed proposal into `main` as
 `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`.
+
+Independent Work Mode later approved exact Phase 1 implementation head
+`7b06b1df831ad2a7a4726fa5e92746538cec34b4` with no findings. The Chief
+Architect approved that exact head for merge and closeout, and pull request #49
+squash-merged it into `main` as
+`4ed2ac283e4df6aec30b67f7c4aa50338924c435`. Post-merge validation is recorded
+in the
+[Phase 1 closeout](../KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md).
 
 Acceptance does not authorize any excluded ingestion, external information,
 memory integration, durable storage, runtime, deployment, or autonomous

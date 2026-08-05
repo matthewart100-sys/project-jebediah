@@ -42,10 +42,14 @@ It does not:
   does not receive authority over the represented source information.
 - ADR 0011 is Accepted, the Knowledge Vault remains **Named**, and reviewed
   `main` contains no Knowledge Vault implementation, deployment, or live data.
-- ADR 0014 is Accepted and authorizes only a synthetic, metadata-only Knowledge
-  Registry foundation. Reviewed `main` contains no registry implementation,
-  source or derived content, external information, durable store, or runtime
-  consumer.
+- ADR 0014 is Accepted, and its bounded, metadata-only Knowledge Registry
+  Phase 1 implementation is complete on reviewed `main`. The implementation
+  provides immutable domain models, lifecycle representation, a storage-neutral
+  repository abstraction, and an in-memory reference implementation. The
+  Knowledge Vault remains **Named**, and Phase 2 is not implemented. No source
+  or derived content, document ingestion or parsing, real
+  organizational-information authorization, durable store, Qdrant or memory
+  integration, retrieval, runtime consumer, or deployment exists.
 
 ### Reported facts
 

@@ -14,6 +14,15 @@ development. Changes not assigned to a published version remain under
   synthetic validation requirements, and safe local VBA evidence-preparation
   guide; the package does not authorize code, real documents, ingestion,
   storage, services, deployment, or runtime integration.
+- Added the bounded Knowledge Registry Phase 1 implementation:
+  immutable governance-metadata records, a three-method storage-neutral
+  repository contract, a typed identity conflict, an in-memory reference
+  adapter, and 93 synthetic contract and package-boundary tests. Pull request
+  #49 squash-merged exact reviewed source
+  `7b06b1df831ad2a7a4726fa5e92746538cec34b4` as
+  `4ed2ac283e4df6aec30b67f7c4aa50338924c435`; the implementation adds no
+  content, external information, memory integration, durable storage, runtime,
+  service, deployment, or autonomous capability.
 - Added and accepted Knowledge Manager 1.0 Phase 1 implementation and validation
   plans plus System ADR 0014 for a synthetic, metadata-only Knowledge Registry
   foundation; only the exact bounded implementation is authorized, while
@@ -52,6 +61,11 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Closed Knowledge Manager 1.0 Phase 1 after post-merge validation passed 93
+  targeted and 235 full-suite tests plus compilation, frozen-lock,
+  documentation, import-boundary, whitespace, and sensitive-value checks. The
+  registry library is implemented, the Knowledge Vault remains **Named**, and
+  no active implementation sprint or real-information use is authorized.
 - Recorded pull request #47's squash merge of reviewed planning source
   `00db845a98f63fc3b8d1bb1135adcafa9d306b97` as
   `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`, ratified

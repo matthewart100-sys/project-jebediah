@@ -74,10 +74,11 @@ sources.
 **Status:** In progress; Sprint 005 completed and merged the bounded memory
 architecture consolidation through pull request #39 at
 `5f1b58767b54aed797d1ec6a2fafa084a00d6de7`. The cross-phase Knowledge
-Registry foundation is the active bounded implementation sprint under accepted
-ADR 0014. Sprint 006 Proposal v2 remains Proposed in draft pull request #43; it
-is not active and does not activate Phase 6. Deployment and external
-information remain unauthorized.
+Registry foundation completed at
+`4ed2ac283e4df6aec30b67f7c4aa50338924c435` under accepted ADR 0014. No active
+implementation sprint is authorized. Sprint 006 Proposal v2 remains Proposed in
+draft pull request #43; it is not active and does not activate Phase 6.
+Deployment and external information remain unauthorized.
 
 Required outcomes:
 
@@ -95,9 +96,9 @@ ownership requirements are documented.
 ## Accepted cross-phase Knowledge Vault boundary
 
 **Status:** Accepted in ADRs 0011 and 0014; component maturity remains
-**Named**; the metadata-only Knowledge Registry foundation is authorized and
-not started; deployment, external information, and operational capability
-remain unauthorized
+**Named**; the metadata-only Knowledge Registry library is implemented and
+post-merge validated; deployment, external information, runtime consumers, and
+operational capability remain unauthorized
 
 The accepted Knowledge Vault boundary does not add, remove, or reorder a
 roadmap phase. It governs the authority model for derived knowledge
@@ -114,12 +115,12 @@ Twin, Automation, Reasoning Engine, or Production Platform entry or exit gates.
 Each information domain, producer, consumer, interface, implementation,
 deployment, and external information use remains separately gated.
 
-Knowledge Manager 1.0 Phase 1 is a bounded cross-phase foundation, not a new
-roadmap phase or component. It may add only the accepted
+Knowledge Manager 1.0 Phase 1 is a completed bounded cross-phase foundation,
+not a new roadmap phase or component. It added only the accepted
 `collector.knowledge.registry` metadata contract, storage-neutral repository
 interface, in-memory reference adapter, and synthetic validation. The package
 path is repository organization only and does not give the Collector Engine
-authority over registered knowledge. The sprint does not implement the
+authority over registered knowledge. The completed sprint did not implement the
 Knowledge Vault component, ingestion, content storage, durable persistence,
 retrieval, memory integration, or a runtime consumer.
 

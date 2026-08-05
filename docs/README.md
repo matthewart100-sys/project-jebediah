@@ -99,6 +99,9 @@ searchable, linkable, and version controlled.
 - [Knowledge Manager 1.0 Phase 1 Validation Requirements](KNOWLEDGE_MANAGER_1_PHASE_1_VALIDATION_REQUIREMENTS.md)
   defines the accepted synthetic domain, repository, dependency, compatibility, and stop
   evidence for the authorized registry foundation.
+- [Knowledge Manager 1.0 Phase 1 Closeout](KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md)
+  records the exact implementation merge, post-merge validation, implemented
+  maturity, exclusions, rollback, and remaining gates.
 - [ADR 0014: Knowledge Registry Domain Boundary](adr/0014-knowledge-registry-domain-boundary.md)
   is an Accepted System decision for a storage-neutral registry domain separate
   from memory, ingestion, retrieval, runtime, and source authority.
