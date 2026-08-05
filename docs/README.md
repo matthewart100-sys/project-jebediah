@@ -111,19 +111,20 @@ searchable, linkable, and version controlled.
   deployment.
 - [Knowledge Manager 1.0 Phase 2 Validation Requirements](KNOWLEDGE_MANAGER_1_PHASE_2_VALIDATION_REQUIREMENTS.md)
   define the accepted fail-closed fixture, isolation, state, resource, provenance,
-  retention, authority, and review evidence for that future implementation.
+  retention, authority, and review evidence for the bounded candidate.
 - [Knowledge Manager 1.0 Phase 2 Synthetic Implementation Activation](KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
-  proposes exact models, states, interfaces, reference adapters, tests, owners,
-  rollback, future files, and implementation gates.
+  defines the accepted exact models, states, interfaces, reference adapters,
+  tests, owners, rollback, files, and implementation gates merged through pull
+  request #52.
 - [Knowledge Manager 1.0 Phase 2 Threat Model](KNOWLEDGE_MANAGER_1_PHASE_2_THREAT_MODEL.md)
   assigns prevention, detection, safe failure, audit evidence, tests, and
   canonical owners for the complete synthetic threat inventory.
 - [Knowledge Manager 1.0 Phase 2 Dependency Assessment](KNOWLEDGE_MANAGER_1_PHASE_2_DEPENDENCY_ASSESSMENT.md)
-  proposes a standard-library-only candidate with no dependency or lock change
+  selects a standard-library-only candidate with no dependency or lock change
   and defers parser, scanner, isolation, and persistence technologies.
-- [Proposed Phase 2 Implementation Authorization](governance/KNOWLEDGE_MANAGER_1_PHASE_2_IMPLEMENTATION_AUTHORIZATION.md)
-  proposes the exact bounded Chief Architect decision while keeping
-  implementation ineffective until its review and merge gates pass.
+- [Phase 2 Implementation Authorization](governance/KNOWLEDGE_MANAGER_1_PHASE_2_IMPLEMENTATION_AUTHORIZATION.md)
+  records the exact bounded Chief Architect decision while preserving separate
+  implementation-review, merge, deployment, and real-information gates.
 - [Safe VBA Evidence Preparation Guide](VBA_EVIDENCE_PREPARATION_GUIDE.md)
   provides local-only blank preparation structures and checklists while keeping
   real VBA material outside Jebediah.

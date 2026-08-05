@@ -85,15 +85,17 @@ post-merge evidence and exclusions.
 
 Pull request #50 established the accepted
 [Phase 2 document-inspection baseline](docs/KNOWLEDGE_MANAGER_1_PHASE_2_DOCUMENT_INSPECTION_PLAN.md)
-at `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. A separate
+at `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. Pull request #52 merged the
 [synthetic implementation-activation package](docs/KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
-is proposed for exact-head review.
+as `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. The current implementation
+branch contains only the authorized standard-library, process-local,
+synthetic document-inspection repository candidate and deterministic tests.
 
-No active implementation sprint is authorized. Real document ingestion,
+Only that bounded implementation sprint is active. The candidate is awaiting
+exact-head review and is not merged or operational. Real document ingestion,
 external information, memory integration, embeddings, Qdrant writes, services,
 deployment, document uploads, and autonomous promotion remain excluded. JCS
-remains deferred and is not a dependency. All changes use short-lived branches,
-pull-request review, and small, understandable commits.
+remains deferred and is not a dependency.
 
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).

@@ -2,11 +2,10 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 1 complete; the Phase 2
-document-inspection architecture and validation baseline is canonical; a
-documentation-only synthetic implementation-activation package is proposed,
-but no active implementation sprint, external information, runtime integration,
-or deployment is authorized
+**Status:** Knowledge Manager 1.0 Phase 1 complete; the Phase 2 synthetic
+document-inspection implementation is an active, bounded repository candidate
+awaiting exact-head review; external information, runtime integration,
+deployment, and operational use remain unauthorized
 
 **Last reviewed:** 2026-08-05
 
@@ -25,8 +24,11 @@ requires independent plan and implementation review, exact Chief Architect
 approvals, controlled merge verification, and evidence-based post-merge
 documentation closeout. Knowledge Manager 1.0 Phase 1 completed those gates,
 and pull request #50 established the Phase 2 document-inspection architecture
-and validation baseline without authorizing external information,
-implementation, deployment, or other runtime work.
+and validation baseline. Pull request #52 then merged the independently reviewed
+synthetic-only activation package as
+`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca` and authorized the current bounded
+implementation candidate without authorizing external information, deployment,
+or runtime work.
 
 [ADR 0011](docs/adr/0011-knowledge-vault-authority-and-boundary-model.md)
 defines the accepted Knowledge Vault authority boundary as a derived governed
@@ -81,12 +83,14 @@ guidance as canonical commit
 parser, scanner, isolation product, production store, service, or deployment
 and grants no source, live-information, verification, or action authority.
 
-The proposed
+The accepted
 [Phase 2 synthetic implementation activation](docs/KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
 defines exact standard-library-only contracts and process-local synthetic
-reference adapters. It is not an active sprint or implementation
-authorization. It requires independent exact-head Work Mode review, a Chief
-Architect exact-head decision, and canonical merge before code may begin.
+reference adapters. The current implementation branch contains that disconnected
+repository candidate and 226 targeted tests; the 461-test full suite,
+compilation, frozen-lock, diagnostics, and whitespace checks pass. The candidate
+is not merged or operational and still requires one exact-head Work Mode review
+and Chief Architect merge decision.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -140,9 +144,11 @@ reviewed pull requests.
   validation baseline as
   `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`; no implementation or
   real-information authority followed from the merge.
-- The current Phase 2 synthetic implementation-activation package is a
-  documentation-only proposal pending exact-head Work Mode review, Chief
-  Architect decision, and canonical merge.
+- Pull request #52 squash-merged exact reviewed activation head
+  `a9d27f03454906db2771e3635c541bc5dca3e4ce` as
+  `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. The authorized implementation
+  branch contains a disconnected synthetic repository candidate pending exact-
+  head Work Mode review and Chief Architect merge disposition.
 - Draft pull request #43 contains Sprint 006 Proposal v2 as a
   documentation-only architecture package. It is not an active or authorized
   implementation sprint.

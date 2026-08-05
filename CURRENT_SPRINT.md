@@ -2,40 +2,45 @@
 
 ## Active sprint
 
-**Name:** None
+**Name:** Knowledge Manager 1.0 Phase 2 - Synthetic Document Inspection
 
-**Status:** No active implementation sprint is authorized; Knowledge Manager
-1.0 Phase 1 is complete and independently validated
+**Status:** Active bounded repository-candidate implementation; exact-head
+implementation review and merge are pending
 
-**Target window:** Not applicable until the Chief Architect authorizes another
-sprint
+**Target window:** Complete candidate validation, publish one exact review head,
+and stop for independent Work Mode and Chief Architect disposition
 
 **Deployment status:** Not authorized
 
 **Information-use status:** Synthetic test metadata only; external and
 organizational information use is not authorized
 
-## Pending implementation-activation proposal
-
-**Name:** Knowledge Manager 1.0 Phase 2 - Synthetic Document Inspection
-
-**Status:** Proposed documentation package only; no implementation is authorized
+## Active implementation authorization
 
 Pull request #50 established the accepted Phase 2 architecture and validation
 baseline at canonical commit
-`92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. The
-[synthetic implementation-activation proposal](docs/KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
-now defines an exact standard-library-only repository candidate, threat model,
-dependency decision, canonical role assignments, rollback, and validation.
+`92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. Independent Work Mode approved
+the separate activation package at exact head
+`a9d27f03454906db2771e3635c541bc5dca3e4ce`, and the Chief Architect authorized
+that exact head. Pull request #52 squash-merged the activation package as
+`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`.
 
-The proposal cannot activate a sprint merely by being authored. It requires one
-remote exact head, independent Work Mode approval, Chief Architect adoption of
-the exact proposed authorization, and canonical merge. Until all gates complete,
-the active sprint remains **None**.
+The current implementation branch is
+`feature/knowledge-manager-phase2-synthetic-inspection`, based on that canonical
+merge. It contains only the exact `collector.document_admission` source and test
+manifest plus directly required documentation. The candidate uses standard-
+library runtime code, generated synthetic bytes, immutable evidence, injected
+interfaces, process-local adapters, and deterministic orchestration.
 
-The proposed candidate uses generated synthetic bytes only. It contains no real
-parser, scanner, sandbox, durable store, service, runtime consumer, deployment,
-or real-document path.
+Current candidate evidence passes 226 targeted tests, the 461-test full suite,
+Python compilation, frozen-lock verification, editor diagnostics, and
+whitespace checks. Documentation validation also passes; complete diff evidence
+and publication remain part of the final publication gate.
+
+The candidate is not merged, deployed, operational, or approved for real
+documents. It contains no real parser, scanner, sandbox, durable store, service,
+runtime consumer, upload path, registry or memory write, retrieval, model call,
+or deployment.
 
 ## Most recently completed sprint
 
