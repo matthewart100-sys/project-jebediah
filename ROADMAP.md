@@ -95,9 +95,9 @@ ownership requirements are documented.
 ## Accepted cross-phase Knowledge Vault boundary
 
 **Status:** Accepted in ADRs 0011 and 0014; component maturity remains
-**Named**; the metadata-only Knowledge Registry foundation is authorized and
-not started; deployment, external information, and operational capability
-remain unauthorized
+**Named**; the metadata-only Knowledge Registry implementation candidate is
+validated and awaiting independent review; deployment, external information,
+and operational capability remain unauthorized
 
 The accepted Knowledge Vault boundary does not add, remove, or reorder a
 roadmap phase. It governs the authority model for derived knowledge

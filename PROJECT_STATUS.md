@@ -2,9 +2,10 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 1 active for the bounded metadata-only
-Knowledge Registry foundation; implementation not started; Sprint 006,
-external information, runtime integration, and deployment remain unauthorized
+**Status:** Knowledge Manager 1.0 Phase 1 active; the bounded metadata-only
+Knowledge Registry implementation candidate is validated and awaiting
+independent review; Sprint 006, external information, runtime integration, and
+deployment remain unauthorized
 
 **Last reviewed:** 2026-08-04
 
@@ -40,9 +41,11 @@ head `00db845a98f63fc3b8d1bb1135adcafa9d306b97`; the Chief Architect ratified
 the package placement as repository packaging only, accepted ADR 0014, and
 authorized the bounded implementation. Pull request #47 squash-merged the
 reviewed plan at `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`.
-Implementation is not started. The sprint permits synthetic metadata models,
-a storage-neutral repository interface, an in-memory reference adapter, and
-tests only.
+The implementation candidate on `feature/knowledge-registry-foundation`
+contains only synthetic metadata models, a storage-neutral repository interface,
+an in-memory reference adapter, and tests. It passes 93 targeted tests and the
+235-test full suite, but remains unmerged pending exact-head Work Mode review
+and Chief Architect approval.
 
 Sprint 006 Proposal v1 is permanently **Abandoned** because its source
 artifacts and exact review head are unrecoverable. The surviving Work Mode
@@ -110,7 +113,12 @@ reviewed pull requests.
 - Pull request #47 squash-merged reviewed planning source
   `00db845a98f63fc3b8d1bb1135adcafa9d306b97` at
   `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`; the exact bounded Phase 1
-  implementation is authorized but not started.
+  implementation was authorized.
+- The implementation branch starts from activation-closeout merge
+  `e418479bbb10f48c1a3c7dd207c299cc49226896` and contains a validated,
+  unmerged registry candidate with 93 targeted and 235 full-suite tests passing.
+  It adds no external information, durable state, memory integration, runtime,
+  service, deployment, or autonomous capability.
 - Accepted ADRs 0012 and 0013 define architecture boundaries for an executive
   read model and governed document admission; neither grants implementation
   authority.

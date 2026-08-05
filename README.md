@@ -80,8 +80,9 @@ Platform**
 The [current sprint](CURRENT_SPRINT.md) is Knowledge Manager 1.0 Phase 1:
 Knowledge Registry Foundation. It authorizes only immutable governance-metadata
 models, a storage-neutral repository abstraction, an in-memory reference
-adapter, and synthetic tests under accepted ADR 0014. Implementation has not
-started. Ingestion, external information, memory integration, embeddings,
+adapter, and synthetic tests under accepted ADR 0014. A validated implementation
+candidate now awaits independent Work Mode review and exact-head Chief Architect
+approval. Ingestion, external information, memory integration, embeddings,
 Qdrant writes, services, deployment, and autonomous promotion remain excluded.
 
 Sprint 005 remains the most recently completed implementation sprint. JCS

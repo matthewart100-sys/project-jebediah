@@ -4,7 +4,8 @@
 
 **Name:** Knowledge Manager 1.0 Phase 1 - Knowledge Registry Foundation
 
-**Status:** Active; bounded implementation authorized and not started
+**Status:** Active; bounded implementation candidate validated and awaiting
+independent review
 
 **Target window:** 2026-08-04 to 2026-08-18
 
@@ -35,6 +36,14 @@ and deterministic validation defined by the
   scope, and approved its merge.
 - Pull request #47 squash-merged that exact reviewed source into `main` at
   `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`.
+- The canonical activation closeout merged into `main` at
+  `e418479bbb10f48c1a3c7dd207c299cc49226896`, which is the implementation
+  base.
+- During implementation, the required unchanged full-suite command exposed a
+  pytest module-name collision between the new and existing `test_models.py`
+  files. The Chief Architect authorized
+  `tests/collector/knowledge/registry/__init__.py` solely as a test-package
+  marker. It adds no runtime behavior, API, dependency, or information scope.
 - The package location does not assign Collector Engine authority or ownership
   over registered knowledge.
 - The Knowledge Vault remains **Named**. This sprint does not satisfy its full
@@ -59,6 +68,7 @@ src/collector/knowledge/
 
 tests/collector/knowledge/
     registry/
+        __init__.py
         test_models.py
         test_repository.py
         test_package_boundaries.py
@@ -138,11 +148,11 @@ The normative evidence matrix is the
 | Architecture and plan | Accepted | Work Mode approval and Chief Architect decisions recorded on PR #47 at exact source head `00db845a98f63fc3b8d1bb1135adcafa9d306b97` |
 | Planning merge | Complete | PR #47 squash merge `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e` |
 | Sprint activation | Active | This closeout reconciles canonical status, sprint, roadmap, architecture, ownership, and decision records; it becomes authoritative when merged |
-| Checkpoint 0 | Pending | Implementation Engineer must reconfirm branch, authority, package absence, and the full test baseline |
-| Domain types | Pending | Implement only after Checkpoint 0 passes |
-| Repository abstraction and reference adapter | Pending | Follows reviewed domain contract |
-| Validation and compatibility proof | Pending | Follow the accepted validation requirements |
-| Work Mode implementation review | Pending | Review exact implementation diff and evidence |
+| Checkpoint 0 | Complete | Clean synchronized `main` at implementation base `e418479bbb10f48c1a3c7dd207c299cc49226896`; package absent; documentation validation passed; 142 baseline tests passed |
+| Domain types | Candidate complete | Immutable metadata contract and invariant tests implemented on `feature/knowledge-registry-foundation` |
+| Repository abstraction and reference adapter | Candidate complete | Three-method ABC, typed conflict, and in-memory reference adapter implemented without runtime composition |
+| Validation and compatibility proof | Candidate complete | 93 targeted tests and 235 full-suite tests pass; import smoke, documentation validation, package-boundary tests, and diff checks pass |
+| Work Mode implementation review | Pending | Review the exact committed implementation head, complete diff, and evidence packet |
 | Chief Architect implementation merge decision | Pending | Requires exact reviewed implementation head |
 
 ## Dependencies
