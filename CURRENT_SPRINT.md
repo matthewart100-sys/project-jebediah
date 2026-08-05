@@ -2,194 +2,184 @@
 
 ## Active sprint
 
-**Status:** No active sprint is authorized
+**Name:** Knowledge Manager 1.0 Phase 1 - Knowledge Registry Foundation
 
-Sprint 005 is the most recently completed sprint. Sprint 006 Proposal v2 is
-under architecture review and remains Proposed; it is not an active
-implementation sprint. ADRs 0011 through 0013 and their
-organizational-intelligence architecture package were accepted through pull
-request #45, but no Knowledge Manager or organizational-intelligence
-implementation sprint or live information use is authorized.
+**Status:** Active; bounded implementation authorized and not started
 
-## Sprint 005: Memory Architecture Consolidation (most recently completed)
-
-**Status:** Complete and merged
-
-**Implementation status:** Merged through pull request #39. The reviewed source
-commit was `5a27358e4132a4ba14550b47c64f8538fe29094a`; the squash-merged `main`
-commit is `5f1b58767b54aed797d1ec6a2fafa084a00d6de7`.
-
-**Validation status:** Complete. The approved non-container suite passed with
-142 tests, and the Python 3.12 container build/import smoke passed on the
-Jebediah Ubuntu validation environment.
+**Target window:** 2026-08-04 to 2026-08-18
 
 **Deployment status:** Not authorized
 
+**Information-use status:** Synthetic test metadata only; external and
+organizational information use is not authorized
+
 ## Sprint goal
 
-Consolidate the duplicate memory architecture into one canonical domain,
-Qdrant path, and embedding contract while preserving the merged Sprint 004
-governance and API behavior.
+Determine whether Project Jebediah can safely represent governed knowledge
+objects before learning from, retrieving, exposing, or acting on them.
 
-The complete execution contract is the
-[Sprint 005 Implementation Plan](docs/SPRINT_005_IMPLEMENTATION_PLAN.md). The
-required evidence is defined by the
-[Sprint 005 Validation Requirements](docs/SPRINT_005_VALIDATION_REQUIREMENTS.md).
+The sprint will implement only the accepted metadata-only Knowledge Registry
+domain, storage-neutral repository abstraction, in-memory reference adapter,
+and deterministic validation defined by the
+[Phase 1 Implementation Plan](docs/KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md).
 
-## Current state
+## Authority and context
 
-Sprint 004 Memory Governance and Intelligence Expansion is merged into
-`main`. Its repository baseline has 66 passing tests and includes:
+- [ADR 0014](docs/adr/0014-knowledge-registry-domain-boundary.md) is the accepted
+  System decision for the registry boundary.
+- Independent Work Mode reviewed exact planning head
+  `00db845a98f63fc3b8d1bb1135adcafa9d306b97` and returned **APPROVED** with no
+  Blocking or High findings.
+- The Chief Architect ratified `collector.knowledge.registry` as repository
+  packaging only, accepted ADR 0014, authorized the exact bounded Phase 1
+  scope, and approved its merge.
+- Pull request #47 squash-merged that exact reviewed source into `main` at
+  `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`.
+- The package location does not assign Collector Engine authority or ownership
+  over registered knowledge.
+- The Knowledge Vault remains **Named**. This sprint does not satisfy its full
+  component-specification, implementation, deployment, or operations gates.
 
-- Provenance representation
-- Verification-state representation
-- Active, reinforced, superseded, and archived lifecycle states
-- Confidence and retention metadata
-- Storage-independent retrieval candidates
-- Semantic-only ranking
+Sprint 006 Proposal v2 remains a separate proposed workstream. Activating this
+sprint does not accept or authorize Sprint 006, the VBA demonstration, live
+information use, or an organizational-intelligence implementation.
 
-The merged repository now has one memory domain under
-`src/collector/memory/`, one embedding implementation under
-`src/collector/embeddings/`, and one canonical Qdrant durable-record and
-semantic-search adapter. The FastAPI tree contains composition and HTTP
-translation only. The container validation proved that Python 3.12 loads the
-canonical package from installed `site-packages`, that `/app/collector` is
-absent, and that `/app/main.py` imports successfully. Deployment and live
-collection compatibility remain unverified and unauthorized.
+## Committed scope
 
-## Accepted architecture decisions
+The exact implementation targets are:
 
-- [ADR 0002](docs/adr/0002-canonical-memory-domain-and-dependency-direction.md)
-  makes `src/collector/memory/` canonical and limits the service to
-  composition, HTTP, packaging, and deployment responsibilities.
-- [ADR 0003](docs/adr/0003-qdrant-repository-collection-and-payload-consolidation.md)
-  selects Qdrant option A: Qdrant temporarily owns the durable operational
-  Memory Service record and attached semantic index through one adapter and
-  one acknowledged point write.
-- [ADR 0004](docs/adr/0004-embedding-model-identity-and-vector-compatibility.md)
-  selects Ollama `nomic-embed-text:v1.5`, pins its full manifest digest,
-  requires 768 raw finite values with no application normalization, and
-  prohibits mutable tags as compatibility identities.
+```text
+src/collector/knowledge/
+    __init__.py
+    registry/
+        __init__.py
+        models.py
+        repository.py
+        in_memory_repository.py
 
-All three ADRs were accepted for implementation after Chief Architect final
-review and explicit maintainer authorization on 2026-07-31.
+tests/collector/knowledge/
+    registry/
+        test_models.py
+        test_repository.py
+        test_package_boundaries.py
+```
 
-## Completed scope
+The sprint includes only:
 
-Sprint 005 completed only the phased canonical-package, service cutover,
-Qdrant-adapter, embedding-contract, packaging, test, and documentation work
-defined by the accepted plan. It did not deploy or mutate live data. Any
-follow-on implementation, deployment, or migration requires a separately
-authorized scope.
-
-## Implementation phases
-
-1. Baseline characterization
-2. Contract definition
-3. Compatibility layer
-4. Service cutover
-5. Duplicate removal
-6. Final validation and review
-
-Each phase stops at its checkpoint and retains the preceding reviewed state as
-its rollback point.
-
-## Governance invariants
-
-- Provenance remains origin metadata, not truth.
-- Verification remains explicit representation and defaults to `unverified`.
-- Lifecycle remains representation only and defaults to `active`.
-- No automatic verification or lifecycle transition is introduced.
-- Retrieval remains semantic-only.
-- API paths, request schemas, response schemas, and status meanings remain
-  compatible.
-- Compatible legacy payload defaults do not imply vector compatibility.
-- A one-dimensional collection cannot be queried with a 768-dimensional
-  vector.
-- Placeholder vectors require isolated future migration.
+- Immutable registry metadata domain types accepted in ADR 0014.
+- Explicit source, transformation, evidence, ownership, governance, freshness,
+  uncertainty, human-review, and lifecycle representation.
+- A three-method `KnowledgeRegistryRepository` abstract base class.
+- A typed identity-conflict failure.
+- An in-memory reference adapter for deterministic tests.
+- Model, repository, dependency-boundary, compatibility, and regression tests.
+- Directly required documentation and implementation-review evidence.
 
 ## Non-goals
 
-- Collector 1.0
-- Agents or autonomous behavior
-- n8n orchestration
-- Autonomous verification
-- Lifecycle automation
-- Intelligent reranking
-- Live Qdrant migration or re-embedding
-- A separate durable database
-- Distributed transactions
-- Memory identity or idempotency redesign
-- Deployment or home-lab changes
+The sprint must not implement:
 
-## Closeout acceptance evidence
+- Document ingestion, quarantine, PDF or DOCX processing, extraction,
+  transformation, or admission evaluation.
+- VBA, organizational, personal, confidential, or other external information
+  loading.
+- Source or derived content storage.
+- Embeddings, Qdrant writes, semantic search, retrieval, ranking, or model
+  context.
+- Memory candidate creation, `MemoryItem` conversion, memory persistence,
+  consolidation, or runtime integration.
+- APIs, CLIs, dashboards, Open WebUI workflows, services, containers,
+  deployment, databases, migrations, backup, or recovery.
+- Autonomous approval, promotion, lifecycle transitions, actions, or source
+  correction.
+- New dependencies or dependency-version changes.
 
-- Root and service use the same installed canonical package.
-- API, Sprint 004 governance, lifecycle representation, verification
-  boundaries, and semantic-only ranking remain compatible.
-- Embedding and Qdrant failures cannot report stored success.
-- Qdrant success requires a completed acknowledgement or confirmed read-back;
-  unknown outcomes are never retried automatically.
-- Model identity, vector geometry, no-normalization behavior, legacy payload
-  reading, and incompatible-vector rejection match accepted ADRs.
-- Full tests, compilation, packaging, documentation, lock, diff, and sensitive
-  data checks pass before review.
-- The exact source artifacts at
-  `5a27358e4132a4ba14550b47c64f8538fe29094a` received implementation and
-  container review before pull request #39 was squash-merged at
-  `5f1b58767b54aed797d1ec6a2fafa084a00d6de7`.
+Any requested non-goal stops work for plan revision, Work Mode review, and
+Chief Architect authorization.
+
+## Acceptance criteria
+
+The sprint is complete only when:
+
+1. Checkpoint 0 reconfirms clean `main`, this active sprint, accepted ADR 0014,
+   the accepted plan, and the full pre-change test baseline.
+2. Registry records contain fixed governance metadata and no source or derived
+   content, arbitrary metadata bag, embedding, score, model response, memory
+   object, or action.
+3. Required identifiers are non-empty, collections are immutable and
+   duplicate-free, and all retained times are timezone-aware.
+4. Freshness and uncertainty remain qualitative, explicit, evidence-linked,
+   and separate from truth probability.
+5. Approved or rejected review states require identified human decision
+   evidence; repository registration cannot manufacture approval.
+6. Lifecycle retains state, actor, time, reason, and required supersession
+   evidence without implementing transitions.
+7. The repository interface exposes only `register`, `find`, and `contains`;
+   equal repeated registration is idempotent and conflicting identity reuse
+   fails explicitly without overwrite.
+8. The registry imports no memory, Collector pipeline, Qdrant, Ollama,
+   embedding, service, runtime, or third-party module.
+9. Existing code does not import the registry during Phase 1, and existing
+   memory models, payloads, repositories, pipelines, dependencies, and runtime
+   composition remain unchanged.
+10. Targeted tests, the full regression suite, package/import checks,
+    documentation validation, and diff checks pass.
+11. Independent Work Mode implementation review has no unresolved Blocking
+    findings.
+12. The Chief Architect approves the exact implementation head for merge.
+
+The normative evidence matrix is the
+[Phase 1 Validation Requirements](docs/KNOWLEDGE_MANAGER_1_PHASE_1_VALIDATION_REQUIREMENTS.md).
 
 ## Work status
 
-| Work item | State | Evidence |
+| Work item | State | Evidence or next gate |
 | --- | --- | --- |
-| Architecture review packet | Accepted | Chief Architect final review and maintainer authorization recorded |
-| ADR 0002 | Accepted | Canonical domain, dependency direction, packaging, and removal criteria defined |
-| ADR 0003 | Accepted | Qdrant option A, authority, write success, failure, consistency, recovery, and legacy separation defined |
-| ADR 0004 | Accepted | Exact Ollama model artifact, mutable-tag prohibition, geometry, normalization, and migration defined |
-| Baseline characterization | Complete | Pre-change focused and 66-test baselines passed |
-| Canonical contracts | Complete | Embedding and Qdrant compatibility suites pass in isolation |
-| Service cutover | Complete | API and interaction tests prove one canonical orchestration path |
-| Duplicate removal | Complete | Service app contains only `main.py`; import-origin and boundary tests pass |
-| Quality Control corrections | Complete | Bare Ollama digest canonicalization, per-operation digest verification, and fail-closed post-scan Qdrant candidate validation pass regression tests |
-| Validation requirements | Complete | 142 tests and all approved non-container gates passed; the Python 3.12 container build/import smoke also passed |
-| Implementation | Merged | Pull request #39 squash-merged reviewed source `5a27358e4132a4ba14550b47c64f8538fe29094a` into `main` at `5f1b58767b54aed797d1ec6a2fafa084a00d6de7` |
+| Architecture and plan | Accepted | Work Mode approval and Chief Architect decisions recorded on PR #47 at exact source head `00db845a98f63fc3b8d1bb1135adcafa9d306b97` |
+| Planning merge | Complete | PR #47 squash merge `f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e` |
+| Sprint activation | Active | This closeout reconciles canonical status, sprint, roadmap, architecture, ownership, and decision records; it becomes authoritative when merged |
+| Checkpoint 0 | Pending | Implementation Engineer must reconfirm branch, authority, package absence, and the full test baseline |
+| Domain types | Pending | Implement only after Checkpoint 0 passes |
+| Repository abstraction and reference adapter | Pending | Follows reviewed domain contract |
+| Validation and compatibility proof | Pending | Follow the accepted validation requirements |
+| Work Mode implementation review | Pending | Review exact implementation diff and evidence |
+| Chief Architect implementation merge decision | Pending | Requires exact reviewed implementation head |
+
+## Dependencies
+
+- Accepted ADRs 0002, 0003, 0011, 0012, 0013, and 0014 remain unchanged.
+- The implementation branch starts from clean synchronized `main` after this
+  closeout.
+- The existing Python package, Python 3.12-or-newer requirement, and pytest
+  configuration remain available.
+- The 142-test planning baseline is rerun before implementation.
+
+The sprint does not depend on JCS, Qdrant availability, Ollama availability,
+Docker, a service, organizational information, or the VBA demonstration.
+
+## Risks
+
+| Risk | Required response |
+| --- | --- |
+| Registry becomes a second Memory Service | Keep separate package and semantics; reject memory imports, content, and retrieval fields |
+| Package path implies Collector authority | Preserve the Chief Architect's repository-packaging-only decision |
+| Approval or uncertainty is treated as truth | Enforce explicit evidence contracts and negative tests; add no numeric truth score |
+| Registration becomes promotion | Provide no promotion or transition API |
+| Metadata leaks source content | Use fixed typed fields and fabricated synthetic fixtures only |
+| Persistence scope expands | Keep the three-method interface and in-memory reference adapter only |
+| Existing behavior regresses | Leave existing code unchanged and run the full suite |
+| Scope changes after review | Stop and obtain revised architecture, review, and exact authorization |
 
 ## Update and close rules
 
-Sprint 005 is closed. This closeout does not define Sprint 006 or authorize
-deployment, live-data access, vector migration, or other deferred work. A
-future sprint must be selected from the existing roadmap and authorized
-through the normal review process.
-
-## Sprint 006 proposal history
-
-[Sprint 006 Proposal v1](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md) is
-permanently **Abandoned** because its source artifacts and exact review head
-are unrecoverable. Its successor, Sprint 006 Proposal v2, is newly authored in
-[draft pull request #43](https://github.com/matthewart100-sys/project-jebediah/pull/43)
-as a documentation-only architecture package from the accepted post-Sprint 005
-baseline. It is not a reconstruction of v1, an active sprint, or implementation
-authority.
-
-The proposal's specification and validation requirements both remain Proposed.
-Its proposed classification is a bounded Phase 2 memory-client validation for
-governed retrieval, deterministic context assembly, and evidence-grounded
-generation. That classification does not activate or implement the Phase 6
-Reasoning Engine. Proposed ADRs 0006 through 0010, exact-head Work Mode review,
-Chief Architect acceptance, proposal merge, and separate sprint authorization
-remain required before implementation.
-
-## VBA demonstration evidence boundary
-
-[Pull request #44](https://github.com/matthewart100-sys/project-jebediah/pull/44)
-contains a separate implementation-bearing interaction branch with VBA
-demonstration scripts, runbooks, readiness material, and data-loading tooling.
-Those artifacts are unmerged and are not current sprint authority. Their
-evidence validation is pending, and no VBA data ingestion, service connection,
-production readiness, or live organizational pilot is authorized.
-
-The files named `SPRINT_006_SPECIFICATION.md` and
-`SPRINT_006_VALIDATION_PLAN.md` on pull request #44 do not supersede the
-Proposal v2 review target in pull request #43. Neither branch may implement
-Sprint 006 without the separately required acceptance and authorization gates.
+- Update work status only from repository and validation evidence.
+- Do not mark implementation complete because types compile or targeted tests
+  pass.
+- Any architecture, dependency, runtime, information-use, or file-scope change
+  requires Chief Architect authorization before implementation continues.
+- Work Mode reviews the exact final implementation before the Chief Architect
+  merge decision.
+- After a verified implementation merge, the Documentation Suite performs the
+  normal documentation closeout.
+- Deployment, external information, and Knowledge Manager Phase 2 remain
+  separately gated after this sprint closes.

@@ -77,14 +77,16 @@ Platform**
 
 ## Current contribution gate
 
-The most recently completed gate is
-[Sprint 005: Memory Architecture Consolidation](CURRENT_SPRINT.md). Pull
-request #39 merged its canonical memory domain, Qdrant adapter, embedding
-identity, and service composition while preserving Sprint 004 governance and
-semantic-only ranking. Sprint 005 did not deploy the service or change live
-data. This closeout does not define a successor sprint. JCS remains deferred
-and is not a dependency. All changes use short-lived branches, pull-request
-review, and small, understandable commits.
+The [current sprint](CURRENT_SPRINT.md) is Knowledge Manager 1.0 Phase 1:
+Knowledge Registry Foundation. It authorizes only immutable governance-metadata
+models, a storage-neutral repository abstraction, an in-memory reference
+adapter, and synthetic tests under accepted ADR 0014. Implementation has not
+started. Ingestion, external information, memory integration, embeddings,
+Qdrant writes, services, deployment, and autonomous promotion remain excluded.
+
+Sprint 005 remains the most recently completed implementation sprint. JCS
+remains deferred and is not a dependency. All changes use short-lived branches,
+pull-request review, and small, understandable commits.
 
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).

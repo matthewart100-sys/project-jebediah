@@ -42,6 +42,10 @@ It does not:
   does not receive authority over the represented source information.
 - ADR 0011 is Accepted, the Knowledge Vault remains **Named**, and reviewed
   `main` contains no Knowledge Vault implementation, deployment, or live data.
+- ADR 0014 is Accepted and authorizes only a synthetic, metadata-only Knowledge
+  Registry foundation. Reviewed `main` contains no registry implementation,
+  source or derived content, external information, durable store, or runtime
+  consumer.
 
 ### Reported facts
 
@@ -321,6 +325,25 @@ curation, durability, validation for shape, embedding, indexing, or retrieval.
 Its authority boundary is accepted in ADR 0011, while component maturity
 remains **Named** pending concrete ownership and component contracts.
 
+Accepted
+[ADR 0014](adr/0014-knowledge-registry-domain-boundary.md) applies the same
+categories to the metadata-only Knowledge Registry foundation:
+
+- A registry record is derived governance metadata.
+- The registry may own the operational fact that it acknowledged an exact
+  immutable metadata record, but it does not own the truth, freshness, or
+  authority of the referenced source claim.
+- Source, transformation, evidence, information-owner, consumer, use,
+  retention, deletion, freshness, invalidation, human-review, and lifecycle
+  references remain explicit.
+- Human approval means only that the identified review occurred for the stated
+  scope. It is not factual verification, source authority, consumer authority,
+  or action authority.
+- Freshness and uncertainty remain qualitative, evidence-linked conditions and
+  cannot be inferred from registration, retrieval rank, or model confidence.
+- The Phase 1 in-memory adapter is temporary process state and has no durability
+  or recovery authority.
+
 This mapping authorizes no acquisition, collection, ingestion, retention,
 transformation, model exposure, retrieval, or publication of external
 information. The VBA demonstration artifacts in open pull request #44 remain
@@ -421,6 +444,7 @@ unauthorized information. Reconciliation after restore is part of recovery.
 | Memory Service Qdrant point payload | Authoritative operational record of what the service accepted and durably stored | Jebediah Memory Service repository candidate | Does not own source truth; deployment, live contents, retention, and recovery remain unverified |
 | Embeddings, vector indexes, confidence, and retrieval signals | Derived information | Jebediah Memory Service repository candidate | Model identity is explicit; source authority and live compatibility remain separate |
 | Knowledge Vault boundary | ADR 0011 defines governed derived representations only | Unassigned pending component specification | **Named**, not implemented or operational; no source, external-use, or action authority |
+| Knowledge Registry Phase 1 record | Derived governance metadata under accepted ADR 0014 | Maintainer accountable for the repository candidate; Knowledge Vault component owner remains unassigned | Authorized synthetic foundation only; no content, external information, durable storage, memory integration, retrieval, runtime consumer, or action authority |
 | Future organizational document submission and read-model items | Cached, operational, or derived as defined by the approved domain and transformation | Unassigned pending component and domain approval | Accepted architecture only; no live information, implementation, retention, retrieval, display, or action authority |
 | Other future runtime records, caches, indexes, embeddings, and inferences | Unassigned | Unassigned pending specification | No authority follows from the implemented memory candidate |
 
@@ -458,6 +482,11 @@ review unless their consequence triggers the
 ADR 0011 accepts the Knowledge Vault authority boundary but does not assign a
 concrete information owner, component owner, producer, consumer, interface, or
 runtime responsibility.
+
+ADR 0014 accepts the metadata-only registry contract and ratifies its repository
+package placement. It does not assign a Knowledge Vault component owner,
+operational owner, real information domain, producer, consumer, durable
+interface, policy authority, or runtime responsibility.
 
 ADRs 0012 and 0013 accept the executive-interface and document-admission
 boundaries but do not assign a live organizational information owner,

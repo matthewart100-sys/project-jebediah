@@ -94,13 +94,13 @@ searchable, linkable, and version controlled.
   is an Accepted System decision for quarantine-first document admission and
   non-authoritative derivation.
 - [Knowledge Manager 1.0 Phase 1 Implementation Plan](KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
-  proposes a metadata-only Knowledge Registry foundation and keeps
-  implementation unauthorized pending exact-head review and acceptance.
+  defines the accepted and authorized metadata-only Knowledge Registry
+  foundation while preserving its Checkpoint 0 and excluded capabilities.
 - [Knowledge Manager 1.0 Phase 1 Validation Requirements](KNOWLEDGE_MANAGER_1_PHASE_1_VALIDATION_REQUIREMENTS.md)
-  defines synthetic domain, repository, dependency, compatibility, and stop
-  evidence for the proposed registry foundation.
+  defines the accepted synthetic domain, repository, dependency, compatibility, and stop
+  evidence for the authorized registry foundation.
 - [ADR 0014: Knowledge Registry Domain Boundary](adr/0014-knowledge-registry-domain-boundary.md)
-  is a Proposed System decision for a storage-neutral registry domain separate
+  is an Accepted System decision for a storage-neutral registry domain separate
   from memory, ingestion, retrieval, runtime, and source authority.
 - [Glossary](reference/GLOSSARY.md) owns shared project terminology.
 - [Component Registry](reference/COMPONENT_REGISTRY.md) tracks component

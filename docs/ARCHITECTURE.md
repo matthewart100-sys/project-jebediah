@@ -23,8 +23,8 @@ not:
 - Verify the home-lab inventory
 - Define JCS, Knowledge Graph, Digital Twin, Automation, or Reasoning Engine
   contracts
-- Treat the accepted Knowledge Vault boundary as implemented, deployed, or
-  authorized for external information use
+- Treat the accepted Knowledge Vault or Knowledge Registry boundaries as a
+  deployed component or as authorization for external information use
 - Treat the accepted executive read-model or document-admission boundaries as
   implemented or authorized for live information use
 - Approve a production network layout or deployment composition
@@ -45,6 +45,10 @@ not:
 - ADRs 0012 and 0013 are Accepted System decisions for an executive read model
   and governed document admission. They authorize no implementation or live
   information use.
+- ADR 0014 is an Accepted System decision for a metadata-only Knowledge
+  Registry library. Its exact bounded implementation is authorized but not
+  started; it authorizes no content, external information, memory integration,
+  durable storage, retrieval, service, or deployment.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -79,7 +83,7 @@ topology belongs in this public document.
 | What does JCS stand for, own, and guarantee? | The authoritative information boundary and downstream dependencies cannot be assigned. | Phase 1 JCS specification and review |
 | Which reported infrastructure is actually running? | Deployment, operations, recovery, and capacity claims cannot be verified. | Sanitized infrastructure audit |
 | Which future component owns each concrete information item? | Categories are approved, but component authority and consistency behavior remain unassigned. | JCS and component specifications under [Data Ownership](DATA_OWNERSHIP.md) |
-| How will a future Knowledge Vault relate to the Memory Service, Knowledge Graph, and reasoning components? | The accepted derived-repository boundary does not assign implementation, interface, or deployment responsibilities. | Separately reviewed component and relationship decisions |
+| How will a future Knowledge Vault relate to the Memory Service, Knowledge Graph, and reasoning components? | ADR 0014 separates the metadata-only registry foundation from memory, but later component, interface, persistence, and runtime relationships remain unassigned. | Separately reviewed component and relationship decisions |
 | What subject and use case will the first Digital Twin support? | The conceptual position is approved, but concrete scope and source mappings remain intentionally undefined. | Future Digital Twin specification under the [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) |
 | What data classifications apply? | Trust boundaries, retention, model access, and repository exposure cannot be finalized. | Security and data-classification work |
 | Which interfaces connect future subsystems? | Compatibility, failure, and deployment decisions remain open. | Subsystem specifications and ADRs |
@@ -124,7 +128,7 @@ interfaces remain clear.
 | Infrastructure | Compute, storage, networking, virtualization, and physical availability | Reported environment only; not inventoried |
 | Services | Reusable runtime capabilities such as model execution, data services, and workflow runtime | Memory-service, Ollama, and Qdrant adapter candidates exist; deployment guarantees remain unverified |
 | Automation | Controlled orchestration and actions with policy, idempotency, approval, and rollback | Named future capability; no tracked workflows |
-| Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Bounded Collector and semantic memory candidates are implemented; Knowledge Vault and organizational-intelligence authority boundaries are accepted but not implemented |
+| Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Bounded Collector and semantic memory candidates are implemented; Knowledge Vault and organizational-intelligence authority boundaries are accepted; the metadata-only registry foundation is authorized but not started |
 | Reasoning | Bounded inference over trusted context with validation and tool authority | Named future capability; no engine implemented |
 | User experience | Human interaction, explanation, approval, feedback, and operational visibility | The read-only executive-interface boundary is accepted but not implemented |
 
@@ -183,7 +187,7 @@ security, compatibility, or permanent selection.
 | JCS | A named foundational subsystem whose C1 outcome is **DEFER JCS** | Collector and memory work have no JCS dependency | Name expansion, purpose, responsibilities, interfaces, data authority, deployment |
 | Collector Engine | Controlled ingestion from approved sources | A bounded Python contract and repository implementation candidate exist | Source authorization, full contract conformance, deployment, and operational ownership |
 | Memory Service | Governed semantic memory over approved Collector inputs | API, pipeline, intelligence, embedding, Qdrant, provenance, lifecycle, and retrieval candidates exist in the repository | Deployment, live data, verification authority, lifecycle automation, and multi-factor ranking |
-| Knowledge Vault | A derived governed knowledge repository boundary | The authority boundary is accepted in ADR 0011; component maturity remains **Named** | Information domains, ownership, producers, consumers, interfaces, relationship to existing memory, operations, recovery, implementation, deployment |
+| Knowledge Vault | A derived governed knowledge repository boundary | ADR 0011 accepts its authority boundary; ADR 0014 accepts a separate metadata-only registry library foundation; component maturity remains **Named** | Information domains, component and operational ownership, real producers and consumers, durable interfaces, relationship to existing memory, operations, recovery, component implementation, deployment |
 | Knowledge Graph | Traceable entities and relationships | It follows stable collector outputs and knowledge contracts | Model, storage, identity, query interface, relationship to Qdrant |
 | Digital Twin | A bounded, time-aware, provenance-rich representation of selected relevant state | Its conceptual position, exclusions, derived-information default, and implementation gates are approved | First subject and use case, entities, sources, freshness thresholds, interfaces, implementation |
 | Automation | Controlled action from trusted state and policy | Approval, idempotency, rollback, and auditability are required | Workflow boundaries, n8n role, triggers, tools, deployment |
@@ -197,8 +201,10 @@ the component registry records their maturity without inventing ownership.
 
 This section records the accepted authority boundary established by
 [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md). The
-Knowledge Vault remains **Named**; no implementation, storage, API, deployment,
-migration, live data use, or external information authorization exists.
+Knowledge Vault remains **Named**. ADR 0014 authorizes only a metadata-only
+registry library foundation; no Knowledge Vault component implementation,
+content storage, durable store, API, deployment, migration, live data use, or
+external information authorization exists.
 
 The Knowledge Vault is defined as a **derived governed knowledge repository**
 boundary. A derived representation is produced from one or more
@@ -243,6 +249,38 @@ retrieval consumers until a separately approved evaluation establishes
 admissibility. Evaluation does not verify source truth. The VBA artifacts in
 open pull request #44 remain unmerged demonstration material; their evidence
 validation is pending, and no live organizational pilot is authorized.
+
+## Accepted Knowledge Registry foundation
+
+[ADR 0014](adr/0014-knowledge-registry-domain-boundary.md) accepts a
+metadata-only `collector.knowledge.registry` domain library as a bounded
+foundation for future Knowledge Vault work. The package path is repository
+organization only; it does not assign Collector Engine component authority,
+information authority, or operational ownership.
+
+The accepted registry record represents only fixed governance metadata:
+
+- Stable object, source, transformation, evidence, owner, consumer, use, and
+  policy identifiers
+- Explicit freshness and qualitative evidence-linked uncertainty
+- Human-review state and required decision evidence
+- Registry lifecycle state, actor, time, reason, and supersession evidence
+
+The registry record has authority only over the integrity of the metadata it
+acknowledges. It does not contain source or derived content and does not make a
+claim true, current, generally authorized, retrievable, actionable, or
+authoritative. Human review does not grant source or action authority.
+
+The active Phase 1 plan may implement immutable models, a three-method
+storage-neutral repository interface, an in-memory reference adapter, and
+synthetic tests. It may not import or integrate with the Memory Service,
+Collector pipelines, Qdrant, Ollama, embeddings, services, or runtime
+composition. No existing source module may consume the registry during Phase 1.
+
+The implementation is not present on reviewed `main`. Durable persistence,
+real producers and consumers, external information, identifier generation,
+policy enforcement, mutation, retrieval, operations, and deployment remain
+separately gated.
 
 ## Accepted organizational-intelligence boundaries
 
@@ -390,6 +428,8 @@ or compatibility require the appropriate ADR before dependent implementation.
 - Accepted [ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
   and [ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md)
   own the executive-interface and document-admission decision rationale.
+- Accepted [ADR 0014](adr/0014-knowledge-registry-domain-boundary.md) owns the
+  metadata-only Knowledge Registry domain and package-boundary decision.
 - The [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) owns Digital
   Twin intent, exclusions, and implementation gates.
 
