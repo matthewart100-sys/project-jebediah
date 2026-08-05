@@ -96,19 +96,19 @@ files, and 10 directly related documentation files.
 ### Test files
 
 - `tests/collector/document_admission/__init__.py`
-- `tests/collector/document_admission/generated_fixtures.py`
-- `tests/collector/document_admission/test_admission_contract.py`
-- `tests/collector/document_admission/test_cleanup_behavior.py`
-- `tests/collector/document_admission/test_content_integrity.py`
-- `tests/collector/document_admission/test_failure_defaults.py`
+- `tests/collector/document_admission/synthetic_fixtures.py`
+- `tests/collector/document_admission/test_admission_orchestration.py`
+- `tests/collector/document_admission/test_byte_integrity.py`
+- `tests/collector/document_admission/test_cleanup.py`
+- `tests/collector/document_admission/test_failure_and_retry.py`
 - `tests/collector/document_admission/test_format_detection.py`
-- `tests/collector/document_admission/test_inspection_readiness.py`
+- `tests/collector/document_admission/test_inspection_results.py`
+- `tests/collector/document_admission/test_models.py`
 - `tests/collector/document_admission/test_package_boundaries.py`
-- `tests/collector/document_admission/test_policy_evaluation.py`
-- `tests/collector/document_admission/test_provenance_and_authority.py`
+- `tests/collector/document_admission/test_policies.py`
+- `tests/collector/document_admission/test_quarantine.py`
 - `tests/collector/document_admission/test_resource_limits.py`
-- `tests/collector/document_admission/test_retention_behavior.py`
-- `tests/collector/document_admission/test_security_evaluation.py`
+- `tests/collector/document_admission/test_security_dispositions.py`
 - `tests/collector/document_admission/test_state_transitions.py`
 
 ### Directly related documentation files
