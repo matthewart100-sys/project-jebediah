@@ -199,6 +199,23 @@ input awaiting admissibility evaluation. It remains temporary unless a separate
 accepted contract assigns another category. Evaluation may establish policy
 admissibility but does not verify source truth.
 
+### Source Document Evidence candidate
+
+A Phase 3B encrypted derived representation of one exact submitted document,
+including content identity, source/provenance references, extraction method,
+page locations, warnings, omissions, quality, limitations, and review state. It
+is not source truth, a Knowledge Object, memory, an embedding, an index entry, or
+a supported answer. Proposed ADR 0016 defines the first candidate boundary but
+does not yet authorize implementation or a real source.
+
+### Human Review Workspace
+
+The Proposed Phase 3B local Executive Product Shell surface that presents
+admission and Source Document Evidence candidates to one authorized operator for
+append-only approval, rejection, correction, supersession, deletion, and reset.
+Its approval means only `approved_for_phase3c_candidate`; it does not verify
+facts or invoke a Phase 3C consumer.
+
 ### VBA demonstration materials
 
 Proposed scripts, prompts, fixtures, operator guidance, and related artifacts
@@ -251,7 +268,9 @@ provenance, deterministic identity, and storage coordination. Accepted ADR 0013
 and the terminally closed Knowledge Manager Phase 2 package add a disconnected
 synthetic document-admission and inspection boundary. Real sources, production
 parsers and scanners, durable quarantine, runtime integration, deployment, and
-operational ownership remain unapproved.
+operational ownership remain unapproved. Proposed ADR 0016 specifies a bounded
+PDF-only implementation candidate, but current maturity does not change before
+adoption, implementation, review, and merge.
 
 ### Executive Product Shell
 

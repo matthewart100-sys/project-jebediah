@@ -120,6 +120,22 @@ searchable, linkable, and version controlled.
   is the adopted bounded Chief Architect decision record under which the exact
   merged synthetic implementation was completed; it grants no live-information,
   deployment, action, or later-phase authority.
+- [Phase 3B Governed Intake Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
+  is the Proposed decision-complete, PDF-only, one-operator architecture and
+  exact implementation manifest.
+- [Phase 3B Lifecycle and Recovery Specification](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_LIFECYCLE_AND_RECOVERY.md)
+  defines Proposed encryption, retention, deletion, hold, reconciliation,
+  backup, restore, and rotation behavior.
+- [Phase 3B Threat Model](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_THREAT_MODEL.md),
+  [Dependency Assessment](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_DEPENDENCY_ASSESSMENT.md),
+  and [Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_VALIDATION_REQUIREMENTS.md)
+  define the Proposed security, supply-chain, isolation, test, browser, and
+  negative-capability evidence.
+- [ADR 0016: Local Governed PDF Intake and Custody Boundary](adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
+  is Proposed and grants no implementation or real-source authority.
+- [Phase 3B Implementation Activation](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_IMPLEMENTATION_ACTIVATION.md)
+  is prepared for a later exact-head Chief Architect decision; it is not
+  adopted.
 - [Knowledge Manager 1.0 Phase 1 Implementation Plan](KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
   defines the accepted and authorized metadata-only Knowledge Registry
   foundation while preserving its Checkpoint 0 and excluded capabilities.

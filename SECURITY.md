@@ -206,6 +206,16 @@ Apply [Data Ownership](docs/DATA_OWNERSHIP.md):
 A future classification model and privacy requirements must be based on real
 use cases and applicable obligations.
 
+### Proposed Phase 3B document boundary
+
+The Phase 3B architecture package proposes, but does not yet authorize, one
+local PDF intake path. It requires a signed single-use authorization receipt,
+browser-pushed bytes without a server-side path, encrypted custody outside Git,
+offline rootless scanner/parser/OCR workers, explicit human review, fixed
+retention/deletion, signed legal-hold authority, tombstone-aware recovery, and
+an exact later real-source decision. Until adoption and implementation closeout,
+no real document may enter that path.
+
 ## AI and automation security
 
 - Model output and retrieved content are untrusted data.

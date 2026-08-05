@@ -191,6 +191,24 @@ validation passed. The
 owns the exact evidence and exclusions. The result cannot satisfy the Phase 2
 Collector exit gate or activate Phase 3 - Knowledge Graph.
 
+### Proposed cross-phase Phase 3B governed intake refinement
+
+**Status:** Proposed documentation-only architecture; no implementation, real
+information, deployment, or canonical Roadmap Phase 3 activation
+
+The Organizational Intelligence Product Program label Phase 3B proposes a
+bounded refinement inside canonical Roadmap Phase 2: one local operator,
+Virginia B. Andes board-governance roster records, PDF-only pushed admission,
+encrypted local custody, isolated scanning/native extraction/OCR, and explicit
+human review.
+
+Proposed System ADR 0016 and the Phase 3B package preserve ADR 0013's source,
+submission, authority, and state boundaries. The proposed Human Review Workspace
+is not the Knowledge Vault, Knowledge Registry, Memory Service, Qdrant, Knowledge
+Graph, or a grounded-answer consumer. Phase 3B cannot satisfy the Collector exit
+gate until implementation, review, merge, post-merge validation, and terminal
+closeout are canonical.
+
 ## Phase 3: Knowledge Graph
 
 **Objective:** Represent approved entities and relationships with traceable

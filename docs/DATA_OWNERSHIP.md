@@ -68,6 +68,30 @@ retention, backups, consumers, or current operation.
 - Local-first operation will require explicit recovery and reconciliation
   rather than implicit dependence on one machine's current state.
 
+### Proposed Phase 3B domain assignment
+
+The Phase 3B package proposes one bounded domain:
+
+| Item | Proposed assignment |
+| --- | --- |
+| Domain | Virginia B. Andes board-governance roster records |
+| Source authority | Official roster/governing record maintained by the designated corporate secretary, records custodian, or equivalent information owner |
+| Submitted snapshot | Non-authoritative encrypted evidentiary copy |
+| Extracted/OCR representation | Derived Source Document Evidence candidate |
+| Producer | One signed single-use authorization receipt plus one browser-pushed PDF byte stream |
+| Phase 3B consumer | Human Review Workspace only |
+| Classification | `internal-governance-limited-personal-data` |
+| Permitted use | Local admission, inspection, OCR fallback, review, lifecycle validation, and deletion |
+| Retention | Seven/30/365-day fixed Phase 3B profile, with 30-day encrypted backup expiry |
+| Deletion | Tombstone, consumer ineligibility, DEK destruction, ciphertext cleanup, and backup propagation |
+| Hold authority | Separately signed designated information-owner or legal/privacy role |
+| Custodian | One later-authorized local operator; role holder not yet assigned |
+
+This Proposed assignment does not authorize a source or resolve the general
+project-wide questions below. The later real-source decision must name the
+actual role holders, exact bytes, environment, and private legal/privacy
+approval.
+
 ### Open questions
 
 | Question | Why it matters | Resolution gate |
