@@ -43,16 +43,20 @@ not:
   boundary. No Knowledge Vault implementation or deployment exists on reviewed
   `main`.
 - ADRs 0012 and 0013 are Accepted System decisions for an executive read model
-  and governed document admission. They authorize no implementation or live
-  information use.
+  and governed document admission. Pull request #52 separately activated only a
+  disconnected, standard-library synthetic document-inspection repository
+  candidate. The current review branch implements immutable contracts,
+  process-local adapters, injected evaluation boundaries, and deterministic
+  tests; it is not merged or operational and grants no live-information use.
 - ADR 0014 is an Accepted System decision for a metadata-only Knowledge
   Registry library. Its bounded Phase 1 implementation is complete and has
   **Implemented** repository maturity: immutable domain models, lifecycle
   representation, a storage-neutral repository abstraction, and an in-memory
-  reference implementation. The Knowledge Vault remains **Named**, and Phase 2
-  is not implemented. No document ingestion, document parsing, real
-  organizational-information authorization, durable storage, Qdrant or memory
-  integration, retrieval, service, or deployment exists.
+  reference implementation. The Knowledge Vault remains **Named**. The bounded
+  Phase 2 repository candidate does not inspect real files and implements no
+  parser, scanner, sandbox, ingestion service, organizational-information
+  authorization, durable storage, Qdrant or memory integration, retrieval,
+  service, or deployment.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts

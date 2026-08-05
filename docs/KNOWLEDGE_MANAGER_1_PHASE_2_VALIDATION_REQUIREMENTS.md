@@ -6,17 +6,17 @@
 
 **Date:** 2026-08-05
 
-**Applies to:** A future bounded implementation authorized from the
+**Applies to:** The bounded implementation candidate authorized from the
 [Phase 2 Document Inspection Plan](KNOWLEDGE_MANAGER_1_PHASE_2_DOCUMENT_INSPECTION_PLAN.md)
 
-**Authorization state:** Accepted requirements only. These requirements do not
-authorize code, dependencies, services, deployment, real document use, or live
-information.
+**Authorization state:** Pull request #52 activated only the exact synthetic,
+standard-library repository candidate. These requirements do not authorize new
+dependencies, services, deployment, real document use, or live information.
 
 ## Purpose
 
-These requirements define the evidence needed to review a future
-synthetic-only document-inspection implementation. Passing them would prove
+These requirements define the evidence needed to review the current
+synthetic-only document-inspection implementation candidate. Passing them proves
 only the tested admission, isolation, inspection, failure, and evidence
 contracts.
 
@@ -42,22 +42,26 @@ to use real VBA material.
 - Treat any unplanned runtime integration, dependency, service, content store,
   or live-information path as a stop condition.
 
-## Proposed test organization
+## Implemented test organization
 
-The future implementation should use:
+The authorized candidate uses:
 
 ```text
 tests/collector/document_admission/
     __init__.py
+    synthetic_fixtures.py
     test_models.py
-    test_admission_orchestration.py
+    test_policies.py
+    test_state_transitions.py
     test_byte_integrity.py
+    test_quarantine.py
     test_format_detection.py
     test_security_dispositions.py
     test_resource_limits.py
     test_inspection_results.py
-    test_retention_and_deletion.py
+    test_admission_orchestration.py
     test_failure_and_retry.py
+    test_cleanup.py
     test_package_boundaries.py
 ```
 
@@ -65,7 +69,7 @@ The existing pytest configuration remains authoritative. Adding a dependency,
 test runner, container, service, or external fixture source requires separate
 review.
 
-The empty test-package marker is part of the proposed test layout because
+The empty test-package marker is part of the implemented test layout because
 existing Collector and registry suites already use overlapping test basenames.
 It must contain no test or runtime behavior.
 
@@ -442,7 +446,7 @@ readiness.
 
 ## Required validation commands
 
-The future implementation review records exact environment and results for:
+The implementation review records exact environment and results for:
 
 ```text
 python -m pytest -q tests/collector/document_admission
@@ -507,8 +511,15 @@ mechanical branch-currency update. Pull request #50 squash-merged the accepted
 requirements with the Phase 2 plan as canonical commit
 `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`.
 
-The
+The independently reviewed
 [Phase 2 Synthetic Implementation Activation](KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
-refines these requirements into exact model, interface, test, dependency,
-threat, owner, rollback, and future-file decisions. That package remains a
-separate exact-head review and authorization gate.
+refined these requirements into exact model, interface, test, dependency,
+threat, owner, rollback, and file decisions. Pull request #52 squash-merged
+exact activation head `a9d27f03454906db2771e3635c541bc5dca3e4ce` as
+`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`.
+
+The current candidate passes 226 targeted tests, the 461-test full suite, Python
+compilation, frozen-lock verification, editor diagnostics, and whitespace
+checks. Documentation validation also passes. Exact changed-file evidence,
+publication, and independent exact-head Work Mode review remain required before
+merge disposition.

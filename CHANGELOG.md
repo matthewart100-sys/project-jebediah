@@ -10,11 +10,18 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
-- Added the proposed Knowledge Manager 1.0 Phase 2 synthetic implementation-
+- Added the bounded Knowledge Manager 1.0 Phase 2 synthetic document-inspection
+  repository candidate under `collector.document_admission`: immutable evidence
+  models, exact state enforcement, abstract evaluator and isolation boundaries,
+  SHA-256 byte identity, process-local quarantine and evidence adapters,
+  orchestration, generated fixtures, and 226 deterministic tests. The candidate
+  has no service, parser, scanner, durable store, runtime integration, or
+  real-information path.
+- Added and accepted the Knowledge Manager 1.0 Phase 2 synthetic implementation-
   activation package with exact contracts, threat model, dependency assessment,
-  owner assignments, rollback, validation, future file manifest, and a proposed
-  bounded authorization; no code or real-document use is authorized by the
-  proposal.
+  owner assignments, rollback, validation, file manifest, and bounded
+  authorization. Pull request #52 merged the reviewed activation package before
+  implementation began.
 - Added a proposed Knowledge Manager 1.0 Phase 2 document-inspection plan,
   synthetic validation requirements, and safe local VBA evidence-preparation
   guide; the package does not authorize code, real documents, ingestion,
@@ -66,6 +73,10 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Recorded pull request #52's squash merge of exact reviewed activation head
+  `a9d27f03454906db2771e3635c541bc5dca3e4ce` as
+  `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`, authorizing only the disconnected,
+  standard-library, synthetic document-inspection repository candidate.
 - Recorded pull request #50's squash merge of the independently reviewed
   Phase 2 document-inspection architecture and validation baseline as
   `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`, while preserving separate

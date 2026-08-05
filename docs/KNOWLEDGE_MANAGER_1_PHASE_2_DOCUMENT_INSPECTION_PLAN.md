@@ -12,13 +12,16 @@
 
 **Architecture reviewers:** Independent Work Mode exact-head review
 
-**Implementation owner:** Unassigned; implementation is not authorized
+**Implementation owner:** Lead Implementation Engineer under the accepted
+synthetic-only activation
 
 **Planning base:** `e418479bbb10f48c1a3c7dd207c299cc49226896`
 
-**Authorization state:** Accepted planning baseline only. This document does not
-authorize Phase 2 code, dependencies, services, deployment, or real document
-use.
+**Authorization state:** Pull request #52 merged the separately reviewed
+synthetic implementation activation as
+`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. Only the exact disconnected
+repository candidate is authorized; dependencies, services, deployment, and
+real document use remain unauthorized.
 
 ## Purpose
 
@@ -599,6 +602,12 @@ selection remains a separate gate.
 
 ## Implementation checkpoints
 
+The current implementation candidate has completed Checkpoints 0 through 5 on
+branch `feature/knowledge-manager-phase2-synthetic-inspection`. Checkpoint 6
+remains open pending publication of one exact head, independent Work Mode
+review, and Chief Architect merge disposition. Completion here is candidate
+evidence only, not canonical merge or operational readiness.
+
 ### Checkpoint 0 - canonical activation
 
 Before code:
@@ -660,16 +669,14 @@ system, Qdrant, a model, or real organizational material.
 
 ## Dependencies and blockers
 
-Phase 1 closeout and acceptance of this architecture and validation baseline
-are complete. Phase 2 implementation remains blocked by:
+Phase 1 closeout, this architecture baseline, the threat and dependency reviews,
+owner assignments, and the exact synthetic-only activation are complete. The
+repository candidate is blocked from canonical completion only by:
 
-1. Acceptance and canonical merge of a separate synthetic-only implementation
-   activation at an exact reviewed head.
-2. Threat review covering parser, archive, active-content, prompt-injection,
-   temporary-file, logging, denial-of-service, and dependency risks.
-3. Dependency and isolation technology review.
-4. Assignment of component, security, operational, evidence, and recovery
-   owners.
+1. Completion and publication of the exact validation evidence.
+2. Independent Work Mode review of one exact remote implementation head.
+3. Chief Architect disposition for that exact reviewed head.
+4. Canonical merge and post-merge documentation closeout if approved.
 
 Real document use remains additionally blocked by:
 
