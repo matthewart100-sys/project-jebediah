@@ -1000,7 +1000,7 @@ executive workflows, all three Ask presets, board and state views, all eleven
 state presentations, keyboard and visible-focus navigation, accessibility-tree
 landmarks, 320- and 1280-CSS-pixel layouts, 200 percent zoom, reduced motion,
 board print rendering, safe `404` and `400` paths, and clean browser-storage and
-loopback-only network checks. their temporary artifacts removed.
+loopback-only network checks.
 
 The first independent implementation review at
 `45716f83026b49b1b4328a6a128feeadcb66a05f` returned **REVISIONS REQUIRED**.
