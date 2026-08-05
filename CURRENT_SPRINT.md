@@ -2,16 +2,12 @@
 
 ## Active sprint
 
-**Name:** Organizational Intelligence Product Program Phase 3A - Executive
-Dashboard and Product Shell
+**Name:** None
 
-**Status:** Architecture and the exact bounded synthetic implementation scope
-are accepted; the synthetic Executive Product Shell is implemented on its working
-branch; independent implementation review and a separate merge decision remain
-gated
-
-**Target window:** Bounded implementation, exact-head review, merge validation,
-and terminal closeout after canonical architecture activation
+**Status:** No implementation sprint is active. The Organizational Intelligence
+Product Program Phase 3A implementation is merged and post-merge validated.
+Merging its independently reviewed documentation-only closeout terminally closes
+the phase without recursion.
 
 **Deployment status:** Not authorized
 
@@ -20,173 +16,154 @@ organizational information use is not authorized
 
 ## Most recently completed sprint
 
-**Name:** Knowledge Manager 1.0 Phase 2 - Synthetic Document Inspection
+**Name:** Organizational Intelligence Product Program Phase 3A - Executive
+Dashboard and Product Shell
 
 **Implementation merged:** 2026-08-05
 
-**Documentation closeout:** Complete; pull request #54 squash-merged the exact
-reviewed closeout head `4de5f2df2d4c82e286890f7f3d5e462693322a1f` as
-`58f40054faba1167c25d828186e74d66e6c0681b`
+**Implementation merge:** Pull request #56 squash-merged exact reviewed head
+`75dede435b8f4d8e1cdbd7377526bb5470b346ef` as
+`95b9e06ae2edc4585d659efc825ca4553ce452d9`
+
+**Documentation closeout:** This independently reviewed documentation-only
+package is the single terminal closeout; its merge completes the phase and
+creates no recursive closeout requirement
 
 The completed sprint answered its question narrowly: Project Jebediah can
-enforce deterministic document-admission and inspection contracts over
-generated synthetic bytes without creating a real document path, runtime
-service, production parser, or organizational-information authority.
-
-## Accepted Phase 3A activation
-
-The accepted
-[Phase 3A Executive Product Shell Plan](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_PRODUCT_SHELL_PLAN.md),
-System ADR 0015, threat model, dependency assessment, validation contract, and
-bounded implementation authorization define one complete synthetic product
-scope.
-
-The Product Program Phase 3A label describes a cross-phase human-experience
-foundation. It does not activate or rename canonical Roadmap Phase 3 -
-Knowledge Graph. The accepted shell is a compiled synthetic-data-only, loopback
-local preview. The synthetic implementation is now present on its authorized
-source branch as standard-library-only source, tests, and an operator preview
-guide; it remains subject to separate independent implementation review and a
-merge decision before it becomes canonical on `main`.
+present a calm, evidence-first executive command center over one immutable
+fabricated briefing through a standard-library, loopback-only local preview. It
+does not establish live organizational intelligence, factual verification,
+operational readiness, deployment, or action authority.
 
 ## Authority and merge evidence
 
-- Pull request #50 merged the accepted architecture and validation baseline as
-  `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`.
-- Pull request #52 merged the exact reviewed synthetic implementation activation
-  as `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`.
-- The implementation branch
-  `feature/knowledge-manager-phase2-synthetic-inspection` started from that
-  activation merge.
-- Independent Work Mode approved exact implementation head
-  `31a92c5f4bc10e79fe4e00955941c6128bffe7b1` with no Blocking, High, or Medium
-  findings. Its one Low documentation-manifest ambiguity was explicitly
-  resolved by the Chief Architect.
-- The Chief Architect approved that exact head for squash merge.
-- Pull request #53 squash-merged the exact reviewed implementation as canonical
-  commit `ccba7951f280f2b09e932db3979034dc6c2e5b68`.
-- Work Mode approved corrected Phase 2 closeout head
-  `4de5f2df2d4c82e286890f7f3d5e462693322a1f` with no findings, and the Chief
-  Architect approved it for merge.
-- Pull request #54 squash-merged that closeout head as canonical commit
-  `58f40054faba1167c25d828186e74d66e6c0681b`, terminally closing Phase 2.
-- One read-only Work Mode reviewer approved exact Phase 3A planning head
-  `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7` with no findings.
-- The Chief Architect adopted that exact head, accepted ADR 0015 and the
-  component specification, and authorized only status activation before a
-  separate exact-head architecture merge decision.
+- Pull request #55 merged accepted System ADR 0015, the Phase 3A component
+  specification, threat model, dependency assessment, validation requirements,
+  and exact implementation authorization as
+  `35d5bafc63a904868012944f792f64e0d4456793`.
+- The implementation branch started from that exact canonical merge.
+- Initial Work Mode review of implementation head
+  `45716f83026b49b1b4328a6a128feeadcb66a05f` returned **REVISIONS REQUIRED**.
+- The implementation corrected all one High, three Medium, and two Low findings
+  inside the unchanged 31-file scope.
+- Fresh Work Mode review approved exact corrected head
+  `75dede435b8f4d8e1cdbd7377526bb5470b346ef` with no Blocking, High, Medium, or
+  Low findings.
+- The Chief Architect approved that unchanged head for squash merge.
+- Pull request #56 squash-merged the exact reviewed implementation as
+  `95b9e06ae2edc4585d659efc825ca4553ce452d9`.
+- Canonical post-merge automated and browser validation passed.
 - The remote implementation branch was deleted, and canonical `main` was clean
-  and synchronized after merge.
+  and synchronized after validation.
 
 ## Delivered scope
 
-The merged `collector.document_admission` package contains only:
+The merged `apps.jebediah_executive` package contains only:
 
-- immutable document-submission, content-identity, admission, transformation,
-  inspection, eligibility, retention, cleanup, transition, and audit records;
-- the exact accepted admission and transformation state graphs;
-- typed validation, conflict, not-found, evaluator, policy, resource,
-  inspection, quarantine, cleanup, and unknown-outcome failures;
-- an abstract byte-integrity boundary and a SHA-256 synthetic verifier;
-- abstract format, security, policy, isolation, eligibility, quarantine,
-  evidence, and orchestration interfaces;
-- process-local in-memory quarantine and append-only evidence adapters;
-- metadata-only cleanup tombstones that cannot restore deleted bytes;
-- explicit linked retry evidence with unique admission and transformation
-  attempt identities;
-- exact synthetic resource policies and fail-closed orchestration; and
-- generated inert fixtures plus 226 deterministic targeted tests.
+- immutable executive briefing and evidence-bearing view models;
+- one compiled `synthetic-nonprofit-demo-v1` fixture with a fixed clock;
+- server-rendered semantic HTML and one local responsive stylesheet;
+- overview, attention, knowledge, next-step, workspace, Ask, board, and
+  state-gallery routes;
+- three bounded synthetic Ask presets;
+- eleven substantive product and failure states;
+- literal loopback serving, restrictive security headers, no-store behavior,
+  sanitized duration-bearing logs, and hardened parser-error responses;
+- accessibility, responsive, zoom, reduced-motion, and print behavior; and
+- 332 deterministic targeted tests.
 
-The package has **Implemented** repository maturity. It is not **Operational**
+The component has **Implemented** repository maturity. It is not **Operational**
 and is not an independently deployed service.
 
 ## Post-merge validation
 
 Validation ran on canonical merge
-`ccba7951f280f2b09e932db3979034dc6c2e5b68`:
+`95b9e06ae2edc4585d659efc825ca4553ce452d9`:
 
 | Validation | Result |
 | --- | --- |
-| Phase 2 targeted suite | 226 passed |
-| Complete Python suite | 461 passed |
-| Package/import-boundary suite | 9 passed |
+| Phase 3A targeted suite | 332 passed |
+| Complete Python suite | 793 passed |
+| Package and capability-boundary suite | 30 passed |
 | Python compilation | Passed |
-| Frozen lock verification | Passed; 34 packages resolved without lock changes |
-| Documentation validation | Passed; 73 Markdown files and 240 tracked files checked |
-| Changed-file editor diagnostics | Passed; no issues reported |
+| Frozen lock verification | Passed; no lock change |
+| Documentation validation | Passed |
 | Base-to-merge whitespace check | Passed |
-| Sensitive-value scan | Passed |
-| Prohibited dependency and capability scans | Passed |
-| Changed-file manifest | Passed; 33 files: 8 source, 15 test, 10 documentation |
-| Protected paths | Unchanged |
+| Sensitive-value and capability scans | Passed |
+| Changed-file manifest | Passed; exact 31-file 9/9/13 split |
+| Chrome 150 browser matrix | Passed; six workflows, three Ask presets, eleven states, accessibility, responsive, zoom, reduced-motion, print, storage, negative-route, and loopback-network checks |
 | Final worktree | Clean and synchronized with `origin/main` |
+
+The test and browser results verify only deterministic synthetic repository
+behavior. They do not establish production security, operational availability,
+deployment, representative usability, or compatibility with real
+organizational information.
 
 ## Excluded scope
 
 The completed sprint did not add or authorize:
 
-- real VBA, organizational, personal, confidential, or other external
-  information;
-- real file upload, access, copying, movement, hashing, parsing, inspection, or
-  ingestion;
-- a production TXT, Markdown, PDF, DOCX, archive, or other parser;
-- OCR, malware scanning, external binaries, subprocess isolation, or network
-  lookup;
-- durable source-artifact storage, migration, backup, restore, or recovery;
-- Knowledge Registry writes, `MemoryItem` creation, Qdrant, embeddings, memory,
-  retrieval, ranking, or model inference;
-- API, CLI, FastAPI, n8n, Open WebUI, dashboard, service, worker, container,
-  infrastructure, deployment, or upload capability;
-- source truth, factual truth, general approval, autonomous admission,
-  autonomous approval, promotion, action, or organizational use; or
-- Phase 3 implementation or authorization.
+- real VBA, organizational, personal, confidential, or external information;
+- file discovery, upload, parsing, scanning, OCR, inspection, or ingestion;
+- a live source adapter, production read-model assembler, API, service, worker,
+  or transport;
+- Collector, registry, memory, Qdrant, embedding, model, retrieval, workflow, or
+  current-runtime integration;
+- durable state, identity, authentication, authorization, multi-tenancy,
+  analytics, telemetry, export, or external networking;
+- infrastructure, deployment, backup, restore, recovery, or operational use;
+- factual verification, approval, gate clearance, autonomous action, or
+  external communication; or
+- canonical Roadmap Phase 3 or Product Program Phase 3B, 3C, or 3D
+  implementation.
 
-No real VBA or organizational document was accessed, copied, moved, hashed,
-parsed, inspected, or ingested.
+No real VBA or organizational information was accessed or used.
 
 ## Work status
 
 | Work item | State | Evidence or next gate |
 | --- | --- | --- |
-| Architecture and validation baseline | Complete | PR #50 merge `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10` |
-| Synthetic implementation activation | Complete | PR #52 merge `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca` |
-| Implementation | Complete | Exact reviewed head `31a92c5f4bc10e79fe4e00955941c6128bffe7b1` |
-| Work Mode implementation review | Complete | APPROVED; no Blocking, High, or Medium findings |
-| Chief Architect merge decision | Complete | Exact head approved; Low documentation scope ambiguity resolved |
-| Implementation merge | Complete | PR #53 squash merge `ccba7951f280f2b09e932db3979034dc6c2e5b68` |
-| Post-merge validation | Complete | 226 targeted and 461 full-suite tests plus all required repository gates |
-| Documentation closeout | Complete | PR #54 squash merge `58f40054faba1167c25d828186e74d66e6c0681b`; no recursive closeout |
-| Phase 3A architecture package | Accepted | Work Mode approved and Chief Architect adopted exact planning head `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`; activation merge is canonical start gate |
-| Phase 3A implementation | Implemented on working branch; review and merge gated | Exact 31-file synthetic scope complete with tests and operator preview guide; independent review and a separate merge decision remain required |
+| Architecture and activation | Complete | PR #55 merge `35d5bafc63a904868012944f792f64e0d4456793` |
+| Implementation | Complete | Exact reviewed head `75dede435b8f4d8e1cdbd7377526bb5470b346ef` |
+| Work Mode implementation review | Complete | APPROVED; no findings |
+| Chief Architect merge decision | Complete | Exact head approved for squash merge |
+| Implementation merge | Complete | PR #56 squash merge `95b9e06ae2edc4585d659efc825ca4553ce452d9` |
+| Post-merge validation | Complete | 332 targeted, 793 full-suite, 30 boundary tests, and complete Chrome matrix passed |
+| Documentation closeout | Completes on merge | This exact documentation-only package; no recursive closeout |
+| Product Program Phase 3B architecture | Not started | May begin only after closeout is canonical |
+| Product Program Phase 3B implementation | Unauthorized | Requires separately accepted architecture and exact authorization |
 
 ## Rollback
 
 Rollback requires a reviewed revert of
-`ccba7951f280f2b09e932db3979034dc6c2e5b68`, followed by the complete test,
-documentation, boundary, manifest, and sensitive-value checks and canonical
-status reconciliation.
+`95b9e06ae2edc4585d659efc825ca4553ce452d9`, followed by the complete test,
+browser, documentation, boundary, manifest, lock, sensitive-value, and
+canonical-documentation checks.
 
 No data migration, service shutdown, credential rotation, backup restore,
-registry cleanup, memory cleanup, Qdrant cleanup, or deployment action is
-required because the sprint created no durable, external, or runtime state.
+external cleanup, or user notification is required because the sprint created
+no durable, external, deployed, or live state.
 
 ## Remaining authorization boundary
 
 Real document use remains blocked by separate decisions for a named information
 domain and source authority, producer and consumer contracts, classification,
-privacy and legal policy, production security evaluation, parser and isolation
-technology, durable custody, operations, recovery, deployment, and exact-scope
-authorization.
+privacy and legal policy, access control, production security, parser and
+isolation technology, durable custody, retention, deletion, operations,
+recovery, deployment, and exact source-set authorization.
 
-Sprint 006 Proposal v2 remains a separate Proposed workstream. Phase 3A
-authorization does not accept or authorize Sprint 006, the VBA demonstration,
-live information use, deployment, canonical Roadmap Phase 3, or any capability
-outside the exact synthetic Executive Product Shell manifest.
+Deployment remains blocked by a separate exact decision covering the target
+environment, authentication, TLS, secrets, logging, monitoring, backups,
+recovery, access control, privacy, rollback, and operations ownership.
+
+The Product Program Phase 3A label did not activate or rename canonical Roadmap
+Phase 3 - Knowledge Graph. Sprint 006 Proposal v2 and the unmerged VBA
+demonstration remain separate unauthorized workstreams.
 
 ## Closed-sprint boundary
 
 The
-[Phase 2 Closeout](docs/KNOWLEDGE_MANAGER_1_PHASE_2_CLOSEOUT.md)
+[Phase 3A Closeout](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_CLOSEOUT.md)
 owns the exact implementation merge, post-merge validation, implemented scope,
-exclusions, rollback, remaining gates, and terminal pull request #54 closeout
-evidence. Phase 2 is complete and creates no recursive closeout requirement.
+exclusions, rollback, remaining gates, and terminal closeout evidence. Its merge
+completes Phase 3A and creates no recursive closeout requirement.

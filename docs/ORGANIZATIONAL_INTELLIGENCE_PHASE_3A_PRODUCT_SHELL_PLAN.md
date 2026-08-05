@@ -949,12 +949,14 @@ documentation-only architecture branch
 Changed heads reopen the applicable review. Status activation reuses the same
 independent reviewer and does not assign a second reviewer.
 
-## Adoption record and remaining decision
+## Adoption and architecture activation record
 
 The Chief Architect adopted exact planning head
 `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7` and authorized this bounded
-activation edit. The remaining architecture decision is approval of the freshly
-reviewed exact activation head for merge.
+activation edit. Work Mode freshly approved the exact activation head, the
+Chief Architect approved it for merge, and pull request #55 merged the accepted
+architecture and activation as
+`35d5bafc63a904868012944f792f64e0d4456793`.
 
 Adoption does not include deployment, real information, Phase 3B, or
 implementation merge authority.
@@ -998,7 +1000,19 @@ executive workflows, all three Ask presets, board and state views, all eleven
 state presentations, keyboard and visible-focus navigation, accessibility-tree
 landmarks, 320- and 1280-CSS-pixel layouts, 200 percent zoom, reduced motion,
 board print rendering, safe `404` and `400` paths, and clean browser-storage and
-loopback-only network checks. The preview and browser were then stopped and
-their temporary artifacts removed. Independent implementation review and the
-merge decision remain outstanding and gated; this evidence asserts neither
-merge nor terminal completion.
+loopback-only network checks.
+
+The first independent implementation review at
+`45716f83026b49b1b4328a6a128feeadcb66a05f` returned **REVISIONS REQUIRED**.
+Every finding was corrected inside the unchanged 31-file scope. Fresh Work Mode
+review approved exact head
+`75dede435b8f4d8e1cdbd7377526bb5470b346ef` with no findings, and the Chief
+Architect approved that head for squash merge. Pull request #56 merged it as
+`95b9e06ae2edc4585d659efc825ca4553ce452d9`.
+
+Post-merge validation on that canonical commit repeated the 332 targeted, 793
+full-suite, and 30 package/capability tests, complete repository gates, and the
+Chrome 150 browser matrix successfully. The preview and browser were stopped,
+temporary artifacts were removed, and the worktree was clean. The
+[Phase 3A Closeout](ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_CLOSEOUT.md)
+owns the terminal evidence and remaining gates.

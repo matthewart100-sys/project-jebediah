@@ -166,9 +166,8 @@ authorize organizational information, deployment, or a pilot.
 
 ### Accepted cross-phase Executive Product Shell refinement
 
-**Status:** Accepted architecture; exact bounded synthetic implementation
-complete on its working branch, with independent implementation review and a
-separate merge decision still gated
+**Status:** Complete and terminally closed on merge of the independently
+reviewed Phase 3A documentation closeout
 
 The Organizational Intelligence Product Program uses the label Phase 3A for a
 synthetic Executive Product Shell. That program label does not add,
@@ -183,9 +182,14 @@ validation requirements, and bounded implementation authorization were approved
 by Work Mode and adopted by the Chief Architect at exact planning head
 `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`. The synthetic shell is now
 implemented under `apps.jebediah_executive` as standard-library-only source,
-tests, and an operator preview guide. Implementation remains separately reviewed
-and cannot satisfy the Phase 2 Collector exit gate or activate Phase 3
-- Knowledge Graph.
+tests, and an operator preview guide. Pull request #56 squash-merged exact
+Work Mode-approved implementation head
+`75dede435b8f4d8e1cdbd7377526bb5470b346ef` as
+`95b9e06ae2edc4585d659efc825ca4553ce452d9`; post-merge automated and browser
+validation passed. The
+[Phase 3A Closeout](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_CLOSEOUT.md)
+owns the exact evidence and exclusions. The result cannot satisfy the Phase 2
+Collector exit gate or activate Phase 3 - Knowledge Graph.
 
 ## Phase 3: Knowledge Graph
 

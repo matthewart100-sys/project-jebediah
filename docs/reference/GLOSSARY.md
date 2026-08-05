@@ -260,9 +260,8 @@ An **Implemented** human-experience component under Accepted
 It owns presentation and navigation over immutable compiled fabricated briefing
 fixtures in a loopback-only local preview. It has no source-truth, verification,
 derivation, approval, action, organizational-information, service, deployment,
-or operational authority. The synthetic implementation is present on its working
-branch; it is not Operational, and its implementation review and merge remain
-gated.
+or operational authority. The synthetic implementation is present on canonical
+`main`; it is not Operational.
 
 ### Knowledge Graph
 
