@@ -10,6 +10,10 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added proposed Knowledge Manager 1.0 Phase 1 implementation and validation
+  plans plus proposed System ADR 0014 for a synthetic, metadata-only Knowledge
+  Registry foundation; implementation, external information, memory
+  integration, durable storage, runtime, and deployment remain unauthorized.
 - Added and accepted System ADRs 0012 and 0013 plus organizational-intelligence
   interface, document-admission, and validation specifications without
   authorizing implementation or live information use.

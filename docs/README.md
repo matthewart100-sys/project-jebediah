@@ -93,6 +93,15 @@ searchable, linkable, and version controlled.
 - [ADR 0013: Governed Organizational Document Admission Boundary](adr/0013-governed-organizational-document-admission-boundary.md)
   is an Accepted System decision for quarantine-first document admission and
   non-authoritative derivation.
+- [Knowledge Manager 1.0 Phase 1 Implementation Plan](KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
+  proposes a metadata-only Knowledge Registry foundation and keeps
+  implementation unauthorized pending exact-head review and acceptance.
+- [Knowledge Manager 1.0 Phase 1 Validation Requirements](KNOWLEDGE_MANAGER_1_PHASE_1_VALIDATION_REQUIREMENTS.md)
+  defines synthetic domain, repository, dependency, compatibility, and stop
+  evidence for the proposed registry foundation.
+- [ADR 0014: Knowledge Registry Domain Boundary](adr/0014-knowledge-registry-domain-boundary.md)
+  is a Proposed System decision for a storage-neutral registry domain separate
+  from memory, ingestion, retrieval, runtime, and source authority.
 - [Glossary](reference/GLOSSARY.md) owns shared project terminology.
 - [Component Registry](reference/COMPONENT_REGISTRY.md) tracks component
   identity, maturity, responsibility, and component ownership.
