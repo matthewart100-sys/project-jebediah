@@ -55,9 +55,9 @@
 | Duplicate confusion | separate submission occurrence, content digest, source identity, explicit supersession | Hold conflict; no automatic current version |
 | Approval mistaken for truth | visible authority labels, review vocabulary, no Phase 3C consumer | No downstream eligibility |
 | Deletion claimed before completion | tombstone-first, DEK destruction, verified object removal, backup obligations | `cleanup_failed`, visible blocker |
-| Legal hold bypass | separately signed hold/lift authority, deletion guard, append-only evidence | Deny deletion |
-| Deleted data restored | tombstones in backup/restore, retention checks before activation | Re-delete; restore blocked if unresolved |
-| Expired content remains visible in a long-running process | deadline and hold check before every decrypt/display/review/mutation; synchronous ineligibility and cleanup | Deny content before access; expose `cleanup_failed` if removal fails |
+| Legal hold bypass | separately signed hold/lift authority, deletion guard, append-only evidence | Deny deletion; hold never restores expired consumption |
+| Deleted data restored | registered backup identities and opaque inventories, mandatory verified purge before deletion completion, tombstones in backup/restore | Keep deletion `cleanup_failed` while any applicable set remains; deny unregistered or purge-obligated restore |
+| Expired content remains visible in a long-running process | deadline check before every decrypt/display/review/mutation; ineligibility regardless of hold; synchronous cleanup only when not held | Deny content before access; retain encrypted held material without consumption |
 | Backup theft/corruption | encrypted objects, no passphrase, HMAC manifest, access-controlled volume | Reject restore |
 | Supply-chain compromise | exact locks/digests, SBOM, SCA, signatures, minimal images, offline runtime | Block build/use |
 | Scanner false negative | scanner is evidence only; structural and policy checks remain independent | No safety claim |

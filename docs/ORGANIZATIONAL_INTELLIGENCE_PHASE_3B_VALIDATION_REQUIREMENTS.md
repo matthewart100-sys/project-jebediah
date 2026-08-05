@@ -81,10 +81,14 @@
   embedding, Qdrant point, retrieval result, or supported Ask answer.
 - Seven-, thirty-, and 365-day retention boundaries, including denial before
   decrypt/display and synchronous cleanup when expiry occurs without restart.
+- Expired content with an active hold remains encrypted and retained but cannot
+  be decrypted, displayed, reviewed, or consumed.
 - Reset by submission, lineage, and domain.
 - Active hold blocks reset/deletion without partial effects.
 - Cleanup failure remains visible and is never reported as completion.
-- Backup expiry and tombstone propagation.
+- Backup registration and opaque inventories, mandatory purge of every
+  applicable pre-deletion backup, missing-backup `cleanup_failed`, and tombstone
+  propagation.
 
 ### Backup, restore, and rotation tests
 
@@ -94,7 +98,9 @@
 - Restore into staging only; no partial activation.
 - Wrong wrapper, wrong trust registry, incompatible schema, corrupt event chain,
   expired retention, and unresolved tombstone denial.
-- Deleted content does not return after restore.
+- A pre-deletion backup blocks deletion completion until physically purged;
+  unregistered backups and backups with unresolved purge obligations cannot
+  restore; deleted content does not return after restore.
 - Passphrase and trust-key rotation preserve historical verification and deny
   revoked new authority.
 

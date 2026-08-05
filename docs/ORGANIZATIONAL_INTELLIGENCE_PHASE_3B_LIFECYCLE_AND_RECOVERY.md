@@ -122,10 +122,13 @@ new submission with its own authorization and deadline.
 
 Every operation that could read, decrypt, display, review, or mutate retained
 content checks the deadline and hold state before object access. If the deadline
-has passed and no hold applies, the operation denies content access, atomically
-marks the subject ineligible, creates a cleanup obligation and audit event, and
-attempts synchronous cleanup. Physical cleanup failure remains
-`cleanup_failed`; expiry never permits continued display until restart.
+has passed, the operation denies content access and atomically marks the subject
+ineligible and records an audit event regardless of hold state. Without a hold,
+the same transaction creates a cleanup obligation and the operation attempts
+synchronous cleanup. With a hold, encrypted material and its wrapped DEK remain
+preserved, but decryption, display, review, and consumer use stay denied.
+Physical cleanup failure remains `cleanup_failed`; expiry never permits
+continued display until restart.
 
 Audit events and tombstones are immutable within bounded audit epochs. Epoch
 rollover is an explicit local lifecycle operation. Before a closed epoch may be
@@ -158,11 +161,17 @@ Reset:
 - destroys applicable wrapped DEKs;
 - deletes ciphertext and temporary material;
 - invalidates active sessions and receipt reservations for the scope;
-- records unresolved backups until their expiry or verified purge;
+- identifies every registered backup set whose opaque inventory contains the
+  scope and creates a purge obligation for each;
+- physically purges and verifies every applicable backup set before reporting
+  deletion complete;
 - retains only safe audit/tombstone evidence; and
 - never reactivates a superseded version.
 
-An active legal hold returns a visible blocked result and changes nothing.
+An unavailable, missing, or unverifiable applicable backup remains a visible
+`cleanup_failed` obligation; normal thirty-day expiry is not deletion
+completion. An active legal hold returns a visible blocked result and changes
+nothing.
 
 ## Legal hold
 
@@ -187,17 +196,24 @@ the signed declaration expressly authorizes automatic expiry.
 Backup is an interactive local command. It:
 
 1. blocks mutations;
-2. performs a SQLite online backup/snapshot;
-3. copies encrypted objects and wrapped master-key material;
-4. includes configuration, trust-registry identity, and tombstones;
-5. creates a canonical manifest with lengths and SHA-256 identities;
-6. authenticates the manifest with the audit HMAC key;
-7. verifies the copy; and
-8. resumes mutations.
+2. assigns and atomically registers a unique pending backup-set identity and
+   opaque inventory of every object to include;
+3. performs a SQLite online backup/snapshot containing that registration;
+4. copies encrypted objects and wrapped master-key material;
+5. includes configuration, trust-registry identity, and tombstones;
+6. creates a canonical manifest with lengths and SHA-256 identities;
+7. authenticates the manifest with the audit HMAC key;
+8. verifies the copy and registration, then atomically records completion in the
+   live runtime while the authenticated manifest supplies completion evidence
+   to the snapshot; and
+9. resumes mutations.
 
 The passphrase is never in the backup. Backup media is access-controlled,
 volume-encrypted, outside Git, and owned by the authorized operator. The backup
-deadline is recorded and cleanup is verified.
+deadline is recorded and cleanup is verified. Copying a backup outside this
+registered inventory is prohibited. Deletion of a scope requires physical purge
+and absence verification of every registered backup set containing it; no such
+set may remain after deletion is reported complete.
 
 ## Restore and recovery
 
@@ -213,6 +229,12 @@ Restore is interactive and uses an empty staging directory:
 8. run a read-only synthetic smoke check;
 9. atomically activate staging; and
 10. retain the prior directory only under its existing retention policy.
+
+Restore refuses an unregistered backup set or a set with an unresolved purge
+obligation. Because deletion cannot complete until every applicable registered
+set is verified absent, no pre-deletion backup remains eligible to restore
+deleted content. If an applicable set cannot be located and purged, deletion
+stays `cleanup_failed` and no completion claim is permitted.
 
 Lost passphrase plus unavailable recovery material makes content unrecoverable.
 That is a fail-closed security outcome but an operational data-loss event. The

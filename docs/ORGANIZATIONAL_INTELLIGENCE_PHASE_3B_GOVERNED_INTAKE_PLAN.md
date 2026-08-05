@@ -166,16 +166,22 @@ Phase 3B selects `phase3b-board-roster-pilot-v1`:
 Reset or authorized deletion immediately removes online answerability and
 reviewability, cryptographically deletes the applicable DEKs, deletes the
 encrypted objects, records tombstones, and prevents backup restoration from
-reactivating deleted material. Physical backup copies expire within thirty
-days. Restores apply tombstones before activation.
+reactivating deleted material. Every backup set is registered with an opaque
+object inventory. Deletion creates a purge obligation for every registered set
+containing the subject and is not complete until each such set is physically
+purged and verified; a missing or unavailable set remains `cleanup_failed`.
+Backups otherwise expire within thirty days. Restores apply tombstones before
+activation.
 
 Cleanup is explicit and also runs at local startup. No unattended scheduler is
 authorized. Every review, display, decryption, download-equivalent internal
 read, and mutation checks the fixed deadline before content access. Expired
-content is denied before decryption or display and the same request atomically
-marks it ineligible, records a cleanup obligation and audit event, and attempts
-synchronous cleanup. Failed deletion becomes visible `cleanup_failed` evidence
-and blocks claims of completed reset.
+content is denied before decryption or display regardless of hold state, and the
+same request atomically marks it ineligible and records an audit event. Without
+a hold it also records a cleanup obligation and attempts synchronous cleanup;
+with a hold it preserves encrypted material but cannot display or otherwise
+consume it. Failed deletion becomes visible `cleanup_failed` evidence and blocks
+claims of completed reset.
 
 ### 7. Legal hold
 
@@ -385,6 +391,7 @@ An operator-triggered backup contains:
 - a consistent SQLite snapshot;
 - encrypted objects;
 - versioned configuration and trust-registry identity;
+- a registered backup-set identity and opaque object inventory;
 - deletion tombstones;
 - an HMAC-authenticated manifest; and
 - no plaintext key or passphrase.
@@ -393,7 +400,10 @@ The wrapped master-key file is backed up separately from the passphrase.
 Recovery requires both. Restore occurs into an isolated staging directory and
 must verify the database, event chain, manifest, every object, tombstones,
 policy versions, and reconciliation before an atomic activation. A restore
-cannot bypass expired retention or deletion.
+cannot bypass expired retention or deletion. A reset or deletion cannot be
+reported complete while any registered backup set containing the scope remains;
+that set must be physically purged and its absence verified rather than merely
+waiting for restore-time reconciliation.
 
 Phase 3B backup, restore, cleanup, rotation, and reconciliation are
 operator-triggered and interactive. Unattended key access and scheduling require
