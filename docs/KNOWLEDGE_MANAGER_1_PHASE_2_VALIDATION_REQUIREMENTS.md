@@ -106,8 +106,9 @@ Tests must prove:
 - supplied and detected names and types remain distinct;
 - content identity requires a versioned digest and byte count;
 - collection inputs normalize to immutable collections and reject duplicates;
-- required source, domain, intended-use, producer, submitter, classification,
-  retention, deletion, and provenance references cannot be omitted;
+- required source, domain, intended-use, producer, submitter, approved consumer,
+  consumer-policy, classification, retention, deletion, and provenance
+  references cannot be omitted;
 - invalid enum or state values are rejected;
 - equality is deterministic; and
 - construction performs no current-time, random-identity, source-authority,
@@ -154,6 +155,8 @@ Tests must reject:
 - a human review that directly writes `accepted`;
 - acceptance with one required check missing, false, indeterminate, or
   unavailable;
+- acceptance without authorization for the exact synthetic consumer and
+  intended use;
 - overwrite of prior transition or terminal evidence; and
 - transition history without prior state, next state, aware time, actor or
   component, reason code, policy version, and correlation.
@@ -177,6 +180,29 @@ truth, approval, registry, memory, retrieval, or action flag.
 
 Tests must prove that a clean malware result does not accept content by itself
 and that uncertainty or evaluator failure never defaults to clean.
+
+## Synthetic consumer-authorization validation
+
+Tests must prove:
+
+- the consumer contract has immutable non-sensitive consumer, policy-version,
+  intended-use, classification, permitted-format, required-output, and
+  eligibility evidence;
+- the only Phase 2 consumer is the synthetic test and review harness under the
+  intended use `synthetic_contract_validation`;
+- admission verifies the exact consumer identity, policy version, intended use,
+  and synthetic-only classification;
+- missing, invalid, mismatched, expired, or unauthorized consumer evidence never
+  produces `accepted`;
+- an unavailable consumer policy produces `evaluation_failed`;
+- a consumer decision requiring authorized judgment produces `held`;
+- a conclusive unauthorized consumer or use produces `rejected`;
+- one consumer's eligibility is not copied to another consumer or use;
+- the synthetic consumer contract grants no API, runtime reader, ordinary
+  retrieval, registry, memory, model, interface, or real-information access;
+  and
+- authorization and eligibility evidence contain no document content or
+  sensitive value.
 
 ## Format detection validation
 
@@ -262,8 +288,11 @@ Tests must prove:
 - only accepted input can create `processing`;
 - one accepted submission may have separately identified versioned attempts;
 - complete extraction records exact inspector and configuration identity;
-- complete output becomes `ready` only after every required output check;
+- complete output becomes `ready` only after every required output check and a
+  positive eligibility decision for the exact approved synthetic consumer;
 - partial and no-output results become `processing_failed`;
+- missing consumer authorization, consumer mismatch, or failed eligibility
+  becomes `processing_failed`, never `ready`;
 - partial output retains explicit omissions, warnings, limits, and locations;
 - partial or failed output remains quarantined and consumer-ineligible;
 - parser crash, exception, timeout, invalid result, and unknown durable outcome
@@ -271,7 +300,10 @@ Tests must prove:
 - a failed attempt does not change the accepted admission record;
 - reprocessing creates a linked attempt rather than rewriting history;
 - extracted bytes or text cannot overwrite the submission; and
-- downstream eligibility remains false in the synthetic-only phase.
+- per-consumer eligibility and policy evidence are recorded;
+- ordinary and runtime eligibility remain false in the synthetic-only phase;
+  and
+- the test harness receives no runtime content-read interface.
 
 ## Duplicate, retry, and conflict validation
 
@@ -393,8 +425,11 @@ The review demonstration must show, without a network or live source:
 
 1. A generated candidate receives a stable submission identity.
 2. Exact bytes enter quarantine and retain byte evidence.
-3. Format, security, provenance, policy, and limit evidence is recorded.
-4. One fully valid synthetic candidate reaches `accepted`, then `ready`.
+3. Format, security, provenance, consumer-authorization, policy, and limit
+   evidence is recorded.
+4. One fully valid synthetic candidate is authorized for the synthetic
+   validation consumer, reaches `accepted`, passes that consumer's output
+   eligibility checks, and then reaches `ready`.
 5. Unsupported, suspicious, unavailable, oversized, malformed, partial, crash,
    and deletion-failure cases reach their exact non-success outcomes.
 6. Held review and evaluation-failed retry create linked attempts.

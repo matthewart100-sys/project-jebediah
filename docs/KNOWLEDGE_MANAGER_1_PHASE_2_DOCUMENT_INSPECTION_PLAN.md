@@ -245,6 +245,7 @@ Every receipt has distinct, stable identifiers for:
 - exact content identity;
 - admission-evaluation attempt;
 - transformation or inspection attempt;
+- approved consumer and consumer-policy version;
 - policy profile and version;
 - detector, scanner, and inspector behavior version;
 - extracted output, when one exists; and
@@ -282,14 +283,15 @@ authority.
 
 The future immutable envelope must include every field required by the
 canonical ingestion specification, including approved domain and intended use,
-producer and submitter references, supplied and safe names, claimed and
-detected type, byte evidence, source reference, distinct time semantics,
-classification and handling policy references, state, findings, and
-correlation.
+producer, submitter, and approved consumer references, consumer-authorization
+policy, supplied and safe names, claimed and detected type, byte evidence,
+source reference, distinct time semantics, classification and handling policy
+references, state, findings, and correlation.
 
-Missing required source, ownership, intended-use, classification, retention,
-deletion, or provenance evidence fails closed. The implementation must not
-generate an authoritative value or substitute a default.
+Missing required source, ownership, intended-use, consumer authorization,
+classification, retention, deletion, or provenance evidence fails closed. The
+implementation must not generate an authoritative value or substitute a
+default.
 
 ## Initial candidate format profile
 
@@ -331,15 +333,17 @@ The proposed orchestration stages are:
 3. **Detect format:** inspect bounded signatures and structure without trusting
    the supplied name or media type.
 4. **Evaluate security:** apply malware and active-content evaluators.
-5. **Evaluate policy and limits:** check domain, producer, submitter, use,
-   classification, provenance, duplicate, retention, and resource policy.
+5. **Evaluate policy and limits:** check domain, producer, submitter, approved
+   consumer, use, classification, provenance, duplicate, retention, and
+   resource policy.
 6. **Record admission disposition:** end the attempt as `accepted`, `rejected`,
    `held`, or `evaluation_failed`.
 7. **Inspect accepted content:** run one isolated, versioned inspector.
 8. **Record extraction result:** retain complete, partial, failed, omission, and
    resource evidence.
-9. **Apply consumer eligibility:** leave all output ineligible unless a later
-   approved consumer contract permits it.
+9. **Apply consumer eligibility:** evaluate complete output against the approved
+   synthetic validation-consumer policy. `ready` requires a positive result for
+   that exact consumer; ordinary and runtime access remain prohibited.
 10. **Apply retention disposition:** retain, delete, or hold bytes and derived
     outputs under approved policy without rewriting audit history.
 
@@ -375,6 +379,38 @@ Retry or review creates a linked attempt:
 Acceptance means admissible for one approved use. It is not factual
 verification, approval of document claims, permission for every consumer,
 Knowledge Registry registration, memory promotion, or action authority.
+
+## Synthetic validation-consumer boundary
+
+The proposed synthetic-only phase has one bounded consumer contract: the test
+and review harness that verifies the document-admission contract. This consumer
+is policy evidence, not a deployed component or runtime reader.
+
+Its immutable policy must identify:
+
+- a non-sensitive synthetic consumer identity;
+- the intended use `synthetic_contract_validation`;
+- the synthetic-only information classification;
+- permitted candidate formats and extraction outputs;
+- required completeness, integrity, provenance, omission, and limit checks;
+- policy identity and version; and
+- an explicit prohibition on runtime, API, registry, memory, retrieval, model,
+  interface, and real-information access.
+
+Admission must establish authorization for that exact consumer and intended use
+before producing `accepted`. Missing, invalid, or mismatched authorization fails
+closed. An unavailable policy produces `evaluation_failed`; a decision that
+requires authorized judgment produces `held`; a conclusive unauthorized
+consumer or use produces `rejected`.
+
+The synthetic consumer's eligibility decision is recorded for each
+transformation attempt. `ready` means that required derived outputs completed
+and passed the exact synthetic consumer's eligibility checks. It does not make
+the output eligible for an ordinary or runtime consumer, expose a content-read
+interface, or authorize a future real-information consumer.
+
+Any later pilot, interface, registry producer, memory path, or runtime consumer
+requires a separate accepted consumer contract and implementation plan.
 
 ## Malware, macro, and active-content dispositions
 
@@ -468,14 +504,16 @@ Each attempt records:
   and limits reached;
 - sanitized error classification;
 - resource-use evidence; and
-- downstream eligibility, fixed to false until a separate consumer contract is
-  accepted.
+- the eligibility decision and policy evidence for the approved synthetic
+  validation consumer, with ordinary and runtime eligibility fixed to false.
 
 `complete` may become `ready` only when every required output and validation
-check succeeds. `partial` and `none` end as `processing_failed`; partial
-artifacts remain quarantined evidence and are never ordinary retrieval content.
-An unexpected parser exception, timeout, crash, invalid result, or unknown
-durable outcome cannot produce `ready`.
+check succeeds and the exact synthetic validation consumer is eligible.
+`partial`, `none`, missing consumer authorization, or failed consumer
+eligibility end as `processing_failed`; partial artifacts remain quarantined
+evidence and are never ordinary retrieval content. An unexpected parser
+exception, timeout, crash, invalid result, or unknown durable outcome cannot
+produce `ready`.
 
 Extracted text and metadata are derived. They cannot overwrite, repair, or
 impersonate the submitted bytes or originating source.
