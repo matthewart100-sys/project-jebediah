@@ -110,6 +110,9 @@
   ineligibility/tombstone commit, object destruction, backup purge, and signed
   deletion completion; startup applies newer external deletion state before any
   decrypt/display/review/mutation.
+- Every startup uses a new challenge-bound latest-head attestation and denies
+  missing, expired, replayed, mismatched, unavailable, ledger-only rollback, and
+  coordinated ledger-plus-local-projection rollback before content access.
 - A pre-deletion backup blocks deletion completion until physically purged;
   unregistered backups and backups with unresolved purge obligations cannot
   restore; a copied valid pre-deletion set remains revoked after current-runtime

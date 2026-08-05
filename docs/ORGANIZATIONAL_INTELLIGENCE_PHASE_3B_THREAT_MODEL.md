@@ -60,7 +60,7 @@
 | Expired content remains visible in a long-running process | deadline check before every decrypt/display/review/mutation; ineligibility regardless of hold; synchronous cleanup only when not held | Deny content before access; retain encrypted held material without consumption |
 | Backup theft/corruption | encrypted objects, no passphrase, HMAC manifest, access-controlled volume | Reject restore |
 | Interrupted backup leaves false registration | signed reservation/abort lifecycle, partial-media absence verification, SQLite reconciliation and audit | Close verified abort; retain visible `cleanup_failed` if absence or ledger continuity is uncertain |
-| Crash after external deletion intent but before local deletion | startup compares ledger and local projection before access, applies newer intent atomically, then resumes purge | Deny access and mutations until local tombstone and purge obligations are reconciled |
+| Crash or coordinated rollback after external deletion intent | startup requires a fresh challenge-bound authority attestation, compares the attested ledger with local projection, applies newer intent atomically, then resumes purge | Deny access and mutations until latest head, local tombstone, and purge obligations are reconciled |
 | Supply-chain compromise | exact locks/digests, SBOM, SCA, signatures, minimal images, offline runtime | Block build/use |
 | Scanner false negative | scanner is evidence only; structural and policy checks remain independent | No safety claim |
 | Stale scanner signatures | max-age policy and recorded identity | `evaluation_failed` |

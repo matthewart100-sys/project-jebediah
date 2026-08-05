@@ -99,8 +99,13 @@ reported until verification succeeds.
 
 ## Reconciliation
 
-Startup reconciliation verifies the external ledger against the local
-projection before permitting content access or accepting a mutation:
+Startup reconciliation first creates a random challenge and verifies a
+short-lived recovery-authority attestation of the current generation and
+ledger-head hash against the external ledger. It then verifies that freshly
+attested ledger against the local projection before permitting content access
+or accepting a mutation. Missing, expired, replayed, mismatched, or unverifiable
+attestation, a rolled-back ledger, or coordinated rollback of the ledger and
+local projection fails closed:
 
 - committed row plus valid object: retain;
 - committed row plus missing object: hold the subject and record integrity

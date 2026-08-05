@@ -416,6 +416,11 @@ while any registered backup set containing the scope remains; that set must be
 physically purged and its absence verified rather than merely waiting for
 restore-time reconciliation.
 
+Every normal startup also obtains a new challenge-bound attestation and verifies
+the external ledger head before enabling content access or mutation. Startup
+fails closed if the ledger and local projection were rolled back together or
+otherwise do not reconcile to the freshly attested head.
+
 Phase 3B backup, restore, cleanup, rotation, and reconciliation are
 operator-triggered and interactive. Unattended key access and scheduling require
 a later operations decision.
