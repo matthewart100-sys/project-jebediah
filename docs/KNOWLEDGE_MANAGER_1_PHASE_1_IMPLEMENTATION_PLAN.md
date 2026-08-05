@@ -167,10 +167,17 @@ src/collector/knowledge/
 
 tests/collector/knowledge/
     registry/
+        __init__.py
         test_models.py
         test_repository.py
         test_package_boundaries.py
 ```
+
+The test-package marker was added after the required unchanged full-suite
+command exposed a module-name collision with the existing
+`tests/collector/test_models.py`. The Chief Architect authorized that one
+test-only file during implementation. It contains no behavior and does not
+change the runtime, dependency, API, or information boundary.
 
 `collector.knowledge.registry` exports the reviewed enums, immutable metadata
 types, `KnowledgeRegistryRepository`, and `KnowledgeRegistryConflict`.
@@ -532,6 +539,23 @@ resolve at least:
 
 No Phase 2 work begins from this plan alone.
 
+## Implementation evidence
+
+- Implementation base:
+  `e418479bbb10f48c1a3c7dd207c299cc49226896`.
+- Implementation branch: `feature/knowledge-registry-foundation`.
+- Checkpoint 0 passed with a clean synchronized base, absent registry package,
+  successful documentation validation, and 142 baseline tests.
+- The candidate contains only the reviewed metadata domain, three-method
+  repository abstraction, typed conflict, in-memory reference adapter, tests,
+  and directly required status and validation documentation.
+- Targeted registry validation passes 93 tests.
+- The full regression suite passes 235 tests.
+- Registry imports, public exports, immutable records, package boundaries,
+  documentation, import smoke, and diff scope checks pass.
+- The candidate remains unmerged and requires independent Work Mode review and
+  exact-head Chief Architect approval.
+
 ## Review and authorization record
 
 Independent Work Mode reviewed exact planning head
@@ -551,6 +575,6 @@ The Chief Architect then:
 4. Approved squash merge of pull request #47 at the exact reviewed head.
 
 Pull request #47 squash-merged that reviewed source into `main` as
-`f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`. Implementation remains not
-started and may begin only after the canonical activation closeout is present
-on reviewed `main` and Checkpoint 0 reconfirms every prerequisite.
+`f9fc0c6c15a4148f5d538f56ac4ab2ec8e92c93e`. The canonical activation closeout
+then merged as `e418479bbb10f48c1a3c7dd207c299cc49226896`, and Checkpoint 0
+reconfirmed every prerequisite before implementation began.

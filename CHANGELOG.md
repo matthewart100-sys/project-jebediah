@@ -10,6 +10,13 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added the bounded Knowledge Registry Phase 1 implementation candidate:
+  immutable governance-metadata records, a three-method storage-neutral
+  repository contract, a typed identity conflict, an in-memory reference
+  adapter, and 93 synthetic contract and package-boundary tests. The candidate
+  remains unmerged pending independent review and exact-head approval; it adds
+  no content, external information, memory integration, durable storage,
+  runtime, service, deployment, or autonomous capability.
 - Added and accepted Knowledge Manager 1.0 Phase 1 implementation and validation
   plans plus System ADR 0014 for a synthetic, metadata-only Knowledge Registry
   foundation; only the exact bounded implementation is authorized, while

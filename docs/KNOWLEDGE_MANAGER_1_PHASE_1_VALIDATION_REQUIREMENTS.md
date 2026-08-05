@@ -55,6 +55,7 @@ The implementation adds:
 ```text
 tests/collector/knowledge/
     registry/
+        __init__.py
         test_models.py
         test_repository.py
         test_package_boundaries.py
@@ -62,6 +63,11 @@ tests/collector/knowledge/
 
 Tests must use the existing pytest configuration and dependencies. No new test
 tool may be added.
+
+The Chief Architect authorized the empty `__init__.py` test-package marker
+during implementation after the required full-suite command exposed a
+module-name collision with the existing `tests/collector/test_models.py`. The
+marker changes no runtime or validation behavior.
 
 ## Domain model validation
 
@@ -311,6 +317,26 @@ Run from the repository root with the selected project Python executable:
 The pull request records the exact Python executable or environment class,
 accepted base, tested head, command, result, and date. The GitHub
 `documentation-quality` check must also pass.
+
+## Candidate validation evidence
+
+On `feature/knowledge-registry-foundation`, based on
+`e418479bbb10f48c1a3c7dd207c299cc49226896`:
+
+- `python -m pytest tests/collector/knowledge/registry -q` passes 93 tests.
+- `python -m pytest -q` passes 235 tests.
+- The registry import smoke check passes.
+- AST package-boundary tests prove standard-library and local imports only,
+  no existing source imports the registry, and no root or memory re-export was
+  added.
+- Documentation validation passes for 65 Markdown files and 209 tracked files.
+- Diff scope and whitespace checks pass.
+- Test fixtures use only fabricated identifiers, labels, explanations, and
+  timestamps.
+
+These results establish only an unmerged implementation candidate. The exact
+committed head and GitHub checks remain evidence for the implementation-review
+packet.
 
 ## Evidence matrix
 
