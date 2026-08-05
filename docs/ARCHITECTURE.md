@@ -46,9 +46,13 @@ not:
   and governed document admission. They authorize no implementation or live
   information use.
 - ADR 0014 is an Accepted System decision for a metadata-only Knowledge
-  Registry library. Its exact bounded implementation is authorized but not
-  started; it authorizes no content, external information, memory integration,
-  durable storage, retrieval, service, or deployment.
+  Registry library. Its bounded Phase 1 implementation is complete and has
+  **Implemented** repository maturity: immutable domain models, lifecycle
+  representation, a storage-neutral repository abstraction, and an in-memory
+  reference implementation. The Knowledge Vault remains **Named**, and Phase 2
+  is not implemented. No document ingestion, document parsing, real
+  organizational-information authorization, durable storage, Qdrant or memory
+  integration, retrieval, service, or deployment exists.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
