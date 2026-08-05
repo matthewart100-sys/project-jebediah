@@ -335,6 +335,34 @@ def test_derive_freshness_from_fixed_clock() -> None:
     )
 
 
+def test_item_freshness_must_match_its_timestamps() -> None:
+    with pytest.raises(ContractError):
+        _item(freshness=FreshnessState.AGING)
+    with pytest.raises(ContractError):
+        _item(freshness=FreshnessState.NOT_APPLICABLE)
+    item = _item(
+        freshness=FreshnessState.NOT_APPLICABLE,
+        source_observed_at=None,
+    )
+    assert item.freshness is FreshnessState.NOT_APPLICABLE
+
+
+def test_briefing_requires_one_fixed_assembly_clock() -> None:
+    briefing = _build_minimal_briefing()
+    item = briefing.items[0]
+    assert item.source_observed_at is not None
+    shifted = dataclasses.replace(
+        item,
+        assembled_at=CLOCK + timedelta(days=1),
+        source_observed_at=item.source_observed_at + timedelta(days=1),
+    )
+    with pytest.raises(ContractError):
+        dataclasses.replace(
+            briefing,
+            items=(shifted, *briefing.items[1:]),
+        )
+
+
 def test_timestamps_must_be_timezone_aware() -> None:
     with pytest.raises(ContractError):
         _item(assembled_at=datetime(2026, 5, 15, 14, 0))  # naive

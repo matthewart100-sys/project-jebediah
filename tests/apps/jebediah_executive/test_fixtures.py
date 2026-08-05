@@ -246,6 +246,14 @@ def test_overview_counts_derive_from_the_fixture() -> None:
         assert value >= 0
 
 
+def test_provider_returns_one_process_start_briefing() -> None:
+    provider = SyntheticBriefingProvider()
+    first = provider.briefing()
+    second = provider.briefing()
+    assert first is second
+    assert first == build_briefing()
+
+
 def test_ask_presets_cite_fixture_or_return_insufficient_or_failed() -> None:
     briefing = build_briefing()
     grounded = briefing.ask_response("grounded-priorities")

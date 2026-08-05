@@ -17,7 +17,7 @@ development. Changes not assigned to a published version remain under
   server-rendered semantic-HTML renderer, fixed allowlisted routes, restrictive
   security headers, sanitized logging and error pages, one local stylesheet, and
   no JavaScript, network client, persistence, subprocess, or action authority.
-  Added 324 deterministic tests across model, fixture, rendering, route, WSGI,
+  Added 332 deterministic tests across model, fixture, rendering, route, WSGI,
   workflow, accessibility, and package-boundary layers, plus a
   [local preview operator guide](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_LOCAL_PREVIEW.md).
   The component has **Implemented** repository maturity on its working branch; it

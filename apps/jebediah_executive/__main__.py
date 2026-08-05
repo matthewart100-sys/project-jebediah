@@ -2,7 +2,7 @@
 
 Usage::
 
-    python -m apps.jebediah_executive --port <1024..65535>
+    python -B -m apps.jebediah_executive --port <1024..65535>
 
 The server binds only to loopback ``127.0.0.1``. There is no host, address,
 interface, environment, data-source, file, service, or credential option. A

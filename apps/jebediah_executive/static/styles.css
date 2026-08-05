@@ -60,6 +60,9 @@ main {
 
 /* Skip link ---------------------------------------------------------------- */
 .skip-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
   position: absolute;
   left: var(--space-2);
   top: -3rem;

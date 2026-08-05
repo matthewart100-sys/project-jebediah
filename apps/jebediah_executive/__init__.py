@@ -16,7 +16,7 @@ production, or operational.
 
 from __future__ import annotations
 
-from .app import create_app
+from .app import BriefingProvider, create_app
 from .fixtures import SCENARIO_ID, SyntheticBriefingProvider
 from .routes import (
     ALLOWLISTED_PRESET_IDS,
@@ -27,6 +27,7 @@ from .routes import (
 __all__ = (
     "ALLOWLISTED_PRESET_IDS",
     "ALLOWLISTED_STATE_IDS",
+    "BriefingProvider",
     "PRODUCT_ROUTES",
     "SCENARIO_ID",
     "SyntheticBriefingProvider",

@@ -3,7 +3,7 @@
 The application accepts GET and HEAD for allowlisted routes only, never reads a
 request body, rejects every query string, sets restrictive security headers,
 serves one reviewed local stylesheet, and logs only a sanitized method, route
-identity, and status. It stores no state, sets no cookie, and imports no
+identity, status, and duration. It stores no state, sets no cookie, and imports no
 Collector, registry, memory, model, service, or external-integration package.
 """
 
@@ -12,6 +12,8 @@ from __future__ import annotations
 import logging
 from collections.abc import Callable, Iterable
 from importlib.resources import files
+from time import perf_counter
+from typing import Protocol
 from wsgiref.simple_server import WSGIRequestHandler, WSGIServer, make_server
 
 from .fixtures import SyntheticBriefingProvider
@@ -23,6 +25,7 @@ LOOPBACK_HOST = "127.0.0.1"
 MIN_PORT = 1024
 MAX_PORT = 65535
 _STYLESHEET_RESOURCE = "styles.css"
+_SUPPORTED_METHODS = frozenset({"GET", "HEAD"})
 
 logger = logging.getLogger("apps.jebediah_executive")
 
@@ -39,6 +42,13 @@ _SECURITY_HEADERS: tuple[tuple[str, str], ...] = (
 
 WSGIEnviron = dict[str, object]
 StartResponse = Callable[[str, list[tuple[str, str]]], object]
+
+
+class BriefingProvider(Protocol):
+    """Provides one immutable executive briefing to the presentation shell."""
+
+    def briefing(self) -> ExecutiveBriefing:
+        """Return the provider's immutable briefing."""
 
 
 def _load_stylesheet() -> bytes:
@@ -62,7 +72,12 @@ def _headers_for_css(body: bytes) -> list[tuple[str, str]]:
 
 
 class SanitizedRequestHandler(WSGIRequestHandler):
-    """WSGI request handler that suppresses raw request-line logging."""
+    """WSGI handler with fixed logging and hardened parser-error responses."""
+
+    def handle_one_request(self) -> None:
+        """Track each request without retaining or logging request content."""
+        self._request_started_at = perf_counter()
+        super().handle_one_request()
 
     def log_message(self, format: str, *args: object) -> None:  # noqa: A002
         """Suppress the standard raw request log; the app logs safely instead."""
@@ -72,46 +87,98 @@ class SanitizedRequestHandler(WSGIRequestHandler):
         """Suppress the standard status line; the app logs safely instead."""
         return
 
+    def send_error(
+        self,
+        code: int,
+        message: str | None = None,
+        explain: str | None = None,
+    ) -> None:
+        """Return a fixed hardened envelope for failures before WSGI dispatch."""
+        del message, explain
+        status_code = code if code in self.responses else 400
+        status_phrase = self.responses[status_code][0]
+
+        body = _FALLBACK_ERROR_HTML.encode("utf-8")
+        self.request_version = "HTTP/1.0"
+        self.send_response_only(status_code, status_phrase)
+        for name, value in _headers_for_html(body):
+            self.send_header(name, value)
+        self.send_header("Connection", "close")
+        self.end_headers()
+        if self.command != "HEAD":
+            self.wfile.write(body)
+        self.close_connection = True
+
+        started_at = getattr(self, "_request_started_at", perf_counter())
+        duration_ms = max(0.0, (perf_counter() - started_at) * 1000)
+        logger.info(
+            "unsupported unrecognized %s %.3fms",
+            status_code,
+            duration_ms,
+        )
+
 
 def create_app(
-    provider: SyntheticBriefingProvider | None = None,
+    provider: BriefingProvider | None = None,
 ) -> Callable[[WSGIEnviron, StartResponse], Iterable[bytes]]:
     """Return a WSGI application over one immutable synthetic provider."""
-    active_provider = provider or SyntheticBriefingProvider()
+    active_provider = (
+        provider if provider is not None else SyntheticBriefingProvider()
+    )
+    briefing = _safe_briefing(active_provider)
     stylesheet = _load_stylesheet()
 
     def application(
         environ: WSGIEnviron, start_response: StartResponse
     ) -> Iterable[bytes]:
-        method = str(environ.get("REQUEST_METHOD", "GET")).upper()
+        started_at = perf_counter()
+        requested_method = str(environ.get("REQUEST_METHOD", "GET")).upper()
+        method = (
+            requested_method
+            if requested_method in _SUPPORTED_METHODS
+            else "unsupported"
+        )
         path = str(environ.get("PATH_INFO", ""))
         query = str(environ.get("QUERY_STRING", ""))
 
         resolution = resolve(path)
         route_id = resolution.route_id if resolution is not None else "unrecognized"
-        briefing = _safe_briefing(active_provider)
 
-        if method not in ("GET", "HEAD"):
-            return _method_not_allowed(
-                start_response, method, route_id, briefing
+        def logged_start_response(
+            status: str, headers: list[tuple[str, str]]
+        ) -> object:
+            duration_ms = max(0.0, (perf_counter() - started_at) * 1000)
+            logger.info(
+                "%s %s %s %.3fms",
+                method,
+                route_id,
+                status.split(" ", 1)[0],
+                duration_ms,
             )
+            return start_response(status, headers)
+
+        if method == "unsupported":
+            return _method_not_allowed(logged_start_response, method, briefing)
         if query:
-            return _bad_request(start_response, method, route_id, briefing)
+            return _bad_request(logged_start_response, method, briefing)
         if resolution is None:
-            return _not_found(start_response, method, route_id, briefing)
+            return _not_found(logged_start_response, method, briefing)
         if resolution.is_static:
-            return _serve_css(start_response, method, route_id, stylesheet)
+            return _serve_css(logged_start_response, method, stylesheet)
         return _serve_page(
-            start_response, method, resolution, briefing
+            logged_start_response, method, resolution, briefing
         )
 
     return application
 
 
-def _safe_briefing(provider: object) -> ExecutiveBriefing | None:
+def _safe_briefing(provider: BriefingProvider) -> ExecutiveBriefing | None:
     """Return the provider briefing, or ``None`` if it cannot be produced."""
     try:
-        return provider.briefing()  # type: ignore[attr-defined]
+        briefing = provider.briefing()
+        if not isinstance(briefing, ExecutiveBriefing):
+            raise TypeError("provider returned an invalid briefing")
+        return briefing
     except Exception:  # noqa: BLE001 - fail closed to a static error page
         logger.error("briefing provider failed")
         return None
@@ -136,10 +203,23 @@ _FALLBACK_ERROR_HTML = (
     "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
     "<title>Request problem \u2014 Jebediah Executive Product Shell</title>"
     "<link rel=\"stylesheet\" href=\"/static/styles.css\"></head><body>"
+    "<a class=\"skip-link\" href=\"#main-content\">Skip to main content</a>"
+    "<header class=\"site-header\"><div class=\"brand\">"
+    "<span class=\"product-title\">Jebediah Executive Product Shell</span>"
+    "<span class=\"badge synthetic\">Synthetic demonstration</span></div>"
+    "<p class=\"disconnected\">Local, disconnected preview \u2014 no live "
+    "service connection exists by design.</p></header>"
+    "<nav class=\"primary-nav\" aria-label=\"Primary\"><ul>"
+    "<li><a href=\"/\">Overview</a></li></ul></nav>"
     "<main id=\"main-content\"><h1>Request problem</h1>"
     "<p>This synthetic preview could not serve the request. No request content "
     "is echoed and no organizational action is taken.</p>"
-    "<p>Synthetic demonstration only.</p></main></body></html>"
+    "<p>Synthetic demonstration only.</p></main>"
+    "<footer class=\"site-footer\"><p class=\"no-action\">This preview takes no "
+    "organizational action and records no decision. It is non-operational and "
+    "is not a deployment.</p><div class=\"footer-limitations\">"
+    "<h2>Material limitations</h2><ul><li>No live information or service is "
+    "available.</li></ul></div></footer></body></html>"
 )
 
 
@@ -150,9 +230,7 @@ def _emit(
     headers: list[tuple[str, str]],
     body: bytes,
     method: str,
-    route_id: str,
 ) -> Iterable[bytes]:
-    logger.info("%s %s %s", method, route_id, status.split(" ", 1)[0])
     start_response(status, headers)
     if method == "HEAD":
         return [b""]
@@ -186,14 +264,12 @@ def _serve_page(
         headers=_headers_for_html(body),
         body=body,
         method=method,
-        route_id=resolution.route_id,
     )
 
 
 def _serve_css(
     start_response: StartResponse,
     method: str,
-    route_id: str,
     stylesheet: bytes,
 ) -> Iterable[bytes]:
     return _emit(
@@ -202,7 +278,6 @@ def _serve_css(
         headers=_headers_for_css(stylesheet),
         body=stylesheet,
         method=method,
-        route_id=route_id,
     )
 
 
@@ -210,7 +285,6 @@ def _error_page(
     start_response: StartResponse,
     *,
     method: str,
-    route_id: str,
     briefing: ExecutiveBriefing | None,
     status: str,
     message: str,
@@ -226,20 +300,17 @@ def _error_page(
         headers=headers,
         body=body,
         method=method,
-        route_id=route_id,
     )
 
 
 def _method_not_allowed(
     start_response: StartResponse,
     method: str,
-    route_id: str,
     briefing: ExecutiveBriefing | None,
 ) -> Iterable[bytes]:
     return _error_page(
         start_response,
         method=method,
-        route_id=route_id,
         briefing=briefing,
         status="405 Method Not Allowed",
         message="Only GET and HEAD are supported by this synthetic preview.",
@@ -250,13 +321,11 @@ def _method_not_allowed(
 def _bad_request(
     start_response: StartResponse,
     method: str,
-    route_id: str,
     briefing: ExecutiveBriefing | None,
 ) -> Iterable[bytes]:
     return _error_page(
         start_response,
         method=method,
-        route_id=route_id,
         briefing=briefing,
         status="400 Bad Request",
         message="Query strings are not accepted by this synthetic preview.",
@@ -266,13 +335,11 @@ def _bad_request(
 def _not_found(
     start_response: StartResponse,
     method: str,
-    route_id: str,
     briefing: ExecutiveBriefing | None,
 ) -> Iterable[bytes]:
     return _error_page(
         start_response,
         method=method,
-        route_id=route_id,
         briefing=briefing,
         status="404 Not Found",
         message="The requested route is not part of this synthetic preview.",
@@ -291,7 +358,7 @@ def validate_port(port: int) -> int:
 
 
 def build_server(
-    port: int, provider: SyntheticBriefingProvider | None = None
+    port: int, provider: BriefingProvider | None = None
 ) -> WSGIServer:
     """Build a loopback-only WSGI server bound to literal 127.0.0.1."""
     validate_port(port)

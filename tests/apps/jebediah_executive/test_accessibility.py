@@ -145,6 +145,11 @@ def test_visible_focus_rule_present() -> None:
 def test_targets_are_at_least_44px() -> None:
     assert "--target-min: 44px" in CSS
     assert "min-height: var(--target-min)" in CSS
+    assert re.search(
+        r"\.skip-link\s*\{[^}]*min-height:\s*var\(--target-min\)",
+        CSS,
+        re.DOTALL,
+    )
 
 
 def test_zoom_friendly_text_sizing() -> None:

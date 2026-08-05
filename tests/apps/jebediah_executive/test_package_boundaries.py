@@ -12,6 +12,8 @@ import or execute the modules under test for capability checks.
 from __future__ import annotations
 
 import ast
+import os
+import subprocess
 import sys
 from pathlib import Path
 
@@ -21,6 +23,9 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 APP_DIR = REPO_ROOT / "apps" / "jebediah_executive"
 APPS_PKG_INIT = REPO_ROOT / "apps" / "__init__.py"
 TEST_DIR = REPO_ROOT / "tests" / "apps" / "jebediah_executive"
+OPERATOR_GUIDE = (
+    REPO_ROOT / "docs" / "ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_LOCAL_PREVIEW.md"
+)
 
 # Exact accepted manifest (source side).
 EXPECTED_APP_FILES = {
@@ -207,3 +212,41 @@ def test_no_wildcard_imports() -> None:
         for node in ast.walk(_parse(path)):
             if isinstance(node, ast.ImportFrom):
                 assert not any(a.name == "*" for a in node.names), path.name
+
+
+def test_operator_launch_uses_no_package_manager_or_bytecode_cache() -> None:
+    guide = OPERATOR_GUIDE.read_text(encoding="utf-8")
+    assert "python -B -m apps.jebediah_executive --port 8765" in guide
+    assert "uv run" not in guide
+
+
+def test_application_initializes_without_site_packages_or_bytecode() -> None:
+    cache_state_before = {
+        path: (path.stat().st_mtime_ns, path.stat().st_size)
+        for path in REPO_ROOT.rglob("*.pyc")
+    }
+    environment = os.environ.copy()
+    environment.pop("PYTHONPATH", None)
+    environment.pop("VIRTUAL_ENV", None)
+    environment["PYTHONDONTWRITEBYTECODE"] = "1"
+    completed = subprocess.run(
+        [
+            sys.executable,
+            "-B",
+            "-S",
+            "-c",
+            "from apps.jebediah_executive.app import create_app; create_app()",
+        ],
+        cwd=REPO_ROOT,
+        env=environment,
+        capture_output=True,
+        text=True,
+        timeout=10,
+        check=False,
+    )
+    assert completed.returncode == 0, completed.stderr
+    cache_state_after = {
+        path: (path.stat().st_mtime_ns, path.stat().st_size)
+        for path in REPO_ROOT.rglob("*.pyc")
+    }
+    assert cache_state_after == cache_state_before

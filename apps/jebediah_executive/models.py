@@ -635,6 +635,20 @@ class BriefingItem:
                 raise ContractError("source_references must contain SourceReference")
         _require_aware(self.source_observed_at, "source_observed_at")
         _require_aware(self.review_due_at, "review_due_at")
+        if self.freshness is FreshnessState.NOT_APPLICABLE:
+            if self.source_observed_at is not None:
+                raise ContractError(
+                    "not_applicable freshness requires missing source_observed_at"
+                )
+        else:
+            derived_freshness = derive_freshness(
+                self.source_observed_at,
+                self.assembled_at,
+            )
+            if self.freshness is not derived_freshness:
+                raise ContractError(
+                    "freshness must match source_observed_at and assembled_at"
+                )
 
         if self.evidence_classification in _EVIDENCE_REQUIRING_REFERENCES:
             if not self.source_references:
@@ -757,11 +771,11 @@ def derive_freshness(
     applicable: bool = True,
 ) -> FreshnessState:
     """Derive freshness from the fixed briefing clock, not wall time."""
-    if not applicable:
-        return FreshnessState.NOT_APPLICABLE
     if assembled_at is None:
         raise ContractError("assembled_at is required to derive freshness")
     _require_aware(assembled_at, "assembled_at")
+    if not applicable:
+        return FreshnessState.NOT_APPLICABLE
     if source_observed_at is None:
         return FreshnessState.UNKNOWN
     _require_aware(source_observed_at, "source_observed_at")
@@ -894,6 +908,10 @@ class ExecutiveBriefing:
         for item in self.items:
             if not isinstance(item, BriefingItem):
                 raise ContractError("items must contain BriefingItem")
+            if item.assembled_at != self.assembled_at:
+                raise ContractError(
+                    "item assembled_at must match briefing assembled_at"
+                )
             if item.lifecycle is not LifecycleState.ACTIVE:
                 raise ContractError("every ordinary briefing item must be active")
             if item.item_id in identities:

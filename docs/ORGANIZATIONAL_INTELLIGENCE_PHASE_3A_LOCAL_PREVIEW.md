@@ -23,11 +23,11 @@ inspection, not a production runbook.
 
 - A local clone of this repository on a trusted workstation.
 - Python 3.12 or newer.
-- The `uv` toolchain used elsewhere in this repository.
 - No network access is required, expected, or used.
 
 The shell imports only the Python standard library and its own package modules.
-No dependency, lock, service, or credential is required.
+No package manager, virtual environment, dependency synchronization, lock,
+service, or credential is required.
 
 ## Start command
 
@@ -35,12 +35,14 @@ From the repository root, start the reviewed application on an explicit local
 port in the range 1024-65535:
 
 ```text
-uv run --frozen python -m apps.jebediah_executive --port 8765
+python -B -m apps.jebediah_executive --port 8765
 ```
 
 The process binds only to the loopback address `127.0.0.1`. There is no host,
 environment, data-source, file, service, or credential option. The `--port`
-argument is the only accepted option.
+argument is the only application option. Python's `-B` option disables bytecode
+cache writes. The command does not invoke a package manager, discover or
+synchronize the repository project environment, or fetch dependencies.
 
 On startup the process reports its loopback location and a synthetic-only
 boundary. If the chosen port is outside the allowed range, startup fails before

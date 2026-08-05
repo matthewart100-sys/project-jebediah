@@ -10,11 +10,24 @@ from __future__ import annotations
 
 import io
 import logging
+import re
+import socket
+import threading
+from wsgiref.simple_server import make_server
 
 import pytest
 
-from apps.jebediah_executive.app import create_app, validate_port
-from apps.jebediah_executive.fixtures import SyntheticBriefingProvider
+from apps.jebediah_executive.app import (
+    LOOPBACK_HOST,
+    SanitizedRequestHandler,
+    create_app,
+    validate_port,
+)
+from apps.jebediah_executive.fixtures import (
+    SyntheticBriefingProvider,
+    build_briefing,
+)
+from apps.jebediah_executive.models import ExecutiveBriefing
 
 
 class _ExplodingInput:
@@ -60,6 +73,30 @@ def client() -> Client:
     return Client()
 
 
+def _raw_request(request: bytes) -> bytes:
+    server = make_server(
+        LOOPBACK_HOST,
+        0,
+        create_app(),
+        handler_class=SanitizedRequestHandler,
+    )
+    server.timeout = 2
+    thread = threading.Thread(target=server.handle_request, daemon=True)
+    thread.start()
+    try:
+        with socket.create_connection(server.server_address, timeout=2) as connection:
+            connection.sendall(request)
+            connection.shutdown(socket.SHUT_WR)
+            chunks: list[bytes] = []
+            while chunk := connection.recv(8192):
+                chunks.append(chunk)
+    finally:
+        thread.join(timeout=2)
+        server.server_close()
+    assert not thread.is_alive()
+    return b"".join(chunks)
+
+
 # ---------------------------------------------------------------------------
 # Security headers and content types
 # ---------------------------------------------------------------------------
@@ -85,6 +122,41 @@ def test_security_headers_present_on_pages(client: Client) -> None:
     # No permissive CORS or cookies.
     assert not any(k.lower() == "access-control-allow-origin" for k in headers)
     assert not any(k.lower() == "set-cookie" for k in headers)
+
+
+@pytest.mark.parametrize(
+    ("request_bytes", "status"),
+    [
+        (
+            b"GET /" + (b"x" * 70_000) + b" HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n",
+            b"414",
+        ),
+        (b"malformed request\r\n\r\n", b"400"),
+    ],
+    ids=("uri-too-long", "malformed-request"),
+)
+def test_pre_wsgi_parser_errors_use_hardened_envelope(
+    request_bytes: bytes, status: bytes
+) -> None:
+    response = _raw_request(request_bytes)
+    assert response.startswith(b"HTTP/1.0 " + status + b" ")
+    for header in (
+        b"Content-Security-Policy: default-src 'none'",
+        b"Referrer-Policy: no-referrer",
+        b"X-Content-Type-Options: nosniff",
+        b"Cache-Control: no-store",
+        b"Connection: close",
+    ):
+        assert header in response
+    for landmark in (
+        b"class=\"skip-link\"",
+        b"<header",
+        b"<nav",
+        b"<main",
+        b"<footer",
+    ):
+        assert landmark in response
+    assert b"malformed request" not in response.lower()
 
 
 def test_stylesheet_has_fixed_content_type(client: Client) -> None:
@@ -208,6 +280,24 @@ def test_no_state_persists_between_requests(client: Client) -> None:
     assert first == second
 
 
+class _CountingProvider:
+    def __init__(self) -> None:
+        self.calls = 0
+
+    def briefing(self) -> ExecutiveBriefing:
+        self.calls += 1
+        return build_briefing()
+
+
+def test_provider_is_consumed_once_during_app_initialization() -> None:
+    provider = _CountingProvider()
+    client = Client(create_app(provider))
+    assert provider.calls == 1
+    client.request("GET", "/")
+    client.request("GET", "/attention")
+    assert provider.calls == 1
+
+
 # ---------------------------------------------------------------------------
 # Sanitized logging
 # ---------------------------------------------------------------------------
@@ -217,13 +307,20 @@ def test_logs_are_sanitized(client: Client, caplog: pytest.LogCaptureFixture) ->
         client.request("GET", "/attention")
         client.request("GET", "/secret/leak", query="token=abcd1234")
         client.request("POST", "/")
+        client.request("GE\x1b[31mT", "/")
+        client.request("X" * 10_000, "/")
     messages = [record.getMessage() for record in caplog.records]
-    assert "GET attention 200" in messages
-    assert "GET unrecognized 400" in messages
-    assert "POST overview 405" in messages
+    expected = (
+        r"GET attention 200 \d+\.\d{3}ms",
+        r"GET unrecognized 400 \d+\.\d{3}ms",
+        r"unsupported overview 405 \d+\.\d{3}ms",
+    )
+    for pattern in expected:
+        assert any(re.fullmatch(pattern, message) for message in messages), pattern
     joined = "\n".join(messages)
-    for leak in ("secret", "leak", "token", "abcd1234"):
+    for leak in ("secret", "leak", "token", "abcd1234", "\x1b", "POST", "XXXXX"):
         assert leak not in joined
+    assert all(len(message) < 80 for message in messages)
 
 
 # ---------------------------------------------------------------------------
@@ -246,6 +343,8 @@ def test_internal_render_failure_is_sanitized_500() -> None:
     # no reflected internals.
     assert b"no organizational action is taken" in body
     assert b"Synthetic demonstration" in body
+    for landmark in (b"class=\"skip-link\"", b"<header", b"<nav", b"<footer"):
+        assert landmark in body
 
 
 def test_internal_render_failure_with_valid_briefing(

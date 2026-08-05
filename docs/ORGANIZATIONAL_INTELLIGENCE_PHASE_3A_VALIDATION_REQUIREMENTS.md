@@ -429,7 +429,7 @@ Browser smoke validation uses a clean local process and no external system.
 1. Start the exact reviewed application:
 
    ```text
-   uv run --frozen python -m apps.jebediah_executive --port 8765
+   python -B -m apps.jebediah_executive --port 8765
    ```
 
 2. Verify the process reports only loopback location and synthetic boundary.
@@ -560,8 +560,8 @@ canonical base `35d5bafc63a904868012944f792f64e0d4456793`.
 
 Recorded automated results on the implementation head:
 
-- `uv run --frozen pytest tests/apps/jebediah_executive` - 324 passed.
-- `uv run --frozen pytest` - 785 passed.
+- `uv run --frozen pytest tests/apps/jebediah_executive` - 332 passed.
+- `uv run --frozen pytest` - 793 passed.
 - `uv run --frozen python -m compileall -q apps/jebediah_executive tests/apps/jebediah_executive` - clean.
 - `uv lock --check` - lock unchanged; no dependency or lock edit.
 - `uv run --frozen python scripts/validate_docs.py` - passed.

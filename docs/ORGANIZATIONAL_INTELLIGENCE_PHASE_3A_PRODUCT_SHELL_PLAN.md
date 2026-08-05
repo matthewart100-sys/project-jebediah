@@ -212,11 +212,13 @@ store, model, workflow, service, or external action.
 ### Entry point
 
 ```text
-python -m apps.jebediah_executive
+python -B -m apps.jebediah_executive
 ```
 
 The command accepts only an integer port from 1024 through 65535. It has no
-host, environment, source, file, service, or credential option.
+host, environment, source, file, service, or credential option. The operator
+path invokes no package manager or dependency synchronization, and `-B`
+prevents bytecode-cache writes.
 
 The exact route forms are:
 
@@ -977,13 +979,16 @@ The exact accepted 31-file manifest was implemented on branch
 - thirteen direct documentation files, including this plan, the validation
   requirements, and a new local preview operator guide.
 
-Recorded automated results: 324 targeted tests and 785 full-suite tests passed;
+Recorded automated results: 332 targeted tests and 793 full-suite tests passed;
 compilation, `uv lock --check`, `scripts/validate_docs.py`, and
 `git diff --check` were clean; and the change set matched the exact 31 files with
 no untracked extras. A bounded corrective pass within the same 31-file manifest
 strengthened attention-to-next topic coherence, substantive per-state
 presentations, evidence and coverage disclosure, responsive workspace-table
-readability, and model invariants; it changed no contract, route, model, state
+readability, the dependency-free bytecode-disabled launch path, fixed
+duration-bearing request logs, hardened parser-error responses, freshness and
+clock invariants, process-start provider construction, skip-link target sizing,
+and other model invariants; it changed no contract, route, model or state
 vocabulary, fixture boundary, authority boundary, dependency, or manifest.
 
 Only fabricated synthetic content was used and no real organizational or VBA

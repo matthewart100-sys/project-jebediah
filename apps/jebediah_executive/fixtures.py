@@ -817,11 +817,12 @@ class SyntheticBriefingProvider:
         if scenario_id not in ALLOWED_SCENARIOS:
             raise ValueError("scenario_id is not an allowlisted synthetic scenario")
         self._scenario_id = scenario_id
+        self._briefing = build_briefing()
 
     @property
     def scenario_id(self) -> str:
         return self._scenario_id
 
     def briefing(self) -> ExecutiveBriefing:
-        """Build a fresh, value-equal immutable synthetic briefing."""
-        return build_briefing()
+        """Return the immutable briefing constructed during initialization."""
+        return self._briefing
