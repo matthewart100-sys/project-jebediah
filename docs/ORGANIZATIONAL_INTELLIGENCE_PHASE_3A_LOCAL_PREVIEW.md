@@ -16,8 +16,8 @@ The preview:
 - is not Operational.
 
 Repository maturity for this component is **Implemented**, not Operational.
-Implementation review and merge remain gated. This guide describes local
-inspection, not a production runbook.
+The exact independently reviewed implementation is canonical on `main`. This
+guide describes local inspection, not a production runbook.
 
 ## Prerequisites
 

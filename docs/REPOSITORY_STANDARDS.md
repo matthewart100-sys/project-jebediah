@@ -114,7 +114,8 @@ component, language, entry point, dependency, test, security, operations, and
 ownership boundaries are approved. Accepted ADR 0015 assigns
 `apps/jebediah_executive/` to the synthetic Executive Product Shell. That path
 now holds the implemented synthetic, standard-library-only, loopback local
-preview on its working branch; the implementation review and merge remain gated.
+preview on canonical `main`; the component is not Operational and grants no
+live-information, integration, action, or deployment authority.
 New source or service trees still require an approved responsibility, language,
 build, test, packaging, and ownership boundary; existing trees do not authorize
 speculative peers.
