@@ -102,7 +102,14 @@
 - Wrong wrapper, wrong trust registry, incompatible schema, corrupt event chain,
   expired retention, and unresolved tombstone denial.
 - Recovery-authority signature, role, monotonic generation and chain; missing,
-  stale, rolled-back, malformed, unavailable, or backup-local-only ledger denial.
+  stale, rolled-back, malformed, unavailable, or backup-local-only ledger denial;
+  random-challenge binding, environment binding, issue/expiry, replay denial,
+  and exact match to the authority's independently retained latest-generation
+  and head-hash attestation.
+- Crashes before and after deletion intent, backup revocation, local
+  ineligibility/tombstone commit, object destruction, backup purge, and signed
+  deletion completion; startup applies newer external deletion state before any
+  decrypt/display/review/mutation.
 - A pre-deletion backup blocks deletion completion until physically purged;
   unregistered backups and backups with unresolved purge obligations cannot
   restore; a copied valid pre-deletion set remains revoked after current-runtime

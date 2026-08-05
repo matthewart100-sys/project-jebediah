@@ -29,6 +29,13 @@ revocations, purge results, and deletion completions. Each checkpoint is signed
 by a trusted Ed25519 recovery-authority key whose private key is absent from the
 runtime and backups. Only the public verification key is in the trust registry.
 
+The recovery authority also retains the latest generation and ledger-head hash
+in independent non-rollback custody, not in the ledger, runtime, or backups.
+For restore, the runtime creates a random challenge. The authority returns a
+short-lived signed attestation containing that challenge, environment identity,
+latest generation, ledger-head hash, issue time, and expiry. A valid older
+ledger prefix cannot satisfy an attestation for the authority's current head.
+
 OS permissions restrict the directory to the runtime account. Full-volume
 encryption is required for later real use because SQLite reveals timing, counts,
 state, and policy metadata even though content and private locators are excluded.
@@ -92,7 +99,8 @@ reported until verification succeeds.
 
 ## Reconciliation
 
-Startup reconciliation runs before accepting a mutation:
+Startup reconciliation verifies the external ledger against the local
+projection before permitting content access or accepting a mutation:
 
 - committed row plus valid object: retain;
 - committed row plus missing object: hold the subject and record integrity
@@ -106,6 +114,11 @@ Startup reconciliation runs before accepting a mutation:
 - expired object without hold: run cleanup;
 - state mutation without its required event, or an event without its required
   state mutation: stop mutations and require operator recovery;
+- signed deletion intent or backup revocation newer than local state: atomically
+  mark the scope ineligible, write local tombstones and audit evidence, deny
+  content access, and resume required object and backup purge;
+- local deletion state newer than or inconsistent with the signed ledger: stop
+  access and mutations pending recovery-authority reconciliation;
 - tombstoned object still present: retry physical deletion;
 - deleted object referenced by a restored backup: keep deleted and reapply the
   tombstone; and
@@ -247,22 +260,27 @@ are denied.
 
 Restore is interactive and uses an empty staging directory:
 
-1. obtain the current recovery-authority checkpoint from its independently
-   controlled path and verify its signature, monotonic chain, and trust role;
-2. deny a stale, missing, rolled-back, malformed, or unverifiable ledger;
-3. verify the current ledger history contains a completed entry for the
+1. generate a random restore challenge and obtain a short-lived signed
+   recovery-authority attestation of the current generation and ledger-head hash
+   from the authority's independent non-rollback register;
+2. obtain the current recovery-authority ledger from its independently
+   controlled path and verify its signatures, monotonic chain, trust role, and
+   exact match to the challenge-bound attested head;
+3. deny a stale, expired, replayed, missing, rolled-back, malformed, or
+   unverifiable ledger or attestation;
+4. verify the current ledger history contains a completed entry for the
    candidate backup identity and no later abort or revocation;
-4. verify manifest identity and HMAC;
-5. verify the SQLite snapshot and schema version;
-6. unlock the stable master key;
-7. authenticate every encrypted object without exposing content to logs;
-8. verify audit-chain epochs and apply all later ledger deletion intents,
+5. verify manifest identity and HMAC;
+6. verify the SQLite snapshot and schema version;
+7. unlock the stable master key;
+8. authenticate every encrypted object without exposing content to logs;
+9. verify audit-chain epochs and apply all later ledger deletion intents,
    revocations, purge results, and tombstones;
-9. reconcile references and retention deadlines;
-10. reapply deletions and expiry;
-11. run a read-only synthetic smoke check;
-12. atomically activate staging; and
-13. retain the prior directory only under its existing retention policy.
+10. reconcile references and retention deadlines;
+11. reapply deletions and expiry;
+12. run a read-only synthetic smoke check;
+13. atomically activate staging; and
+14. retain the prior directory only under its existing retention policy.
 
 Restore refuses an unregistered, aborted, revoked, or purge-obligated backup
 set. A byte-for-byte pre-deletion copy still carries an identity revoked by the

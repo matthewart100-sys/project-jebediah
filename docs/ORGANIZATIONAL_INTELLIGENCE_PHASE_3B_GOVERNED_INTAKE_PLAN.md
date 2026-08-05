@@ -221,7 +221,8 @@ The runtime uses:
 - a content-free, monotonic recovery-authority ledger retained at a separately
   controlled local path outside both the runtime directory and backup sets, with
   checkpoints signed by a trusted key whose private key is never available to
-  the runtime or included in a backup; and
+  the runtime or included in a backup; the authority separately retains the
+  latest generation and head hash and freshly attests them for restore; and
 - one encrypted object per submission or output, with no physical
   content-digest deduplication.
 
@@ -406,12 +407,14 @@ The wrapped master-key file is backed up separately from the passphrase.
 Recovery requires both. Restore occurs into an isolated staging directory and
 must verify the database, event chain, manifest, every object, tombstones,
 policy versions, current independently retained signed recovery-authority
-checkpoint, and reconciliation before an atomic activation. A restore cannot
-bypass expired retention, ledger revocation, or deletion. A copied
-pre-deletion backup remains revoked by the later external checkpoint. A reset
-or deletion cannot be reported complete while any registered backup set
-containing the scope remains; that set must be physically purged and its absence
-verified rather than merely waiting for restore-time reconciliation.
+checkpoint, a fresh challenge-bound authority attestation of its latest
+generation and head hash, and reconciliation before an atomic activation. A
+restore cannot bypass expired retention, ledger revocation, or deletion. A
+copied pre-deletion backup or older signed ledger prefix remains revoked by the
+fresh external attestation. A reset or deletion cannot be reported complete
+while any registered backup set containing the scope remains; that set must be
+physically purged and its absence verified rather than merely waiting for
+restore-time reconciliation.
 
 Phase 3B backup, restore, cleanup, rotation, and reconciliation are
 operator-triggered and interactive. Unattended key access and scheduling require
@@ -480,7 +483,8 @@ names:
 - scanner-signature and worker-image identities;
 - backup location class and deletion obligation;
 - recovery-authority principal, trusted public key, independently controlled
-  ledger location and custodian, and current signed checkpoint generation;
+  ledger location and custodian, non-rollback latest-generation register,
+  current signed checkpoint generation, and fresh-attestation procedure;
 - review and incident-stop owner;
 - effective and expiry times; and
 - explicit permission to open, hash, quarantine, scan, parse, optionally OCR,

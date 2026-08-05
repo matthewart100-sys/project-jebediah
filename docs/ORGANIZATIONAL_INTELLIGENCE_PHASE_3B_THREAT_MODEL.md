@@ -56,10 +56,11 @@
 | Approval mistaken for truth | visible authority labels, review vocabulary, no Phase 3C consumer | No downstream eligibility |
 | Deletion claimed before completion | tombstone-first, DEK destruction, verified object removal, backup obligations | `cleanup_failed`, visible blocker |
 | Legal hold bypass | separately signed hold/lift authority, deletion guard, append-only evidence | Deny deletion; hold never restores expired consumption |
-| Deleted data restored or backup copied before deletion | independently retained signed monotonic recovery ledger, registered backup identities/inventories, pre-delete revocation, mandatory verified purge, tombstones | Deny stale/backup-local/revoked restore; keep deletion `cleanup_failed` while any applicable set remains |
+| Deleted data restored, backup copied, or ledger rolled back | independently retained signed monotonic recovery ledger, separate non-rollback head register, fresh challenge-bound authority attestation, pre-delete revocation, mandatory verified purge | Deny stale/backup-local/revoked history; keep deletion `cleanup_failed` while any applicable set remains |
 | Expired content remains visible in a long-running process | deadline check before every decrypt/display/review/mutation; ineligibility regardless of hold; synchronous cleanup only when not held | Deny content before access; retain encrypted held material without consumption |
 | Backup theft/corruption | encrypted objects, no passphrase, HMAC manifest, access-controlled volume | Reject restore |
 | Interrupted backup leaves false registration | signed reservation/abort lifecycle, partial-media absence verification, SQLite reconciliation and audit | Close verified abort; retain visible `cleanup_failed` if absence or ledger continuity is uncertain |
+| Crash after external deletion intent but before local deletion | startup compares ledger and local projection before access, applies newer intent atomically, then resumes purge | Deny access and mutations until local tombstone and purge obligations are reconciled |
 | Supply-chain compromise | exact locks/digests, SBOM, SCA, signatures, minimal images, offline runtime | Block build/use |
 | Scanner false negative | scanner is evidence only; structural and policy checks remain independent | No safety claim |
 | Stale scanner signatures | max-age policy and recorded identity | `evaluation_failed` |
