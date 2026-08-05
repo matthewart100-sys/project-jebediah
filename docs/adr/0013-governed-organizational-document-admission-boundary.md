@@ -1,6 +1,8 @@
 # ADR 0013: Governed Organizational Document Admission Boundary
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted:** 2026-08-04
 
 **Decision level:** System
 
@@ -27,9 +29,9 @@ no accepted contract for binary document admission, retention, parser
 isolation, transformation lineage, or Knowledge Vault ingestion.
 
 Implementing parsers or upload routes first would decide security, authority,
-state, retention, and recovery through code. ADR 0011 proposes that the
-Knowledge Vault govern derived representations only, but it is not accepted
-and does not authorize information acquisition or use.
+state, retention, and recovery through code. ADR 0011 establishes that the
+Knowledge Vault governs derived representations only and does not authorize
+information acquisition or use.
 
 ### Verified facts
 
@@ -38,7 +40,7 @@ and does not authorize information acquisition or use.
   normalization, and persistence responsibilities for bounded text records.
 - Reviewed `main` contains no PDF or DOCX parser, upload lifecycle, quarantine
   store, Knowledge Vault implementation, or live source authorization.
-- ADR 0011 is Proposed and the Knowledge Vault remains **Named**.
+- ADR 0011 is Accepted and the Knowledge Vault remains **Named**.
 - No active sprint or external information use is authorized.
 
 ### Reported facts
@@ -92,7 +94,7 @@ authority boundary can still be reviewed independently of technology.
 - Processing and failure state must be auditable without implying truth.
 - Duplicate receipt, retry, partial extraction, deletion, and recovery need
   explicit semantics.
-- The design must preserve ADR 0011's proposed non-authoritative derived-
+- The design must preserve ADR 0011's accepted non-authoritative derived-
   knowledge boundary.
 - Implementation technology must remain open until source and threat evidence
   are approved.
@@ -238,7 +240,7 @@ indexes must be rebuildable from eligible records.
 ## Compatibility and migration
 
 The existing bounded text-record contract and memory APIs remain unchanged by
-this proposal. Later implementation must characterize and preserve accepted
+this decision. Later implementation must characterize and preserve accepted
 Collector behavior or explicitly version a new document-submission contract.
 
 No live binary-document consumer or stored organizational dataset exists in
@@ -248,7 +250,7 @@ and rollback plan.
 
 ## Validation
 
-The proposal is validated by the
+The decision is validated by the
 [Organizational Intelligence Validation Requirements](../ORGANIZATIONAL_INTELLIGENCE_VALIDATION_REQUIREMENTS.md).
 Synthetic implementation tests must cover format detection, malformed and
 resource-unsafe inputs, identity, provenance, time, held and unavailable
@@ -287,5 +289,9 @@ boundary.
 
 ## Review record
 
-No review decision has been recorded. Work Mode must review the exact proposal
-head before the Chief Architect accepts, rejects, or requires revisions.
+Work Mode approved exact proposal head
+`c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` with no remaining findings. The
+Chief Architect approved that exact head for merge in pull request #45. The
+proposal was squash-merged to `main` as
+`72099ac555efbb34b8344c5e34db7fb9aad5f69c`. Acceptance grants no
+implementation, deployment, live-information-use, or source authority.

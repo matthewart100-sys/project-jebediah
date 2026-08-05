@@ -21,9 +21,9 @@ within these principles.
 - The repository contains engineering-foundation documentation, a Python
   Collector package, and a semantic memory-service implementation candidate.
 - Repository implementation does not prove deployment or operational state.
-- ADR 0011 is a Proposed System decision for a Knowledge Vault authority
-  boundary. Proposal presence does not prove acceptance, implementation,
-  deployment, or external information authorization.
+- ADR 0011 is an Accepted System decision for a Knowledge Vault authority
+  boundary. Acceptance does not prove implementation, deployment, or external
+  information authorization.
 
 ### Reported facts
 
@@ -105,12 +105,12 @@ The detailed categories and responsibilities belong to
 [Data Ownership](DATA_OWNERSHIP.md); component design must map concrete
 information without weakening that policy.
 
-Proposed
+Accepted
 [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) applies
 this principle to the Knowledge Vault: canonical project records and original
 sources retain their scoped authority, while Vault content remains derived.
-That proposal does not become binding or implementation-ready until accepted
-and merged.
+That decision is binding within its authority scope but is not implementation-
+ready, deployed, operational, or authorization for external information use.
 
 ### 6. Deterministic control surrounds probabilistic behavior
 

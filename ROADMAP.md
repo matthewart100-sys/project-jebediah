@@ -91,22 +91,23 @@ Required outcomes:
 or explicitly absent under the reviewed defer outcome, and applicable data
 ownership requirements are documented.
 
-## Proposed cross-phase Knowledge Vault boundary
+## Accepted cross-phase Knowledge Vault boundary
 
-**Status:** Proposed in ADR 0011; maturity **Named**; no implementation,
-deployment, external information use, or operational capability authorized
+**Status:** Accepted in ADR 0011; component maturity remains **Named**; no
+implementation, deployment, external information use, or operational capability
+authorized
 
-The proposed Knowledge Vault boundary does not add, remove, or reorder a
-roadmap phase. If accepted, it will govern derived knowledge representations
-between separately authorized source handling and future approved consumers
-while:
+The accepted Knowledge Vault boundary does not add, remove, or reorder a
+roadmap phase. It governs the authority model for derived knowledge
+representations between separately authorized source handling and future
+approved consumers while:
 
 - Reviewed GitHub `main` retains canonical project-record authority.
 - Original authoritative sources retain authority for their domain facts.
 - The Knowledge Vault governs only derived representations and provenance.
 - Runtime systems retain only approved execution state and operational outputs.
 
-Acceptance of the boundary will not satisfy Collector, Knowledge Graph, Digital
+Acceptance of the boundary does not satisfy Collector, Knowledge Graph, Digital
 Twin, Automation, Reasoning Engine, or Production Platform entry or exit gates.
 Each information domain, producer, consumer, interface, implementation,
 deployment, and external information use remains separately gated.
@@ -115,12 +116,13 @@ The VBA demonstration artifacts in pull request #44 do not advance this roadmap.
 Their evidence validation is pending, and no live organizational pilot is
 authorized.
 
-## Proposed organizational-intelligence foundation
+## Accepted organizational-intelligence foundation
 
-**Status:** Proposed in ADRs 0012 and 0013; no sprint position,
-implementation, live information use, deployment, or action authorized
+**Status:** Accepted in ADRs 0012 and 0013; no sprint position, implementation,
+live information use, deployment, or action authorized
 
-The proposal combines two review targets without changing the roadmap order:
+The accepted architecture combines two boundaries without changing the roadmap
+order:
 
 - A quarantine-first extension of the Collector boundary for candidate PDF,
   DOCX, TXT, and Markdown submissions
@@ -134,9 +136,10 @@ satisfied. The executive interface is a future human-experience consumer; it
 does not bypass Knowledge Graph, Digital Twin, Automation, or Reasoning Engine
 entry gates and does not activate those phases.
 
-The Chief Architect must position and authorize any implementation milestone
-after Work Mode reviews the exact architecture package. Architecture acceptance
-alone does not authorize organizational information, deployment, or a pilot.
+The Chief Architect must separately position and authorize any implementation
+milestone after its exact plan receives Work Mode review. Architecture
+acceptance alone does not authorize organizational information, deployment, or
+a pilot.
 
 ## Phase 3: Knowledge Graph
 

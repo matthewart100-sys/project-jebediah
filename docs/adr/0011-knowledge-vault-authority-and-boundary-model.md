@@ -1,6 +1,8 @@
 # ADR 0011: Knowledge Vault Authority and Boundary Model
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted:** 2026-08-04
 
 **Decision level:** System
 
@@ -14,9 +16,10 @@
 
 **Component maturity:** Named
 
-**Proposed maturity after acceptance:** Specified
+**Target component maturity:** Specified after the component-registry criteria
+are satisfied
 
-**Readiness:** Architecture proposal only; not implementation-ready,
+**Readiness:** Accepted architecture only; not implementation-ready,
 migration-ready, deployment-ready, operational, or authorized for external
 information use
 
@@ -42,11 +45,11 @@ reviewed, curated, durable, validated for shape, transformed, indexed,
 embedded, summarized, or retrieved. Information authority does not grant action
 authority.
 
-The Knowledge Vault remains **Named** while this ADR is Proposed. It may advance
-to **Specified** only after this ADR and all affected canonical architecture,
-data-ownership, terminology, component, status, sprint, and roadmap records are
-accepted and merged. Acceptance does not establish **Implemented** or
-**Operational** maturity.
+This ADR accepts the Knowledge Vault authority boundary. The component remains
+**Named** until the component registry's **Specified** criteria, including
+concrete ownership, consumers, interfaces, operations, and recovery, are
+satisfied through separately reviewed documentation. Acceptance does not
+establish **Implemented** or **Operational** maturity.
 
 ## Context
 
@@ -54,8 +57,8 @@ Project Jebediah already distinguishes authoritative, cached, derived, and
 temporary information. It requires explicit provenance, ownership, lifecycle,
 recovery, and trust boundaries before dependent implementation.
 
-The term `Jebediah Knowledge Vault` does not yet have an accepted architectural
-boundary. Without one, it could be interpreted as:
+Before this decision, the term `Jebediah Knowledge Vault` did not have an
+accepted architectural boundary. Without one, it could be interpreted as:
 
 - A replacement for, or competing authority to, canonical project records
   maintained on reviewed GitHub `main`
@@ -98,7 +101,7 @@ boundary implicitly.
 
 ### Working assumptions
 
-- `Jebediah Knowledge Vault` is a useful stable label for the proposed
+- `Jebediah Knowledge Vault` is a useful stable label for the governed
   knowledge-layer responsibility.
 - Future approved consumers will need source-linked derived representations
   without transferring source authority into a retrieval repository.
@@ -677,15 +680,16 @@ this ADR creates no runtime compatibility obligation.
 
 ## Validation
 
-This decision is ready for acceptance when review confirms:
+This decision was accepted after review confirmed:
 
 - `canonical project records` is used consistently and remains scoped to each
   canonical owner.
 - `derived representation` has one clear meaning.
 - Unchanged source mirrors remain cached rather than being mislabeled as
   derived.
-- Status remains Proposed and maturity remains Named until acceptance.
-- The proposed Specified transition cannot be read as implementation,
+- Component maturity remains **Named** after acceptance until the separately
+  reviewed **Specified** criteria are satisfied.
+- The target **Specified** transition cannot be read as implementation,
   migration, deployment, operational, or external-use readiness.
 - The conceptual flow includes source authorization, quarantine, evaluation,
   accept/reject/hold disposition, transformation, retrieval, and an approved
@@ -704,7 +708,7 @@ This decision is ready for acceptance when review confirms:
 - JCS remains deferred.
 - No schema, API, storage, model, deployment, migration, or runtime
   implementation is selected.
-- The complete exact artifact receives independent Work Mode review and the
+- The complete exact artifact received independent Work Mode review and the
   Chief Architect's final decision under the Project Coordination Protocol.
 
 Reconsideration is required if a later proposal would:
@@ -763,7 +767,10 @@ specifications to be accepted.
 
 ## Review Record
 
-The Chief Architect implementation directive authorized preparation of this
-Proposed artifact. Independent Work Mode review, formal Chief Architect
-exact-head decision, any required project-maintainer repository action, merge,
-and post-merge read-back remain pending.
+Work Mode approved exact proposal head
+`c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` with no remaining findings. The
+Chief Architect approved that exact head for merge in pull request #45. The
+proposal was squash-merged to `main` as
+`72099ac555efbb34b8344c5e34db7fb9aad5f69c`. This acceptance establishes the
+architecture boundary only and grants no implementation, deployment,
+external-information-use, migration, or operational authority.

@@ -1,8 +1,9 @@
 # Organizational Intelligence Interface Specification
 
-**Status:** Proposed
+**Status:** Accepted architecture specification
 
-**Maturity:** Review target only; no implementation or deployment authorized
+**Maturity:** Architecture contract only; no implementation or deployment
+authorized
 
 ## Purpose
 
@@ -31,7 +32,7 @@ inventing a complete answer.
 
 ## Scope
 
-This proposal governs:
+This specification governs:
 
 - The executive-facing information structure for the four questions
 - A read-only organizational-intelligence read model
@@ -43,7 +44,7 @@ This proposal governs:
 
 ## Non-goals
 
-This proposal does not:
+This specification does not:
 
 - Select a frontend framework, visual design system, API protocol, model,
   database, hosting platform, or deployment topology
@@ -257,21 +258,15 @@ decisions.
 
 Implementation waits for all applicable gates:
 
-1. Acceptance of ADR 0011 or an approved replacement for the Knowledge Vault
-   authority boundary
-2. Acceptance of Proposed ADR 0012 for the interface read-model boundary
-3. Acceptance of the document-admission decision when document-derived
-   evidence is in scope
-4. Approval of initial information domains, owners, producers, consumers,
+1. Approval of initial information domains, owners, producers, consumers,
    classification, retention, and freshness policies
-5. A component responsibility and interface contract for read-model assembly
-6. Security and privacy threat review
-7. Work Mode architecture review, Chief Architect acceptance, proposal merge,
-   and separate sprint authorization
+2. A component responsibility and interface contract for read-model assembly
+3. Security and privacy threat review
+4. Separate implementation-plan review and sprint authorization
 
 ## Acceptance criteria for this specification
 
-The proposal is review-ready when:
+The accepted specification satisfies its architecture criteria because:
 
 - All four executive questions have bounded semantics.
 - Source facts, derived summaries, assumptions, open questions, and action
@@ -280,8 +275,8 @@ The proposal is review-ready when:
 - Empty, partial, stale, unauthorized, and unavailable states are defined.
 - The interface cannot directly ingest sources, mutate authoritative records,
   or execute external actions.
-- No implementation technology or live information use is authorized by the
-  proposal.
+- No implementation technology or live information use is authorized by this
+  accepted specification.
 - Validation requirements trace these obligations to future evidence.
 
 ## Open questions
@@ -295,8 +290,8 @@ The proposal is review-ready when:
 | Which actions may later progress beyond navigation or drafting? | Separate Phase 5 authority decision |
 | Is generated assistance needed in the first implementation? | Sprint selection after interaction-architecture disposition |
 
-These questions block implementation where applicable. They do not prevent
-review of the proposed responsibility and evidence boundaries.
+These questions block implementation where applicable. They do not invalidate
+the accepted responsibility and evidence boundaries.
 
 ## Related documents
 
@@ -305,5 +300,5 @@ review of the proposed responsibility and evidence boundaries.
 - [Organizational Document Ingestion Specification](ORGANIZATIONAL_DOCUMENT_INGESTION_SPECIFICATION.md)
 - [Organizational Intelligence Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_VALIDATION_REQUIREMENTS.md)
 - [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md)
-- [Proposed ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
+- [ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
 - [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)

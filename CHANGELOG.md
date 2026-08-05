@@ -10,11 +10,10 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
-- Added Proposed System ADRs 0012 and 0013 plus organizational-intelligence
-  interface, document-ingestion, and validation specifications for exact-head
-  architecture review without authorizing implementation or live information
-  use.
-- Added Proposed System ADR 0011 to define the Knowledge Vault as a derived
+- Added and accepted System ADRs 0012 and 0013 plus organizational-intelligence
+  interface, document-admission, and validation specifications without
+  authorizing implementation or live information use.
+- Added and accepted System ADR 0011 to define the Knowledge Vault as a derived
   governed knowledge repository while preserving canonical project-record,
   originating-source, demonstration, and runtime authority boundaries.
 - Added a durable Sprint 006 Proposal v1 abandonment record and a recoverable
@@ -44,14 +43,12 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
-- Aligned current architecture, data ownership, roadmap, sprint, status, and
-  navigation with the proposed evidence-bearing executive read model and
-  quarantine-first document-admission boundaries while retaining all
-  architecture, information-use, implementation, deployment, and action gates.
-- Aligned architecture, principles, data ownership, terminology, component
-  maturity, and navigation with the proposed Knowledge Vault boundary without
-  claiming acceptance, implementation, deployment, external information use,
-  VBA evidence validation, or live organizational pilot authorization.
+- Recorded pull request #45's squash merge of reviewed source
+  `c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` as
+  `72099ac555efbb34b8344c5e34db7fb9aad5f69c` and reconciled the accepted
+  Knowledge Vault, executive read-model, and document-admission architecture
+  while retaining implementation, deployment, live-information, and action
+  gates.
 - Consolidated the memory domain, embedding provider, Qdrant durable-record
   and semantic-index adapter, and application orchestration under the root
   package; the FastAPI service now contains composition and HTTP translation

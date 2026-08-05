@@ -5,7 +5,7 @@
 ## Purpose
 
 This document defines how Project Jebediah classifies and governs information
-before JCS, collectors, the proposed Knowledge Vault, knowledge components, the
+before JCS, collectors, the Knowledge Vault, knowledge components, the
 Digital Twin, automation, or reasoning are designed. It prevents a cache, model
 output, vector index, workflow state, or convenient copy from becoming an
 accidental source of truth.
@@ -22,8 +22,8 @@ It does not:
 
 - Select a database, schema, serialization, protocol, or storage location
 - Define JCS responsibilities
-- Accept the proposed Knowledge Vault boundary or authorize its implementation,
-  external information use, or operation
+- Authorize Knowledge Vault implementation, external information use, or
+  operation
 - Verify the reported Qdrant, n8n, Ollama, or home-lab state
 - Classify data that has not been inventoried
 - Grant a component permission to collect, retain, transform, or act on data
@@ -40,7 +40,7 @@ It does not:
   authoritative application data, or workflow exports.
 - The memory implementation stores derived payload metadata and vectors; it
   does not receive authority over the represented source information.
-- ADR 0011 is Proposed, the Knowledge Vault remains **Named**, and reviewed
+- ADR 0011 is Accepted, the Knowledge Vault remains **Named**, and reviewed
   `main` contains no Knowledge Vault implementation, deployment, or live data.
 
 ### Reported facts
@@ -294,11 +294,11 @@ dependent derived information deliberately.
 - Deleted or reclassified source data must have an owned propagation path to
   prompts, caches, embeddings, indexes, and other derivatives.
 
-## Proposed Knowledge Vault mapping
+## Accepted Knowledge Vault mapping
 
-Proposed
-[ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) applies
-the existing categories without creating a new authority category:
+Accepted
+[ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) applies the
+existing categories without creating a new authority category:
 
 - Canonical project records remain authoritative engineering memory within each
   canonical owner's subject.
@@ -318,7 +318,8 @@ the existing categories without creating a new authority category:
 Evaluation determines authorization and policy admissibility, not factual
 verification. The Knowledge Vault does not become authoritative through
 curation, durability, validation for shape, embedding, indexing, or retrieval.
-Its maturity remains **Named** while ADR 0011 is Proposed.
+Its authority boundary is accepted in ADR 0011, while component maturity
+remains **Named** pending concrete ownership and component contracts.
 
 This mapping authorizes no acquisition, collection, ingestion, retention,
 transformation, model exposure, retrieval, or publication of external
@@ -326,9 +327,9 @@ information. The VBA demonstration artifacts in open pull request #44 remain
 unmerged, their evidence validation is pending, and no live organizational
 pilot is authorized.
 
-## Proposed organizational-intelligence mapping
+## Accepted organizational-intelligence mapping
 
-Proposed ADRs 0012 and 0013 apply the same categories to the candidate
+Accepted ADRs 0012 and 0013 apply the same categories to the future
 executive interface and document-admission flow:
 
 - An original source retains authority for facts in its approved domain.
@@ -350,8 +351,8 @@ factually verified or available to every consumer. Only separately eligible
 `rejected`, `evaluation_failed`, `processing_failed`, partial, unauthorized,
 superseded, archived, or deleted material remains excluded.
 
-This proposed mapping does not classify a real organizational domain or
-authorize collection, retention, transformation, retrieval, display,
+This accepted architecture mapping does not classify a real organizational
+domain or authorize collection, retention, transformation, retrieval, display,
 generation, export, deployment, or action.
 
 ## Automation and action
@@ -419,8 +420,8 @@ unauthorized information. Reconciliation after restore is part of recovery.
 | Chats and model context | Temporary working context unless promoted | Active participant for safe handling | Not authoritative project memory |
 | Memory Service Qdrant point payload | Authoritative operational record of what the service accepted and durably stored | Jebediah Memory Service repository candidate | Does not own source truth; deployment, live contents, retention, and recovery remain unverified |
 | Embeddings, vector indexes, confidence, and retrieval signals | Derived information | Jebediah Memory Service repository candidate | Model identity is explicit; source authority and live compatibility remain separate |
-| Proposed Knowledge Vault | Unassigned; ADR 0011 proposes governed derived representations only | Unassigned pending ADR acceptance and component specification | **Named**, not implemented or operational; no source, external-use, or action authority |
-| Proposed organizational document submission and read-model items | Cached, operational, or derived as defined by the approved domain and transformation | Unassigned pending ADR and component acceptance | Proposed only; no live information, implementation, retention, retrieval, display, or action authority |
+| Knowledge Vault boundary | ADR 0011 defines governed derived representations only | Unassigned pending component specification | **Named**, not implemented or operational; no source, external-use, or action authority |
+| Future organizational document submission and read-model items | Cached, operational, or derived as defined by the approved domain and transformation | Unassigned pending component and domain approval | Accepted architecture only; no live information, implementation, retention, retrieval, display, or action authority |
 | Other future runtime records, caches, indexes, embeddings, and inferences | Unassigned | Unassigned pending specification | No authority follows from the implemented memory candidate |
 
 ### Sprint 005 memory-record mapping
@@ -454,13 +455,13 @@ Routine mappings inside an already approved component contract may use normal
 review unless their consequence triggers the
 [ADR Process](adr/README.md).
 
-ADR 0011 remains Proposed and therefore does not yet assign a concrete
-Knowledge Vault information owner, component owner, producer, consumer, or
+ADR 0011 accepts the Knowledge Vault authority boundary but does not assign a
+concrete information owner, component owner, producer, consumer, interface, or
 runtime responsibility.
 
-ADRs 0012 and 0013 remain Proposed and therefore do not assign a live
-organizational information owner, read-model owner, submitter, consumer,
-retention policy, or action authority.
+ADRs 0012 and 0013 accept the executive-interface and document-admission
+boundaries but do not assign a live organizational information owner,
+read-model owner, submitter, consumer, retention policy, or action authority.
 
 ## Maintenance
 

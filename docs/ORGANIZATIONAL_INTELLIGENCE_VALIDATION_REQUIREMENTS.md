@@ -1,38 +1,38 @@
 # Organizational Intelligence Validation Requirements
 
-**Status:** Proposed
+**Status:** Accepted architecture validation requirements
 
 **Implementation state:** No implementation, live source, deployment, or
 operational validation is authorized
 
 ## Purpose
 
-This document defines the evidence required to review the organizational
-intelligence interface and governed document-ingestion proposal. It also
-defines future implementation gates without claiming that the prerequisites
-have been accepted.
+This document defines the evidence required to validate the accepted
+organizational-intelligence interface and governed document-admission
+architecture. It also defines future implementation gates without claiming
+that those prerequisites or any implementation plan have been accepted.
 
-## Governing proposals
+## Governing architecture
 
 - [Organizational Intelligence Interface Specification](ORGANIZATIONAL_INTELLIGENCE_INTERFACE_SPECIFICATION.md)
 - [Organizational Document Ingestion Specification](ORGANIZATIONAL_DOCUMENT_INGESTION_SPECIFICATION.md)
 - [ADR 0011: Knowledge Vault Authority and Boundary Model](adr/0011-knowledge-vault-authority-and-boundary-model.md)
-- [Proposed ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
-- [Proposed ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md)
+- [ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
+- [ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md)
 - [Data Ownership](DATA_OWNERSHIP.md)
 - [Security Policy](../SECURITY.md)
 
-Proposed documents are not authoritative implementation contracts until the
-required review and acceptance are recorded.
+These accepted documents are architecture contracts, not implementation,
+deployment, live-information-use, or operational authorization.
 
 ## Objective traceability
 
-This proposal maps the active organizational-intelligence objective to
+The accepted architecture maps the organizational-intelligence objective to
 reviewable evidence without claiming implementation:
 
-| Objective requirement | Proposed evidence | Remaining gate |
+| Objective requirement | Architecture evidence | Remaining gate |
 | --- | --- | --- |
-| Reuse existing architecture | ADR 0013 retains the Collector admission direction; both ADRs preserve the Memory Service, Qdrant, and Sprint 006 boundaries | Work Mode and Chief Architect acceptance |
+| Reuse existing architecture | ADR 0013 retains the Collector admission direction; both ADRs preserve the Memory Service, Qdrant, and Sprint 006 boundaries | Completed architecture acceptance; component and implementation-plan gates remain |
 | What is happening? | Interface specification current-state and change semantics | Approved domain and read-model component |
 | What needs attention? | Evidence-bearing attention items with visible rules and human review | Domain urgency and ownership policy |
 | What does Jebediah know? | Covered-domain, evidence, uncertainty, conflict, and limitation semantics | Approved sources and consumer eligibility |
@@ -41,17 +41,17 @@ reviewable evidence without claiming implementation:
 | Source identity and provenance | Submission envelope, source/content identity, and transformation lineage | Approved source-domain contract |
 | Timestamps | Distinct source, submission, admission, processing, and transition semantics | Concrete interface and persistence contract |
 | Validation and processing state | Append-only admission vocabulary, validation requirements, retry, and failure behavior | Concrete component and recovery contract |
-| Source through user interaction | Future Design flow in Current Architecture plus distinct admission, derivation, retrieval, read-model, and presentation responsibilities | ADR 0011 or replacement plus accepted component interfaces |
+| Source through user interaction | Future Design flow in Current Architecture plus distinct admission, derivation, retrieval, read-model, and presentation responsibilities | Accepted component interfaces and ownership assignments |
 | Derived knowledge is not authoritative | Data Ownership mapping and ADRs 0012–0013 | Information-owner approval for each domain |
-| Independent audit | Exact-head PR, proposal gate, stop conditions, and evidence-report requirements | Work Mode review and Chief Architect decision |
+| Independent audit | Exact-head PR, architecture gate, stop conditions, and evidence-report requirements | Completed for architecture head `c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250`; future implementation requires separate review |
 
 Runtime implementation, live information, deployment, and external action
 remain incomplete and unauthorized; this table must not be read as evidence
 that those outcomes exist.
 
-## Documentation-only proposal gate
+## Accepted architecture evidence
 
-Before architecture review, the actual proposal diff must prove:
+The exact architecture diff approved through pull request #45 proved:
 
 - The interface answers the four executive questions with evidence, freshness,
   uncertainty, and degraded behavior.
@@ -72,7 +72,7 @@ Before architecture review, the actual proposal diff must prove:
   external action remain unauthorized.
 - Open questions have an owner or resolution gate and block affected work.
 
-The proposal branch runs:
+Architecture and future documentation branches run:
 
 ```text
 python scripts/validate_docs.py
@@ -82,13 +82,13 @@ git diff --check
 New Markdown files must also be included in the validator's direct file and
 sensitive-value checks until tracked by Git.
 
-## Required review sequence
+## Completed architecture gate and required implementation sequence
 
-1. Work Mode reviews the actual exact-head architecture package and may block
-   on findings.
-2. The Chief Architect accepts, rejects, or requires revision of the exact
-   proposal head.
-3. The accepted proposal is merged through the controlled workflow.
+1. Work Mode approved exact architecture head
+   `c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250`.
+2. The Chief Architect approved that exact head for merge.
+3. Pull request #45 squash-merged the accepted architecture to `main` as
+   `72099ac555efbb34b8344c5e34db7fb9aad5f69c`.
 4. The Chief Architect separately authorizes a bounded implementation sprint.
 5. Codex implements only that scope with synthetic information unless live use
    is separately approved.
