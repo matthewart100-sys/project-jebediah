@@ -115,6 +115,28 @@ The VBA demonstration artifacts in pull request #44 do not advance this roadmap.
 Their evidence validation is pending, and no live organizational pilot is
 authorized.
 
+## Proposed organizational-intelligence foundation
+
+**Status:** Proposed in ADRs 0012 and 0013; no sprint position,
+implementation, live information use, deployment, or action authorized
+
+The proposal combines two review targets without changing the roadmap order:
+
+- A quarantine-first extension of the Collector boundary for candidate PDF,
+  DOCX, TXT, and Markdown submissions
+- A read-only executive interface over eligible evidence-bearing read-model
+  items organized as happening, attention, knowledge, and next steps
+
+The document-admission boundary may refine Phase 2 only after source,
+information-owner, security, retention, component, ADR, and sprint gates are
+satisfied. The executive interface is a future human-experience consumer; it
+does not bypass Knowledge Graph, Digital Twin, Automation, or Reasoning Engine
+entry gates and does not activate those phases.
+
+The Chief Architect must position and authorize any implementation milestone
+after Work Mode reviews the exact architecture package. Architecture acceptance
+alone does not authorize organizational information, deployment, or a pilot.
+
 ## Phase 3: Knowledge Graph
 
 **Objective:** Represent approved entities and relationships with traceable

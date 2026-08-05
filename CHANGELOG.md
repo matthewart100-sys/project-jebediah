@@ -10,6 +10,10 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added Proposed System ADRs 0012 and 0013 plus organizational-intelligence
+  interface, document-ingestion, and validation specifications for exact-head
+  architecture review without authorizing implementation or live information
+  use.
 - Added Proposed System ADR 0011 to define the Knowledge Vault as a derived
   governed knowledge repository while preserving canonical project-record,
   originating-source, demonstration, and runtime authority boundaries.
@@ -40,6 +44,10 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Aligned current architecture, data ownership, roadmap, sprint, status, and
+  navigation with the proposed evidence-bearing executive read model and
+  quarantine-first document-admission boundaries while retaining all
+  architecture, information-use, implementation, deployment, and action gates.
 - Aligned architecture, principles, data ownership, terminology, component
   maturity, and navigation with the proposed Knowledge Vault boundary without
   claiming acceptance, implementation, deployment, external information use,
