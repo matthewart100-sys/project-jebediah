@@ -15,6 +15,28 @@ sprint
 **Information-use status:** Synthetic test metadata only; external and
 organizational information use is not authorized
 
+## Pending implementation-activation proposal
+
+**Name:** Knowledge Manager 1.0 Phase 2 - Synthetic Document Inspection
+
+**Status:** Proposed documentation package only; no implementation is authorized
+
+Pull request #50 established the accepted Phase 2 architecture and validation
+baseline at canonical commit
+`92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. The
+[synthetic implementation-activation proposal](docs/KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
+now defines an exact standard-library-only repository candidate, threat model,
+dependency decision, canonical role assignments, rollback, and validation.
+
+The proposal cannot activate a sprint merely by being authored. It requires one
+remote exact head, independent Work Mode approval, Chief Architect adoption of
+the exact proposed authorization, and canonical merge. Until all gates complete,
+the active sprint remains **None**.
+
+The proposed candidate uses generated synthetic bytes only. It contains no real
+parser, scanner, sandbox, durable store, service, runtime consumer, deployment,
+or real-document path.
+
 ## Most recently completed sprint
 
 **Name:** Knowledge Manager 1.0 Phase 1 - Knowledge Registry Foundation

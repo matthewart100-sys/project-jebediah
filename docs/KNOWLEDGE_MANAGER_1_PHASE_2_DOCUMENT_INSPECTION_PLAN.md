@@ -1,6 +1,6 @@
 # Knowledge Manager 1.0 Phase 2 Document Inspection Plan
 
-**Status:** Proposed
+**Status:** Accepted architecture and validation baseline
 
 **Milestone:** Knowledge Manager 1.0
 
@@ -10,13 +10,13 @@
 
 **Decision owner:** Chief Architect
 
-**Architecture reviewers:** Independent Work Mode review before acceptance
+**Architecture reviewers:** Independent Work Mode exact-head review
 
 **Implementation owner:** Unassigned; implementation is not authorized
 
 **Planning base:** `e418479bbb10f48c1a3c7dd207c299cc49226896`
 
-**Authorization state:** Documentation preparation only. This proposal does not
+**Authorization state:** Accepted planning baseline only. This document does not
 authorize Phase 2 code, dependencies, services, deployment, or real document
 use.
 
@@ -660,16 +660,15 @@ system, Qdrant, a model, or real organizational material.
 
 ## Dependencies and blockers
 
-Architecture review of this proposal may proceed now. Phase 2 implementation
-remains blocked by:
+Phase 1 closeout and acceptance of this architecture and validation baseline
+are complete. Phase 2 implementation remains blocked by:
 
-1. Phase 1 merge and canonical closeout.
-2. Acceptance and merge of this proposal at an exact reviewed head.
-3. A separate synthetic-only implementation authorization.
-4. Threat review covering parser, archive, active-content, prompt-injection,
+1. Acceptance and canonical merge of a separate synthetic-only implementation
+   activation at an exact reviewed head.
+2. Threat review covering parser, archive, active-content, prompt-injection,
    temporary-file, logging, denial-of-service, and dependency risks.
-5. Dependency and isolation technology review.
-6. Assignment of component, security, operational, evidence, and recovery
+3. Dependency and isolation technology review.
+4. Assignment of component, security, operational, evidence, and recovery
    owners.
 
 Real document use remains additionally blocked by:
@@ -705,8 +704,9 @@ These risks are gates, not implementation details to infer later.
 
 ## Rollback
 
-Before implementation, rollback is a documentation-only revert of the proposal
-commit.
+The accepted baseline creates no runtime state to roll back. If the separate
+activation proposal is rejected, it may be closed or reverted without changing
+this baseline.
 
 A future synthetic implementation must remain removable by reverting its
 bounded package and tests. Because it has no production persistence, caller,
@@ -714,25 +714,24 @@ service, dependency, external data, or deployment, rollback must require no
 data migration. If a proposed implementation cannot preserve that property,
 work stops for revised architecture and recovery review.
 
-## Definition of ready for architecture review
+## Architecture review and merge record
 
-This proposal is ready for independent architecture review when:
+Independent Work Mode approved the substantive proposal at exact head
+`d28e1b35d7e495ff1a33d159dbd37f0c2321c8e7`. After Phase 1 closeout created a
+mechanical branch conflict, a fresh independent review approved exact updated
+head `a6917965236a0897ea2adf8284bb7190a78f488f` with no findings. The Chief
+Architect approved that exact head for squash merge.
 
-- all proposal artifacts and navigation updates exist on one clean remote
-  branch;
-- the artifact manifest, base, head, and accessible diff are recorded;
-- documentation validation, link checks, whitespace checks, and
-  sensitive-value scans pass;
-- no real document or operational value is present;
-- known facts, working assumptions, blockers, and non-goals remain explicit;
-  and
-- the requested decision is limited to proposal disposition, not
-  implementation or live use.
+Pull request #50 squash-merged the five-file documentation package to canonical
+`main` as `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. Documentation validation
+passed for 69 Markdown files and 213 tracked files. Whitespace checks passed.
+Acceptance and merge granted no implementation or real-document authority.
 
 ## Exact next decision
 
-After independent Work Mode review, the Chief Architect must decide whether to
-accept this proposal as the planning baseline. Acceptance may authorize only a
-separately stated synthetic implementation scope. It must not silently
-authorize real VBA inspection, production persistence, deployment, or runtime
-integration.
+The separately stated
+[Phase 2 Synthetic Implementation Activation](KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
+must receive independent exact-head Work Mode review, a Chief Architect
+exact-head authorization decision, and canonical merge before code begins. It
+must not authorize real VBA inspection, production persistence, deployment, or
+runtime integration.

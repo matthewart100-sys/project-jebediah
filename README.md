@@ -83,8 +83,14 @@ merged the validated metadata-only Knowledge Registry library at
 [Phase 1 closeout](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) records the
 post-merge evidence and exclusions.
 
-No active implementation sprint is authorized. Ingestion, external
-information, memory integration, embeddings, Qdrant writes, services,
+Pull request #50 established the accepted
+[Phase 2 document-inspection baseline](docs/KNOWLEDGE_MANAGER_1_PHASE_2_DOCUMENT_INSPECTION_PLAN.md)
+at `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. A separate
+[synthetic implementation-activation package](docs/KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
+is proposed for exact-head review.
+
+No active implementation sprint is authorized. Real document ingestion,
+external information, memory integration, embeddings, Qdrant writes, services,
 deployment, document uploads, and autonomous promotion remain excluded. JCS
 remains deferred and is not a dependency. All changes use short-lived branches,
 pull-request review, and small, understandable commits.

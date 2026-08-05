@@ -56,7 +56,7 @@ person or agent implements first.
 | Qdrant | Data-product adapter candidate | Implemented | Temporarily own acknowledged Memory Service payload records and their derived semantic vectors; no source-truth authority | Maintainer accountable for repository candidate; reported operator unverified | Sanitized collection, recovery, and deployment review |
 | Ollama | Model-product adapter candidate | Implemented | Produce 768-value embeddings with the pinned `nomic-embed-text:v1.5` artifact behind the canonical adapter | Maintainer accountable for repository candidate; reported operator unverified | Pinned-artifact and deployment verification |
 | JCS | Named deferred subsystem | Named | C1 outcome is **DEFER JCS**; Collector and memory candidates have no dependency | Unassigned pending reconsideration | Evidence-gated C1 reconsideration |
-| Collector Engine | Controlled ingestion component | Implemented | Validate and normalize bounded text records, derive identity, preserve provenance, and coordinate storage | Maintainer accountable | Contract-conformance and deployment review |
+| Collector Engine | Controlled ingestion component | Implemented | Validate and normalize bounded text records, derive identity, preserve provenance, and coordinate storage; ADR 0013 and the accepted Phase 2 baseline define a future disconnected document-admission responsibility | Maintainer accountable | Exact-head review and Chief Architect decision for the proposed synthetic implementation activation; no runtime or real-information authority |
 | Jebediah Memory Service | Semantic memory component | Implemented | Govern memory candidates through one canonical package, persist one acknowledged Qdrant point, and retrieve semantic-only context | Maintainer accountable | Isolated integration and deployment decision |
 | Knowledge Vault | Governed knowledge repository boundary | Named | ADR 0011 defines derived-repository authority; the bounded ADR 0014 metadata-only registry library is implemented without content, memory integration, durable storage, runtime use, or source authority | Unassigned pending component specification | Separately approve information domains, component and operational ownership, real producers and consumers, durable interfaces, security, operations, and recovery |
 | Knowledge Graph | Named future subsystem | Named | Future representation of traceable entities and relationships | Unassigned pending specification | Stable collector and knowledge contracts |
@@ -107,10 +107,11 @@ library exist in the repository; none is verified operational. The reported
 environment still requires an audit. The Knowledge Vault authority boundary is
 accepted under ADR 0011, but the component remains **Named** and has no
 component implementation, external information authorization, or operational
-evidence. Accepted ADR 0013 defines a future quarantine-first Collector
-admission boundary, and Accepted ADR 0012 defines a future executive read-model
-consumer boundary; neither assigns component ownership or implementation
-authority.
+evidence. Accepted ADR 0013 defines a future quarantine-first Collector admission
+boundary, and Accepted ADR 0012 defines a future executive read-model consumer
+boundary. The Phase 2 planning and validation baseline is canonical, but its
+synthetic implementation-activation package remains Proposed and grants no
+implementation or real-information authority.
 VBA demonstration artifacts exist only on an unmerged proposal branch; their
 evidence validation is pending, and no live organizational pilot is authorized.
 The Digital Twin has an approved conceptual position but no bounded
