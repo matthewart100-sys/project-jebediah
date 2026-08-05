@@ -19,6 +19,10 @@
 - Existing Phase 2 immutable models and state transitions remain compatible.
 - Receipt schema, canonical serialization, signature, signer role, expiry,
   environment, purpose, classification, operation, and retention policy.
+- Exact source-authority and information-owner principals or role holders,
+  source issue/version date, independently verifiable authority evidence, and
+  signer trust binding to role, organization, domain, document scope, and
+  effective period.
 - Unknown/revoked signer, altered receipt, wrong environment, expired receipt,
   missing expected digest, digest mismatch, and replay denial.
 - Receipt is reserved before body read and cannot be reused after interruption.
@@ -35,10 +39,13 @@
 - Passphrase rotation preserves object and historical audit verification.
 - No plaintext source, receipt, or evidence exists in the runtime directory,
   SQLite, WAL, logs, backups, or host temporary paths.
-- Atomic object creation and failures at every flush/replace/commit boundary.
+- Atomic object creation and failures at every flush/replace/commit boundary,
+  including proof that state and its audit event commit or roll back together.
 - Orphan, missing, corrupt, duplicate, and tombstoned-object reconciliation.
-- Database constraints prevent update/delete of append-only evidence.
-- Audit hash/HMAC chain and epoch verification.
+- Database constraints prevent updates and individual deletion of append-only
+  evidence; only the authenticated whole-epoch pruning transaction is allowed.
+- Audit hash/HMAC chain, epoch closure, retained closure anchor, hold-blocked
+  pruning, whole-epoch expiry, interrupted pruning, and restore propagation.
 
 ### Admission and worker tests
 
@@ -72,7 +79,8 @@
 - Approval, rejection, correction, and supersession are append-only annotations.
 - Approval cannot create a Knowledge Object, registry record, memory record,
   embedding, Qdrant point, retrieval result, or supported Ask answer.
-- Seven-, thirty-, and 365-day retention boundaries.
+- Seven-, thirty-, and 365-day retention boundaries, including denial before
+  decrypt/display and synchronous cleanup when expiry occurs without restart.
 - Reset by submission, lineage, and domain.
 - Active hold blocks reset/deletion without partial effects.
 - Cleanup failure remains visible and is never reported as completion.

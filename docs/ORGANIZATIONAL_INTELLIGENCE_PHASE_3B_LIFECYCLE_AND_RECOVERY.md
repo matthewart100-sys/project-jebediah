@@ -64,13 +64,17 @@ Creation uses:
 3. flush and `fsync` the object;
 4. atomically replace it into its opaque final path;
 5. `fsync` the object directory;
-6. commit the SQLite receipt, object, content identity, and transition records;
-7. append the event-chain record; and
-8. return a safe receipt to the browser.
+6. in one SQLite transaction, insert the receipt, object, content identity,
+   transition, and authenticated event-chain records, then commit; and
+7. return a safe receipt to the browser.
 
 If steps 2-5 fail, temporary ciphertext is removed and the attempt records a
 safe failure. A crash after step 5 but before step 6 leaves a decryptable orphan
-that startup reconciliation identifies by its authenticated object header.
+that startup reconciliation identifies by its authenticated object header. A
+crash during step 6 rolls back the entire SQLite transaction, so no state
+mutation can commit without its audit event. Review, hold, reset, deletion,
+rotation, backup, restore, and reconciliation mutations use the same atomic
+state-plus-event rule.
 
 Deletion commits a tombstone and ineligibility state before destroying the
 wrapped DEK and ciphertext. A failed physical delete remains a visible
@@ -91,6 +95,8 @@ Startup reconciliation runs before accepting a mutation:
 - valid orphan without a reserved attempt: cryptographically delete and record a
   safe orphan tombstone;
 - expired object without hold: run cleanup;
+- state mutation without its required event, or an event without its required
+  state mutation: stop mutations and require operator recovery;
 - tombstoned object still present: retry physical deletion;
 - deleted object referenced by a restored backup: keep deleted and reapply the
   tombstone; and
@@ -113,6 +119,30 @@ Only `phase3b-board-roster-pilot-v1` is supported:
 The deadline is fixed when the receipt is accepted and cannot be extended by
 retry, review, backup, restore, or duplicate upload. A new source version is a
 new submission with its own authorization and deadline.
+
+Every operation that could read, decrypt, display, review, or mutate retained
+content checks the deadline and hold state before object access. If the deadline
+has passed and no hold applies, the operation denies content access, atomically
+marks the subject ineligible, creates a cleanup obligation and audit event, and
+attempts synchronous cleanup. Physical cleanup failure remains
+`cleanup_failed`; expiry never permits continued display until restart.
+
+Audit events and tombstones are immutable within bounded audit epochs. Epoch
+rollover is an explicit local lifecycle operation. Before a closed epoch may be
+pruned, every event and tombstone in it must be at least 365 days old and no
+applicable hold may remain. Pruning is one transaction that:
+
+1. verifies the complete epoch hash/HMAC chain;
+2. writes a subject-free closure anchor into the successor epoch containing the
+   prior epoch identity, terminal hash/HMAC, time bounds, event count, policy
+   identity, and intended deletion;
+3. deletes the whole eligible epoch, never selected rows;
+4. records and verifies the pruning result in the successor epoch; and
+5. leaves the closure anchor under its own 365-day retention period.
+
+Restore reapplies epoch eligibility and pruning before activation, so an older
+backup cannot revive expired audit rows or tombstones. A held epoch remains
+intact even when that retains unrelated safe metadata in the same epoch.
 
 ## Reset and deletion
 

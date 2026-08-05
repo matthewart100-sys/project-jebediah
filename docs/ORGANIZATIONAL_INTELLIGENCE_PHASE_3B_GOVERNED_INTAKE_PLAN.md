@@ -170,8 +170,12 @@ reactivating deleted material. Physical backup copies expire within thirty
 days. Restores apply tombstones before activation.
 
 Cleanup is explicit and also runs at local startup. No unattended scheduler is
-authorized. Failed deletion becomes visible `cleanup_failed` evidence and
-blocks claims of completed reset.
+authorized. Every review, display, decryption, download-equivalent internal
+read, and mutation checks the fixed deadline before content access. Expired
+content is denied before decryption or display and the same request atomically
+marks it ineligible, records a cleanup obligation and audit event, and attempts
+synchronous cleanup. Failed deletion becomes visible `cleanup_failed` evidence
+and blocks claims of completed reset.
 
 ### 7. Legal hold
 
@@ -365,6 +369,15 @@ prior and next state where applicable, safe reason code, policy/version, time,
 and safe evidence references. No content, filename, source locator, private
 identifier, excerpt, key, or passphrase enters SQLite or ordinary logs.
 
+Every durable state mutation and its audit event commit in one SQLite
+transaction. No committed mutation may exist without its corresponding event.
+Audit events are immutable within bounded epochs. An eligible closed epoch is
+removed only as one authenticated lifecycle operation after all contained
+records and tombstones have reached their retention deadline and no hold
+applies. The successor epoch retains a subject-free closure anchor containing
+the prior epoch identity, terminal hash/HMAC, time bounds, event count, pruning
+policy, and pruning result.
+
 ### 17. Backup and recovery
 
 An operator-triggered backup contains:
@@ -433,7 +446,12 @@ names:
 
 - the exact Virginia B. Andes board-roster PDF by sanitized source-record
   identity and expected SHA-256;
-- source-authority and information-owner roles;
+- the source-authority and information-owner roles and exact authorized
+  principals or role holders;
+- the source record's issue/version date and signed or otherwise independently
+  verifiable authority evidence;
+- the trust-registry binding from each authorization signer to the permitted
+  role, organization, information domain, document scope, and effective period;
 - the one authorized operator;
 - the permitted local environment and runtime directory;
 - classification and confirmation that the file is non-clinical and excludes

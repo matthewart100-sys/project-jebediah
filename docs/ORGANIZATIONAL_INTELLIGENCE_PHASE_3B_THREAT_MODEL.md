@@ -49,7 +49,7 @@
 | Ciphertext tampering | AES-GCM tags, object identity AAD, SHA-256 check, reconciliation | Hold and deny access |
 | Weak/lost passphrase | Argon2id, interactive entry, no persistence, named custody/recovery gate | Deny unlock; visible data-loss risk |
 | Nonce/key reuse | random DEK, versioned nonce prefix/counter, uniqueness tests | Refuse write |
-| Audit manipulation | append-only schema, event hash/HMAC chain, external signatures for authority | Stop mutations on verification failure |
+| Audit manipulation or mutation/event split | atomic SQLite state-plus-event transaction, immutable epochs, hash/HMAC chain, authenticated whole-epoch pruning, external signatures for authority | Roll back together; stop mutations on verification failure |
 | Malicious authorized operator | least privilege, external signed authority, safe audit, explicit review; HMAC not claimed as non-repudiation | Residual risk; separate operator/authority roles |
 | SQLite/WAL metadata disclosure | no content/private locators, OS ACL, required full-volume encryption for live use | Stop live use if control absent |
 | Duplicate confusion | separate submission occurrence, content digest, source identity, explicit supersession | Hold conflict; no automatic current version |
@@ -57,6 +57,7 @@
 | Deletion claimed before completion | tombstone-first, DEK destruction, verified object removal, backup obligations | `cleanup_failed`, visible blocker |
 | Legal hold bypass | separately signed hold/lift authority, deletion guard, append-only evidence | Deny deletion |
 | Deleted data restored | tombstones in backup/restore, retention checks before activation | Re-delete; restore blocked if unresolved |
+| Expired content remains visible in a long-running process | deadline and hold check before every decrypt/display/review/mutation; synchronous ineligibility and cleanup | Deny content before access; expose `cleanup_failed` if removal fails |
 | Backup theft/corruption | encrypted objects, no passphrase, HMAC manifest, access-controlled volume | Reject restore |
 | Supply-chain compromise | exact locks/digests, SBOM, SCA, signatures, minimal images, offline runtime | Block build/use |
 | Scanner false negative | scanner is evidence only; structural and policy checks remain independent | No safety claim |
