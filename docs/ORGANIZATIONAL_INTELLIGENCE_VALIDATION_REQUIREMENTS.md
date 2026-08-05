@@ -64,8 +64,8 @@ Before architecture review, the actual proposal diff must prove:
 - Source identity, content identity, provenance, time semantics, validation,
   processing state, and transformation lineage are explicit.
 - Admission never implies factual verification or downstream authorization.
-- Quarantined, rejected, failed, stale, unauthorized, and partial states cannot
-  become ordinary success.
+- Quarantined, held, rejected, evaluation-failed, processing-failed, stale,
+  unauthorized, and partial states cannot become ordinary success.
 - Original sources retain domain authority and derived representations remain
   non-authoritative.
 - Technology selection, live information use, implementation, deployment, and
@@ -121,7 +121,8 @@ Synthetic tests must cover each candidate format and prove:
 
 - Extension and supplied media type cannot override detected format.
 - Unsupported, malformed, encrypted, active, oversized, deeply nested, or
-  resource-unsafe input follows the approved quarantine or rejection policy.
+  resource-unsafe input follows the approved quarantine, hold, rejection, or
+  unavailable-evaluation policy.
 - TXT and Markdown encoding errors and configured resource limits fail
   visibly.
 - PDF parsing never executes scripts, actions, links, attachments, or embedded
@@ -159,12 +160,23 @@ Tests must prove:
 - Only documented admission-state transitions are accepted.
 - Transition history is append-only and includes actor, time, reason, and
   correlation evidence.
-- Rejected, failed, partial, or quarantined work cannot appear as `ready`.
-- A retry creates a new linked attempt and does not rewrite prior evidence.
+- `accepted`, `rejected`, `held`, and `evaluation_failed` are terminal for one
+  admission-evaluation attempt.
+- `ready` and `processing_failed` are terminal for one transformation attempt.
+- A held evaluation cannot become accepted directly; authorized human review
+  records its disposition and starts a new linked validation attempt without
+  waiving deterministic security or integrity checks.
+- An unavailable, incomplete, or indeterminate evaluation becomes
+  `evaluation_failed`, not rejected or accepted.
+- Rejected, held, evaluation-failed, processing-failed, partial, or quarantined
+  work cannot appear as `ready`.
+- A retry creates a new linked attempt and does not rewrite or move a terminal
+  state backward.
+- Rejected evaluations are not retried automatically.
 - Unknown durable outcomes are reconciled before retry.
 - Partial extraction retains warnings and omissions.
-- A failed transformation does not delete the admitted source record or expose
-  partial output to ordinary retrieval.
+- A `processing_failed` transformation does not delete the accepted source
+  record or expose partial output to ordinary retrieval.
 - Rate, cost, resource, and authorization controls are not bypassed by retry.
 
 ## Knowledge and retrieval tests
@@ -175,8 +187,8 @@ Tests must prove:
   indexes retain separate identities and categories.
 - Only outputs with an approved domain, intended use, lifecycle, validation,
   and classification become eligible for ordinary retrieval.
-- Quarantined, rejected, failed, superseded, archived, deleted, and
-  unauthorized material is excluded.
+- Quarantined, held, rejected, evaluation-failed, processing-failed,
+  superseded, archived, deleted, and unauthorized material is excluded.
 - Index entries point to eligible records and can be rebuilt without becoming
   authoritative.
 - A transformation change creates a new version or follows an approved
@@ -193,8 +205,15 @@ Synthetic contract tests must prove:
 
 - Every item belongs to exactly one of the four executive sections.
 - Every claim exposes its evidence classification, safe source references,
-  time, freshness, confidence basis, lifecycle, transformation identity when
-  derived, and limitations.
+  time, freshness, evidence sufficiency basis, bounded uncertainty state and
+  explanation, lifecycle, transformation identity when derived, and
+  limitations.
+- Uncertainty accepts only `bounded`, `incomplete`, `conflicting`, `unknown`,
+  or `not_applicable`, and its explanation links to supporting, missing, or
+  conflicting evidence.
+- Uncertainty is never represented or interpreted as a numeric truth
+  probability, and model confidence, retrieval score, rank, or fluent wording
+  cannot improve it.
 - Missing evidence remains missing and cannot be replaced with fabricated
   defaults.
 - Conflicting facts remain visible under an approved reconciliation policy.
@@ -202,8 +221,13 @@ Synthetic contract tests must prove:
 - Partial, stale, insufficient-evidence, unauthorized, and unavailable states
   are distinguishable.
 - Attention ranking exposes its rule and cannot grant action authority.
-- Next-step items identify whether they navigate, request review, draft, or
-  require a separately governed action.
+- Every `next` item has exactly one kind: `decision_required`,
+  `organizational_gate`, `action_candidate`, or `informational_attention`.
+- Next-step items identify the decision or gate owner when known, separate
+  authority requirement, and whether the interface may navigate, request
+  review, or draft.
+- No next-item kind records a human decision, clears an organizational gate, or
+  authorizes or executes an action.
 - A failed refresh cannot overwrite a usable last-known view with false empty
   success.
 
@@ -216,8 +240,8 @@ If generated assistance is later included, evaluation must prove:
   inert data.
 - Supported claims cite the correct read-model evidence.
 - Insufficient evidence produces an explicit bounded response.
-- The model cannot change verification, lifecycle, priority, or action
-  authority.
+- The model cannot change verification, lifecycle, priority, next-item kind,
+  uncertainty state, or action authority.
 - Model unavailability leaves deterministic briefing evidence usable.
 - Generated output is labeled and stored, if stored at all, as derived under
   an approved retention policy.
@@ -300,7 +324,8 @@ Stop dependent work when:
   or consumer authorization is unresolved for the proposed live scope.
 - A source, parser, transformation, or model boundary would be invented to fill
   a documentation gap.
-- Quarantined or failed content can reach ordinary retrieval.
+- Quarantined, held, rejected, evaluation-failed, or processing-failed content
+  can reach ordinary retrieval.
 - Provenance, timestamps, lifecycle, or transformation identity can be lost.
 - A derived result can overwrite or impersonate an authoritative source.
 - Partial, stale, conflicting, or unavailable information can appear as

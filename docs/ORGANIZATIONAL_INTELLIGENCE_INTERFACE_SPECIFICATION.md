@@ -81,9 +81,10 @@ following are true:
 - Its classification permits display to the current user.
 - Required freshness and validation rules have been evaluated.
 
-Quarantined, rejected, failed, deleted, superseded, or unauthorized material
-must not appear as ordinary evidence. A separately authorized diagnostic view
-may expose sanitized processing state without exposing protected content.
+Quarantined, held, rejected, evaluation-failed, processing-failed, deleted,
+superseded, or unauthorized material must not appear as ordinary evidence. A
+separately authorized diagnostic view may expose sanitized processing state
+without exposing protected content.
 
 ## Organizational-intelligence read model
 
@@ -102,14 +103,41 @@ presented item needs:
 | Source observation time | When the represented source state applied, when known |
 | Retrieved or assembled time | When the read model was produced |
 | Freshness state | Current, aging, stale, unknown, or not applicable under an approved policy |
-| Confidence basis | Why the item is shown with its stated confidence; never a truth score |
+| Evidence sufficiency basis | Why the eligible evidence is sufficient to include the item for this bounded use; never a truth score or probability |
+| Uncertainty state | One of `bounded`, `incomplete`, `conflicting`, `unknown`, or `not_applicable` |
+| Uncertainty explanation and references | Plain-language explanation linked to supporting, missing, or conflicting evidence |
 | Lifecycle state | Whether the item is active, superseded, archived, or otherwise eligible |
 | Transformation identity | The versioned derivation used when the item is not a direct fact |
 | Limitation | Material missing evidence, conflict, uncertainty, or scope restriction |
+| Next-item kind | For `next` items, exactly one of `decision_required`, `organizational_gate`, `action_candidate`, or `informational_attention`; not applicable elsewhere |
+| Decision or gate owner | The human or governed role responsible for a required decision or gate, when known |
+| Authority requirement | The separate approval or authority required before an action or decision can take effect |
 | Permitted next step | A navigation or human-review option, not an autonomous action |
 
 Missing values remain explicitly missing. The read model must not manufacture
-source times, confidence, owners, or next steps to make a card appear complete.
+source times, evidence sufficiency, uncertainty, owners, authority, or next
+steps to make a card appear complete.
+
+## Bounded uncertainty contract
+
+Uncertainty is a qualitative evidence condition, not a numeric confidence score
+or probability that a claim is true:
+
+- `bounded`: eligible evidence supports the item within its stated coverage and
+  documented limitations.
+- `incomplete`: expected or required evidence is missing.
+- `conflicting`: eligible evidence supports materially incompatible
+  interpretations or values.
+- `unknown`: available evidence cannot establish which uncertainty condition
+  applies.
+- `not_applicable`: the item reports a deterministic process or navigation
+  condition for which claim uncertainty does not apply.
+
+Every uncertainty state includes an explanation tied to safe source references,
+missing-evidence requirements, or conflict evidence. `bounded` does not mean
+certain, complete, verified beyond the cited evidence, or safe for unapproved
+use. Model self-confidence, retrieval score, ranking, repetition, and fluent
+wording cannot set or improve the uncertainty state.
 
 ## The four executive questions
 
@@ -139,11 +167,24 @@ distinguishable.
 ### What should happen next?
 
 This section presents approved plans, unresolved gates, and bounded action
-candidates in priority order under a visible rule. Every candidate identifies
-whether it is navigation, review, drafting, or a separately governed external
-action. “Should” expresses a supported proposal for human decision, not system
+candidates in priority order under a visible rule. Every item has exactly one
+bounded kind:
+
+- `decision_required`: an identified human or governed role must make a
+  decision; the interface does not preselect or record the decision.
+- `organizational_gate`: a documented prerequisite remains unresolved; the
+  item identifies the gate, owner when known, and evidence required to clear it.
+- `action_candidate`: evidence supports considering an action, but separate
+  approval is required before drafting becomes execution or records change.
+- `informational_attention`: information should remain visible, but no decision,
+  gate resolution, or action is currently requested.
+
+Each item exposes its decision or gate owner when known, authority requirement,
+and whether the permitted interface behavior is navigation, review, or drafting.
+“Should” expresses a supported proposal for human decision, not system
 authority. The initial interface may navigate or prepare information, but it
-must not execute an organizational or external action.
+must not approve, record, execute, or imply completion of an organizational or
+external action.
 
 ## Assistance boundary
 
@@ -154,7 +195,8 @@ interaction architecture is accepted. Such assistance must:
 - Treat retrieved content as untrusted data, not instructions
 - Cite supporting items and reveal material uncertainty
 - Refuse to claim knowledge that the eligible evidence does not support
-- Avoid changing verification, lifecycle, priority, or action authority
+- Avoid changing verification, lifecycle, priority, next-item kind, uncertainty
+  state, or action authority
 - Keep generated output derived and non-authoritative
 
 Deterministic assembly must remain available for the core briefing even when a

@@ -128,9 +128,17 @@ section states coverage and limitations so that the interface cannot imply
 complete organizational knowledge. The next section treats “should” as a
 supported proposal for human decision, not action authority. Each item
 identifies its evidence classification, safe source references, source time
-when known, assembly time, freshness, confidence basis, lifecycle,
-transformation identity when derived, material limitations, and permitted
-human next step.
+when known, assembly time, freshness, evidence sufficiency basis, bounded
+qualitative uncertainty state and explanation, lifecycle, transformation
+identity when derived, material limitations, and permitted human next step.
+Uncertainty is one of `bounded`, `incomplete`, `conflicting`, `unknown`, or
+`not_applicable`; it is evidence-linked and cannot be interpreted as a numeric
+truth probability.
+
+Every `next` item is classified as exactly one of `decision_required`,
+`organizational_gate`, `action_candidate`, or `informational_attention`. It
+identifies the decision or gate owner when known and the separate authority
+required before any decision or action takes effect.
 
 The interface owns presentation and navigation only. It cannot ingest source
 content, verify claims, transform or index knowledge, mutate authoritative
@@ -141,7 +149,8 @@ The core briefing must have deterministic evidence assembly. Generated
 assistance is optional and requires separately accepted interaction
 architecture. When present, generated output remains derived,
 non-authoritative, evidence-bounded, and unable to change verification,
-lifecycle, priority, or action authority.
+lifecycle, priority, next-item classification, uncertainty state, or action
+authority.
 
 The user-visible contract distinguishes ready, partial, stale, insufficient-
 evidence, unauthorized, and unavailable states. A last-known view is labeled

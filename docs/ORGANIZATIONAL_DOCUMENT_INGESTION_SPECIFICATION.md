@@ -101,9 +101,10 @@ envelope records at least:
 - Submission time assigned by the receiving system
 - Claimed or extracted source-creation and source-modification times, with
   their evidence basis
-- Current admission state and append-only transition history
+- Current admission-evaluation state, latest disposition, and append-only
+  transition history
 - Validation findings and sanitized reason codes
-- Transformation attempts and output identifiers
+- Separate transformation-attempt states and output identifiers
 - Classification, retention, access, and legal-handling references when
   applicable
 
@@ -122,6 +123,8 @@ The contract distinguishes:
 - `source_modified_at`: when the source claims the version changed, when
   known
 - `admitted_at`: when admission validation completed successfully
+- `evaluation_completed_at`: when an admission-evaluation attempt reached a
+  terminal disposition
 - `processing_started_at`: when a transformation attempt began
 - `processed_at`: when that attempt reached a terminal outcome
 - `state_changed_at`: when each recorded transition occurred
@@ -169,37 +172,79 @@ detection and structural validation.
 - Record material omissions when the approved extractor cannot represent part
   of the source faithfully.
 
-## Admission state model
+## Admission and processing state models
 
-The minimum state vocabulary is:
+Admission evaluation and transformation processing use separate state
+vocabularies so that an unavailable evaluation cannot be confused with a
+content rejection or a failed transformation.
+
+### Admission-evaluation states
 
 | State | Meaning |
 | --- | --- |
 | `received` | The envelope and stable submission identifier exist |
 | `quarantined` | Content is isolated from ordinary consumers pending checks |
 | `validating` | Authorization, envelope, format, integrity, limits, and policy checks are running |
-| `accepted` | Admission checks passed for the approved intended use; truth is not verified |
-| `rejected` | Admission ended with a permanent policy or validation failure |
-| `processing` | An approved transformation attempt is running on accepted input |
-| `ready` | Required derived outputs completed and passed eligibility checks |
-| `failed` | Processing ended without a ready output; the source is not silently rejected or ready |
+| `accepted` | All required admission checks passed for the approved intended use; truth is not verified |
+| `rejected` | Admission ended with a permanent policy, authorization, integrity, or validation failure |
+| `held` | Evaluation requires an authorized human review or missing decision before it can continue; no admission decision has been made |
+| `evaluation_failed` | Evaluation could not complete because a required evaluator, dependency, policy version, or durable outcome was unavailable or indeterminate; no admission decision has been made |
 
-The ordinary forward path is:
+The ordinary admission path is:
 
 ```text
-received -> quarantined -> validating -> accepted -> processing -> ready
-                                  |                       |
-                                  v                       v
-                               rejected                 failed
+received -> quarantined -> validating -> accepted
+                                  |----> rejected
+                                  |----> held
+                                  |----> evaluation_failed
 ```
 
-Every transition records prior state, next state, time, actor or component,
-reason code, and correlation identifier. History is append-only. Reprocessing
-creates a new attempt linked to the accepted submission; it does not rewrite a
-failed attempt or move a terminal state backward.
+The only transitions within one admission-evaluation attempt are:
+
+- `received -> quarantined`
+- `quarantined -> validating`
+- `validating -> accepted`
+- `validating -> rejected`
+- `validating -> held`
+- `validating -> evaluation_failed`
+
+`accepted`, `rejected`, `held`, and `evaluation_failed` are terminal
+dispositions for one admission-evaluation attempt. An authorized review of a
+`held` attempt may supply a decision or missing evidence and start a new linked
+`validating` attempt while the content remains quarantined. The reviewer cannot
+mark content `accepted` directly, waive required security or integrity checks,
+establish source truth, or grant consumer or action authority.
+
+An `evaluation_failed` attempt may be retried only after the unavailable
+condition is resolved and any unknown durable outcome is reconciled. The retry
+is a new linked evaluation attempt. A `rejected` attempt is not retried
+automatically; changed source evidence, authorization, or policy requires a new
+submission or an explicitly authorized linked evaluation that preserves the
+rejection record.
 
 `accepted` means admissible for one approved use. It does not mean verified,
 accurate, current, safe for every consumer, or eligible for generation.
+
+### Transformation-attempt states
+
+Only an `accepted` submission may start a transformation attempt.
+
+| State | Meaning |
+| --- | --- |
+| `processing` | An approved transformation attempt is running on accepted input |
+| `ready` | Required derived outputs completed and passed eligibility checks for an approved consumer |
+| `processing_failed` | The transformation attempt ended without a ready output; the accepted source record remains intact |
+
+The only transition within one transformation attempt is `processing -> ready`
+or `processing -> processing_failed`.
+
+`ready` and `processing_failed` are terminal for one transformation attempt.
+Reprocessing creates a new linked attempt rather than moving a terminal state
+backward or rewriting its evidence.
+
+Every admission and processing transition records prior state, next state,
+time, actor or component, reason code, and correlation identifier. History is
+append-only. No terminal state may be overwritten.
 
 ## Admission validation
 
@@ -243,12 +288,18 @@ eligible derived records and never used to reconstruct missing authority.
 - Repeated receipt of identical bytes creates a traceable submission
   occurrence and may reuse an eligible content result only under an approved
   policy with matching transformation identity.
-- A retry is safe only when the prior attempt outcome is known or a
-  reconciliation check resolves an unknown outcome.
+- A held evaluation resumes only through an authorized human-review
+  disposition and a new linked evaluation attempt.
+- An unavailable or indeterminate evaluation is recorded as
+  `evaluation_failed`; retry waits for the unavailable condition to clear and
+  reconciles any unknown durable outcome first.
+- A rejected evaluation is not retried automatically.
+- Any admission or processing retry is safe only when the prior attempt outcome
+  is known or a reconciliation check resolves an unknown outcome.
 - Partial extraction is never reported as complete; its omissions remain
   visible to downstream consumers.
-- A processing failure does not erase the admitted source record or expose a
-  partial output as ready.
+- A `processing_failed` attempt does not erase the accepted source record or
+  expose a partial output as ready.
 - No automatic retry may bypass authorization, quarantine, rate, cost, or
   resource controls.
 
@@ -313,6 +364,8 @@ The proposal is review-ready when:
 - Provenance and source, submission, admission, processing, and transition
   times have distinct semantics.
 - State transitions are auditable and cannot make partial or failed work ready.
+- Held and unavailable evaluations remain distinct from rejection, acceptance,
+  and transformation failure.
 - Admission, fact verification, derivation, indexing, retrieval, and authority
   remain separate.
 - Duplicate, retry, active-content, privacy, retention, deletion, and recovery

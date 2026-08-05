@@ -346,9 +346,9 @@ executive interface and document-admission flow:
 
 `accepted` admission means eligible for one approved intended use, not
 factually verified or available to every consumer. Only separately eligible
-`ready` outputs may reach ordinary retrieval. Quarantined, rejected, failed,
-partial, unauthorized, superseded, archived, or deleted material remains
-excluded.
+`ready` outputs may reach ordinary retrieval. `quarantined`, `held`,
+`rejected`, `evaluation_failed`, `processing_failed`, partial, unauthorized,
+superseded, archived, or deleted material remains excluded.
 
 This proposed mapping does not classify a real organizational domain or
 authorize collection, retention, transformation, retrieval, display,

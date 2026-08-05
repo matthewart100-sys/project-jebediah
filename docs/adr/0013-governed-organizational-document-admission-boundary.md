@@ -135,11 +135,18 @@ digest identifies exact content; supplied names and media types remain
 untrusted metadata. Repeated equal content preserves distinct submission
 occurrences. Changed content creates a new content identity.
 
-The minimum state vocabulary is `received`, `quarantined`, `validating`,
-`accepted`, `rejected`, `processing`, `ready`, and `failed`. Transitions are
-append-only and record prior state, next state, time, actor or component,
-reason, and correlation. Reprocessing creates a linked attempt rather than
-rewriting history.
+Admission evaluation uses `received`, `quarantined`, `validating`, `accepted`,
+`rejected`, `held`, and `evaluation_failed`. `held` means authorized human
+review or a missing decision is required; `evaluation_failed` means evaluation
+was unavailable, incomplete, or indeterminate and made no admission decision.
+`accepted`, `rejected`, `held`, and `evaluation_failed` are terminal for one
+evaluation attempt. Resumption or retry creates a linked attempt and cannot
+rewrite the prior disposition.
+
+Only accepted submissions may enter transformation processing. Transformation
+attempts use `processing`, `ready`, and `processing_failed`; the last two are
+terminal for one attempt. All transitions are append-only and record prior
+state, next state, time, actor or component, reason, and correlation.
 
 Admission evaluates approved source and use authorization, envelope, detected
 format, integrity, classification, resource limits, active content, duplicate
@@ -154,8 +161,8 @@ overwrite or impersonate the original source or admitted submission record.
 
 Only `ready` outputs that also satisfy the approved domain, intended use,
 classification, lifecycle, retention, and consumer policy may reach ordinary
-retrieval. Quarantined, rejected, failed, partial, unauthorized, superseded,
-archived, or deleted content is excluded.
+retrieval. Quarantined, held, rejected, evaluation-failed, processing-failed,
+partial, unauthorized, superseded, archived, or deleted content is excluded.
 
 The decision defines no parser, persistence, interface, model, scanning, or
 deployment mechanism. Those choices require accepted prerequisites and
@@ -244,9 +251,9 @@ and rollback plan.
 The proposal is validated by the
 [Organizational Intelligence Validation Requirements](../ORGANIZATIONAL_INTELLIGENCE_VALIDATION_REQUIREMENTS.md).
 Synthetic implementation tests must cover format detection, malformed and
-resource-unsafe inputs, identity, provenance, time, state transitions,
-duplicates, retry, partial failure, derivation lineage, retrieval exclusion,
-deletion, and recovery.
+resource-unsafe inputs, identity, provenance, time, held and unavailable
+evaluation, terminal state immutability, authorized review, retry, partial
+failure, derivation lineage, retrieval exclusion, deletion, and recovery.
 
 Reconsider the Collector placement if an accepted source inventory proves that
 the responsibility requires an independently operated trust or scaling
