@@ -10,15 +10,24 @@ legal hold, reconciliation, backup, restore, and key rotation deterministic.
 
 ## Runtime boundary
 
-All state lives in one operator-selected runtime directory outside Git. The
-directory contains:
+All content-bearing runtime state lives in one operator-selected runtime
+directory outside Git. The directory contains:
 
 - `metadata.sqlite3`, WAL, and shared-memory files;
 - encrypted object files under opaque identities;
 - one wrapped stable content master-key file;
 - versioned non-secret configuration;
 - an integrity-protected trust registry containing public keys only; and
-- operator-created encrypted backup sets.
+- the local projection of backup and deletion state.
+
+Encrypted backup sets live on separately selected local media. A content-free,
+append-only recovery-authority ledger lives at a third independently controlled
+local path outside both the runtime directory and every backup set. It contains
+monotonic generations, opaque backup identities and inventory digests, manifest
+digests, backup reservation/completion/abort records, deletion intents, backup
+revocations, purge results, and deletion completions. Each checkpoint is signed
+by a trusted Ed25519 recovery-authority key whose private key is absent from the
+runtime and backups. Only the public verification key is in the trust registry.
 
 OS permissions restrict the directory to the runtime account. Full-volume
 encryption is required for later real use because SQLite reveals timing, counts,
@@ -163,8 +172,12 @@ Reset:
 - invalidates active sessions and receipt reservations for the scope;
 - identifies every registered backup set whose opaque inventory contains the
   scope and creates a purge obligation for each;
+- obtains and durably stores a signed monotonic recovery-ledger checkpoint that
+  records the deletion intent and revokes every applicable backup identity
+  before destroying online content;
 - physically purges and verifies every applicable backup set before reporting
-  deletion complete;
+  deletion complete, then obtains and appends the signed monotonic
+  `deletion_completed` checkpoint;
 - retains only safe audit/tombstone evidence; and
 - never reactivates a superseded version.
 
@@ -196,17 +209,20 @@ the signed declaration expressly authorizes automatic expiry.
 Backup is an interactive local command. It:
 
 1. blocks mutations;
-2. assigns and atomically registers a unique pending backup-set identity and
-   opaque inventory of every object to include;
-3. performs a SQLite online backup/snapshot containing that registration;
-4. copies encrypted objects and wrapped master-key material;
-5. includes configuration, trust-registry identity, and tombstones;
-6. creates a canonical manifest with lengths and SHA-256 identities;
-7. authenticates the manifest with the audit HMAC key;
-8. verifies the copy and registration, then atomically records completion in the
-   live runtime while the authenticated manifest supplies completion evidence
-   to the snapshot; and
-9. resumes mutations.
+2. verifies the latest independently retained signed recovery-ledger checkpoint;
+3. assigns a unique backup-set identity and opaque inventory, obtains a signed
+   next-generation `backup_reserved` checkpoint, durably appends it to the
+   recovery ledger, and atomically registers the same pending identity in
+   SQLite with its audit event;
+4. performs a SQLite online backup/snapshot containing that registration;
+5. copies encrypted objects and wrapped master-key material;
+6. includes configuration, trust-registry identity, and tombstones;
+7. creates a canonical manifest with lengths and SHA-256 identities;
+8. authenticates the manifest with the audit HMAC key;
+9. verifies the copy, obtains and appends a signed `backup_completed` checkpoint
+   containing the manifest digest, and atomically records completion in the live
+   runtime; and
+10. resumes mutations.
 
 The passphrase is never in the backup. Backup media is access-controlled,
 volume-encrypted, outside Git, and owned by the authorized operator. The backup
@@ -215,30 +231,53 @@ registered inventory is prohibited. Deletion of a scope requires physical purge
 and absence verification of every registered backup set containing it; no such
 set may remain after deletion is reported complete.
 
+Failure or interruption before a signed `backup_completed` checkpoint leaves a
+pending registration. Reconciliation removes partial media, verifies its
+absence, obtains and appends a signed next-generation `backup_aborted`
+checkpoint, and atomically closes the SQLite registration with an audit event.
+If `backup_completed` is already in the authoritative ledger, reconciliation
+instead verifies the complete media and manifest and atomically completes the
+local registration; it never changes that completed ledger entry to aborted. A
+verified aborted registration does not block later deletion. If media state,
+ledger continuity, completion, or the signed abort cannot be verified, the
+registration remains visible `cleanup_failed` and mutations that depend on it
+are denied.
+
 ## Restore and recovery
 
 Restore is interactive and uses an empty staging directory:
 
-1. verify manifest identity and HMAC;
-2. verify the SQLite snapshot and schema version;
-3. unlock the stable master key;
-4. authenticate every encrypted object without exposing content to logs;
-5. verify audit-chain epochs and tombstones;
-6. reconcile references and retention deadlines;
-7. reapply deletions and expiry;
-8. run a read-only synthetic smoke check;
-9. atomically activate staging; and
-10. retain the prior directory only under its existing retention policy.
+1. obtain the current recovery-authority checkpoint from its independently
+   controlled path and verify its signature, monotonic chain, and trust role;
+2. deny a stale, missing, rolled-back, malformed, or unverifiable ledger;
+3. verify the current ledger history contains a completed entry for the
+   candidate backup identity and no later abort or revocation;
+4. verify manifest identity and HMAC;
+5. verify the SQLite snapshot and schema version;
+6. unlock the stable master key;
+7. authenticate every encrypted object without exposing content to logs;
+8. verify audit-chain epochs and apply all later ledger deletion intents,
+   revocations, purge results, and tombstones;
+9. reconcile references and retention deadlines;
+10. reapply deletions and expiry;
+11. run a read-only synthetic smoke check;
+12. atomically activate staging; and
+13. retain the prior directory only under its existing retention policy.
 
-Restore refuses an unregistered backup set or a set with an unresolved purge
-obligation. Because deletion cannot complete until every applicable registered
-set is verified absent, no pre-deletion backup remains eligible to restore
-deleted content. If an applicable set cannot be located and purged, deletion
-stays `cleanup_failed` and no completion claim is permitted.
+Restore refuses an unregistered, aborted, revoked, or purge-obligated backup
+set. A byte-for-byte pre-deletion copy still carries an identity revoked by the
+current independently retained checkpoint and cannot restore. Because deletion
+cannot complete until every applicable registered set is verified absent, no
+pre-deletion backup remains eligible to restore deleted content. If an
+applicable set cannot be located and purged, deletion stays `cleanup_failed` and
+no completion claim is permitted.
 
 Lost passphrase plus unavailable recovery material makes content unrecoverable.
 That is a fail-closed security outcome but an operational data-loss event. The
-later real-source decision must name passphrase custody and recovery ownership.
+later real-source decision must name passphrase custody, recovery ownership,
+recovery-authority role and public key, and independent ledger custody. Loss or
+unavailability of the current ledger or its authority blocks restore rather than
+permitting rollback to backup-local state.
 
 ## Rotation
 

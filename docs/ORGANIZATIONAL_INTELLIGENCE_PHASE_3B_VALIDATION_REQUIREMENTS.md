@@ -93,14 +93,20 @@
 ### Backup, restore, and rotation tests
 
 - Consistent SQLite snapshot with concurrent mutations blocked.
+- Backup interruption at every reservation, ledger, snapshot, copy, manifest,
+  verification, completion, abort, and local-registration boundary; verified
+  abort closes a pending registration without blocking deletion.
 - Manifest identity/HMAC and corrupt/missing/extra object denial.
 - Backup contains no passphrase/plaintext.
 - Restore into staging only; no partial activation.
 - Wrong wrapper, wrong trust registry, incompatible schema, corrupt event chain,
   expired retention, and unresolved tombstone denial.
+- Recovery-authority signature, role, monotonic generation and chain; missing,
+  stale, rolled-back, malformed, unavailable, or backup-local-only ledger denial.
 - A pre-deletion backup blocks deletion completion until physically purged;
   unregistered backups and backups with unresolved purge obligations cannot
-  restore; deleted content does not return after restore.
+  restore; a copied valid pre-deletion set remains revoked after current-runtime
+  loss; deleted content does not return after restore.
 - Passphrase and trust-key rotation preserve historical verification and deny
   revoked new authority.
 

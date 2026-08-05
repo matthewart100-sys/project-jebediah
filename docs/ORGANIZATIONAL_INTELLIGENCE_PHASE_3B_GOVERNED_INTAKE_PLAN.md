@@ -167,11 +167,13 @@ Reset or authorized deletion immediately removes online answerability and
 reviewability, cryptographically deletes the applicable DEKs, deletes the
 encrypted objects, records tombstones, and prevents backup restoration from
 reactivating deleted material. Every backup set is registered with an opaque
-object inventory. Deletion creates a purge obligation for every registered set
-containing the subject and is not complete until each such set is physically
-purged and verified; a missing or unavailable set remains `cleanup_failed`.
-Backups otherwise expire within thirty days. Restores apply tombstones before
-activation.
+object inventory in both SQLite and the independently retained signed
+recovery-authority ledger. Before local deletion, the ledger records a
+monotonic deletion intent and revokes every applicable backup set. Deletion is
+not complete until each such set is physically purged and verified; a missing
+or unavailable set remains `cleanup_failed`. Backups otherwise expire within
+thirty days. Restore requires the current signed ledger checkpoint and applies
+its revocations and tombstones before activation.
 
 Cleanup is explicit and also runs at local startup. No unattended scheduler is
 authorized. Every review, display, decryption, download-equivalent internal
@@ -216,6 +218,10 @@ The runtime uses:
   reason codes, timestamps, review decisions, tombstones, and audit records;
 - an encrypted local object directory for source bytes, signed authorization
   receipts, inspection artifacts, and backup manifests; and
+- a content-free, monotonic recovery-authority ledger retained at a separately
+  controlled local path outside both the runtime directory and backup sets, with
+  checkpoints signed by a trusted key whose private key is never available to
+  the runtime or included in a backup; and
 - one encrypted object per submission or output, with no physical
   content-digest deduplication.
 
@@ -399,11 +405,13 @@ An operator-triggered backup contains:
 The wrapped master-key file is backed up separately from the passphrase.
 Recovery requires both. Restore occurs into an isolated staging directory and
 must verify the database, event chain, manifest, every object, tombstones,
-policy versions, and reconciliation before an atomic activation. A restore
-cannot bypass expired retention or deletion. A reset or deletion cannot be
-reported complete while any registered backup set containing the scope remains;
-that set must be physically purged and its absence verified rather than merely
-waiting for restore-time reconciliation.
+policy versions, current independently retained signed recovery-authority
+checkpoint, and reconciliation before an atomic activation. A restore cannot
+bypass expired retention, ledger revocation, or deletion. A copied
+pre-deletion backup remains revoked by the later external checkpoint. A reset
+or deletion cannot be reported complete while any registered backup set
+containing the scope remains; that set must be physically purged and its absence
+verified rather than merely waiting for restore-time reconciliation.
 
 Phase 3B backup, restore, cleanup, rotation, and reconciliation are
 operator-triggered and interactive. Unattended key access and scheduling require
@@ -471,6 +479,8 @@ names:
 - key/passphrase custody and recovery owner;
 - scanner-signature and worker-image identities;
 - backup location class and deletion obligation;
+- recovery-authority principal, trusted public key, independently controlled
+  ledger location and custodian, and current signed checkpoint generation;
 - review and incident-stop owner;
 - effective and expiry times; and
 - explicit permission to open, hash, quarantine, scan, parse, optionally OCR,
