@@ -2,8 +2,9 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Sprint 005 complete and merged; Knowledge Vault and Sprint 006
-architecture proposed; implementation and deployment unauthorized
+**Status:** Sprint 005 complete and merged; Knowledge Vault, Sprint 006, and
+organizational-intelligence architecture proposed; implementation and
+deployment unauthorized
 
 **Last reviewed:** 2026-08-04
 
@@ -50,6 +51,13 @@ demonstration artifacts at inspected head
 architecture, evidence validation, runtime readiness, or live organizational
 pilot authorization.
 
+The organizational-intelligence proposal defines a review target for a
+read-only executive interface and quarantine-first PDF, DOCX, TXT, and
+Markdown admission. Proposed ADRs 0012 and 0013, their specifications, and
+their validation requirements select no implementation technology and grant no
+source, live-information, deployment, verification, or action authority. They
+are not an active sprint and depend on ADR 0011 or an approved replacement.
+
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
 `5895e8f5896cf0687a43c978ec2f17da53d6b78c`. JCS remains **Named**, its
@@ -83,6 +91,9 @@ reviewed pull requests.
 - Proposed ADR 0011 defines a review target for the Knowledge Vault while
   retaining **Named** maturity; no Knowledge Vault implementation exists on
   reviewed `main`.
+- Proposed ADRs 0012 and 0013 define review targets for an executive read model
+  and governed document admission; neither is accepted or implementation
+  authority.
 - Draft pull request #43 contains Sprint 006 Proposal v2 as a
   documentation-only architecture package. It is not an active or authorized
   implementation sprint.

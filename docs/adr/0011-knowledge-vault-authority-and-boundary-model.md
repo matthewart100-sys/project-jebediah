@@ -6,10 +6,11 @@
 
 **Date:** 2026-08-04
 
-**Decision owner:** Project maintainer
+**Decision owner:** Chief Architect
 
-**Reviewers:** Work Mode and Chief Architect; project maintainer for repository
-authority
+**Reviewers:** Work Mode architecture review, then Chief Architect final review
+
+**Repository custody:** Project maintainer
 
 **Component maturity:** Named
 
@@ -703,8 +704,8 @@ This decision is ready for acceptance when review confirms:
 - JCS remains deferred.
 - No schema, API, storage, model, deployment, migration, or runtime
   implementation is selected.
-- The complete exact artifact receives Chief Architect review and final
-  maintainer authority.
+- The complete exact artifact receives independent Work Mode review and the
+  Chief Architect's final decision under the Project Coordination Protocol.
 
 Reconsideration is required if a later proposal would:
 
@@ -764,5 +765,5 @@ specifications to be accepted.
 
 The Chief Architect implementation directive authorized preparation of this
 Proposed artifact. Independent Work Mode review, formal Chief Architect
-exact-head review, final maintainer repository authority, merge, and post-merge
-read-back remain pending.
+exact-head decision, any required project-maintainer repository action, merge,
+and post-merge read-back remain pending.

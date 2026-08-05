@@ -26,6 +26,8 @@ not:
 - Treat the proposed Knowledge Vault boundary as accepted or implemented before
   [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md) completes
   review and merge
+- Treat the proposed executive read-model or document-admission boundaries as
+  accepted before ADRs 0012 and 0013 complete review and merge
 - Approve a production network layout or deployment composition
 - Treat a reported product as a permanent architecture choice
 
@@ -41,6 +43,9 @@ not:
 - ADR 0011 exists as a Proposed System decision for a Knowledge Vault authority
   boundary. No Knowledge Vault implementation or deployment exists on reviewed
   `main`.
+- ADRs 0012 and 0013 exist as Proposed System decisions for an executive read
+  model and governed document admission. They authorize no implementation or
+  live information use.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -241,6 +246,42 @@ admissibility. Evaluation does not verify source truth. The VBA artifacts in
 open pull request #44 remain unmerged demonstration material; their evidence
 validation is pending, and no live organizational pilot is authorized.
 
+## Proposed organizational-intelligence boundaries
+
+This section records the Future Design review targets in Proposed
+[ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
+and
+[ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md).
+Neither decision is accepted, and neither authorizes implementation, live
+information use, deployment, or external action.
+
+The proposed document flow preserves separate responsibilities:
+
+```mermaid
+flowchart LR
+    Source["Approved original source\ndomain authority"]
+    Admission["Collector document admission\nquarantine and validation"]
+    Derived["Knowledge Vault\nproposed derived records"]
+    ReadModel["Organizational-intelligence read model\neligible evidence"]
+    Interface["Executive interface\nread-only presentation"]
+    Human["Authorized human\ndecision authority"]
+
+    Source -.->|"separately authorized submission"| Admission
+    Admission -.->|"accepted source representation"| Derived
+    Derived -.->|"eligible derived evidence"| ReadModel
+    Source -.->|"approved direct facts"| ReadModel
+    ReadModel -.->|"happening, attention, Jebediah knowledge, next"| Interface
+    Interface -.->|"evidence and bounded options"| Human
+```
+
+Every dotted edge is unimplemented and separately gated. The Collector would
+own untrusted-input admission, not factual truth. The Knowledge Vault would own
+eligible derived representations and lineage only if ADR 0011 is accepted.
+The read-model assembly component, concrete interfaces, information domains,
+and operational owners remain unassigned. The executive interface would own
+presentation and navigation, not ingestion, verification, derivation,
+authoritative state, approval, or action execution.
+
 ## Architectural boundaries
 
 ### Engineering-memory boundary
@@ -349,6 +390,10 @@ or compatibility require the appropriate ADR before dependent implementation.
 - Proposed [ADR 0011](adr/0011-knowledge-vault-authority-and-boundary-model.md)
   owns the Knowledge Vault decision rationale while it remains under review; it
   does not change current architecture until accepted and merged.
+- Proposed [ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
+  and [ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md)
+  own the executive-interface and document-admission rationale while under
+  review; they do not change current architecture until accepted and merged.
 - The [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) owns Digital
   Twin intent, exclusions, and implementation gates.
 

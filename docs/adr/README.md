@@ -204,6 +204,12 @@ decision.
 - [ADR 0011: Knowledge Vault Authority and Boundary Model](0011-knowledge-vault-authority-and-boundary-model.md)
   is proposed and defines a derived governed knowledge repository boundary
   without implementation, external information use, or source authority.
+- [ADR 0012: Executive Organizational Intelligence Interface Boundary](0012-executive-organizational-intelligence-interface-boundary.md)
+  is proposed and defines a read-only, evidence-bearing executive read-model
+  boundary without ingestion or action authority.
+- [ADR 0013: Governed Organizational Document Admission Boundary](0013-governed-organizational-document-admission-boundary.md)
+  is proposed and defines quarantine-first PDF, DOCX, TXT, and Markdown
+  admission without granting source authority or live information use.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 

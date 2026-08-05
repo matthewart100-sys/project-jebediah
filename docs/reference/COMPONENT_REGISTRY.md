@@ -106,6 +106,10 @@ Collector and memory components exist as repository implementation candidates;
 neither is verified operational. The reported environment still requires an
 audit. The Knowledge Vault remains **Named** under Proposed ADR 0011 and has no
 implementation, external information authorization, or operational evidence.
+Proposed ADR 0013 may extend the Collector responsibility to quarantine-first
+PDF and DOCX admission, and Proposed ADR 0012 may establish a future executive
+read-model consumer, but neither is accepted and no new component maturity or
+ownership is assigned.
 VBA demonstration artifacts exist only on an unmerged proposal branch; their
 evidence validation is pending, and no live organizational pilot is authorized.
 The Digital Twin has an approved conceptual position but no bounded

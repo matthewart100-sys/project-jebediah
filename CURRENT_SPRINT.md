@@ -6,7 +6,9 @@
 
 Sprint 005 is the most recently completed sprint. Sprint 006 Proposal v2 is
 under architecture review and remains Proposed; it is not an active
-implementation sprint.
+implementation sprint. The organizational-intelligence interface and document-
+admission package is also a Proposed architecture candidate, has no sprint
+number, and authorizes no implementation or live information use.
 
 ## Sprint 005: Memory Architecture Consolidation (most recently completed)
 

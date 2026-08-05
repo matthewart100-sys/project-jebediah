@@ -326,6 +326,34 @@ information. The VBA demonstration artifacts in open pull request #44 remain
 unmerged, their evidence validation is pending, and no live organizational
 pilot is authorized.
 
+## Proposed organizational-intelligence mapping
+
+Proposed ADRs 0012 and 0013 apply the same categories to the candidate
+executive interface and document-admission flow:
+
+- An original source retains authority for facts in its approved domain.
+- A submitted byte stream is a cached evidentiary snapshot or temporary
+  quarantine item under a later retention decision.
+- A submission envelope and append-only transition history are operational
+  records of what the admission boundary processed.
+- Extracted text, chunks, summaries, entities, relationships, embeddings, and
+  indexes are derived and retain exact input and transformation lineage.
+- An organizational-intelligence read-model item is cached or derived view
+  data with safe source references, source time, assembly time, freshness,
+  lifecycle, and limitations.
+- A presented or generated summary remains derived and cannot acquire source,
+  verification, priority, or action authority.
+
+`accepted` admission means eligible for one approved intended use, not
+factually verified or available to every consumer. Only separately eligible
+`ready` outputs may reach ordinary retrieval. `quarantined`, `held`,
+`rejected`, `evaluation_failed`, `processing_failed`, partial, unauthorized,
+superseded, archived, or deleted material remains excluded.
+
+This proposed mapping does not classify a real organizational domain or
+authorize collection, retention, transformation, retrieval, display,
+generation, export, deployment, or action.
+
 ## Automation and action
 
 Information authority and action authority are separate.
@@ -392,6 +420,7 @@ unauthorized information. Reconciliation after restore is part of recovery.
 | Memory Service Qdrant point payload | Authoritative operational record of what the service accepted and durably stored | Jebediah Memory Service repository candidate | Does not own source truth; deployment, live contents, retention, and recovery remain unverified |
 | Embeddings, vector indexes, confidence, and retrieval signals | Derived information | Jebediah Memory Service repository candidate | Model identity is explicit; source authority and live compatibility remain separate |
 | Proposed Knowledge Vault | Unassigned; ADR 0011 proposes governed derived representations only | Unassigned pending ADR acceptance and component specification | **Named**, not implemented or operational; no source, external-use, or action authority |
+| Proposed organizational document submission and read-model items | Cached, operational, or derived as defined by the approved domain and transformation | Unassigned pending ADR and component acceptance | Proposed only; no live information, implementation, retention, retrieval, display, or action authority |
 | Other future runtime records, caches, indexes, embeddings, and inferences | Unassigned | Unassigned pending specification | No authority follows from the implemented memory candidate |
 
 ### Sprint 005 memory-record mapping
@@ -428,6 +457,10 @@ review unless their consequence triggers the
 ADR 0011 remains Proposed and therefore does not yet assign a concrete
 Knowledge Vault information owner, component owner, producer, consumer, or
 runtime responsibility.
+
+ADRs 0012 and 0013 remain Proposed and therefore do not assign a live
+organizational information owner, read-model owner, submitter, consumer,
+retention policy, or action authority.
 
 ## Maintenance
 
