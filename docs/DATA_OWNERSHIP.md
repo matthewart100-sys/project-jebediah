@@ -463,6 +463,12 @@ unauthorized information. Reconciliation after restore is part of recovery.
 
 ## Current baseline mapping
 
+On the Phase 3B Milestone 1 review branch, admitted synthetic PDFs are treated
+as temporary local custody objects only: encrypted at rest, identified by
+SHA-256, exposed through sanitized metadata, and deleted or recovered under the
+bounded retention workflow. No promoted knowledge object or production data
+ownership change occurs.
+
 | Information | Category and authority | Current owner | Limitation |
 | --- | --- | --- | --- |
 | Reviewed project documentation on GitHub `main` | Authoritative engineering memory within each canonical document's subject | Maintainer | Does not own future runtime facts merely because they are documented |

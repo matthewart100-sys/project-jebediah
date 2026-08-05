@@ -1,0 +1,6 @@
+FROM python:3.13-slim
+
+WORKDIR /worker
+COPY ocr.py /worker/ocr.py
+
+ENTRYPOINT ["python", "/worker/ocr.py"]

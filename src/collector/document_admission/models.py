@@ -1,3 +1,4 @@
+import base64
 from collections.abc import Iterable
 from dataclasses import dataclass, fields
 from datetime import datetime
@@ -1303,3 +1304,333 @@ class AuditEvent:
                 "safe_evidence_references",
             ),
         )
+
+
+class Phase3BState(str, Enum):
+    STAGED = "staged"
+    QUARANTINED = "quarantined"
+    ACCEPTED = "accepted"
+    READY_FOR_REVIEW = "ready_for_review"
+    REVIEW_APPROVED = "review_approved"
+    REVIEW_REJECTED = "review_rejected"
+    REVIEW_CORRECTION_REQUESTED = "review_correction_requested"
+    SUPERSEDED = "superseded"
+    EXPIRED = "expired"
+    DELETED = "deleted"
+    CLEANUP_FAILED = "cleanup_failed"
+
+
+class ReviewDecision(str, Enum):
+    APPROVE = "approve"
+    REJECT = "reject"
+    CORRECT = "correct"
+    SUPERSEDE = "supersede"
+
+
+def _require_base64(value: str, field_name: str) -> None:
+    _require_non_empty(value, field_name)
+    try:
+        base64.b64decode(value.encode("ascii"), validate=True)
+    except Exception as error:  # pragma: no cover - defensive
+        raise _invalid(field_name) from error
+
+
+@dataclass(frozen=True)
+class SourceAuthorizationReceipt:
+    receipt_id: str
+    organization_id: str
+    source_record_id: str
+    authority_role: str
+    principal_id: str
+    purpose: str
+    classification: str
+    allowed_operation: str
+    retention_profile_id: str
+    environment: str
+    issued_at: datetime
+    expires_at: datetime
+    signer_key_id: str
+    expected_sha256: str | None = None
+    single_use: bool = True
+
+    def __post_init__(self) -> None:
+        for name in (
+            "receipt_id",
+            "organization_id",
+            "source_record_id",
+            "authority_role",
+            "principal_id",
+            "purpose",
+            "classification",
+            "allowed_operation",
+            "retention_profile_id",
+            "environment",
+            "signer_key_id",
+        ):
+            _require_non_empty(getattr(self, name), name)
+        _require_aware(self.issued_at, "issued_at")
+        _require_aware(self.expires_at, "expires_at")
+        if self.expires_at <= self.issued_at:
+            raise _invalid("expires_at")
+        if self.allowed_operation != "phase3b.synthetic.intake":
+            raise _invalid("allowed_operation")
+        if type(self.single_use) is not bool or self.single_use is not True:
+            raise _invalid("single_use")
+        if self.expected_sha256 is not None:
+            _require_non_empty(self.expected_sha256, "expected_sha256")
+            if (
+                len(self.expected_sha256) != 64
+                or self.expected_sha256 != self.expected_sha256.lower()
+                or any(
+                    character not in "0123456789abcdef"
+                    for character in self.expected_sha256
+                )
+            ):
+                raise _invalid("expected_sha256")
+
+
+@dataclass(frozen=True)
+class SignedSourceAuthorizationReceipt:
+    receipt: SourceAuthorizationReceipt
+    signature_b64: str
+
+    def __post_init__(self) -> None:
+        _require_instance(self.receipt, SourceAuthorizationReceipt, "receipt")
+        _require_base64(self.signature_b64, "signature_b64")
+
+
+@dataclass(frozen=True)
+class Phase3BPageCapture:
+    page_number: int
+    method: str
+    text: str
+    warnings: tuple[str, ...]
+    limitations: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        _require_positive(self.page_number, "page_number")
+        if self.method not in {"native", "ocr"}:
+            raise _invalid("method")
+        _require_non_empty(self.text, "text")
+        object.__setattr__(
+            self,
+            "warnings",
+            _normalize_string_tuple(self.warnings, "warnings"),
+        )
+        object.__setattr__(
+            self,
+            "limitations",
+            _normalize_string_tuple(self.limitations, "limitations"),
+        )
+
+
+@dataclass(frozen=True)
+class Phase3BInspectionArtifact:
+    artifact_id: str
+    submission_id: str
+    extraction_quality: ExtractionQuality
+    pages: tuple[Phase3BPageCapture, ...]
+    warnings: tuple[str, ...]
+    omissions: tuple[str, ...]
+    limitations: tuple[str, ...]
+    native_text_sufficient: bool
+    created_at: datetime
+
+    def __post_init__(self) -> None:
+        for name in ("artifact_id", "submission_id"):
+            _require_non_empty(getattr(self, name), name)
+        _require_instance(
+            self.extraction_quality,
+            ExtractionQuality,
+            "extraction_quality",
+        )
+        pages = _normalize_tuple(self.pages, "pages", required=True)
+        if not all(isinstance(page, Phase3BPageCapture) for page in pages):
+            raise _invalid("pages")
+        object.__setattr__(self, "pages", pages)
+        for name in ("warnings", "omissions", "limitations"):
+            object.__setattr__(
+                self,
+                name,
+                _normalize_string_tuple(getattr(self, name), name),
+            )
+        if type(self.native_text_sufficient) is not bool:
+            raise _invalid("native_text_sufficient")
+        _require_aware(self.created_at, "created_at")
+
+
+@dataclass(frozen=True)
+class Phase3BAuditEntry:
+    event_id: str
+    submission_id: str
+    event_kind: str
+    prior_state: Phase3BState | None
+    next_state: Phase3BState | None
+    reason_code: str
+    recorded_at: datetime
+
+    def __post_init__(self) -> None:
+        for name in ("event_id", "submission_id", "event_kind", "reason_code"):
+            _require_non_empty(getattr(self, name), name)
+        for name in ("prior_state", "next_state"):
+            value = getattr(self, name)
+            if value is not None:
+                _require_instance(value, Phase3BState, name)
+        _require_aware(self.recorded_at, "recorded_at")
+
+
+@dataclass(frozen=True)
+class Phase3BReviewAnnotation:
+    annotation_id: str
+    submission_id: str
+    decision: ReviewDecision
+    actor_id: str
+    reason_code: str
+    note: str
+    created_at: datetime
+    prior_annotation_id: str | None = None
+
+    def __post_init__(self) -> None:
+        for name in (
+            "annotation_id",
+            "submission_id",
+            "actor_id",
+            "reason_code",
+            "note",
+        ):
+            _require_non_empty(getattr(self, name), name)
+        _require_instance(self.decision, ReviewDecision, "decision")
+        _require_aware(self.created_at, "created_at")
+        if self.prior_annotation_id is not None:
+            _require_non_empty(self.prior_annotation_id, "prior_annotation_id")
+
+
+@dataclass(frozen=True)
+class Phase3BSubmissionRecord:
+    submission_id: str
+    receipt_id: str
+    state: Phase3BState
+    content_identity: ContentIdentity
+    media_type: str
+    byte_count: int
+    duplicate_of: str | None
+    created_at: datetime
+    expires_at: datetime
+    updated_at: datetime
+    deleted_at: datetime | None = None
+    latest_review_decision: ReviewDecision | None = None
+
+    def __post_init__(self) -> None:
+        for name in ("submission_id", "receipt_id", "media_type"):
+            _require_non_empty(getattr(self, name), name)
+        _require_instance(self.state, Phase3BState, "state")
+        _require_instance(self.content_identity, ContentIdentity, "content_identity")
+        _require_non_negative(self.byte_count, "byte_count")
+        if self.duplicate_of is not None:
+            _require_non_empty(self.duplicate_of, "duplicate_of")
+        for name in ("created_at", "expires_at", "updated_at"):
+            _require_aware(getattr(self, name), name)
+        _require_optional_aware(self.deleted_at, "deleted_at")
+        if self.expires_at <= self.created_at:
+            raise _invalid("expires_at")
+        if self.updated_at < self.created_at:
+            raise _invalid("updated_at")
+        if self.deleted_at is not None and self.deleted_at < self.created_at:
+            raise _invalid("deleted_at")
+        if self.latest_review_decision is not None:
+            _require_instance(
+                self.latest_review_decision,
+                ReviewDecision,
+                "latest_review_decision",
+            )
+
+
+@dataclass(frozen=True)
+class Phase3BSubmissionDetail:
+    record: Phase3BSubmissionRecord
+    inspection_artifact: Phase3BInspectionArtifact | None
+    review_annotations: tuple[Phase3BReviewAnnotation, ...]
+    audit_entries: tuple[Phase3BAuditEntry, ...]
+
+    def __post_init__(self) -> None:
+        _require_instance(self.record, Phase3BSubmissionRecord, "record")
+        if self.inspection_artifact is not None:
+            _require_instance(
+                self.inspection_artifact,
+                Phase3BInspectionArtifact,
+                "inspection_artifact",
+            )
+            if self.inspection_artifact.submission_id != self.record.submission_id:
+                raise _invalid("inspection_artifact")
+        annotations = _normalize_tuple(
+            self.review_annotations,
+            "review_annotations",
+        )
+        if not all(
+            isinstance(annotation, Phase3BReviewAnnotation)
+            for annotation in annotations
+        ):
+            raise _invalid("review_annotations")
+        if any(
+            annotation.submission_id != self.record.submission_id
+            for annotation in annotations
+        ):
+            raise _invalid("review_annotations")
+        object.__setattr__(self, "review_annotations", annotations)
+        entries = _normalize_tuple(self.audit_entries, "audit_entries")
+        if not all(isinstance(entry, Phase3BAuditEntry) for entry in entries):
+            raise _invalid("audit_entries")
+        if any(entry.submission_id != self.record.submission_id for entry in entries):
+            raise _invalid("audit_entries")
+        object.__setattr__(self, "audit_entries", entries)
+
+
+@dataclass(frozen=True)
+class Phase3BWorkspaceSnapshot:
+    submissions: tuple[Phase3BSubmissionRecord, ...]
+    recent_audit_entries: tuple[Phase3BAuditEntry, ...]
+    warnings: tuple[str, ...]
+    generated_at: datetime
+
+    def __post_init__(self) -> None:
+        submissions = _normalize_tuple(self.submissions, "submissions")
+        if not all(
+            isinstance(submission, Phase3BSubmissionRecord)
+            for submission in submissions
+        ):
+            raise _invalid("submissions")
+        object.__setattr__(self, "submissions", submissions)
+        entries = _normalize_tuple(
+            self.recent_audit_entries,
+            "recent_audit_entries",
+        )
+        if not all(isinstance(entry, Phase3BAuditEntry) for entry in entries):
+            raise _invalid("recent_audit_entries")
+        object.__setattr__(self, "recent_audit_entries", entries)
+        object.__setattr__(
+            self,
+            "warnings",
+            _normalize_string_tuple(self.warnings, "warnings"),
+        )
+        _require_aware(self.generated_at, "generated_at")
+
+
+@dataclass(frozen=True)
+class Phase3BRecoveryReport:
+    reconciled_submission_ids: tuple[str, ...]
+    cleanup_failed_submission_ids: tuple[str, ...]
+    expired_submission_ids: tuple[str, ...]
+    recovered_at: datetime
+
+    def __post_init__(self) -> None:
+        for name in (
+            "reconciled_submission_ids",
+            "cleanup_failed_submission_ids",
+            "expired_submission_ids",
+        ):
+            object.__setattr__(
+                self,
+                name,
+                _normalize_string_tuple(getattr(self, name), name),
+            )
+        _require_aware(self.recovered_at, "recovered_at")

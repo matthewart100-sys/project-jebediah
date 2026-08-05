@@ -193,8 +193,9 @@ Collector exit gate or activate Phase 3 - Knowledge Graph.
 
 ### Proposed cross-phase Phase 3B governed intake refinement
 
-**Status:** Proposed documentation-only architecture; no implementation, real
-information, deployment, or canonical Roadmap Phase 3 activation
+**Status:** Implemented on a bounded review branch for synthetic-only Milestone
+1 custody foundations; still excludes real information, deployment, Phase 3C,
+Phase 3D, and canonical Roadmap Phase 3 activation
 
 The Organizational Intelligence Product Program label Phase 3B proposes a
 bounded refinement inside canonical Roadmap Phase 2: one local operator,

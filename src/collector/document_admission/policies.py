@@ -3,6 +3,7 @@ from datetime import datetime
 
 from .models import (
     DocumentFormat,
+    ReviewDecision,
     RESOURCE_LIMIT_FIELDS,
     RetentionDisposition,
     SubmissionEnvelope,
@@ -347,6 +348,61 @@ class AdmissionPolicies:
         )
         if any(actual != expected for actual, expected in pairs):
             raise _invalid("envelope_policy_identity")
+
+
+@dataclass(frozen=True)
+class Phase3BPolicyBundle:
+    policy_id: str
+    policy_version: str
+    allowed_media_type: str
+    max_pdf_bytes: int
+    retention_days: int
+    audit_retention_days: int
+    backup_retention_days: int
+    allowed_review_decisions: tuple[ReviewDecision, ...]
+
+    def __post_init__(self) -> None:
+        if self.policy_id != "phase3b-board-roster-pilot-v1":
+            raise _invalid("policy_id")
+        if self.policy_version != "1":
+            raise _invalid("policy_version")
+        if self.allowed_media_type != "application/pdf":
+            raise _invalid("allowed_media_type")
+        for name in (
+            "max_pdf_bytes",
+            "retention_days",
+            "audit_retention_days",
+            "backup_retention_days",
+        ):
+            _require_positive(getattr(self, name), name)
+        decisions = _normalize_tuple(
+            self.allowed_review_decisions,
+            "allowed_review_decisions",
+            required=True,
+        )
+        if not all(
+            isinstance(decision, ReviewDecision) for decision in decisions
+        ):
+            raise _invalid("allowed_review_decisions")
+        object.__setattr__(self, "allowed_review_decisions", decisions)
+
+
+def phase3b_policy_bundle() -> Phase3BPolicyBundle:
+    return Phase3BPolicyBundle(
+        policy_id="phase3b-board-roster-pilot-v1",
+        policy_version="1",
+        allowed_media_type="application/pdf",
+        max_pdf_bytes=20 * 1024 * 1024,
+        retention_days=30,
+        audit_retention_days=365,
+        backup_retention_days=30,
+        allowed_review_decisions=(
+            ReviewDecision.APPROVE,
+            ReviewDecision.REJECT,
+            ReviewDecision.CORRECT,
+            ReviewDecision.SUPERSEDE,
+        ),
+    )
 
 
 def synthetic_digest_policy() -> DigestPolicy:

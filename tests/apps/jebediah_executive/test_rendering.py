@@ -14,16 +14,25 @@ from __future__ import annotations
 
 import re
 from pathlib import Path
+from datetime import datetime, timezone
 
 import pytest
 
 from apps.jebediah_executive import rendering as r
 from apps.jebediah_executive.fixtures import build_briefing
+from apps.jebediah_executive.models import (
+    Phase3BReviewEntryView,
+    Phase3BSubmissionDetailView,
+    Phase3BSubmissionState,
+    Phase3BSubmissionSummary,
+    Phase3BWorkspaceView,
+)
 from apps.jebediah_executive.rendering import (
     DISCONNECTED_STATEMENT,
     NO_ACTION_STATEMENT,
     STATE_ROUTE_TO_ENUM,
     SYNTHETIC_BADGE,
+    render_phase3b_submission_detail,
     render_ask_index,
     render_ask_response,
     render_attention,
@@ -174,6 +183,60 @@ def test_workspace_has_table_and_no_input_controls() -> None:
     assert "<table class=\"workspace-table\">" in html
     for control in ("<form", "<input", "<textarea", "<button", "type=\"file\""):
         assert control not in html, control
+
+
+def test_phase3b_workspace_renders_intake_controls() -> None:
+    workspace = Phase3BWorkspaceView(
+        generated_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+        submissions=(
+            Phase3BSubmissionSummary(
+                submission_id="demo-submission-1",
+                title="Synthetic roster PDF",
+                state=Phase3BSubmissionState.READY_FOR_REVIEW,
+                received_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+                sha256_hex="a" * 64,
+                byte_count=128,
+                duplicate_of=None,
+                warnings=("ocr_fallback_used",),
+            ),
+        ),
+        recent_events=("submission_accepted",),
+        limitations=("Synthetic only.",),
+    )
+    html = render_workspace(BRIEFING, workspace)
+    assert "<form class=\"intake-form\"" in html
+    assert "type=\"file\"" in html
+    assert "/workspace/submissions/demo-submission-1" in html
+
+
+def test_phase3b_submission_detail_renders_review_controls() -> None:
+    detail = Phase3BSubmissionDetailView(
+        summary=Phase3BSubmissionSummary(
+            submission_id="demo-submission-1",
+            title="Synthetic roster PDF",
+            state=Phase3BSubmissionState.READY_FOR_REVIEW,
+            received_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+            sha256_hex="a" * 64,
+            byte_count=128,
+            duplicate_of=None,
+            warnings=("ocr_fallback_used",),
+        ),
+        native_text_sufficient=False,
+        page_count=2,
+        review_entries=(
+            Phase3BReviewEntryView(
+                decision="correct",
+                note="Needs correction",
+                created_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+            ),
+        ),
+        warnings=("ocr_fallback_used",),
+        limitations=("Synthetic only.",),
+    )
+    html = render_phase3b_submission_detail(BRIEFING, detail)
+    assert "/workspace/submissions/demo-submission-1/review" in html
+    assert "/workspace/submissions/demo-submission-1/delete" in html
+    assert "Request correction" in html
 
 
 def test_workspace_table_cells_carry_responsive_data_labels() -> None:

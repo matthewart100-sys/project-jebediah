@@ -123,6 +123,8 @@ searchable, linkable, and version controlled.
 - [Phase 3B Governed Intake Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
   is the Proposed decision-complete, PDF-only, one-operator architecture and
   exact implementation manifest.
+- [Phase 3B Local Operator Guide](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_LOCAL_OPERATOR_GUIDE.md)
+  describes the bounded synthetic-only Milestone 1 workflow.
 - [Phase 3B Lifecycle and Recovery Specification](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_LIFECYCLE_AND_RECOVERY.md)
   defines Proposed encryption, retention, deletion, hold, reconciliation,
   backup, restore, and rotation behavior.

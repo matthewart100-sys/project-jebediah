@@ -236,3 +236,10 @@ Implementation is eligible for independent review only when every required test
 passes, exact file scope matches, the operator guide reproduces the synthetic
 workflow, no real information was accessed, and all residual limitations remain
 visible.
+
+## Review-branch execution evidence
+
+The Milestone 1 implementation is validated on the review branch with targeted
+Phase 3B tests, full repository tests, `python -m compileall`, documentation
+validation, lock verification, and `git diff --check`. The bounded workflow
+remains synthetic-only and loopback-only.

@@ -1,5 +1,6 @@
 from dataclasses import replace
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
 
@@ -10,6 +11,7 @@ from collector.document_admission import (
     DocumentAdmissionNotFound,
     LegalHoldEvidence,
     PolicyViolation,
+    SyntheticPhase3BDocumentAdmissionRuntime,
 )
 
 from .synthetic_fixtures import (
@@ -78,6 +80,26 @@ def test_successful_cleanup_is_idempotent_without_restoring_bytes():
         system.quarantine.open_for_evaluation(
             admission.quarantine_receipt
         )
+
+
+def test_phase3b_runtime_delete_submission(tmp_path: Path) -> None:
+    base_time = datetime(2025, 1, 1, tzinfo=timezone.utc)
+    runtime = SyntheticPhase3BDocumentAdmissionRuntime(
+        tmp_path,
+        "phase3b-passphrase",
+        clock=lambda: base_time,
+    )
+    payload = b"%PDF-1.7\nSYNTHETIC-TEXT[1]:Hello\n%%EOF\n"
+    detail = runtime.admit_signed_pdf(
+        runtime.build_demo_receipt(
+            receipt_id="cleanup-receipt",
+            expected_payload=payload,
+        ),
+        "application/pdf",
+        payload,
+    )
+    deleted = runtime.delete_submission(detail.record.submission_id)
+    assert deleted.record.state.value == "deleted"
 
 
 def test_cleanup_identity_conflict_is_rejected():

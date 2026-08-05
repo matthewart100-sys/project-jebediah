@@ -1,0 +1,6 @@
+FROM python:3.13-slim
+
+WORKDIR /worker
+COPY inspect.py /worker/inspect.py
+
+ENTRYPOINT ["python", "/worker/inspect.py"]

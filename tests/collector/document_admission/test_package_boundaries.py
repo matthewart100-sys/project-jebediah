@@ -9,14 +9,17 @@ from collector.document_admission import (
     AdmissionAttemptRecord,
     ByteIntegrityVerifier,
     ConsumerEligibilityEvaluator,
+    DocumentWorkerRunner,
     DocumentAdmissionOrchestrator,
     EvidenceJournal,
     FormatDetector,
     InspectionResult,
     IsolatedInspector,
+    Phase3BDocumentAdmissionRuntime,
     PolicyEvaluator,
     QuarantineRepository,
     SecurityEvaluator,
+    SourceAuthorizationVerifier,
     SubmissionEnvelope,
 )
 
@@ -26,17 +29,26 @@ SOURCE = ROOT / "src" / "collector" / "document_admission"
 TESTS = ROOT / "tests" / "collector" / "document_admission"
 SOURCE_MANIFEST = {
     "__init__.py",
+    "authorization.py",
+    "crypto.py",
+    "durable_repository.py",
     "failures.py",
     "in_memory_adapters.py",
     "interfaces.py",
+    "lifecycle.py",
     "models.py",
     "orchestration.py",
+    "pdf_pipeline.py",
     "policies.py",
+    "review.py",
+    "runtime.py",
     "state_transitions.py",
+    "worker_protocol.py",
 }
 TEST_MANIFEST = {
     "__init__.py",
     "synthetic_fixtures.py",
+    "test_authorization.py",
     "test_models.py",
     "test_policies.py",
     "test_state_transitions.py",
@@ -47,9 +59,15 @@ TEST_MANIFEST = {
     "test_resource_limits.py",
     "test_inspection_results.py",
     "test_admission_orchestration.py",
+    "test_crypto.py",
+    "test_durable_repository.py",
     "test_failure_and_retry.py",
     "test_cleanup.py",
+    "test_lifecycle.py",
     "test_package_boundaries.py",
+    "test_pdf_pipeline.py",
+    "test_review.py",
+    "test_worker_protocol.py",
 }
 
 
@@ -66,12 +84,21 @@ def test_exact_authorized_source_and_test_manifests_exist():
 def test_runtime_package_uses_standard_library_and_relative_imports_only():
     allowed_roots = {
         "abc",
+        "__future__",
+        "base64",
         "collections",
         "dataclasses",
         "datetime",
         "enum",
         "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "sqlite3",
         "typing",
+        "cryptography",
     }
     for path, tree in source_trees():
         for node in ast.walk(tree):
@@ -132,6 +159,9 @@ def test_all_external_behavior_contracts_remain_abstract():
         IsolatedInspector,
         ConsumerEligibilityEvaluator,
         DocumentAdmissionOrchestrator,
+        SourceAuthorizationVerifier,
+        DocumentWorkerRunner,
+        Phase3BDocumentAdmissionRuntime,
     )
     assert all(inspect.isabstract(contract) for contract in contracts)
 

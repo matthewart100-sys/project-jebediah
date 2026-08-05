@@ -24,7 +24,7 @@ APP_DIR = REPO_ROOT / "apps" / "jebediah_executive"
 APPS_PKG_INIT = REPO_ROOT / "apps" / "__init__.py"
 TEST_DIR = REPO_ROOT / "tests" / "apps" / "jebediah_executive"
 OPERATOR_GUIDE = (
-    REPO_ROOT / "docs" / "ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_LOCAL_PREVIEW.md"
+    REPO_ROOT / "docs" / "ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_LOCAL_OPERATOR_GUIDE.md"
 )
 
 # Exact accepted manifest (source side).
@@ -45,6 +45,7 @@ EXPECTED_TEST_FILES = {
     "test_fixtures.py",
     "test_models.py",
     "test_package_boundaries.py",
+    "test_phase3b_workflow.py",
     "test_rendering.py",
     "test_routes.py",
 }

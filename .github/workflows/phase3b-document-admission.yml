@@ -1,0 +1,31 @@
+name: phase3b-document-admission
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  phase3b-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+      - uses: astral-sh/setup-uv@v5
+      - name: Sync dependencies
+        run: uv sync --frozen
+      - name: Run Phase 3B targeted tests
+        run: >
+          uv run pytest
+          tests/collector/document_admission/test_authorization.py
+          tests/collector/document_admission/test_crypto.py
+          tests/collector/document_admission/test_durable_repository.py
+          tests/collector/document_admission/test_worker_protocol.py
+          tests/collector/document_admission/test_pdf_pipeline.py
+          tests/collector/document_admission/test_review.py
+          tests/collector/document_admission/test_lifecycle.py
+          tests/apps/jebediah_executive/test_phase3b_workflow.py
+      - name: Validate docs
+        run: uv run python scripts/validate_docs.py

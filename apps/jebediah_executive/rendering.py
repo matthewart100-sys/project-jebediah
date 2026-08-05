@@ -26,6 +26,9 @@ from .models import (
     NextContext,
     NextItemKind,
     PermittedNextStep,
+    Phase3BSubmissionDetailView,
+    Phase3BSubmissionState,
+    Phase3BWorkspaceView,
     SourceReference,
     UncertaintyState,
     WorkspaceRecord,
@@ -125,6 +128,19 @@ _ASK_STATE_SYMBOLS = {
     AskState.GROUNDED: "\u25c6",
     AskState.INSUFFICIENT: "\u25cb",
     AskState.FAILED: "\u2716",
+}
+
+_PHASE3B_STATE_LABELS = {
+    Phase3BSubmissionState.QUARANTINED: "Quarantined",
+    Phase3BSubmissionState.ACCEPTED: "Accepted",
+    Phase3BSubmissionState.READY_FOR_REVIEW: "Ready for review",
+    Phase3BSubmissionState.REVIEW_APPROVED: "Review approved",
+    Phase3BSubmissionState.REVIEW_REJECTED: "Review rejected",
+    Phase3BSubmissionState.REVIEW_CORRECTION_REQUESTED: "Correction requested",
+    Phase3BSubmissionState.EXPIRED: "Expired",
+    Phase3BSubmissionState.DELETED: "Deleted",
+    Phase3BSubmissionState.CLEANUP_FAILED: "Cleanup failed",
+    Phase3BSubmissionState.SUPERSEDED: "Superseded",
 }
 
 STATE_ROUTE_TO_ENUM = {
@@ -574,7 +590,74 @@ def _workspace_row(record: WorkspaceRecord) -> str:
     )
 
 
-def render_workspace(briefing: ExecutiveBriefing) -> str:
+def _phase3b_submission_row(workspace: Phase3BWorkspaceView) -> str:
+    rows: list[str] = []
+    for submission in workspace.submissions:
+        duplicate = (
+            escape(submission.duplicate_of)
+            if submission.duplicate_of is not None
+            else "none"
+        )
+        warnings = "; ".join(escape(value) for value in submission.warnings) or "none"
+        rows.append(
+            "<tr>"
+            f"<th scope=\"row\"><a href=\"/workspace/submissions/{escape(submission.submission_id)}\">"
+            f"{escape(submission.title)}</a></th>"
+            f"<td data-label=\"State\">{escape(_PHASE3B_STATE_LABELS[submission.state])} "
+            f"<code class=\"enum-value\">{escape(submission.state.value)}</code></td>"
+            f"<td data-label=\"SHA-256\">{escape(submission.sha256_hex)}</td>"
+            f"<td data-label=\"Bytes\">{submission.byte_count}</td>"
+            f"<td data-label=\"Duplicate of\">{duplicate}</td>"
+            f"<td data-label=\"Warnings\">{warnings}</td>"
+            f"<td data-label=\"Received at\">{escape(_fmt(submission.received_at))}</td>"
+            "</tr>"
+        )
+    return "".join(rows)
+
+
+def _phase3b_workspace_section(workspace: Phase3BWorkspaceView) -> str:
+    recent = "".join(
+        f"<li>{escape(entry)}</li>" for entry in workspace.recent_events
+    ) or "<li>No synthetic audit events recorded yet.</li>"
+    return (
+        "<section aria-label=\"Synthetic PDF intake\">"
+        "<h2>Synthetic PDF intake and custody workspace</h2>"
+        "<p>Submit one synthetic PDF fixture at a time. Browser-pushed bytes are "
+        "accepted only through this loopback form; no server-side path, URL, or "
+        "remote fetch is available.</p>"
+        "<form class=\"intake-form\" method=\"post\" action=\"/workspace/intake\" "
+        "enctype=\"multipart/form-data\">"
+        "<label for=\"receipt-id\">Receipt ID</label>"
+        "<input id=\"receipt-id\" name=\"receipt_id\" type=\"text\" required>"
+        "<label for=\"pdf-upload\">Synthetic PDF fixture</label>"
+        "<input id=\"pdf-upload\" name=\"pdf\" type=\"file\" accept=\"application/pdf\" required>"
+        "<button type=\"submit\">Admit synthetic PDF</button>"
+        "</form>"
+        "<form class=\"recover-form\" method=\"post\" action=\"/workspace/recover\" "
+        "enctype=\"multipart/form-data\">"
+        "<button type=\"submit\">Run recovery sweep</button>"
+        "</form>"
+        "</section>"
+        "<section aria-label=\"Phase 3B submissions\">"
+        "<h2>Current synthetic submissions</h2>"
+        "<table class=\"workspace-table phase3b-table\"><caption>Sanitized synthetic "
+        "PDF submissions under custody</caption><thead><tr>"
+        "<th scope=\"col\">Submission</th><th scope=\"col\">State</th>"
+        "<th scope=\"col\">SHA-256</th><th scope=\"col\">Bytes</th>"
+        "<th scope=\"col\">Duplicate of</th><th scope=\"col\">Warnings</th>"
+        "<th scope=\"col\">Received at</th></tr></thead>"
+        f"<tbody>{_phase3b_submission_row(workspace)}</tbody></table>"
+        + _limitation_list(workspace.limitations, "Phase 3B workspace limitations")
+        + "</section>"
+        "<section aria-label=\"Recent custody activity\"><h2>Recent custody activity</h2>"
+        f"<ul class=\"activity\">{recent}</ul></section>"
+    )
+
+
+def render_workspace(
+    briefing: ExecutiveBriefing,
+    workspace: Phase3BWorkspaceView | None = None,
+) -> str:
     rows = "".join(_workspace_row(record) for record in briefing.workspace_records)
     activities = "".join(
         "<li>"
@@ -605,10 +688,72 @@ def render_workspace(briefing: ExecutiveBriefing) -> str:
         "<section aria-label=\"Recent activity\"><h2>Recent synthetic activity</h2>"
         f"<ul class=\"activity\">{activities}</ul></section>"
     )
+    if workspace is not None:
+        main += _phase3b_workspace_section(workspace)
     return _document(
         title="Knowledge workspace",
         nav_current="workspace",
         heading="Knowledge workspace",
+        main_html=main,
+        briefing=briefing,
+    )
+
+
+def render_phase3b_submission_detail(
+    briefing: ExecutiveBriefing,
+    detail: Phase3BSubmissionDetailView,
+) -> str:
+    review_entries = "".join(
+        "<li>"
+        f"{escape(entry.decision)} at {escape(_fmt(entry.created_at))} — "
+        f"{escape(entry.note)}</li>"
+        for entry in detail.review_entries
+    ) or "<li>No review entries recorded yet.</li>"
+    warnings = "; ".join(escape(entry) for entry in detail.warnings) or "none"
+    main = (
+        "<section aria-label=\"Submission detail\">"
+        f"<h2>{escape(detail.summary.title)}</h2>"
+        f"<p class=\"status-banner\"><span aria-hidden=\"true\">&#9673;</span> "
+        f"State: {escape(_PHASE3B_STATE_LABELS[detail.summary.state])} "
+        f"<code class=\"enum-value\">{escape(detail.summary.state.value)}</code></p>"
+        "<dl class=\"evidence-meta\">"
+        f"<dt>Submission ID</dt><dd>{escape(detail.summary.submission_id)}</dd>"
+        f"<dt>SHA-256</dt><dd>{escape(detail.summary.sha256_hex)}</dd>"
+        f"<dt>Bytes</dt><dd>{detail.summary.byte_count}</dd>"
+        f"<dt>Received at</dt><dd>{escape(_fmt(detail.summary.received_at))}</dd>"
+        f"<dt>Page count</dt><dd>{detail.page_count}</dd>"
+        f"<dt>Native text sufficient</dt><dd>{escape(str(detail.native_text_sufficient).lower())}</dd>"
+        f"<dt>Warnings</dt><dd>{warnings}</dd>"
+        "</dl>"
+        + _limitation_list(detail.limitations, "Submission limitations")
+        + "</section>"
+        "<section aria-label=\"Review history\"><h2>Review history</h2>"
+        f"<ul class=\"activity\">{review_entries}</ul>"
+        "<form class=\"review-form\" method=\"post\" "
+        f"action=\"/workspace/submissions/{escape(detail.summary.submission_id)}/review\" "
+        "enctype=\"multipart/form-data\">"
+        "<label for=\"review-note\">Review note</label>"
+        "<input id=\"review-note\" name=\"note\" type=\"text\" required>"
+        "<label for=\"review-decision\">Decision</label>"
+        "<select id=\"review-decision\" name=\"decision\">"
+        "<option value=\"approve\">Approve</option>"
+        "<option value=\"reject\">Reject</option>"
+        "<option value=\"correct\">Request correction</option>"
+        "<option value=\"supersede\">Supersede</option>"
+        "</select>"
+        "<button type=\"submit\">Record review decision</button>"
+        "</form>"
+        "<form class=\"delete-form\" method=\"post\" "
+        f"action=\"/workspace/submissions/{escape(detail.summary.submission_id)}/delete\" "
+        "enctype=\"multipart/form-data\">"
+        "<button type=\"submit\">Delete submission</button>"
+        "</form>"
+        "</section>"
+    )
+    return _document(
+        title=detail.summary.title,
+        nav_current="workspace",
+        heading="Synthetic PDF submission detail",
         main_html=main,
         briefing=briefing,
     )

@@ -22,6 +22,14 @@ from .models import (
     SubmissionEnvelope,
     TransformationAttemptRecord,
     TransformationTransition,
+    Phase3BInspectionArtifact,
+    Phase3BRecoveryReport,
+    Phase3BReviewAnnotation,
+    Phase3BSubmissionDetail,
+    Phase3BSubmissionRecord,
+    Phase3BWorkspaceSnapshot,
+    SignedSourceAuthorizationReceipt,
+    ReviewDecision,
 )
 from .policies import (
     AdmissionPolicies,
@@ -252,4 +260,103 @@ class DocumentAdmissionOrchestrator(ABC):
         legal_hold: LegalHoldEvidence | None,
         context: CleanupOperationContext,
     ) -> CleanupEvidence:
+        raise NotImplementedError
+
+
+class SourceAuthorizationVerifier(ABC):
+    @abstractmethod
+    def verify(
+        self,
+        signed_receipt: SignedSourceAuthorizationReceipt,
+        checked_at: datetime,
+    ) -> SignedSourceAuthorizationReceipt:
+        raise NotImplementedError
+
+
+class DurableCustodyRepository(ABC):
+    @abstractmethod
+    def admit(
+        self,
+        signed_receipt: SignedSourceAuthorizationReceipt,
+        media_type: str,
+        payload: bytes,
+        admitted_at: datetime,
+    ) -> Phase3BSubmissionRecord:
+        raise NotImplementedError
+
+    @abstractmethod
+    def store_inspection(
+        self,
+        submission_id: str,
+        artifact: Phase3BInspectionArtifact,
+        stored_at: datetime,
+    ) -> Phase3BSubmissionRecord:
+        raise NotImplementedError
+
+    @abstractmethod
+    def append_review(
+        self,
+        submission_id: str,
+        decision: ReviewDecision,
+        note: str,
+        reviewed_at: datetime,
+    ) -> Phase3BReviewAnnotation:
+        raise NotImplementedError
+
+    @abstractmethod
+    def delete_submission(
+        self,
+        submission_id: str,
+        deleted_at: datetime,
+        reason_code: str,
+    ) -> Phase3BSubmissionRecord:
+        raise NotImplementedError
+
+    @abstractmethod
+    def workspace_snapshot(
+        self,
+        generated_at: datetime,
+    ) -> Phase3BWorkspaceSnapshot:
+        raise NotImplementedError
+
+    @abstractmethod
+    def submission_detail(self, submission_id: str) -> Phase3BSubmissionDetail:
+        raise NotImplementedError
+
+    @abstractmethod
+    def recover(self, recovered_at: datetime) -> Phase3BRecoveryReport:
+        raise NotImplementedError
+
+
+class DocumentWorkerRunner(ABC):
+    @abstractmethod
+    def run(self, worker_kind: str, payload: bytes) -> dict[str, object]:
+        raise NotImplementedError
+
+
+class Phase3BDocumentAdmissionRuntime(ABC):
+    @abstractmethod
+    def admit_signed_pdf(
+        self,
+        signed_receipt: SignedSourceAuthorizationReceipt,
+        media_type: str,
+        payload: bytes,
+    ) -> Phase3BSubmissionDetail:
+        raise NotImplementedError
+
+    @abstractmethod
+    def review_submission(
+        self,
+        submission_id: str,
+        decision: ReviewDecision,
+        note: str,
+    ) -> Phase3BSubmissionDetail:
+        raise NotImplementedError
+
+    @abstractmethod
+    def delete_submission(self, submission_id: str) -> Phase3BSubmissionDetail:
+        raise NotImplementedError
+
+    @abstractmethod
+    def workspace_snapshot(self) -> Phase3BWorkspaceSnapshot:
         raise NotImplementedError

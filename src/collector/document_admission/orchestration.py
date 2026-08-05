@@ -50,6 +50,7 @@ from .policies import (
     RetentionPolicy,
     SyntheticConsumerPolicy,
 )
+from .runtime import SyntheticPhase3BDocumentAdmissionRuntime
 
 
 ACTOR_ID = "synthetic_document_admission_orchestrator"
@@ -687,7 +688,6 @@ class SyntheticDocumentAdmissionOrchestrator(
             EvaluationOutcome.UNAVAILABLE: AdmissionState.EVALUATION_FAILED,
         }
         return mapping[outcome], reason_code
-
     @staticmethod
     def _validate_detection(
         detection: FormatDetectionResult,
@@ -821,3 +821,11 @@ class SyntheticDocumentAdmissionOrchestrator(
             raise DocumentAdmissionValidationError(
                 "invalid_consumer_eligibility_decision"
             )
+
+
+def build_phase3b_runtime(
+    root_dir: str,
+    passphrase: str,
+) -> SyntheticPhase3BDocumentAdmissionRuntime:
+    """Create the bounded synthetic Phase 3B runtime service."""
+    return SyntheticPhase3BDocumentAdmissionRuntime(root_dir, passphrase)

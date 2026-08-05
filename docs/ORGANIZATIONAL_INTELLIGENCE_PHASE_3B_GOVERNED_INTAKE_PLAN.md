@@ -603,6 +603,18 @@ Phase 3B implementation is complete only when:
 - the implementation merges and post-merge read-back passes; and
 - one terminal closeout records the result without recursion.
 
+## Implementation execution evidence
+
+This review branch implements Milestone 1 only:
+
+- signed synthetic receipt validation and replay denial;
+- PDF-only admission with MIME, signature, and size checks;
+- encrypted local custody with SHA-256 identity and duplicate tracking;
+- append-only audit and review metadata;
+- expiry, deletion, and recovery sweep behavior;
+- loopback-only Executive Product Shell intake and review routes;
+- deterministic synthetic worker stubs and targeted CI coverage.
+
 ## Stop conditions
 
 Stop and obtain revised architecture or authority if implementation requires:

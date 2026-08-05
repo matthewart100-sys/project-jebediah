@@ -2,12 +2,14 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 2 and Organizational Intelligence Product
-Program Phase 3A are terminally closed. The Executive Product Shell is
-**Implemented** as a synthetic, loopback-only local preview. A documentation-only
-Phase 3B governed PDF intake architecture and prepared implementation activation
-are Proposed; implementation, external information, deployment, operational use,
-Phase 3C/3D, and canonical Roadmap Phase 3 remain unauthorized
+**Status:** Knowledge Manager 1.0 Phase 2 and Organizational Intelligence
+Product Program Phase 3A are terminally closed. The Executive Product Shell is
+**Implemented** as a synthetic, loopback-only local preview. This review branch
+also implements Phase 3B Milestone 1 synthetic PDF intake and custody
+foundations: signed receipt validation, PDF-only admission, encrypted local
+custody, review-state tracking, duplicate detection, expiry, deletion,
+recovery, and loopback-only operator workspace flows. Phase 3C/3D, deployment,
+operational use, and canonical Roadmap Phase 3 remain unauthorized.
 
 **Last reviewed:** 2026-08-05
 

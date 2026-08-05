@@ -1040,3 +1040,133 @@ class ExecutiveBriefing:
             if response.question_id == question_id:
                 return response
         return None
+
+
+class Phase3BSubmissionState(str, Enum):
+    """Synthetic intake and review states exposed by the local shell."""
+
+    QUARANTINED = "quarantined"
+    ACCEPTED = "accepted"
+    READY_FOR_REVIEW = "ready_for_review"
+    REVIEW_APPROVED = "review_approved"
+    REVIEW_REJECTED = "review_rejected"
+    REVIEW_CORRECTION_REQUESTED = "review_correction_requested"
+    EXPIRED = "expired"
+    DELETED = "deleted"
+    CLEANUP_FAILED = "cleanup_failed"
+    SUPERSEDED = "superseded"
+
+
+@dataclass(frozen=True)
+class Phase3BSubmissionSummary:
+    """Sanitized workspace summary for one synthetic PDF submission."""
+
+    submission_id: str
+    title: str
+    state: Phase3BSubmissionState
+    received_at: datetime
+    sha256_hex: str
+    byte_count: int
+    duplicate_of: str | None
+    warnings: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        _require_identity(self.submission_id, "submission_id")
+        _require_text(self.title, "title")
+        if not isinstance(self.state, Phase3BSubmissionState):
+            raise ContractError("state must be a Phase3BSubmissionState")
+        _require_aware(self.received_at, "received_at")
+        if not re.fullmatch(r"[0-9a-f]{64}", self.sha256_hex):
+            raise ContractError("sha256_hex must be 64 lowercase hex characters")
+        if (
+            not isinstance(self.byte_count, int)
+            or isinstance(self.byte_count, bool)
+            or self.byte_count < 0
+        ):
+            raise ContractError("byte_count must be a non-negative integer")
+        if self.duplicate_of is not None:
+            _require_identity(self.duplicate_of, "duplicate_of")
+        _require_text_tuple(self.warnings, "warnings")
+
+
+@dataclass(frozen=True)
+class Phase3BReviewEntryView:
+    """Sanitized local review annotation."""
+
+    decision: str
+    note: str
+    created_at: datetime
+
+    def __post_init__(self) -> None:
+        if self.decision not in {
+            "approve",
+            "reject",
+            "correct",
+            "supersede",
+        }:
+            raise ContractError("decision must be an accepted review decision")
+        _require_text(self.note, "note")
+        _require_aware(self.created_at, "created_at")
+
+
+@dataclass(frozen=True)
+class Phase3BSubmissionDetailView:
+    """Sanitized operator detail page for one synthetic PDF submission."""
+
+    summary: Phase3BSubmissionSummary
+    native_text_sufficient: bool
+    page_count: int
+    review_entries: tuple[Phase3BReviewEntryView, ...]
+    warnings: tuple[str, ...]
+    limitations: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.summary, Phase3BSubmissionSummary):
+            raise ContractError("summary must be a Phase3BSubmissionSummary")
+        if not isinstance(self.native_text_sufficient, bool):
+            raise ContractError("native_text_sufficient must be a bool")
+        if (
+            not isinstance(self.page_count, int)
+            or isinstance(self.page_count, bool)
+            or self.page_count <= 0
+        ):
+            raise ContractError("page_count must be a positive integer")
+        if not isinstance(self.review_entries, tuple):
+            raise ContractError("review_entries must be a tuple")
+        for entry in self.review_entries:
+            if not isinstance(entry, Phase3BReviewEntryView):
+                raise ContractError(
+                    "review_entries must contain Phase3BReviewEntryView"
+                )
+        _require_text_tuple(self.warnings, "warnings")
+        _require_text_tuple(self.limitations, "limitations")
+
+
+@dataclass(frozen=True)
+class Phase3BWorkspaceView:
+    """Sanitized Phase 3B operator workspace."""
+
+    generated_at: datetime
+    submissions: tuple[Phase3BSubmissionSummary, ...]
+    recent_events: tuple[str, ...]
+    limitations: tuple[str, ...]
+
+    def __post_init__(self) -> None:
+        _require_aware(self.generated_at, "generated_at")
+        if not isinstance(self.submissions, tuple):
+            raise ContractError("submissions must be a tuple")
+        for submission in self.submissions:
+            if not isinstance(submission, Phase3BSubmissionSummary):
+                raise ContractError(
+                    "submissions must contain Phase3BSubmissionSummary"
+                )
+        _require_text_tuple(self.recent_events, "recent_events")
+        _require_text_tuple(self.limitations, "limitations")
+
+    def submission_by_id(
+        self, submission_id: str
+    ) -> Phase3BSubmissionSummary | None:
+        for submission in self.submissions:
+            if submission.submission_id == submission_id:
+                return submission
+        return None

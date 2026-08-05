@@ -1,5 +1,5 @@
 from dataclasses import FrozenInstanceError, fields, replace
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
@@ -11,6 +11,12 @@ from collector.document_admission import (
     DocumentAdmissionValidationError,
     FormatDetectionResult,
     FormatDetectionState,
+    Phase3BPageCapture,
+    Phase3BSubmissionRecord,
+    Phase3BState,
+    ReviewDecision,
+    SignedSourceAuthorizationReceipt,
+    SourceAuthorizationReceipt,
     RetryKind,
     SubmissionEnvelope,
 )
@@ -70,6 +76,64 @@ def test_submission_scope_is_synthetic_only(field_name, value):
         match=f"invalid_{field_name}",
     ):
         build_envelope(**{field_name: value})
+
+
+def test_phase3b_signed_receipt_requires_base64_signature() -> None:
+    receipt = SourceAuthorizationReceipt(
+        receipt_id="synthetic-receipt-1",
+        organization_id="synthetic-org",
+        source_record_id="synthetic-source",
+        authority_role="synthetic-authority",
+        principal_id="synthetic-principal",
+        purpose="phase3b_test",
+        classification="internal-governance-limited-personal-data",
+        allowed_operation="phase3b.synthetic.intake",
+        retention_profile_id="phase3b",
+        environment="synthetic-local-only",
+        issued_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+        expires_at=datetime(2025, 1, 1, tzinfo=timezone.utc) + timedelta(hours=1),
+        signer_key_id="synthetic-signer",
+        expected_sha256=None,
+        single_use=True,
+    )
+    with pytest.raises(DocumentAdmissionValidationError, match="invalid_signature_b64"):
+        SignedSourceAuthorizationReceipt(receipt=receipt, signature_b64="not-base64")
+
+
+def test_phase3b_submission_record_tracks_state_and_review_decision() -> None:
+    record = Phase3BSubmissionRecord(
+        submission_id="submission-1",
+        receipt_id="receipt-1",
+        state=Phase3BState.READY_FOR_REVIEW,
+        content_identity=ContentIdentity(
+            digest_policy_id="phase3b-sha256",
+            digest_policy_version="1",
+            algorithm="sha256",
+            digest_hex="a" * 64,
+            byte_count=32,
+        ),
+        media_type="application/pdf",
+        byte_count=32,
+        duplicate_of=None,
+        created_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+        expires_at=datetime(2025, 1, 2, tzinfo=timezone.utc),
+        updated_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+        deleted_at=None,
+        latest_review_decision=ReviewDecision.APPROVE,
+    )
+    assert record.state is Phase3BState.READY_FOR_REVIEW
+    assert record.latest_review_decision is ReviewDecision.APPROVE
+
+
+def test_phase3b_page_capture_rejects_blank_text() -> None:
+    with pytest.raises(DocumentAdmissionValidationError, match="invalid_text"):
+        Phase3BPageCapture(
+            page_number=1,
+            method="native",
+            text=" ",
+            warnings=(),
+            limitations=(),
+        )
 
 
 @pytest.mark.parametrize(
