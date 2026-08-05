@@ -2,11 +2,11 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 2 is terminally closed; a
-documentation-only Organizational Intelligence Product Program Phase 3A
-architecture package is Proposed; external information, implementation, runtime
-integration, deployment, operational use, and canonical Roadmap Phase 3 remain
-unauthorized
+**Status:** Knowledge Manager 1.0 Phase 2 is terminally closed; Organizational
+Intelligence Product Program Phase 3A architecture and its exact bounded
+synthetic implementation scope are accepted, but implementation has not started;
+external information, runtime integration, deployment, operational use, and
+canonical Roadmap Phase 3 remain unauthorized
 
 **Last reviewed:** 2026-08-05
 
@@ -97,15 +97,15 @@ Canonical post-merge validation passed 226 targeted tests, 461 full-suite
 tests, 9 package-boundary tests, and all required repository gates. The package
 has **Implemented** repository maturity but is not operational.
 
-The current documentation-only work proposes a compiled synthetic
+The accepted architecture defines a compiled synthetic
 [Phase 3A Executive Product Shell](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_PRODUCT_SHELL_PLAN.md)
-to refine the accepted ADR 0012 presentation boundary. Proposed System ADR
-0015, a threat model, dependency assessment, validation requirements, and an
-inactive bounded authorization form one architecture review target. The
-Executive Product Shell remains **Named**; no source tree, implementation
-sprint, live adapter, service, real-information path, deployment, or action
-authority exists. The Product Program Phase 3A label does not activate or
-rename canonical Roadmap Phase 3 - Knowledge Graph.
+to refine the ADR 0012 presentation boundary. Accepted System ADR 0015, a threat
+model, dependency assessment, validation requirements, and bounded authorization
+form the exact implementation contract. The Executive Product Shell is
+**Specified**, not Implemented or Operational. No source tree, live adapter,
+service, real-information path, deployment, or action authority exists. The
+Product Program Phase 3A label does not activate or rename canonical Roadmap
+Phase 3 - Knowledge Graph.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -155,6 +155,11 @@ reviewed pull requests.
 - Accepted ADRs 0012 and 0013 define architecture boundaries for an executive
   read model and governed document admission; neither grants implementation
   authority.
+- Accepted ADR 0015 defines the compiled-synthetic Executive Product Shell and
+  loopback local-preview boundary. Work Mode approved and the Chief Architect
+  adopted exact planning head
+  `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`; the component is **Specified**,
+  not Implemented or Operational.
 - Pull request #50 squash-merged the independently reviewed Phase 2 plan and
   validation baseline as
   `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`; no implementation or
@@ -346,15 +351,13 @@ The Phase 2 architecture, activation, exact synthetic implementation, review,
 Chief Architect approval, merge, post-merge validation, and terminal
 documentation closeout are complete.
 
-The current work is the documentation-only Organizational Intelligence Product
-Program Phase 3A architecture proposal. It defines a synthetic Executive Product
-Shell, local-preview boundary, exact view models, routes, states, threat model,
-dependency decision, tests, rollback, file manifest, and inactive implementation
-authorization. It requires independent exact-head Work Mode review, explicit
-Chief Architect adoption, and canonical architecture merge before coding. No
-active implementation sprint, parser, service, real document, runtime
-integration, deployment, canonical Roadmap Phase 3 work, or Phase 3A
-implementation is authorized.
+The current work activates the accepted Organizational Intelligence Product
+Program Phase 3A architecture. It defines a synthetic Executive Product Shell,
+local-preview boundary, exact view models, routes, states, threat model,
+dependency decision, tests, rollback, file manifest, and bounded implementation
+authorization. Implementation is authorized only from canonical activation
+merge and has not started. No parser, service, real document, runtime
+integration, deployment, or canonical Roadmap Phase 3 work is authorized.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and

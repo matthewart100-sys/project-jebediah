@@ -59,7 +59,7 @@ person or agent implements first.
 | Collector Engine | Controlled ingestion component | Implemented | Validate and normalize bounded text records, derive identity, preserve provenance, and coordinate storage; ADR 0013 and the accepted Phase 2 activation bound a disconnected synthetic document-admission repository package with no runtime or real-information authority; PR #53 merged that package as repository implementation | Maintainer accountable | Separate future decisions for deployment, live input, durable quarantine, parser/scanner selection, and runtime ownership |
 | Jebediah Memory Service | Semantic memory component | Implemented | Govern memory candidates through one canonical package, persist one acknowledged Qdrant point, and retrieve semantic-only context | Maintainer accountable | Isolated integration and deployment decision |
 | Knowledge Vault | Governed knowledge repository boundary | Named | ADR 0011 defines derived-repository authority; the bounded ADR 0014 metadata-only registry library is implemented without content, memory integration, durable storage, runtime use, or source authority | Unassigned pending component specification | Separately approve information domains, component and operational ownership, real producers and consumers, durable interfaces, security, operations, and recovery |
-| Executive Product Shell | Human-experience component | Named | No responsibility is approved; proposed ADR 0015 would define presentation and navigation over compiled fabricated briefing fixtures in a loopback-only local preview | Unassigned pending specification | Independent exact-head architecture review and Chief Architect acceptance; implementation remains separately gated |
+| Executive Product Shell | Human-experience component | Specified | Present and navigate one immutable evidence-bearing executive briefing over compiled fabricated fixtures in a loopback-only local preview; no source, verification, derivation, approval, action, live-information, or deployment authority | Maintainer accountable | Exact bounded implementation from canonical activation merge, independent implementation review, and Chief Architect merge decision |
 | Knowledge Graph | Named future subsystem | Named | Future representation of traceable entities and relationships | Unassigned pending specification | Stable collector and knowledge contracts |
 | Digital Twin | Named future concept | Named | Future bounded, time-aware, provenance-rich representation of selected relevant state; conceptual position only | Unassigned pending specification | Bounded use case and component specification under the Digital Twin position |
 | Automation | Named future capability | Named | Future controlled actions from trusted state and policy | Unassigned pending specification | State, authority, and action-boundary approval |
@@ -113,8 +113,8 @@ admission boundary, and Accepted ADR 0012 defines a future executive read-model
 consumer boundary. The Phase 2 planning, activation, disconnected synthetic
 implementation, validation, and terminal closeout are canonical; they grant no
 real-information, runtime, or deployment authority. The Executive Product Shell
-is **Named** by a Proposed Phase 3A package and has no approved responsibility,
-source, test, runtime, live information, or operational evidence.
+is **Specified** under Accepted ADR 0015 but has no source implementation, live
+information, service, deployment, or operational evidence.
 VBA demonstration artifacts exist only on an unmerged proposal branch; their
 evidence validation is pending, and no live organizational pilot is authorized.
 The Digital Twin has an approved conceptual position but no bounded

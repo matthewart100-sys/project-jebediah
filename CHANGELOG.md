@@ -10,10 +10,10 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
-- Added a proposed documentation-only Organizational Intelligence Product
-  Program Phase 3A architecture package for a compiled synthetic Executive
+- Added and accepted an Organizational Intelligence Product Program Phase 3A
+  architecture package for a compiled synthetic Executive
   Product Shell: System ADR 0015, complete product plan, validation contract,
-  threat model, dependency assessment, and inactive bounded implementation
+  threat model, dependency assessment, and bounded implementation
   authorization. The package adds no source, test, dependency, lock, service,
   workflow, container, infrastructure, deployment, or real-information path.
 - Added the terminal Knowledge Manager 1.0 Phase 2 documentation closeout
@@ -87,9 +87,12 @@ development. Changes not assigned to a published version remain under
   `58f40054faba1167c25d828186e74d66e6c0681b`, terminally closing Knowledge
   Manager 1.0 Phase 2 without recursive closeout or new implementation
   authority.
-- Recorded Product Program Phase 3A as a proposed cross-phase
+- Recorded Product Program Phase 3A as an accepted cross-phase
   human-experience foundation that does not activate or rename canonical
   Roadmap Phase 3 - Knowledge Graph.
+- Recorded Work Mode approval and Chief Architect adoption of exact Phase 3A
+  planning head `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`, advancing the Executive
+  Product Shell to **Specified** while leaving implementation not started.
 - Recorded pull request #52's squash merge of exact reviewed activation head
   `a9d27f03454906db2771e3635c541bc5dca3e4ce` as
   `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`, authorizing only the disconnected,

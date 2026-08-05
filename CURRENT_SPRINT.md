@@ -2,14 +2,15 @@
 
 ## Active sprint
 
-**Name:** None
+**Name:** Organizational Intelligence Product Program Phase 3A - Executive
+Dashboard and Product Shell
 
-**Status:** No active implementation sprint is authorized; Knowledge Manager
-1.0 Phase 2 is terminally closed; a documentation-only Organizational
-Intelligence Product Program Phase 3A architecture package is Proposed
+**Status:** Architecture and the exact bounded synthetic implementation scope
+are accepted; implementation is authorized from canonical merge of the
+activation package but has not started
 
-**Target window:** Not applicable until the Chief Architect authorizes another
-sprint
+**Target window:** Bounded implementation, exact-head review, merge validation,
+and terminal closeout after canonical architecture activation
 
 **Deployment status:** Not authorized
 
@@ -31,19 +32,19 @@ enforce deterministic document-admission and inspection contracts over
 generated synthetic bytes without creating a real document path, runtime
 service, production parser, or organizational-information authority.
 
-## Current planning work
+## Accepted Phase 3A activation
 
-The current documentation-only branch proposes the
+The accepted
 [Phase 3A Executive Product Shell Plan](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_PRODUCT_SHELL_PLAN.md),
-System ADR 0015, a threat model, dependency assessment, validation contract,
-and inactive bounded implementation authorization.
+System ADR 0015, threat model, dependency assessment, validation contract, and
+bounded implementation authorization define one complete synthetic product
+scope.
 
 The Product Program Phase 3A label describes a cross-phase human-experience
 foundation. It does not activate or rename canonical Roadmap Phase 3 -
-Knowledge Graph. The proposed shell would be a compiled synthetic-data-only,
-loopback local preview. Architecture review, Chief Architect adoption,
-architecture merge, and a clean baseline remain mandatory before any source
-implementation.
+Knowledge Graph. The accepted shell is a compiled synthetic-data-only, loopback
+local preview. No implementation exists until the authorized source branch
+completes its separate review and merge gates.
 
 ## Authority and merge evidence
 
@@ -66,6 +67,11 @@ implementation.
   Architect approved it for merge.
 - Pull request #54 squash-merged that closeout head as canonical commit
   `58f40054faba1167c25d828186e74d66e6c0681b`, terminally closing Phase 2.
+- One read-only Work Mode reviewer approved exact Phase 3A planning head
+  `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7` with no findings.
+- The Chief Architect adopted that exact head, accepted ADR 0015 and the
+  component specification, and authorized only status activation before a
+  separate exact-head architecture merge decision.
 - The remote implementation branch was deleted, and canonical `main` was clean
   and synchronized after merge.
 
@@ -147,8 +153,8 @@ parsed, inspected, or ingested.
 | Implementation merge | Complete | PR #53 squash merge `ccba7951f280f2b09e932db3979034dc6c2e5b68` |
 | Post-merge validation | Complete | 226 targeted and 461 full-suite tests plus all required repository gates |
 | Documentation closeout | Complete | PR #54 squash merge `58f40054faba1167c25d828186e74d66e6c0681b`; no recursive closeout |
-| Phase 3A architecture package | Proposed | Documentation-only exact-head review and Chief Architect decision required |
-| Phase 3A implementation | Unauthorized | Requires accepted architecture, adopted bounded authorization, and canonical merge |
+| Phase 3A architecture package | Accepted | Work Mode approved and Chief Architect adopted exact planning head `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`; activation merge is canonical start gate |
+| Phase 3A implementation | Authorized after canonical activation merge; not started | Exact 31-file synthetic scope, independent review, and separate merge decision |
 
 ## Rollback
 
@@ -169,10 +175,10 @@ privacy and legal policy, production security evaluation, parser and isolation
 technology, durable custody, operations, recovery, deployment, and exact-scope
 authorization.
 
-Sprint 006 Proposal v2 remains a separate Proposed workstream. Completion of
-this sprint does not accept or authorize Sprint 006, the VBA demonstration,
-live information use, deployment, canonical Roadmap Phase 3, or a Phase 3A
-executive dashboard implementation.
+Sprint 006 Proposal v2 remains a separate Proposed workstream. Phase 3A
+authorization does not accept or authorize Sprint 006, the VBA demonstration,
+live information use, deployment, canonical Roadmap Phase 3, or any capability
+outside the exact synthetic Executive Product Shell manifest.
 
 ## Closed-sprint boundary
 

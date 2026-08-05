@@ -1,6 +1,6 @@
 # Organizational Intelligence Phase 3A Validation Requirements
 
-**Status:** Proposed architecture validation contract
+**Status:** Accepted
 
 **Program phase:** Organizational Intelligence Product Program Phase 3A -
 Executive Dashboard and Product Shell
@@ -16,8 +16,8 @@ Executive Dashboard and Product Shell
 
 ## Purpose
 
-These requirements define the evidence needed to accept the proposed Phase 3A
-architecture package and, after separate authorization, the Executive Product
+These requirements define the evidence used to accept the Phase 3A architecture
+package and the evidence required for the separately reviewed Executive Product
 Shell implementation.
 
 They refine, but do not weaken, the accepted Organizational Intelligence
@@ -43,9 +43,9 @@ representative organization.
 8. Deployment, live-information, and implementation-merge authority remain
    separate decisions.
 
-## Architecture package validation
+## Proposed review-head validation
 
-Before architecture publication:
+The initial Proposed review head was required to satisfy:
 
 - ADR 0015, the Phase 3A plan, validation requirements, threat model,
   dependency assessment, and bounded authorization exist at one head.
@@ -54,8 +54,8 @@ Before architecture publication:
   accessibility, tests, rollback, stop conditions, and exact file scope.
 - Current sprint, status, roadmap, architecture, repository standards,
   component registry, indexes, and Phase 2 terminal state agree.
-- ADR 0015 remains Proposed.
-- The Executive Product Shell remains Named.
+- ADR 0015 remained Proposed.
+- The Executive Product Shell remained Named.
 - No implementation sprint or source-tree creation is claimed.
 - No source, test, dependency, lock, service, workflow, container,
   infrastructure, or deployment file changes.

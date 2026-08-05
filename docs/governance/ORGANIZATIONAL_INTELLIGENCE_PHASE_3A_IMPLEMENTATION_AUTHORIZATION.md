@@ -1,6 +1,7 @@
 # Organizational Intelligence Phase 3A Implementation Authorization
 
-**Status:** Proposed and inactive
+**Status:** Adopted; effective only after canonical architecture activation
+merge
 
 **Program phase:** Organizational Intelligence Product Program Phase 3A -
 Executive Dashboard and Product Shell
@@ -12,37 +13,35 @@ Executive Dashboard and Product Shell
 **Required prior evidence:** Independent Work Mode exact-head architecture
 review
 
-## Proposed disposition
+## Adopted disposition
 
 **A. AUTHORIZE THE SYNTHETIC EXECUTIVE PRODUCT SHELL IMPLEMENTATION**
 
-This proposed disposition has not been adopted. It becomes effective only when
-all implementation gates in this record are satisfied and the Chief Architect
-explicitly adopts it for the unchanged Work Mode-approved architecture head.
+The Chief Architect adopted this disposition for exact Work Mode-approved
+planning head `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7` on 2026-08-05 and authorized
+only a bounded status-and-decision-evidence activation edit.
 
-The current repository state authorizes documentation and review only.
+Implementation becomes effective only after the changed activation head receives
+fresh review from the same Work Mode reviewer, receives a separate Chief
+Architect exact-head architecture merge decision, and merges to canonical
+`main`.
 
-## Decision requested
+## Adoption evidence
 
-After independent approval, request that the Chief Architect:
+- Work Mode exact reviewed head:
+  `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`
+- Work Mode disposition: **APPROVED**
+- Findings: no Blocking, High, Medium, or Low findings
+- Chief Architect disposition: **ADOPT AND AUTHORIZE STATUS ACTIVATION**
+- Decision date: 2026-08-05
+- Remaining gate: fresh exact activation-head review and separate Chief
+  Architect architecture merge decision
 
-1. accept ADR 0015;
-2. accept the Phase 3A plan, validation requirements, threat model, and
-   dependency assessment;
-3. adopt this bounded implementation authorization for the same exact Proposed
-   head;
-4. authorize only the bounded status-and-decision-evidence activation edit; and
-5. require fresh review by the same Work Mode reviewer plus a separate Chief
-   Architect exact activation-head merge decision before the Lead Product
-   Engineer may start in the canonical Implementation Engineer role after
-   merge.
+This decision does not approve the future implementation head for merge.
 
-This proposed decision does not approve the future implementation head for
-merge.
+## Decision basis
 
-## Proposed decision basis
-
-Authorization would be supportable only if independent review confirms:
+Authorization is supportable because independent review confirmed:
 
 - ADR 0012 already accepts the read-only executive-interface boundary;
 - Phase 3A is a synthetic cross-phase product foundation and does not activate
@@ -59,7 +58,7 @@ Authorization would be supportable only if independent review confirms:
 - security, privacy, accessibility, and failure requirements are independently
   reviewable.
 
-## Exact proposed scope
+## Exact authorized scope
 
 Authorize the Lead Product Engineer, acting only in the canonical Implementation
 Engineer role, to implement the application, tests, direct documentation,
@@ -178,7 +177,7 @@ The implementation must:
 6. Stop for a separate Chief Architect exact-head implementation merge
    decision.
 
-This proposed authorization does not approve implementation merge.
+This authorization does not approve implementation merge.
 
 ## Rollback
 
@@ -250,7 +249,9 @@ The Chief Architect adoption must identify:
 
 ## Execution record
 
-None. This record is proposed and inactive.
+The architecture and authorization adoption applies to exact planning head
+`5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`. The current edit activates status
+and decision evidence only. No source implementation has started.
 
-No implementation, review, merge, closeout, real-information, or deployment
+No implementation merge, real-information, deployment, action, or later-phase
 authority has been consumed.

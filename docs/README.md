@@ -94,24 +94,24 @@ searchable, linkable, and version controlled.
   is an Accepted System decision for quarantine-first document admission and
   non-authoritative derivation.
 - [Organizational Intelligence Phase 3A Executive Product Shell Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_PRODUCT_SHELL_PLAN.md)
-  is a proposed complete product, component, route, view-model, synthetic-data,
+  is the accepted complete product, component, route, view-model, synthetic-data,
   state, accessibility, test, rollback, and exact-file plan; it grants no
-  implementation authority.
+  implementation merge, live-information, or deployment authority.
 - [Organizational Intelligence Phase 3A Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_VALIDATION_REQUIREMENTS.md)
-  define proposed model, fixture, rendering, route, workflow, accessibility,
+  define accepted model, fixture, rendering, route, workflow, accessibility,
   security, isolation, browser, repository, and review evidence.
 - [Organizational Intelligence Phase 3A Threat Model](ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_THREAT_MODEL.md)
-  defines proposed assets, trust boundaries, threats, controls, residual risks,
+  defines accepted assets, trust boundaries, threats, controls, residual risks,
   and stop conditions for a synthetic loopback preview.
 - [Organizational Intelligence Phase 3A Dependency Assessment](ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_DEPENDENCY_ASSESSMENT.md)
   selects the existing Python standard library and test tooling without a
   dependency, lock, browser framework, or build-chain addition.
 - [ADR 0015: Executive Product Shell and Local Preview Boundary](adr/0015-executive-product-shell-and-local-preview-boundary.md)
-  is a Proposed System decision for one presentation-only component over
+  is an Accepted System decision for one presentation-only component over
   compiled fabricated fixtures.
 - [Phase 3A Implementation Authorization](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_IMPLEMENTATION_AUTHORIZATION.md)
-  is a proposed and inactive bounded Chief Architect decision record; it
-  authorizes no coding until all exact-head gates are satisfied.
+  is an adopted bounded Chief Architect decision record that becomes effective
+  only after canonical architecture activation merge.
 - [Knowledge Manager 1.0 Phase 1 Implementation Plan](KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
   defines the accepted and authorized metadata-only Knowledge Registry
   foundation while preserving its Checkpoint 0 and excluded capabilities.

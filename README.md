@@ -97,14 +97,15 @@ closed by pull request #54 at
 `58f40054faba1167c25d828186e74d66e6c0681b`. It remains disconnected and
 non-operational.
 
-The current work is a documentation-only architecture proposal for a synthetic
+The accepted architecture defines a synthetic
 [Phase 3A Executive Product Shell](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_PRODUCT_SHELL_PLAN.md).
-Its proposed ADR, threat model, dependency assessment, validation requirements,
-and inactive authorization record grant no implementation authority. No active
-implementation sprint, real document ingestion, external information, memory
+Its accepted ADR, threat model, dependency assessment, validation requirements,
+and bounded authorization define an exact 31-file synthetic implementation
+scope. Implementation is authorized only from canonical activation merge and
+has not started. No real document ingestion, external information, memory
 integration, embeddings, Qdrant writes, service, deployment, document upload,
-autonomous promotion, canonical Roadmap Phase 3, or Product Program Phase 3A
-implementation is authorized. JCS remains deferred and is not a dependency.
+autonomous promotion, or canonical Roadmap Phase 3 is authorized. JCS remains
+deferred and is not a dependency.
 
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).

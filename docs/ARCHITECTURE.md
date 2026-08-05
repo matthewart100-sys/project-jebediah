@@ -59,6 +59,9 @@ not:
   parser, scanner, sandbox, ingestion service, organizational-information
   authorization, durable storage, Qdrant or memory integration, retrieval,
   service, or deployment.
+- ADR 0015 is an Accepted System decision for the Executive Product Shell. The
+  component is **Specified** as a presentation-only, compiled-synthetic,
+  loopback local preview and is not Implemented or Operational.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -140,7 +143,7 @@ interfaces remain clear.
 | Automation | Controlled orchestration and actions with policy, idempotency, approval, and rollback | Named future capability; no tracked workflows |
 | Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Bounded Collector, semantic memory, and metadata-only Knowledge Registry libraries are implemented; Knowledge Vault and organizational-intelligence authority boundaries are accepted; no registry runtime consumer or external information is authorized |
 | Reasoning | Bounded inference over trusted context with validation and tool authority | Named future capability; no engine implemented |
-| User experience | Human interaction, explanation, approval, feedback, and operational visibility | The read-only executive-interface boundary is accepted; a synthetic Executive Product Shell refinement is Proposed but not implemented |
+| User experience | Human interaction, explanation, approval, feedback, and operational visibility | The read-only executive-interface and synthetic Executive Product Shell boundaries are accepted; the shell is **Specified** but not implemented |
 
 ```mermaid
 flowchart BT
@@ -327,14 +330,13 @@ and operational owners remain unassigned. The executive interface would own
 presentation and navigation, not ingestion, verification, derivation,
 authoritative state, approval, or action execution.
 
-## Proposed Phase 3A Executive Product Shell refinement
+## Accepted Phase 3A Executive Product Shell refinement
 
-The documentation-only Organizational Intelligence Product Program Phase 3A
-package proposes System
+The Organizational Intelligence Product Program Phase 3A package accepts System
 [ADR 0015](adr/0015-executive-product-shell-and-local-preview-boundary.md)
-and one **Named** component, the **Executive Product Shell**.
+and one **Specified** component, the **Executive Product Shell**.
 
-The proposed component would refine only the final presentation edge above:
+The component refines only the final presentation edge above:
 
 ```mermaid
 flowchart LR
@@ -348,17 +350,15 @@ flowchart LR
     Browser -->|"evidence, uncertainty, limitations"| Human
 ```
 
-The proposal selects Python standard-library server rendering, literal
+The accepted decision selects Python standard-library server rendering, literal
 `127.0.0.1` local preview, fixed allowlisted GET and HEAD routes, no JavaScript,
 and no new dependency. It has no edge to a source, Collector, registry, memory,
 Qdrant, Ollama, model, retrieval, workflow, action, or deployment system.
 
-This section records architecture work in review. ADR 0015 remains Proposed,
-the component remains **Named**, and no implementation or source tree is
-authorized until independent exact-head review, Chief Architect acceptance,
-canonical merge, and the separate bounded implementation gate complete. Product
-Program Phase 3A does not activate or rename canonical Roadmap Phase 3 -
-Knowledge Graph.
+Work Mode approved and the Chief Architect adopted exact planning head
+`5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`. The component is **Specified**, not
+Implemented or Operational. Product Program Phase 3A does not activate or rename
+canonical Roadmap Phase 3 - Knowledge Graph.
 
 ## Architectural boundaries
 
@@ -472,10 +472,9 @@ or compatibility require the appropriate ADR before dependent implementation.
   own the executive-interface and document-admission decision rationale.
 - Accepted [ADR 0014](adr/0014-knowledge-registry-domain-boundary.md) owns the
   metadata-only Knowledge Registry domain and package-boundary decision.
-- Proposed
+- Accepted
   [ADR 0015](adr/0015-executive-product-shell-and-local-preview-boundary.md)
-  would refine the synthetic Executive Product Shell and loopback preview
-  boundary; it is not authoritative while Proposed.
+  owns the synthetic Executive Product Shell and loopback preview boundary.
 - The [Digital Twin Position](design/DIGITAL_TWIN_POSITION.md) owns Digital
   Twin intent, exclusions, and implementation gates.
 

@@ -111,10 +111,10 @@ may be refined when a language and source layout are approved.
 `services/jebediah-memory/` contains the memory-service runtime candidate.
 `apps/` is reserved for independently runnable, user-facing applications whose
 component, language, entry point, dependency, test, security, operations, and
-ownership boundaries are approved. Proposed ADR 0015 identifies
-`apps/jebediah_executive/` for a future synthetic Executive Product Shell, but
-the path must not be created while that ADR and its implementation authorization
-remain inactive.
+ownership boundaries are approved. Accepted ADR 0015 assigns
+`apps/jebediah_executive/` to the synthetic Executive Product Shell. The path is
+created only after the accepted architecture activation is canonical and its
+bounded implementation authorization is active.
 New source or service trees still require an approved responsibility, language,
 build, test, packaging, and ownership boundary; existing trees do not authorize
 speculative peers.

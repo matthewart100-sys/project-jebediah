@@ -1,6 +1,7 @@
 # Organizational Intelligence Phase 3A Executive Product Shell Plan
 
-**Status:** Proposed architecture and implementation plan
+**Status:** Accepted; bounded implementation authorized after canonical
+architecture activation merge
 
 **Program:** Organizational Intelligence Product Program
 
@@ -16,8 +17,7 @@ does not activate or rename canonical Roadmap Phase 3 - Knowledge Graph
 
 **Decision owner:** Chief Architect
 
-**Proposed component owner:** Maintainer accountable for the repository
-candidate
+**Component owner:** Maintainer accountable for the repository candidate
 
 **Operational owner:** Unassigned; no operation or deployment is authorized
 
@@ -57,21 +57,20 @@ live compatibility, production security, operations, or deployment.
 
 ## Authority state
 
-Preparing and reviewing this package authorizes documentation only.
-Implementation begins only when:
+One independent read-only Work Mode reviewer approved exact planning head
+`5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7` with no findings. On 2026-08-05,
+the Chief Architect accepted ADR 0015, this plan, the validation requirements,
+threat model, dependency assessment, component specification, and bounded
+implementation authorization for that exact head.
 
-1. the complete package exists at one remote exact head;
-2. Work Mode returns **APPROVED** with no unresolved Blocking, High, or Medium
-   finding;
-3. the Chief Architect adopts the architecture and bounded authorization for
-   that exact Proposed head and authorizes only the status-activation edit;
-4. the same independent Work Mode reviewer freshly approves the resulting exact
-   activation head, where accepted statuses and decision evidence are recorded;
-5. the Chief Architect separately approves that exact activation head for
-   architecture merge;
-6. the accepted architecture package and status reconciliation merge to
-   canonical `main`; and
-7. the implementation owner verifies the canonical base and clean test baseline.
+The Chief Architect authorized only this status-and-decision-evidence activation
+edit. Implementation begins only when:
+
+1. the same Work Mode reviewer freshly approves the exact activation head;
+2. the Chief Architect separately approves that exact head for architecture
+   merge;
+3. the accepted architecture package merges to canonical `main`; and
+4. the implementation owner verifies the canonical base and clean test baseline.
 
 Architecture approval is not implementation merge, deployment, live-information,
 or Phase 3B authority.
@@ -948,16 +947,12 @@ documentation-only architecture branch
 Changed heads reopen the applicable review. Status activation reuses the same
 independent reviewer and does not assign a second reviewer.
 
-## Requested decision
+## Adoption record and remaining decision
 
-After Work Mode approval, request that the Chief Architect:
+The Chief Architect adopted exact planning head
+`5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7` and authorized this bounded
+activation edit. The remaining architecture decision is approval of the freshly
+reviewed exact activation head for merge.
 
-1. accept ADR 0015;
-2. approve the Executive Product Shell component specification;
-3. adopt the bounded Phase 3A implementation authorization;
-4. authorize a status-and-decision-evidence activation edit only; and
-5. require fresh exact-head review and a separate exact-head architecture merge
-   decision before implementation can become active.
-
-This request does not include deployment, real information, Phase 3B, or
+Adoption does not include deployment, real information, Phase 3B, or
 implementation merge authority.

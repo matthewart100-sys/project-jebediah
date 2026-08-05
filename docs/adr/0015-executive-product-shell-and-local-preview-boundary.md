@@ -1,6 +1,6 @@
 # ADR 0015: Executive Product Shell and Local Preview Boundary
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Decision level:** System
 
@@ -182,9 +182,8 @@ The component does not own:
 - identity, access, retention, or deployment; or
 - external actions.
 
-The Component Registry remains **Named** while this ADR is Proposed. Acceptance
-of this ADR and its component specification advances the component to
-**Specified**, not Implemented or Operational.
+Acceptance of this ADR and its component specification advances the Executive
+Product Shell to **Specified**, not Implemented or Operational.
 
 On acceptance, the Maintainer is accountable for the repository component. The
 Lead Product Engineer acts only in the canonical Implementation Engineer role
@@ -376,8 +375,9 @@ credential, deployment, service, or external cleanup applies.
 
 ## Follow-up gates
 
-- Work Mode architecture review of the complete Phase 3A package
-- Chief Architect acceptance of this ADR and exact implementation scope
+- Fresh Work Mode review of the status-activation head
+- Chief Architect exact activation-head architecture merge decision
+- Canonical architecture merge before implementation starts
 - Independent implementation review and exact-head merge approval
 - Terminal Phase 3A closeout
 - Separate decisions for any live adapter, real information, authentication,
@@ -391,4 +391,11 @@ credential, deployment, service, or external cleanup applies.
 
 ## Review record
 
-Pending independent Work Mode exact-head review and Chief Architect decision.
+One independent read-only Work Mode reviewer approved exact planning head
+`5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7` with no Blocking, High, Medium, or
+Low findings. The Chief Architect accepted this ADR and authorized only the
+bounded status-and-decision-evidence activation edit on 2026-08-05.
+
+Because activation changes the head, architecture merge remains gated by fresh
+review from the same Work Mode reviewer and a separate Chief Architect exact-head
+merge decision.

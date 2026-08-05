@@ -1,6 +1,6 @@
 # Organizational Intelligence Phase 3A Threat Model
 
-**Status:** Proposed
+**Status:** Accepted for the synthetic local-preview boundary
 
 **Scope:** Executive Product Shell synthetic local preview only
 

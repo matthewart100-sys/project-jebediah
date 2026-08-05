@@ -255,13 +255,12 @@ operational ownership remain unapproved.
 
 ### Executive Product Shell
 
-A **Named** human-experience component in the Proposed Organizational
-Intelligence Product Program Phase 3A architecture package. Proposed ADR 0015
-would assign presentation and navigation over immutable compiled fabricated
-briefing fixtures in a loopback-only local preview. While the ADR remains
-Proposed, the component has no approved responsibility, implementation,
-organizational-information access, service, action, deployment, or operational
-authority.
+A **Specified** human-experience component under Accepted
+[ADR 0015](../adr/0015-executive-product-shell-and-local-preview-boundary.md).
+It owns presentation and navigation over immutable compiled fabricated briefing
+fixtures in a loopback-only local preview. It has no source, verification,
+derivation, approval, action, organizational-information, service, deployment,
+or operational authority and is not yet Implemented.
 
 ### Knowledge Graph
 
