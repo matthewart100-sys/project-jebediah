@@ -10,6 +10,13 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Proposed the documentation-only Organizational Intelligence Product Program
+  Phase 3B governed PDF intake package: System ADR 0016, a decision-complete
+  one-operator plan, lifecycle/recovery specification, threat model, dependency
+  assessment, validation contract, and prepared synthetic-only implementation
+  activation. The package names the Virginia B. Andes board-governance roster
+  domain but authorizes no implementation, real document access, source
+  discovery, deployment, Phase 3C consumer, or Phase 3D behavior.
 - Terminally closed the Organizational Intelligence Product Program Phase 3A
   Executive Product Shell through independently reviewed implementation pull
   request #56, Chief Architect exact-head squash-merge approval, canonical merge

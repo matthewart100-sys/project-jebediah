@@ -2,13 +2,12 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 2 is terminally closed; the
-Organizational Intelligence Product Program Phase 3A Executive Product Shell is
-**Implemented** as a synthetic, loopback-only local preview on canonical
-`main`; pull request #56 merged its exact independently approved implementation,
-post-merge validation passed, and this documentation package terminally closes
-Phase 3A on merge; external information, runtime integration, deployment,
-operational use, and canonical Roadmap Phase 3 remain unauthorized
+**Status:** Knowledge Manager 1.0 Phase 2 and Organizational Intelligence Product
+Program Phase 3A are terminally closed. The Executive Product Shell is
+**Implemented** as a synthetic, loopback-only local preview. A documentation-only
+Phase 3B governed PDF intake architecture and prepared implementation activation
+are Proposed; implementation, external information, deployment, operational use,
+Phase 3C/3D, and canonical Roadmap Phase 3 remain unauthorized
 
 **Last reviewed:** 2026-08-05
 
@@ -41,7 +40,8 @@ activation package as `35d5bafc63a904868012944f792f64e0d4456793`.
 Pull request #56 squash-merged exact Work Mode-approved implementation head
 `75dede435b8f4d8e1cdbd7377526bb5470b346ef` as
 `95b9e06ae2edc4585d659efc825ca4553ce452d9`; complete post-merge automated and
-browser validation passed.
+browser validation passed. Pull request #57 then terminally closed Phase 3A as
+`c38eb6b32e0786d9c18674fee06db27417a5e9a3`.
 
 [ADR 0011](docs/adr/0011-knowledge-vault-authority-and-boundary-model.md)
 defines the accepted Knowledge Vault authority boundary as a derived governed
@@ -120,6 +120,14 @@ describes bounded local inspection only. The Product Program Phase 3A label does
 not activate or rename canonical Roadmap Phase 3 - Knowledge Graph. The
 [Phase 3A Closeout](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_CLOSEOUT.md)
 owns the exact merge, validation, exclusions, rollback, and remaining gates.
+
+The Proposed
+[Phase 3B Governed Intake Plan](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
+selects one local, single-operator, PDF-only review path for the Virginia B.
+Andes board-governance roster domain. Proposed ADR 0016, lifecycle/recovery,
+threat, dependency, validation, and prepared activation records form one
+documentation-only review target. They do not change current runtime maturity
+or authorize implementation, a real source, Phase 3C, Phase 3D, or deployment.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at

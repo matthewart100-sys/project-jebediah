@@ -62,6 +62,9 @@ not:
 - ADR 0015 is an Accepted System decision for the Executive Product Shell. The
   component is **Implemented** as a presentation-only, compiled-synthetic,
   loopback local preview on canonical `main` and is not Operational.
+- ADR 0016 and the Phase 3B governed-intake package are Proposed. They select a
+  local, single-operator, PDF-only durable admission and Human Review Workspace
+  refinement but authorize no implementation or real information.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -364,6 +367,41 @@ implementation as `95b9e06ae2edc4585d659efc825ca4553ce452d9`, and the
 [Phase 3A Closeout](ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_CLOSEOUT.md)
 owns its post-merge evidence and exclusions. Product Program Phase 3A does not
 activate or rename canonical Roadmap Phase 3 - Knowledge Graph.
+
+## Proposed Phase 3B governed PDF intake refinement
+
+Proposed System
+[ADR 0016](adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
+refines the Source-to-Admission edge only:
+
+```mermaid
+flowchart LR
+    Authority["Signed source authorization\nsingle use"]
+    Browser["Authorized local browser\npushed PDF bytes"]
+    Admission["Collector admission\ndurable quarantine"]
+    Workers["Offline isolated\nscan, native parse, OCR"]
+    Evidence["Encrypted Source Document\nEvidence candidate"]
+    Review["Human Review Workspace\ncandidate disposition"]
+    Phase3C["Future Phase 3C consumer\nnot implemented"]
+
+    Authority --> Browser --> Admission
+    Admission --> Workers --> Evidence --> Review
+    Review -.->|"separately accepted future contract"| Phase3C
+```
+
+The proposed runtime receives no filesystem source path, serves literal
+loopback only, and assigns no source-truth authority to custody, extraction,
+OCR, or review. SQLite holds opaque state and audit metadata; content-bearing
+objects remain encrypted outside Git. Scanner, native PDF, and OCR workers are
+separate offline rootless OCI executions. Phase 3B review cannot write the
+Knowledge Registry, create Knowledge Objects, invoke memory/Qdrant/models, or
+change an Ask answer.
+
+The complete proposal, limits, lifecycle, dependencies, validation, exact file
+scope, and later real-source gate are owned by the
+[Phase 3B Governed Intake Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md).
+Nothing in this Proposed section changes current accepted architecture before
+the required Work Mode and Chief Architect decisions.
 
 ## Architectural boundaries
 

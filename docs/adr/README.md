@@ -218,6 +218,10 @@ decision.
   is accepted and defines a compiled synthetic, presentation-only,
   loopback local preview without live information, runtime integration, action,
   or deployment authority.
+- [ADR 0016: Local Governed PDF Intake and Custody Boundary](0016-local-governed-pdf-intake-and-custody-boundary.md)
+  is proposed and defines a local single-operator PDF admission, encrypted
+  custody, isolated inspection/OCR, and human-review boundary without
+  implementation, real-source, downstream-consumer, or deployment authority.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 

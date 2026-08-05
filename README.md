@@ -114,6 +114,16 @@ integration, embeddings, Qdrant writes, service, deployment, document upload,
 autonomous promotion, or canonical Roadmap Phase 3 is authorized. JCS remains
 deferred and is not a dependency.
 
+The documentation-only
+[Phase 3B Governed Intake Plan](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
+now proposes the next bounded Collector refinement: one local operator, one
+Virginia B. Andes board-governance domain, PDF-only browser-pushed admission,
+encrypted local custody, isolated offline scanning/native extraction/OCR, and
+explicit human review. Proposed
+[ADR 0016](docs/adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
+and its prepared implementation activation remain under review. They authorize
+no code, real document, Phase 3C consumer, deployment, or source discovery.
+
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
 The protocol does not authorize Sprint 006, deployment, or live-system work.
