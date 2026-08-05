@@ -80,11 +80,12 @@ accepted Phase 2 document-inspection
 architecture and validation baseline merged at
 `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`, and its separate synthetic
 implementation activation merged at
-`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. A bounded disconnected repository
-candidate is active pending exact-head review; it does not satisfy the Phase 2
-exit gate. Sprint 006 Proposal v2 remains Proposed in draft pull request #43; it
-is not active and does not activate Phase 6. Deployment and external information
-remain unauthorized.
+`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. Pull request #53 merged its
+bounded disconnected synthetic implementation as
+`ccba7951f280f2b09e932db3979034dc6c2e5b68`; post-merge validation passed, but
+the broader Phase 2 exit gate remains unsatisfied. Sprint 006 Proposal v2
+remains Proposed in draft pull request #43; it is not active and does not
+activate Phase 6. Deployment and external information remain unauthorized.
 
 Required outcomes:
 
@@ -137,9 +138,9 @@ authorized.
 ## Accepted organizational-intelligence foundation
 
 **Status:** Accepted in ADRs 0012 and 0013; the Phase 2 architecture, validation
-baseline, and bounded synthetic implementation activation are canonical; a
-disconnected repository candidate is under review; live information use,
-deployment, and action remain unauthorized
+baseline, activation, and disconnected synthetic repository implementation are
+canonical; the implementation is non-operational, and live information use,
+deployment, action, and Phase 3 remain unauthorized
 
 The accepted architecture combines two boundaries without changing the roadmap
 order:

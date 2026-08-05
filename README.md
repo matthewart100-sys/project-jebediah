@@ -77,7 +77,7 @@ Platform**
 
 ## Current contribution gate
 
-[Knowledge Manager 1.0 Phase 1](CURRENT_SPRINT.md) is complete. Pull request #49
+Knowledge Manager 1.0 Phase 1 is complete. Pull request #49
 merged the validated metadata-only Knowledge Registry library at
 `4ed2ac283e4df6aec30b67f7c4aa50338924c435`; the
 [Phase 1 closeout](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) records the
@@ -87,15 +87,18 @@ Pull request #50 established the accepted
 [Phase 2 document-inspection baseline](docs/KNOWLEDGE_MANAGER_1_PHASE_2_DOCUMENT_INSPECTION_PLAN.md)
 at `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`. Pull request #52 merged the
 [synthetic implementation-activation package](docs/KNOWLEDGE_MANAGER_1_PHASE_2_SYNTHETIC_IMPLEMENTATION_ACTIVATION.md)
-as `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. The current implementation
-branch contains only the authorized standard-library, process-local,
-synthetic document-inspection repository candidate and deterministic tests.
+as `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`. Pull request #53 then
+squash-merged the exact Work Mode-approved implementation head
+`31a92c5f4bc10e79fe4e00955941c6128bffe7b1` as
+`ccba7951f280f2b09e932db3979034dc6c2e5b68`.
 
-Only that bounded implementation sprint is active. The candidate is awaiting
-exact-head review and is not merged or operational. Real document ingestion,
-external information, memory integration, embeddings, Qdrant writes, services,
-deployment, document uploads, and autonomous promotion remain excluded. JCS
-remains deferred and is not a dependency.
+The synthetic package is implemented and post-merge validated but remains
+disconnected and non-operational. The current gate is the documentation-only
+[Phase 2 closeout](docs/KNOWLEDGE_MANAGER_1_PHASE_2_CLOSEOUT.md). No active
+implementation sprint, real document ingestion, external information, memory
+integration, embeddings, Qdrant writes, service, deployment, document upload,
+autonomous promotion, or Phase 3 is authorized. JCS remains deferred and is not
+a dependency.
 
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).

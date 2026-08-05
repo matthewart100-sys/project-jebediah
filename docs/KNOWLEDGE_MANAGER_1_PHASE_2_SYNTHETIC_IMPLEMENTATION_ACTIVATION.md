@@ -1,6 +1,6 @@
 # Knowledge Manager 1.0 Phase 2 Synthetic Implementation Activation
 
-**Status:** Proposed
+**Status:** Accepted and executed
 
 **Date:** 2026-08-05
 
@@ -13,11 +13,10 @@
 
 **Independent reviewer:** Work Mode
 
-**Authorization state:** Documentation-only activation proposal. No
-implementation is authorized unless the exact remote head receives independent
-Work Mode approval, the Chief Architect adopts the proposed authorization
-record for that exact head, and the reviewed package is merged to canonical
-`main`.
+**Authorization state:** Accepted activation package. Pull request #52 merged
+the reviewed package as `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`;
+the bounded implementation later merged through pull request #53 as
+`ccba7951f280f2b09e932db3979034dc6c2e5b68`.
 
 ## Purpose
 
@@ -33,11 +32,11 @@ The candidate asks only:
 > synthetic bytes, immutable evidence, process-local reference adapters, and
 > deterministic failure behavior without creating a real document path?
 
-The answer remains unproven until implementation and exact-head implementation
-review complete. This proposal creates no parser, service, durable store,
-runtime consumer, or real-information authority.
+The completed implementation and exact-head review answered this question only
+for the generated synthetic contract package. The package creates no parser,
+service, durable store, runtime consumer, or real-information authority.
 
-## Repository Verified
+## Activation-time repository evidence
 
 - Phase 1 Knowledge Registry implementation and closeout are canonical.
 - Pull request #50 established the accepted Phase 2 architecture and validation
@@ -45,9 +44,11 @@ runtime consumer, or real-information authority.
   `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`.
 - The accepted admission states, transformation states, quarantine boundary,
   consumer-eligibility rule, and authority model remain owned by ADR 0013.
-- The repository has no `collector.document_admission` package, parser,
-  quarantine runtime, document upload path, or real document authorization.
-- No active implementation sprint is authorized at this proposal stage.
+- At activation, the repository had no `collector.document_admission` package,
+  parser, quarantine runtime, document upload path, or real document
+  authorization.
+- The implementation sprint became active only after the exact activation
+  package completed its review, decision, and canonical merge gates.
 
 ## Exact implementation objective
 
@@ -69,7 +70,7 @@ Implement a standard-library-only `collector.document_admission` package that:
 
 ## Authorized scope
 
-The proposed authorization is limited to:
+The adopted authorization was limited to:
 
 - immutable document-admission metadata models;
 - immutable quarantine and byte-integrity evidence;
@@ -800,13 +801,20 @@ this package authorizes neither implementation merge nor real information.
 
 - [Phase 2 Threat Model](KNOWLEDGE_MANAGER_1_PHASE_2_THREAT_MODEL.md)
 - [Phase 2 Dependency Assessment](KNOWLEDGE_MANAGER_1_PHASE_2_DEPENDENCY_ASSESSMENT.md)
-- [Proposed Phase 2 Implementation Authorization](governance/KNOWLEDGE_MANAGER_1_PHASE_2_IMPLEMENTATION_AUTHORIZATION.md)
+- [Phase 2 Implementation Authorization](governance/KNOWLEDGE_MANAGER_1_PHASE_2_IMPLEMENTATION_AUTHORIZATION.md)
 - [ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md)
 - [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
 
-## Exact next decision
+## Execution record
 
-After one remote exact head exists and receives independent Work Mode review,
-the Chief Architect must adopt or reject the proposed authorization record.
-Until that exact decision and canonical merge, implementation remains
-unauthorized.
+The exact activation head
+`a9d27f03454906db2771e3635c541bc5dca3e4ce` received Work Mode approval and
+Chief Architect authorization before pull request #52 squash-merged as
+`b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`.
+
+The bounded implementation received Work Mode approval and Chief Architect
+approval at exact head `31a92c5f4bc10e79fe4e00955941c6128bffe7b1`
+before pull request #53 squash-merged as
+`ccba7951f280f2b09e932db3979034dc6c2e5b68`. Implementation and post-merge
+validation are complete. No further implementation, deployment, live
+information, real-document handling, or Phase 3 work is authorized.

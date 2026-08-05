@@ -6,19 +6,20 @@
 
 **Date:** 2026-08-05
 
-**Applies to:** The bounded implementation candidate authorized from the
+**Applies to:** The bounded synthetic implementation authorized from the
 [Phase 2 Document Inspection Plan](KNOWLEDGE_MANAGER_1_PHASE_2_DOCUMENT_INSPECTION_PLAN.md)
 
 **Authorization state:** Pull request #52 activated only the exact synthetic,
-standard-library repository candidate. These requirements do not authorize new
-dependencies, services, deployment, real document use, or live information.
+standard-library repository candidate. Pull request #53 merged the exact
+reviewed implementation as `ccba7951f280f2b09e932db3979034dc6c2e5b68`.
+These requirements do not authorize new dependencies, services, deployment,
+real document use, live information, or further implementation.
 
 ## Purpose
 
-These requirements define the evidence needed to review the current
-synthetic-only document-inspection implementation candidate. Passing them proves
-only the tested admission, isolation, inspection, failure, and evidence
-contracts.
+These requirements define the evidence used to review the synthetic-only
+document-inspection implementation. Passing them proves only the tested
+admission, isolation, inspection, failure, and evidence contracts.
 
 Validation does not prove document claims, source authority, malware absence
 beyond the tested evaluator, safe operation outside the tested limits, consumer
@@ -44,7 +45,7 @@ to use real VBA material.
 
 ## Implemented test organization
 
-The authorized candidate uses:
+The authorized implementation uses:
 
 ```text
 tests/collector/document_admission/
@@ -486,7 +487,7 @@ The exact-head architecture review required the proposal branch to:
 
 ## Acceptance criteria
 
-A future synthetic implementation is review-ready only when:
+The synthetic implementation was review-ready only when:
 
 - every required matrix has passing deterministic evidence;
 - the complete existing test suite passes unchanged except for reviewed count
@@ -518,8 +519,14 @@ threat, owner, rollback, and file decisions. Pull request #52 squash-merged
 exact activation head `a9d27f03454906db2771e3635c541bc5dca3e4ce` as
 `b099ba156cefd3ba26fa9e5ff89a07d5a9e1f6ca`.
 
-The current candidate passes 226 targeted tests, the 461-test full suite, Python
-compilation, frozen-lock verification, editor diagnostics, and whitespace
-checks. Documentation validation also passes. Exact changed-file evidence,
-publication, and independent exact-head Work Mode review remain required before
-merge disposition.
+Exact implementation head `31a92c5f4bc10e79fe4e00955941c6128bffe7b1`
+received independent Work Mode approval and Chief Architect squash-merge
+approval. Pull request #53 merged it as
+`ccba7951f280f2b09e932db3979034dc6c2e5b68`.
+
+Canonical post-merge validation passed 226 targeted tests, the 461-test full
+suite, 9 package-boundary tests, Python compilation, frozen-lock verification,
+documentation validation, whitespace, sensitive-value, prohibited-dependency,
+prohibited-capability, protected-path, manifest, and clean-worktree checks.
+This evidence authorizes no real-document, service, deployment, operations, or
+Phase 3 work.

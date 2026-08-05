@@ -10,11 +10,14 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added the terminal Knowledge Manager 1.0 Phase 2 documentation closeout
+  record with exact merge, review, validation, scope, exclusion, rollback, and
+  remaining-authorization evidence.
 - Added the bounded Knowledge Manager 1.0 Phase 2 synthetic document-inspection
-  repository candidate under `collector.document_admission`: immutable evidence
+  repository package under `collector.document_admission`: immutable evidence
   models, exact state enforcement, abstract evaluator and isolation boundaries,
   SHA-256 byte identity, process-local quarantine and evidence adapters,
-  orchestration, generated fixtures, and 226 deterministic tests. The candidate
+  orchestration, generated fixtures, and 226 deterministic tests. The package
   has no service, parser, scanner, durable store, runtime integration, or
   real-information path.
 - Added and accepted the Knowledge Manager 1.0 Phase 2 synthetic implementation-
