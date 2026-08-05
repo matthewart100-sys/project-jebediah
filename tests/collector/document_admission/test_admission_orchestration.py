@@ -1,4 +1,6 @@
 from dataclasses import FrozenInstanceError
+from datetime import datetime, timezone
+from pathlib import Path
 
 import pytest
 
@@ -6,6 +8,8 @@ from collector.document_admission import (
     AdmissionState,
     EvaluationOutcome,
     FormatDetectionState,
+    ReviewDecision,
+    SyntheticPhase3BDocumentAdmissionRuntime,
 )
 
 from .synthetic_fixtures import (
@@ -41,6 +45,58 @@ def test_valid_submission_records_exact_transition_chain():
     assert not hasattr(result, "runtime_eligible")
     assert not hasattr(result, "registry_write_allowed")
     assert not hasattr(result, "memory_write_allowed")
+
+
+SYNTHETIC_PDF_FIXTURE = (
+    b"%PDF-1.7\n"
+    b"SYNTHETIC-TEXT[1]:Board roster fixture\n"
+    b"%%EOF\n"
+)
+
+
+def _phase3b_pdf(*, text: bytes = b"Board roster fixture") -> bytes:
+    return (
+        b"%PDF-1.7\n"
+        b"SYNTHETIC-TEXT[1]:" + text + b"\n"
+        b"%%EOF\n"
+    )
+
+
+def test_phase3b_runtime_admits_review_and_detects_duplicate(
+    tmp_path: Path,
+) -> None:
+    clock_value = datetime(2025, 1, 1, tzinfo=timezone.utc)
+    runtime = SyntheticPhase3BDocumentAdmissionRuntime(
+        tmp_path,
+        "phase3b-passphrase",
+        clock=lambda: clock_value,
+    )
+    payload = _phase3b_pdf()
+    first = runtime.admit_signed_pdf(
+        runtime.build_demo_receipt(
+            receipt_id="receipt-1",
+            expected_payload=payload,
+        ),
+        "application/pdf",
+        payload,
+    )
+    assert first.record.state.value == "ready_for_review"
+    reviewed = runtime.review_submission(
+        first.record.submission_id,
+        ReviewDecision.APPROVE,
+        "Synthetic approval",
+    )
+    assert reviewed.record.state.value == "review_approved"
+
+    duplicate = runtime.admit_signed_pdf(
+        runtime.build_demo_receipt(
+            receipt_id="receipt-2",
+            expected_payload=payload,
+        ),
+        "application/pdf",
+        payload,
+    )
+    assert duplicate.record.duplicate_of == first.record.submission_id
 
 
 @pytest.mark.parametrize(

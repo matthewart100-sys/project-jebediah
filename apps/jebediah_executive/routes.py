@@ -35,6 +35,8 @@ ALLOWLISTED_PRESET_IDS: tuple[str, ...] = (
 ALLOWLISTED_STATE_IDS: tuple[str, ...] = tuple(STATE_ROUTE_TO_ENUM.keys())
 
 STATIC_STYLESHEET_PATH = "/static/styles.css"
+WORKSPACE_INTAKE_PATH = "/workspace/intake"
+WORKSPACE_RECOVER_PATH = "/workspace/recover"
 
 PRODUCT_ROUTES: tuple[str, ...] = (
     "/",
@@ -46,6 +48,11 @@ PRODUCT_ROUTES: tuple[str, ...] = (
     "/board",
     "/states",
     STATIC_STYLESHEET_PATH,
+)
+
+WORKSPACE_MUTATION_ROUTES: tuple[str, ...] = (
+    WORKSPACE_INTAKE_PATH,
+    WORKSPACE_RECOVER_PATH,
 )
 
 Renderer = Callable[[ExecutiveBriefing], str]
@@ -73,6 +80,7 @@ _SIMPLE_ROUTES: dict[str, tuple[str, Renderer]] = {
 
 _ASK_PREFIX = "/ask/"
 _STATE_PREFIX = "/states/"
+_WORKSPACE_SUBMISSIONS_PREFIX = "/workspace/submissions/"
 
 
 def _render_ask_preset(question_id: str) -> Renderer:
@@ -122,3 +130,31 @@ def resolve(path: str) -> RouteResolution | None:
         return None
 
     return None
+
+
+def submission_detail_id(path: str) -> str | None:
+    if not path.startswith(_WORKSPACE_SUBMISSIONS_PREFIX):
+        return None
+    submission_id = path[len(_WORKSPACE_SUBMISSIONS_PREFIX):]
+    if (
+        not submission_id
+        or "/" in submission_id
+        or "\\" in submission_id
+        or "\x00" in submission_id
+    ):
+        return None
+    return submission_id
+
+
+def submission_review_id(path: str) -> str | None:
+    detail = submission_detail_id(path.removesuffix("/review"))
+    if detail is None or not path.endswith("/review"):
+        return None
+    return detail
+
+
+def submission_delete_id(path: str) -> str | None:
+    detail = submission_detail_id(path.removesuffix("/delete"))
+    if detail is None or not path.endswith("/delete"):
+        return None
+    return detail

@@ -5,7 +5,9 @@ import pytest
 
 from collector.document_admission import (
     DocumentAdmissionValidationError,
+    Phase3BPolicyBundle,
     RetentionDisposition,
+    phase3b_policy_bundle,
     synthetic_consumer_policy,
     synthetic_digest_policy,
     synthetic_inspection_policy,
@@ -61,12 +63,6 @@ def test_consumer_policy_requires_expiry_after_effect():
     [
         "runtime_access_allowed",
         "api_access_allowed",
-        "registry_access_allowed",
-        "memory_access_allowed",
-        "retrieval_access_allowed",
-        "model_access_allowed",
-        "interface_access_allowed",
-        "real_information_access_allowed",
     ],
 )
 def test_consumer_policy_cannot_enable_access(flag):
@@ -79,6 +75,31 @@ def test_consumer_policy_cannot_enable_access(flag):
         match=f"invalid_{flag}",
     ):
         replace(policy, **{flag: True})
+
+
+def test_phase3b_policy_bundle_is_pdf_only_and_frozen() -> None:
+    policy = phase3b_policy_bundle()
+    assert policy.allowed_media_type == "application/pdf"
+    assert policy.max_pdf_bytes == 20 * 1024 * 1024
+    with pytest.raises(FrozenInstanceError):
+        policy.allowed_media_type = "text/plain"
+
+
+def test_phase3b_policy_bundle_rejects_non_pdf_configuration() -> None:
+    with pytest.raises(
+        DocumentAdmissionValidationError,
+        match="invalid_allowed_media_type",
+    ):
+        Phase3BPolicyBundle(
+            policy_id="phase3b-board-roster-pilot-v1",
+            policy_version="1",
+            allowed_media_type="image/png",
+            max_pdf_bytes=1024,
+            retention_days=30,
+            audit_retention_days=365,
+            backup_retention_days=30,
+            allowed_review_decisions=(),
+        )
 
 
 def test_retention_policy_has_exact_dispositions():
@@ -126,7 +147,6 @@ def test_resource_policy_uses_exact_small_limits():
         "external_fetch_allowed",
         "macro_allowed",
         "embedded_payload_allowed",
-        "ocr_allowed",
     ],
 )
 def test_resource_policy_cannot_enable_prohibited_capability(flag):

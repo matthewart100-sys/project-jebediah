@@ -8,6 +8,7 @@ version = "0.1.0"
 description = "Collector 1.0 contract foundation for Project Jebediah"
 requires-python = ">=3.12"
 dependencies = [
+    "cryptography>=45,<46",
     "ollama>=0.6,<1.0",
     "pydantic>=2.0,<3.0",
     "qdrant-client>=1.18,<2.0",

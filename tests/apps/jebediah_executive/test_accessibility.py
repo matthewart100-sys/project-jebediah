@@ -150,6 +150,7 @@ def test_targets_are_at_least_44px() -> None:
         CSS,
         re.DOTALL,
     )
+    assert re.search(r"button\s*\{[^}]*min-height:\s*var\(--target-min\)", CSS, re.DOTALL)
 
 
 def test_zoom_friendly_text_sizing() -> None:

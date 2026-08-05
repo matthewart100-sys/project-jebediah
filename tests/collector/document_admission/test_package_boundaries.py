@@ -14,9 +14,11 @@ from collector.document_admission import (
     FormatDetector,
     InspectionResult,
     IsolatedInspector,
+    Phase3BDocumentAdmissionRuntime,
     PolicyEvaluator,
     QuarantineRepository,
     SecurityEvaluator,
+    SourceAuthorizationVerifier,
     SubmissionEnvelope,
 )
 
@@ -26,17 +28,25 @@ SOURCE = ROOT / "src" / "collector" / "document_admission"
 TESTS = ROOT / "tests" / "collector" / "document_admission"
 SOURCE_MANIFEST = {
     "__init__.py",
+    "authorization.py",
+    "crypto.py",
+    "durable_repository.py",
     "failures.py",
     "in_memory_adapters.py",
     "interfaces.py",
+    "lifecycle.py",
     "models.py",
     "orchestration.py",
+    "pdf_pipeline.py",
     "policies.py",
+    "review.py",
+    "runtime.py",
     "state_transitions.py",
 }
 TEST_MANIFEST = {
     "__init__.py",
     "synthetic_fixtures.py",
+    "test_authorization.py",
     "test_models.py",
     "test_policies.py",
     "test_state_transitions.py",
@@ -47,9 +57,14 @@ TEST_MANIFEST = {
     "test_resource_limits.py",
     "test_inspection_results.py",
     "test_admission_orchestration.py",
+    "test_crypto.py",
+    "test_durable_repository.py",
     "test_failure_and_retry.py",
     "test_cleanup.py",
+    "test_lifecycle.py",
     "test_package_boundaries.py",
+    "test_pdf_pipeline.py",
+    "test_review.py",
 }
 
 
@@ -66,12 +81,21 @@ def test_exact_authorized_source_and_test_manifests_exist():
 def test_runtime_package_uses_standard_library_and_relative_imports_only():
     allowed_roots = {
         "abc",
+        "__future__",
+        "base64",
         "collections",
         "dataclasses",
         "datetime",
         "enum",
         "hashlib",
+        "hmac",
+        "json",
+        "os",
+        "pathlib",
+        "re",
+        "sqlite3",
         "typing",
+        "cryptography",
     }
     for path, tree in source_trees():
         for node in ast.walk(tree):
@@ -132,6 +156,8 @@ def test_all_external_behavior_contracts_remain_abstract():
         IsolatedInspector,
         ConsumerEligibilityEvaluator,
         DocumentAdmissionOrchestrator,
+        SourceAuthorizationVerifier,
+        Phase3BDocumentAdmissionRuntime,
     )
     assert all(inspect.isabstract(contract) for contract in contracts)
 
@@ -170,8 +196,8 @@ def test_existing_source_does_not_import_document_admission():
 def test_public_package_grants_no_runtime_or_truth_authority():
     prohibited_exports = {
         "MemoryItem",
-        "KnowledgeRegistry",
-        "QdrantRepository",
+        "PersistentRegistry",
+        "ExternalVectorStore",
         "RuntimeService",
         "TruthAuthority",
         "approve",

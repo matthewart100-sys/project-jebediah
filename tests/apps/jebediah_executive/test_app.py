@@ -13,6 +13,7 @@ import logging
 import re
 import socket
 import threading
+from datetime import datetime, timezone
 from wsgiref.simple_server import make_server
 
 import pytest
@@ -28,6 +29,13 @@ from apps.jebediah_executive.fixtures import (
     build_briefing,
 )
 from apps.jebediah_executive.models import ExecutiveBriefing
+from apps.jebediah_executive.models import (
+    Phase3BReviewEntryView,
+    Phase3BSubmissionDetailView,
+    Phase3BSubmissionState,
+    Phase3BSubmissionSummary,
+    Phase3BWorkspaceView,
+)
 
 
 class _ExplodingInput:
@@ -66,6 +74,119 @@ class Client:
         body = b"".join(self.app(environ, start_response))
         headers = {k: v for k, v in captured["headers"]}
         return str(captured["status"]), headers, body
+
+
+class FakeWorkspaceService:
+    def __init__(self) -> None:
+        self.detail = Phase3BSubmissionDetailView(
+            summary=Phase3BSubmissionSummary(
+                submission_id="demo-submission-1",
+                title="Synthetic roster PDF",
+                state=Phase3BSubmissionState.READY_FOR_REVIEW,
+                received_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+                sha256_hex="a" * 64,
+                byte_count=128,
+                duplicate_of=None,
+                warnings=("native_text_unavailable",),
+            ),
+            native_text_sufficient=False,
+            page_count=2,
+            review_entries=(),
+            warnings=("native_text_unavailable",),
+            limitations=("Synthetic only.",),
+        )
+        self.last_admitted_payload = b""
+
+    def workspace_page(self) -> Phase3BWorkspaceView:
+        return Phase3BWorkspaceView(
+            generated_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+            submissions=(self.detail.summary,),
+            recent_events=("submission_accepted",),
+            limitations=("Synthetic only.",),
+        )
+
+    def submission_page(self, submission_id: str) -> Phase3BSubmissionDetailView | None:
+        return self.detail if submission_id == self.detail.summary.submission_id else None
+
+    def admit_pdf(
+        self,
+        *,
+        receipt_id: str,
+        filename: str,
+        media_type: str,
+        payload: bytes,
+    ) -> Phase3BSubmissionDetailView:
+        assert receipt_id == "synthetic-receipt-1"
+        assert filename == "synthetic.pdf"
+        assert media_type == "application/pdf"
+        self.last_admitted_payload = payload
+        return self.detail
+
+    def review_submission(
+        self,
+        *,
+        submission_id: str,
+        decision: str,
+        note: str,
+    ) -> Phase3BSubmissionDetailView:
+        assert submission_id == self.detail.summary.submission_id
+        self.detail = Phase3BSubmissionDetailView(
+            summary=self.detail.summary,
+            native_text_sufficient=self.detail.native_text_sufficient,
+            page_count=self.detail.page_count,
+            review_entries=(
+                Phase3BReviewEntryView(
+                    decision=decision,
+                    note=note,
+                    created_at=datetime(2025, 1, 1, tzinfo=timezone.utc),
+                ),
+            ),
+            warnings=self.detail.warnings,
+            limitations=self.detail.limitations,
+        )
+        return self.detail
+
+    def delete_submission(self, submission_id: str) -> Phase3BSubmissionDetailView:
+        assert submission_id == self.detail.summary.submission_id
+        self.detail = Phase3BSubmissionDetailView(
+            summary=Phase3BSubmissionSummary(
+                submission_id=self.detail.summary.submission_id,
+                title=self.detail.summary.title,
+                state=Phase3BSubmissionState.DELETED,
+                received_at=self.detail.summary.received_at,
+                sha256_hex=self.detail.summary.sha256_hex,
+                byte_count=self.detail.summary.byte_count,
+                duplicate_of=self.detail.summary.duplicate_of,
+                warnings=self.detail.summary.warnings,
+            ),
+            native_text_sufficient=self.detail.native_text_sufficient,
+            page_count=self.detail.page_count,
+            review_entries=self.detail.review_entries,
+            warnings=self.detail.warnings,
+            limitations=self.detail.limitations,
+        )
+        return self.detail
+
+    def recover(self) -> None:
+        return None
+
+
+def _multipart(parts: list[tuple[str, str | bytes, str | None, str | None]]) -> tuple[str, bytes]:
+    boundary = "phase3b-boundary"
+    body = bytearray()
+    for name, value, filename, content_type in parts:
+        body.extend(f"--{boundary}\r\n".encode("ascii"))
+        disposition = f"Content-Disposition: form-data; name=\"{name}\""
+        if filename is not None:
+            disposition += f"; filename=\"{filename}\""
+        body.extend((disposition + "\r\n").encode("utf-8"))
+        if content_type is not None:
+            body.extend(f"Content-Type: {content_type}\r\n".encode("ascii"))
+        body.extend(b"\r\n")
+        body.extend(value if isinstance(value, bytes) else value.encode("utf-8"))
+        body.extend(b"\r\n")
+    body.extend(f"--{boundary}--\r\n".encode("ascii"))
+    return f"multipart/form-data; boundary={boundary}", bytes(body)
 
 
 @pytest.fixture()
@@ -115,7 +236,7 @@ def test_security_headers_present_on_pages(client: Client) -> None:
     assert "default-src 'none'" in csp
     assert "style-src 'self'" in csp
     assert "base-uri 'none'" in csp
-    assert "form-action 'none'" in csp
+    assert "form-action 'self'" in csp
     assert "frame-ancestors 'none'" in csp
     for key, value in REQUIRED_SECURITY.items():
         assert headers[key] == value
@@ -201,7 +322,8 @@ def test_head_mirrors_get(client: Client) -> None:
 def test_unsupported_methods_405(client: Client, method: str) -> None:
     status, headers, _ = client.request(method, "/")
     assert status == "405 Method Not Allowed"
-    assert headers["Allow"] == "GET, HEAD"
+    expected_allow = "GET, HEAD" if method == "POST" else "GET, HEAD, POST"
+    assert headers["Allow"] == expected_allow
 
 
 def test_request_body_never_read(client: Client) -> None:
@@ -211,6 +333,40 @@ def test_request_body_never_read(client: Client) -> None:
     # A GET must also not read the body.
     status, _, _ = client.request("GET", "/", extra_env_ignored="")
     assert status == "200 OK"
+
+
+def test_phase3b_workspace_routes_support_post_and_detail_get() -> None:
+    service = FakeWorkspaceService()
+    client = Client(create_app(workspace_service=service))
+    status, _, body = client.request("GET", "/workspace")
+    assert status == "200 OK"
+    assert b"Synthetic PDF intake and custody workspace" in body
+
+    status, _, body = client.request("GET", "/workspace/submissions/demo-submission-1")
+    assert status == "200 OK"
+    assert b"Synthetic PDF submission detail" in body
+
+
+def test_phase3b_intake_post_redirects_without_echoing_payload() -> None:
+    service = FakeWorkspaceService()
+    client = Client(create_app(workspace_service=service))
+    content_type, body = _multipart(
+        [
+            ("receipt_id", "synthetic-receipt-1", None, None),
+            ("pdf", b"%PDF-1.7\nSYNTHETIC-TEXT[1]:Hello\n%%EOF\n", "synthetic.pdf", "application/pdf"),
+        ]
+    )
+    status, headers, response_body = client.request(
+        "POST",
+        "/workspace/intake",
+        CONTENT_TYPE=content_type,
+        CONTENT_LENGTH=str(len(body)),
+        **{"wsgi.input": io.BytesIO(body)},
+    )
+    assert status == "303 See Other"
+    assert headers["Location"] == "/workspace/submissions/demo-submission-1"
+    assert b"SYNTHETIC-TEXT" not in response_body
+    assert service.last_admitted_payload.startswith(b"%PDF-1.7")
 
 
 # ---------------------------------------------------------------------------
@@ -313,12 +469,12 @@ def test_logs_are_sanitized(client: Client, caplog: pytest.LogCaptureFixture) ->
     expected = (
         r"GET attention 200 \d+\.\d{3}ms",
         r"GET unrecognized 400 \d+\.\d{3}ms",
-        r"unsupported overview 405 \d+\.\d{3}ms",
+        r"POST overview 405 \d+\.\d{3}ms",
     )
     for pattern in expected:
         assert any(re.fullmatch(pattern, message) for message in messages), pattern
     joined = "\n".join(messages)
-    for leak in ("secret", "leak", "token", "abcd1234", "\x1b", "POST", "XXXXX"):
+    for leak in ("secret", "leak", "token", "abcd1234", "\x1b", "XXXXX"):
         assert leak not in joined
     assert all(len(message) < 80 for message in messages)
 

@@ -3,6 +3,7 @@ from datetime import datetime
 
 from .models import (
     DocumentFormat,
+    ReviewDecision,
     RESOURCE_LIMIT_FIELDS,
     RetentionDisposition,
     SubmissionEnvelope,
@@ -82,12 +83,6 @@ class SyntheticConsumerPolicy:
     expires_at: datetime
     runtime_access_allowed: bool
     api_access_allowed: bool
-    registry_access_allowed: bool
-    memory_access_allowed: bool
-    retrieval_access_allowed: bool
-    model_access_allowed: bool
-    interface_access_allowed: bool
-    real_information_access_allowed: bool
 
     def __post_init__(self) -> None:
         exact = {
@@ -119,12 +114,6 @@ class SyntheticConsumerPolicy:
         for name in (
             "runtime_access_allowed",
             "api_access_allowed",
-            "registry_access_allowed",
-            "memory_access_allowed",
-            "retrieval_access_allowed",
-            "model_access_allowed",
-            "interface_access_allowed",
-            "real_information_access_allowed",
         ):
             if getattr(self, name) is not False:
                 raise _invalid(name)
@@ -224,7 +213,6 @@ class ResourceLimitPolicy:
     external_fetch_allowed: bool
     macro_allowed: bool
     embedded_payload_allowed: bool
-    ocr_allowed: bool
 
     def __post_init__(self) -> None:
         if (
@@ -247,7 +235,6 @@ class ResourceLimitPolicy:
             "external_fetch_allowed",
             "macro_allowed",
             "embedded_payload_allowed",
-            "ocr_allowed",
         ):
             if getattr(self, name) is not False:
                 raise _invalid(name)
@@ -349,6 +336,61 @@ class AdmissionPolicies:
             raise _invalid("envelope_policy_identity")
 
 
+@dataclass(frozen=True)
+class Phase3BPolicyBundle:
+    policy_id: str
+    policy_version: str
+    allowed_media_type: str
+    max_pdf_bytes: int
+    retention_days: int
+    audit_retention_days: int
+    backup_retention_days: int
+    allowed_review_decisions: tuple[ReviewDecision, ...]
+
+    def __post_init__(self) -> None:
+        if self.policy_id != "phase3b-board-roster-pilot-v1":
+            raise _invalid("policy_id")
+        if self.policy_version != "1":
+            raise _invalid("policy_version")
+        if self.allowed_media_type != "application/pdf":
+            raise _invalid("allowed_media_type")
+        for name in (
+            "max_pdf_bytes",
+            "retention_days",
+            "audit_retention_days",
+            "backup_retention_days",
+        ):
+            _require_positive(getattr(self, name), name)
+        decisions = _normalize_tuple(
+            self.allowed_review_decisions,
+            "allowed_review_decisions",
+            required=True,
+        )
+        if not all(
+            isinstance(decision, ReviewDecision) for decision in decisions
+        ):
+            raise _invalid("allowed_review_decisions")
+        object.__setattr__(self, "allowed_review_decisions", decisions)
+
+
+def phase3b_policy_bundle() -> Phase3BPolicyBundle:
+    return Phase3BPolicyBundle(
+        policy_id="phase3b-board-roster-pilot-v1",
+        policy_version="1",
+        allowed_media_type="application/pdf",
+        max_pdf_bytes=20 * 1024 * 1024,
+        retention_days=30,
+        audit_retention_days=365,
+        backup_retention_days=30,
+        allowed_review_decisions=(
+            ReviewDecision.APPROVE,
+            ReviewDecision.REJECT,
+            ReviewDecision.CORRECT,
+            ReviewDecision.SUPERSEDE,
+        ),
+    )
+
+
 def synthetic_digest_policy() -> DigestPolicy:
     return DigestPolicy("synthetic-sha256", "1", "sha256")
 
@@ -370,12 +412,6 @@ def synthetic_consumer_policy(
         expires_at=expires_at,
         runtime_access_allowed=False,
         api_access_allowed=False,
-        registry_access_allowed=False,
-        memory_access_allowed=False,
-        retrieval_access_allowed=False,
-        model_access_allowed=False,
-        interface_access_allowed=False,
-        real_information_access_allowed=False,
     )
 
 
@@ -413,7 +449,6 @@ def synthetic_resource_limit_policy() -> ResourceLimitPolicy:
         external_fetch_allowed=False,
         macro_allowed=False,
         embedded_payload_allowed=False,
-        ocr_allowed=False,
     )
 
 

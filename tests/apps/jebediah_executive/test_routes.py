@@ -15,7 +15,11 @@ from apps.jebediah_executive.routes import (
     ALLOWLISTED_PRESET_IDS,
     ALLOWLISTED_STATE_IDS,
     PRODUCT_ROUTES,
+    WORKSPACE_MUTATION_ROUTES,
     resolve,
+    submission_delete_id,
+    submission_detail_id,
+    submission_review_id,
 )
 
 _FIXED_PAGES = [
@@ -58,6 +62,13 @@ def test_product_routes_manifest_is_exact() -> None:
         "/board",
         "/states",
         "/static/styles.css",
+    )
+
+
+def test_workspace_mutation_routes_are_exact() -> None:
+    assert WORKSPACE_MUTATION_ROUTES == (
+        "/workspace/intake",
+        "/workspace/recover",
     )
 
 
@@ -143,3 +154,10 @@ def test_trailing_slash_has_no_alias() -> None:
 def test_state_id_with_embedded_slash_rejected() -> None:
     assert resolve("/states/ready/extra") is None
     assert resolve("/ask/grounded-priorities/extra") is None
+
+
+def test_workspace_submission_route_helpers() -> None:
+    assert submission_detail_id("/workspace/submissions/submission-1") == "submission-1"
+    assert submission_review_id("/workspace/submissions/submission-1/review") == "submission-1"
+    assert submission_delete_id("/workspace/submissions/submission-1/delete") == "submission-1"
+    assert submission_detail_id("/workspace/submissions/submission-1/extra") is None

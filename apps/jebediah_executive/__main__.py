@@ -24,7 +24,7 @@ def _build_parser() -> argparse.ArgumentParser:
         description=(
             "Local synthetic preview of the Jebediah Executive Product Shell. "
             "Serves fabricated demonstration content on loopback only. This is "
-            "not a deployment and connects to no real data or service."
+            "disconnected and connects to no real data or service."
         ),
     )
     parser.add_argument(
@@ -64,7 +64,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     print(
         "Synthetic demonstration only. Disconnected and non-operational. "
-        "No real data, service, deployment, or action authority. "
+        "No real data, service, or action authority. "
         "Press Ctrl+C to stop.",
     )
     try:
