@@ -214,6 +214,10 @@ decision.
   is accepted and defines a metadata-only registry library without
   content, memory integration, durable storage, runtime use, or source
   authority.
+- [ADR 0015: Executive Product Shell and Local Preview Boundary](0015-executive-product-shell-and-local-preview-boundary.md)
+  is proposed and would define a compiled synthetic, presentation-only,
+  loopback local preview without live information, runtime integration, action,
+  or deployment authority.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 
