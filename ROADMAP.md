@@ -167,7 +167,8 @@ authorize organizational information, deployment, or a pilot.
 ### Accepted cross-phase Executive Product Shell refinement
 
 **Status:** Accepted architecture; exact bounded synthetic implementation
-authorized after canonical activation merge and not yet implemented
+complete on its working branch, with independent implementation review and a
+separate merge decision still gated
 
 The Organizational Intelligence Product Program uses the label Phase 3A for a
 synthetic Executive Product Shell. That program label does not add,
@@ -180,8 +181,10 @@ retrieval, action, deployment, or organizational-information path.
 System ADR 0015, the Phase 3A plan, threat model, dependency assessment,
 validation requirements, and bounded implementation authorization were approved
 by Work Mode and adopted by the Chief Architect at exact planning head
-`5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`. Implementation remains separately
-reviewed and cannot satisfy the Phase 2 Collector exit gate or activate Phase 3
+`5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`. The synthetic shell is now
+implemented under `apps.jebediah_executive` as standard-library-only source,
+tests, and an operator preview guide. Implementation remains separately reviewed
+and cannot satisfy the Phase 2 Collector exit gate or activate Phase 3
 - Knowledge Graph.
 
 ## Phase 3: Knowledge Graph

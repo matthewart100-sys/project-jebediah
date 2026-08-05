@@ -97,6 +97,9 @@ searchable, linkable, and version controlled.
   is the accepted complete product, component, route, view-model, synthetic-data,
   state, accessibility, test, rollback, and exact-file plan; it grants no
   implementation merge, live-information, or deployment authority.
+- [Organizational Intelligence Phase 3A Local Preview Operator Guide](ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_LOCAL_PREVIEW.md)
+  explains how to run and inspect the implemented synthetic, loopback-only local
+  preview; it describes no deployment and claims no Operational maturity.
 - [Organizational Intelligence Phase 3A Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_VALIDATION_REQUIREMENTS.md)
   define accepted model, fixture, rendering, route, workflow, accessibility,
   security, isolation, browser, repository, and review evidence.

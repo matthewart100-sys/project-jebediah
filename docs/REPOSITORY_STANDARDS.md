@@ -112,9 +112,9 @@ may be refined when a language and source layout are approved.
 `apps/` is reserved for independently runnable, user-facing applications whose
 component, language, entry point, dependency, test, security, operations, and
 ownership boundaries are approved. Accepted ADR 0015 assigns
-`apps/jebediah_executive/` to the synthetic Executive Product Shell. The path is
-created only after the accepted architecture activation is canonical and its
-bounded implementation authorization is active.
+`apps/jebediah_executive/` to the synthetic Executive Product Shell. That path
+now holds the implemented synthetic, standard-library-only, loopback local
+preview on its working branch; the implementation review and merge remain gated.
 New source or service trees still require an approved responsibility, language,
 build, test, packaging, and ownership boundary; existing trees do not authorize
 speculative peers.

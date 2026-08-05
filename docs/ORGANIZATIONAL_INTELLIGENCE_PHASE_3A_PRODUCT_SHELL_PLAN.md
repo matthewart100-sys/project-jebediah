@@ -212,11 +212,13 @@ store, model, workflow, service, or external action.
 ### Entry point
 
 ```text
-python -m apps.jebediah_executive
+python -B -m apps.jebediah_executive
 ```
 
 The command accepts only an integer port from 1024 through 65535. It has no
-host, environment, source, file, service, or credential option.
+host, environment, source, file, service, or credential option. The operator
+path invokes no package manager or dependency synchronization, and `-B`
+prevents bytecode-cache writes.
 
 The exact route forms are:
 
@@ -956,3 +958,47 @@ reviewed exact activation head for merge.
 
 Adoption does not include deployment, real information, Phase 3B, or
 implementation merge authority.
+
+## Execution evidence
+
+This section records factual implementation-branch execution evidence only. It
+does not change any contract, route, model, state, capability, dependency,
+authority, or manifest above.
+
+The exact accepted 31-file manifest was implemented on branch
+`feature/phase3a-executive-product-shell` from canonical base
+`35d5bafc63a904868012944f792f64e0d4456793`:
+
+- nine application files under `apps/` and `apps/jebediah_executive/`,
+  including the standard-library WSGI application, single compiled
+  `synthetic-nonprofit-demo-v1` scenario, escaped semantic-HTML renderer, fixed
+  allowlisted routes, and one local stylesheet;
+- nine test files under `tests/apps/jebediah_executive/` covering the model,
+  fixture, rendering, route, WSGI, workflow, accessibility, and package-boundary
+  layers; and
+- thirteen direct documentation files, including this plan, the validation
+  requirements, and a new local preview operator guide.
+
+Recorded automated results: 332 targeted tests and 793 full-suite tests passed;
+compilation, `uv lock --check`, `scripts/validate_docs.py`, and
+`git diff --check` were clean; and the change set matched the exact 31 files with
+no untracked extras. A bounded corrective pass within the same 31-file manifest
+strengthened attention-to-next topic coherence, substantive per-state
+presentations, evidence and coverage disclosure, responsive workspace-table
+readability, the dependency-free bytecode-disabled launch path, fixed
+duration-bearing request logs, hardened parser-error responses, freshness and
+clock invariants, process-start provider construction, skip-link target sizing,
+and other model invariants; it changed no contract, route, model or state
+vocabulary, fixture boundary, authority boundary, dependency, or manifest.
+
+Only fabricated synthetic content was used and no real organizational or VBA
+information was accessed. The component has **Implemented** repository maturity
+and is not Operational. On 2026-08-05, Chrome 150 on Windows completed the six
+executive workflows, all three Ask presets, board and state views, all eleven
+state presentations, keyboard and visible-focus navigation, accessibility-tree
+landmarks, 320- and 1280-CSS-pixel layouts, 200 percent zoom, reduced motion,
+board print rendering, safe `404` and `400` paths, and clean browser-storage and
+loopback-only network checks. The preview and browser were then stopped and
+their temporary artifacts removed. Independent implementation review and the
+merge decision remain outstanding and gated; this evidence asserts neither
+merge nor terminal completion.
