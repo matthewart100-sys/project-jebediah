@@ -548,3 +548,52 @@ Phase 3A is terminally complete only when:
 
 Until then, the product is a repository candidate or local preview, not an
 Operational organizational-intelligence system.
+
+## Execution evidence
+
+This section records factual implementation-branch execution evidence only. It
+does not change any requirement, contract, route, model, state, capability,
+dependency, authority, or manifest above.
+
+Implementation branch: `feature/phase3a-executive-product-shell`, from exact
+canonical base `35d5bafc63a904868012944f792f64e0d4456793`.
+
+Recorded automated results on the implementation head:
+
+- `uv run --frozen pytest tests/apps/jebediah_executive` - 324 passed.
+- `uv run --frozen pytest` - 785 passed.
+- `uv run --frozen python -m compileall -q apps/jebediah_executive tests/apps/jebediah_executive` - clean.
+- `uv lock --check` - lock unchanged; no dependency or lock edit.
+- `uv run --frozen python scripts/validate_docs.py` - passed.
+- `git diff --check` - no whitespace or conflict-marker error.
+- Exact 31-file change set against the canonical base, with no untracked extras.
+
+Layer coverage on the implementation head: model invariants
+(`test_models.py`), fixture contract (`test_fixtures.py`), escaped rendering
+(`test_rendering.py`), route resolution (`test_routes.py`), WSGI component,
+method, header, and workflow behavior (`test_app.py`), accessibility structure
+and token contrast (`test_accessibility.py`), and package, import, and
+capability boundaries (`test_package_boundaries.py`).
+
+Only fabricated synthetic content was used. No real organizational or VBA
+information was accessed. No service, network client, persistence, subprocess,
+deployment, or action path was added.
+
+Chrome 150 on Windows completed the browser matrix on 2026-08-05:
+
+- the overview, attention, knowledge, next, workspace, and Ask workflows;
+- all three Ask presets, the board view, the state gallery, and all eleven state
+  presentations;
+- keyboard activation, visible focus, skip-link behavior, accessibility-tree
+  landmarks, 320- and 1280-CSS-pixel layouts, 200 percent zoom, reduced motion,
+  and board print rendering;
+- safe `404` and query-rejection `400` behavior without path reflection;
+- no cookie, local storage, session storage, IndexedDB, or Cache Storage state;
+  and
+- browser requests limited to `http://127.0.0.1:8765`, with no runtime
+  exception or external request.
+
+The preview and browser were stopped and temporary smoke artifacts were
+removed. Independent implementation review and the merge decision remain
+outstanding and gated; this evidence does not assert merge or terminal
+completion.

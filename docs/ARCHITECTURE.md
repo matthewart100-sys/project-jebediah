@@ -60,8 +60,9 @@ not:
   authorization, durable storage, Qdrant or memory integration, retrieval,
   service, or deployment.
 - ADR 0015 is an Accepted System decision for the Executive Product Shell. The
-  component is **Specified** as a presentation-only, compiled-synthetic,
-  loopback local preview and is not Implemented or Operational.
+  component is **Implemented** as a presentation-only, compiled-synthetic,
+  loopback local preview on its working branch and is not Operational; its
+  implementation review and merge remain gated.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -143,7 +144,7 @@ interfaces remain clear.
 | Automation | Controlled orchestration and actions with policy, idempotency, approval, and rollback | Named future capability; no tracked workflows |
 | Knowledge | Ingestion, provenance, identity, representation, retrieval, and knowledge-state responsibilities | Bounded Collector, semantic memory, and metadata-only Knowledge Registry libraries are implemented; Knowledge Vault and organizational-intelligence authority boundaries are accepted; no registry runtime consumer or external information is authorized |
 | Reasoning | Bounded inference over trusted context with validation and tool authority | Named future capability; no engine implemented |
-| User experience | Human interaction, explanation, approval, feedback, and operational visibility | The read-only executive-interface and synthetic Executive Product Shell boundaries are accepted; the shell is **Specified** but not implemented |
+| User experience | Human interaction, explanation, approval, feedback, and operational visibility | The read-only executive-interface and synthetic Executive Product Shell boundaries are accepted; the shell is **Implemented** on its working branch but not Operational, with review and merge gated |
 
 ```mermaid
 flowchart BT
@@ -334,7 +335,7 @@ authoritative state, approval, or action execution.
 
 The Organizational Intelligence Product Program Phase 3A package accepts System
 [ADR 0015](adr/0015-executive-product-shell-and-local-preview-boundary.md)
-and one **Specified** component, the **Executive Product Shell**.
+and one **Implemented** synthetic component, the **Executive Product Shell**.
 
 The component refines only the final presentation edge above:
 
@@ -356,9 +357,12 @@ and no new dependency. It has no edge to a source, Collector, registry, memory,
 Qdrant, Ollama, model, retrieval, workflow, action, or deployment system.
 
 Work Mode approved and the Chief Architect adopted exact planning head
-`5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`. The component is **Specified**, not
-Implemented or Operational. Product Program Phase 3A does not activate or rename
-canonical Roadmap Phase 3 - Knowledge Graph.
+`5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`. The synthetic shell is now
+implemented under `apps.jebediah_executive` as standard-library-only source,
+tests, and an operator preview guide; the component is **Implemented**, not
+Operational, and its implementation review and merge remain gated. Product
+Program Phase 3A does not activate or rename canonical Roadmap Phase 3 -
+Knowledge Graph.
 
 ## Architectural boundaries
 

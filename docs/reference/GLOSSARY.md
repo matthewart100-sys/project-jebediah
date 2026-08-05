@@ -255,12 +255,14 @@ operational ownership remain unapproved.
 
 ### Executive Product Shell
 
-A **Specified** human-experience component under Accepted
+An **Implemented** human-experience component under Accepted
 [ADR 0015](../adr/0015-executive-product-shell-and-local-preview-boundary.md).
 It owns presentation and navigation over immutable compiled fabricated briefing
-fixtures in a loopback-only local preview. It has no source, verification,
+fixtures in a loopback-only local preview. It has no source-truth, verification,
 derivation, approval, action, organizational-information, service, deployment,
-or operational authority and is not yet Implemented.
+or operational authority. The synthetic implementation is present on its working
+branch; it is not Operational, and its implementation review and merge remain
+gated.
 
 ### Knowledge Graph
 

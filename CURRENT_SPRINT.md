@@ -6,8 +6,9 @@
 Dashboard and Product Shell
 
 **Status:** Architecture and the exact bounded synthetic implementation scope
-are accepted; implementation is authorized from canonical merge of the
-activation package but has not started
+are accepted; the synthetic Executive Product Shell is implemented on its working
+branch; independent implementation review and a separate merge decision remain
+gated
 
 **Target window:** Bounded implementation, exact-head review, merge validation,
 and terminal closeout after canonical architecture activation
@@ -43,8 +44,10 @@ scope.
 The Product Program Phase 3A label describes a cross-phase human-experience
 foundation. It does not activate or rename canonical Roadmap Phase 3 -
 Knowledge Graph. The accepted shell is a compiled synthetic-data-only, loopback
-local preview. No implementation exists until the authorized source branch
-completes its separate review and merge gates.
+local preview. The synthetic implementation is now present on its authorized
+source branch as standard-library-only source, tests, and an operator preview
+guide; it remains subject to separate independent implementation review and a
+merge decision before it becomes canonical on `main`.
 
 ## Authority and merge evidence
 
@@ -154,7 +157,7 @@ parsed, inspected, or ingested.
 | Post-merge validation | Complete | 226 targeted and 461 full-suite tests plus all required repository gates |
 | Documentation closeout | Complete | PR #54 squash merge `58f40054faba1167c25d828186e74d66e6c0681b`; no recursive closeout |
 | Phase 3A architecture package | Accepted | Work Mode approved and Chief Architect adopted exact planning head `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`; activation merge is canonical start gate |
-| Phase 3A implementation | Authorized after canonical activation merge; not started | Exact 31-file synthetic scope, independent review, and separate merge decision |
+| Phase 3A implementation | Implemented on working branch; review and merge gated | Exact 31-file synthetic scope complete with tests and operator preview guide; independent review and a separate merge decision remain required |
 
 ## Rollback
 

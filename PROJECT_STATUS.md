@@ -2,11 +2,12 @@
 
 **Phase:** Phase 2: Collector and memory foundation
 
-**Status:** Knowledge Manager 1.0 Phase 2 is terminally closed; Organizational
-Intelligence Product Program Phase 3A architecture and its exact bounded
-synthetic implementation scope are accepted, but implementation has not started;
-external information, runtime integration, deployment, operational use, and
-canonical Roadmap Phase 3 remain unauthorized
+**Status:** Knowledge Manager 1.0 Phase 2 is terminally closed; the
+Organizational Intelligence Product Program Phase 3A Executive Product Shell is
+**Implemented** as a synthetic, loopback-only local preview on its working
+branch; implementation review and merge remain gated; external information,
+runtime integration, deployment, operational use, and canonical Roadmap Phase 3
+remain unauthorized
 
 **Last reviewed:** 2026-08-05
 
@@ -101,11 +102,15 @@ The accepted architecture defines a compiled synthetic
 [Phase 3A Executive Product Shell](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_PRODUCT_SHELL_PLAN.md)
 to refine the ADR 0012 presentation boundary. Accepted System ADR 0015, a threat
 model, dependency assessment, validation requirements, and bounded authorization
-form the exact implementation contract. The Executive Product Shell is
-**Specified**, not Implemented or Operational. No source tree, live adapter,
-service, real-information path, deployment, or action authority exists. The
-Product Program Phase 3A label does not activate or rename canonical Roadmap
-Phase 3 - Knowledge Graph.
+form the exact implementation contract. The Executive Product Shell is now
+**Implemented** as a synthetic, standard-library-only, loopback local preview on
+its working branch, but is not Operational and its implementation review and
+merge remain gated. The implementation adds a synthetic-only source tree with no
+live adapter, service, real-information path, durable state, deployment, or
+action authority. The
+[local preview operator guide](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_LOCAL_PREVIEW.md)
+describes bounded local inspection only. The Product Program Phase 3A label does
+not activate or rename canonical Roadmap Phase 3 - Knowledge Graph.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -158,8 +163,9 @@ reviewed pull requests.
 - Accepted ADR 0015 defines the compiled-synthetic Executive Product Shell and
   loopback local-preview boundary. Work Mode approved and the Chief Architect
   adopted exact planning head
-  `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`; the component is **Specified**,
-  not Implemented or Operational.
+  `5aa79d0d8f8aeab89d4a0acc4056a8f94ce329d7`. The synthetic implementation is
+  now **Implemented** on its working branch and is not Operational; its
+  implementation review and merge remain gated.
 - Pull request #50 squash-merged the independently reviewed Phase 2 plan and
   validation baseline as
   `92e4b8c7353f6d47097e7eaf6c743c78f39c8e10`; no implementation or
@@ -351,13 +357,15 @@ The Phase 2 architecture, activation, exact synthetic implementation, review,
 Chief Architect approval, merge, post-merge validation, and terminal
 documentation closeout are complete.
 
-The current work activates the accepted Organizational Intelligence Product
+The current work implements the accepted Organizational Intelligence Product
 Program Phase 3A architecture. It defines a synthetic Executive Product Shell,
 local-preview boundary, exact view models, routes, states, threat model,
 dependency decision, tests, rollback, file manifest, and bounded implementation
-authorization. Implementation is authorized only from canonical activation
-merge and has not started. No parser, service, real document, runtime
-integration, deployment, or canonical Roadmap Phase 3 work is authorized.
+authorization. The synthetic shell is now implemented on its working branch with
+standard-library-only source, tests, and an operator preview guide; independent
+implementation review and a separate merge decision remain required. No parser,
+service, real document, runtime integration, deployment, or canonical Roadmap
+Phase 3 work is authorized.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and

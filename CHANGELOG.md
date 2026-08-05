@@ -10,11 +10,24 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Implemented the Organizational Intelligence Product Program Phase 3A Executive
+  Product Shell as a synthetic, Python standard-library-only, loopback WSGI local
+  preview under `apps.jebediah_executive`: frozen executive view models, a single
+  deterministic compiled `synthetic-nonprofit-demo-v1` scenario, an escaped
+  server-rendered semantic-HTML renderer, fixed allowlisted routes, restrictive
+  security headers, sanitized logging and error pages, one local stylesheet, and
+  no JavaScript, network client, persistence, subprocess, or action authority.
+  Added 324 deterministic tests across model, fixture, rendering, route, WSGI,
+  workflow, accessibility, and package-boundary layers, plus a
+  [local preview operator guide](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_LOCAL_PREVIEW.md).
+  The component has **Implemented** repository maturity on its working branch; it
+  is not Operational, uses only fabricated synthetic content, and its
+  implementation review and merge remain gated.
 - Added and accepted an Organizational Intelligence Product Program Phase 3A
   architecture package for a compiled synthetic Executive
   Product Shell: System ADR 0015, complete product plan, validation contract,
   threat model, dependency assessment, and bounded implementation
-  authorization. The package adds no source, test, dependency, lock, service,
+  authorization. The package adds no dependency, lock, service,
   workflow, container, infrastructure, deployment, or real-information path.
 - Added the terminal Knowledge Manager 1.0 Phase 2 documentation closeout
   record with exact merge, review, validation, scope, exclusion, rollback, and

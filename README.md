@@ -101,8 +101,13 @@ The accepted architecture defines a synthetic
 [Phase 3A Executive Product Shell](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_PRODUCT_SHELL_PLAN.md).
 Its accepted ADR, threat model, dependency assessment, validation requirements,
 and bounded authorization define an exact 31-file synthetic implementation
-scope. Implementation is authorized only from canonical activation merge and
-has not started. No real document ingestion, external information, memory
+scope. That scope is now implemented on its working branch as a synthetic,
+standard-library-only, loopback WSGI local preview under
+`apps.jebediah_executive`, with deterministic tests and a
+[local preview operator guide](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_LOCAL_PREVIEW.md).
+The component is **Implemented** and disconnected; it is not Operational, uses
+only fabricated synthetic content, and its independent implementation review and
+merge remain gated. No real document ingestion, external information, memory
 integration, embeddings, Qdrant writes, service, deployment, document upload,
 autonomous promotion, or canonical Roadmap Phase 3 is authorized. JCS remains
 deferred and is not a dependency.
