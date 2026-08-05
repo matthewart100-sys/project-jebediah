@@ -105,6 +105,16 @@ searchable, linkable, and version controlled.
 - [ADR 0014: Knowledge Registry Domain Boundary](adr/0014-knowledge-registry-domain-boundary.md)
   is an Accepted System decision for a storage-neutral registry domain separate
   from memory, ingestion, retrieval, runtime, and source authority.
+- [Knowledge Manager 1.0 Phase 2 Document Inspection Plan](KNOWLEDGE_MANAGER_1_PHASE_2_DOCUMENT_INSPECTION_PLAN.md)
+  proposes a synthetic-only, quarantine-first implementation sequence under ADR
+  0013 without authorizing code, live documents, storage, services, or
+  deployment.
+- [Knowledge Manager 1.0 Phase 2 Validation Requirements](KNOWLEDGE_MANAGER_1_PHASE_2_VALIDATION_REQUIREMENTS.md)
+  proposes the fail-closed fixture, isolation, state, resource, provenance,
+  retention, authority, and review evidence for that future implementation.
+- [Safe VBA Evidence Preparation Guide](VBA_EVIDENCE_PREPARATION_GUIDE.md)
+  provides local-only blank preparation structures and checklists while keeping
+  real VBA material outside Jebediah.
 - [Glossary](reference/GLOSSARY.md) owns shared project terminology.
 - [Component Registry](reference/COMPONENT_REGISTRY.md) tracks component
   identity, maturity, responsibility, and component ownership.

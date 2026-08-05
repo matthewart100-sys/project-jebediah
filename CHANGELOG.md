@@ -10,6 +10,10 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added a proposed Knowledge Manager 1.0 Phase 2 document-inspection plan,
+  synthetic validation requirements, and safe local VBA evidence-preparation
+  guide; the package does not authorize code, real documents, ingestion,
+  storage, services, deployment, or runtime integration.
 - Added the bounded Knowledge Registry Phase 1 implementation:
   immutable governance-metadata records, a three-method storage-neutral
   repository contract, a typed identity conflict, an in-memory reference
