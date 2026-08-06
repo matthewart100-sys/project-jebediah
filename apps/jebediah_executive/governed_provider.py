@@ -207,6 +207,7 @@ class _CanonicalRuntimeClient:
         *,
         method: str,
         url: str,
+        operation: str,
         payload: dict[str, Any] | None = None,
         allow_non_json: bool = False,
     ) -> dict[str, Any]:
@@ -225,7 +226,7 @@ class _CanonicalRuntimeClient:
             with urllib.request.urlopen(request, timeout=self._timeout_seconds) as response:
                 body = response.read()
         except (urllib.error.URLError, TimeoutError, ValueError, OSError) as error:
-            raise RuntimeError(f"runtime_request_failed: {url}") from error
+            raise RuntimeError(f"runtime_request_failed: {operation}") from error
         if not body:
             return {}
         try:
@@ -233,11 +234,11 @@ class _CanonicalRuntimeClient:
         except (UnicodeDecodeError, json.JSONDecodeError) as error:
             if allow_non_json:
                 return {}
-            raise RuntimeError(f"runtime_response_invalid_json: {url}") from error
+            raise RuntimeError(f"runtime_response_invalid_json: {operation}") from error
         if not isinstance(decoded, dict):
             if allow_non_json:
                 return {}
-            raise RuntimeError(f"runtime_response_invalid_shape: {url}")
+            raise RuntimeError(f"runtime_response_invalid_shape: {operation}")
         return decoded
 
     def _request_available(self, *, url: str) -> bool:
@@ -263,7 +264,11 @@ class _CanonicalRuntimeClient:
         observed = _now()
         for service_name, url in checks:
             try:
-                payload = self._request_json(method="GET", url=url)
+                payload = self._request_json(
+                    method="GET",
+                    url=url,
+                    operation=f"{service_name}_health",
+                )
                 detail = str(payload.get("status", "online")).strip() or "online"
                 statuses.append(
                     _RuntimeServiceStatus(
@@ -313,6 +318,7 @@ class _CanonicalRuntimeClient:
         return self._request_json(
             method="POST",
             url=url,
+            operation="interaction_admission",
             payload={
                 "source_record_id": source_record_id,
                 "file_name": file_name,
@@ -340,6 +346,7 @@ class _CanonicalRuntimeClient:
         return self._request_json(
             method="POST",
             url=url,
+            operation="interaction_question",
             payload={
                 "question": question,
                 "workspace_mode": workspace_mode,
@@ -356,6 +363,7 @@ class _CanonicalRuntimeClient:
         return self._request_json(
             method="POST",
             url=url,
+            operation="memory_context",
             payload={
                 "source_identity": "executive-shell",
                 "content": question,
@@ -1273,11 +1281,12 @@ class GovernedRuntimeBriefingProvider:
                 observed_at=submission.admitted_at,
             )
             state = self._workspace_state_for_submission(submission)
-            kind = (
-                WorkspaceKind.KNOWLEDGE_OBJECT
-                if state is WorkspaceState.ELIGIBLE
-                else WorkspaceKind.REVIEW
-            )
+            if state is WorkspaceState.ELIGIBLE:
+                kind = WorkspaceKind.KNOWLEDGE_OBJECT
+            elif state is WorkspaceState.PROCESSING_FAILED:
+                kind = WorkspaceKind.DOCUMENT
+            else:
+                kind = WorkspaceKind.REVIEW
             records.append(
                 WorkspaceRecord(
                     record_id=_safe_demo_id("submission", submission.submission_id),

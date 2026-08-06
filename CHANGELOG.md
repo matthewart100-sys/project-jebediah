@@ -191,6 +191,9 @@ development. Changes not assigned to a published version remain under
 
 ### Fixed
 
+- Fixed canonical runtime admission failures so Knowledge Manager renders a
+  governed `processing_failed` document record without exposing internal
+  service URLs or returning HTTP 500.
 - Fixed the production operations scripts and runbooks to match the current
   overlay compose topology by removing stale `memory-runtime`/runtime-volume
   assumptions, backing up and restoring the Bonsaai-owned Caddy config volume,

@@ -567,6 +567,55 @@ def test_demonstration_mode_walkthrough_is_available(client: Client) -> None:
     assert b"evidence-backed answer" in body.lower()
 
 
+def test_canonical_admission_failure_renders_without_http_500(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def _fail_submission(self, **kwargs):
+        del self, kwargs
+        raise RuntimeError("runtime_request_failed: interaction_admission")
+
+    monkeypatch.setenv("BONSAAI_CANONICAL_RUNTIME", "1")
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.submit_admission",
+        _fail_submission,
+    )
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.runtime_health",
+        lambda self: (),
+    )
+    provider = OperationalWorkspaceProvider(
+        Path(tempfile.mkdtemp(prefix="canonical-admission-failure-test-"))
+    )
+    provider.select_workspace("production")
+    client = Client(create_app(provider))
+    boundary = "----bonsaai-failure-boundary"
+    body = (
+        f"--{boundary}\r\n"
+        "Content-Disposition: form-data; name=\"source_record_id\"\r\n\r\n"
+        "source-record-failed\r\n"
+        f"--{boundary}\r\n"
+        "Content-Disposition: form-data; name=\"document_file\"; filename=\"failed.pdf\"\r\n"
+        "Content-Type: application/pdf\r\n\r\n"
+        "%PDF-1.4 synthetic\r\n"
+        f"--{boundary}--\r\n"
+    ).encode("utf-8")
+
+    status, headers, _ = client.request(
+        "POST",
+        "/knowledge-manager/admit",
+        body=body,
+        content_type=f"multipart/form-data; boundary={boundary}",
+    )
+    assert status == "303 See Other"
+    assert headers["Location"] == "/knowledge-manager"
+
+    status, _, page = client.request("GET", "/knowledge-manager")
+    assert status == "200 OK"
+    assert b"processing_failed" in page
+    assert b"runtime_request_failed: interaction_admission" in page
+    assert b"http://jebediah-interaction" not in page
+
+
 def test_workflow_failure_awareness(client: Client) -> None:
     _, _, gallery = client.request("GET", "/states")
     for state_id in (

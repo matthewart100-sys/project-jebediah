@@ -227,8 +227,10 @@ def test_governed_provider_canonical_admission_failure_is_recorded(
 
     briefing = provider.briefing()
     assert any(
-        record.state is WorkspaceState.PROCESSING_FAILED
-        and "runtime_request_failed" in " ".join(record.limitations)
+        record.kind is WorkspaceKind.DOCUMENT
+        and record.state is WorkspaceState.PROCESSING_FAILED
+        and "runtime_request_failed: interaction_admission"
+        in " ".join(record.limitations)
         for record in briefing.workspace_records
     )
 

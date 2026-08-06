@@ -225,6 +225,7 @@ WORKSPACE_KIND_STATES: dict[WorkspaceKind, frozenset[WorkspaceState]] = {
             WorkspaceState.REJECTED,
             WorkspaceState.HELD,
             WorkspaceState.EVALUATION_FAILED,
+            WorkspaceState.PROCESSING_FAILED,
             WorkspaceState.DELETED,
         }
     ),
