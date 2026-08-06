@@ -382,3 +382,34 @@ def test_governed_provider_canonical_runtime_health_handles_oserror(
     ]
     assert qdrant_records
     assert all(record.state is WorkspaceState.UNAVAILABLE for record in qdrant_records)
+
+
+def test_governed_provider_canonical_runtime_health_failure_degrades_to_unavailable(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def _raise_runtime_error(self) -> tuple[object, ...]:
+        del self
+        raise RuntimeError("runtime_request_failed: synthetic")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.runtime_health",
+        _raise_runtime_error,
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        Path(tempfile.mkdtemp(prefix="gov-provider-canonical-health-fallback-test-")),
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+    briefing = provider.briefing()
+    runtime_records = [
+        record
+        for record in briefing.workspace_records
+        if record.record_id.startswith("demo-runtime-")
+    ]
+    assert len(runtime_records) == 4
+    assert all(record.state is WorkspaceState.UNAVAILABLE for record in runtime_records)
+    assert any(
+        "health_check_failed:runtime_request_failed: synthetic" in " ".join(record.limitations)
+        for record in runtime_records
+    )

@@ -157,6 +157,20 @@ class _RuntimeServiceStatus:
     observed_at: datetime
 
 
+def _unavailable_runtime_health(*, detail: str) -> tuple[_RuntimeServiceStatus, ...]:
+    observed = _now()
+    services = ("interaction", "memory", "qdrant", "ollama")
+    return tuple(
+        _RuntimeServiceStatus(
+            service=service,
+            state="unavailable",
+            detail=detail,
+            observed_at=observed,
+        )
+        for service in services
+    )
+
+
 class _CanonicalRuntimeClient:
     """HTTP client for existing canonical governed runtime services."""
 
@@ -1224,7 +1238,12 @@ class GovernedRuntimeBriefingProvider:
     def _workspace_records(self) -> tuple[WorkspaceRecord, ...]:
         records: list[WorkspaceRecord] = []
         if self._canonical_runtime_enabled and self._runtime_client is not None:
-            self._runtime_health = self._runtime_client.runtime_health()
+            try:
+                self._runtime_health = self._runtime_client.runtime_health()
+            except RuntimeError as error:
+                self._runtime_health = _unavailable_runtime_health(
+                    detail=f"health_check_failed:{error}"
+                )
             for status in self._runtime_health:
                 records.append(
                     WorkspaceRecord(
