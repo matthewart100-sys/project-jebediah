@@ -72,7 +72,11 @@ searchable, linkable, and version controlled.
   records `CA-2026-08-06-P3B-RECONCILIATION`, the inactive implementation
   authority, revised milestone sequence, pull-request preservation, ADR impact,
   original historical pre-execution revert plan, and later B0 branch execution
-  status. The recovery is not canonical before exact-head approval and merge.
+  status. Pull request #62 completed B0 as canonical commit
+  `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`.
+- [Chief Architect P1 Planning Authorization](governance/CHIEF_ARCHITECT_P1_PLANNING_AUTHORIZATION.md)
+  records `CA-2026-08-06-P1-PLANNING`, authorizing only a documentation-only,
+  implementation-ready planning package against the completed B0 base.
 - [Documentation Lead Protocol](governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md)
   defines the Documentation Suite's post-merge closeout responsibilities and
   limits.
@@ -152,6 +156,36 @@ searchable, linkable, and version controlled.
   is a Historical scope record that grants no current implementation authority.
 - [Phase 3B Completion Directive](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_COMPLETION_DIRECTIVE.md)
   is Superseded as implementation authority and retained for audit context.
+- [P1 Synthetic Organizational Learning Pilot Plan](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_PLAN.md)
+  is the Proposed end-to-end product, architecture, exact-manifest, work,
+  branch, review, rollback, and authority plan. It grants no implementation.
+- [P1 Synthetic Organizational Learning Pilot Validation Requirements](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_VALIDATION_REQUIREMENTS.md)
+  define Proposed exact-head product, domain, integration, browser, security,
+  recovery, dependency, negative-capability, and rollback evidence.
+- [P1 Synthetic Organizational Learning Pilot Threat Model](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_THREAT_MODEL.md)
+  defines Proposed assets, trust boundaries, threats, controls, security tests,
+  residual risk, and stop conditions for a synthetic local pilot.
+- [P1 Synthetic Organizational Learning Pilot Dependency and Salvage Assessment](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_DEPENDENCY_AND_SALVAGE_ASSESSMENT.md)
+  records the Proposed dependency choice and bounded file- and function-level
+  disposition of historical pull requests #59 and #60.
+- [P1 Synthetic Organizational Learning Pilot Execution Handoff](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_EXECUTION_HANDOFF.md)
+  fixes the Proposed future branch sequence, authority gates, implementation
+  order, stop conditions, review packet, and exact next decision.
+- [ADR 0018: P1 Synthetic Organizational Learning Pilot Sequencing](adr/0018-p1-synthetic-organizational-learning-pilot-sequencing.md)
+  is a Proposed Foundational decision for one bounded vertical-slice sequencing
+  exception; it does not activate B1, C1, D1, or implementation.
+- [ADR 0019: Governed Synthetic Evidence Promotion](adr/0019-governed-synthetic-evidence-promotion.md)
+  is a Proposed System decision that keeps metadata-only Registry registration
+  separate from a session-scoped approved-evidence content projection.
+- [ADR 0020: Executive Pilot Read Model and Deterministic Retrieval](adr/0020-executive-pilot-read-model-and-deterministic-retrieval.md)
+  is a Proposed System decision for bounded pilot composition, approved-only
+  exact retrieval, and evidence-bearing Executive Shell read-model assembly.
+
+All P1 design documents above are review candidates. They do not change the
+accepted architecture, authorize implementation or dependencies, permit real
+organizational information, or grant runtime, deployment, or public-exposure
+authority. ADR 0017 remains a separate noncanonical proposal in pull request
+#63; accepted ADR 0005 continues to control coordination on this base.
 - [Knowledge Manager 1.0 Phase 1 Implementation Plan](KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
   defines the accepted and authorized metadata-only Knowledge Registry
   foundation while preserving its Checkpoint 0 and excluded capabilities.
@@ -235,8 +269,9 @@ owner.
 ## Historical pull request #60 audit and salvage artifacts
 
 The following Markdown files were introduced by pull request #60 and removed
-from the proposed B0 repository tree. They remain preserved only through pull
-request #60, its source head `70db20613e6275d391b2221d04e6ab4314d0a7b5`,
+from canonical `main` by the completed B0 normal revert in pull request #62.
+They remain preserved only through pull request #60, its source head
+`70db20613e6275d391b2221d04e6ab4314d0a7b5`,
 its squash commit `991929beb6026511e07b6cb7954e1c9e400b9cb5`, and Git
 history. They are audit and salvage evidence, not current repository guidance,
 and no current-tree copy exists to follow, execute, deploy, or use to configure

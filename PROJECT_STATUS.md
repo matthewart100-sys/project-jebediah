@@ -1,15 +1,18 @@
 # Project Status
 
-**Phase:** B0 - Canonical recovery
+**Phase:** P1 - Synthetic Organizational Learning Pilot Planning
 
-**Status:** Canonical recovery proposed on a review branch. No implementation
-authority is active after B0.
+**Status:** Planning active under `CA-2026-08-06-P1-PLANNING`; implementation,
+deployment, and real-information authority remain absent.
 
-**Controlling decision:**
+**Accepted controlling decision:**
 [CA-2026-08-06-P3B-RECONCILIATION](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
 
-**B0 recovery base:**
-`b1d8dea531ad0b82171cb0f3f3979323b712a5de`
+**Current planning authority:**
+[CA-2026-08-06-P1-PLANNING](docs/governance/CHIEF_ARCHITECT_P1_PLANNING_AUTHORIZATION.md)
+
+**Canonical planning base and completed B0 state:**
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`
 
 **Architecture baseline:**
 `9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`
@@ -17,15 +20,20 @@ authority is active after B0.
 **Last reviewed:** 2026-08-06
 
 The long-term governed organizational-intelligence direction is strategically
-accepted. Phase 3B architecture is accepted, and ADR 0016 remains binding. The
-implementation merged through pull request #60 is architecturally
-nonconforming and is not accepted as conforming or operational. Its repository
-presence grants no authority to run, merge forward, deploy, expose, or use it.
+accepted. Phase 3B architecture is accepted, and ADR 0016 remains binding.
+Pull request #62 completed B0 through a normal revert at the canonical planning
+base. The implementation formerly merged through pull request #60 remains
+historical, architecturally nonconforming evidence and is not accepted as
+conforming or operational.
 
 | Boundary | Current status |
 | --- | --- |
+| P1 planning | Active under `CA-2026-08-06-P1-PLANNING`; documentation only |
 | Implementation authority | None |
+| ADRs 0018, 0019, and 0020 | Proposed; not accepted and not implementation authority |
+| P1 pilot | Planned only; no implementation or runtime exists |
 | Pull request #60 implementation | Strategically aligned; architecturally nonconforming; not accepted |
+| Pull request #63 and ADR 0017 | Separate noncanonical proposal; not accepted or controlling |
 | Deployment | Unauthorized |
 | Real documents | Unauthorized |
 | VBA onboarding or use | Unauthorized |
@@ -37,15 +45,21 @@ presence grants no authority to run, merge forward, deploy, expose, or use it.
 | Retrieval or grounded answers | Unauthorized |
 | Operational workspaces | Unauthorized |
 | Public domain exposure | Unauthorized |
-| Selected normal revert | Executed on the B0 review branch; not canonical before merge |
+| B0 normal revert | Complete and canonical at `37dd437617ed731340e9fd3da6cab0b1c49f7b4a` |
 
-The current work is the authorized B0 recovery in
-[CURRENT_SPRINT.md](CURRENT_SPRINT.md). The review branch restores the
-pre-PR60 implementation content, retains the reconciliation record, and adds
-the reusable execution framework. It must receive independent exact-head Work
-Mode review and a separate Chief Architect merge decision. The live runtime
+The current work is the documentation-only planning sprint in
+[CURRENT_SPRINT.md](CURRENT_SPRINT.md). The Proposed
+[P1 Pilot Plan](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_PLAN.md),
+[Validation Requirements](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_VALIDATION_REQUIREMENTS.md),
+[Threat Model](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_THREAT_MODEL.md),
+[Dependency and Salvage Assessment](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_DEPENDENCY_AND_SALVAGE_ASSESSMENT.md),
+and
+[Execution Handoff](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_EXECUTION_HANDOFF.md)
+define a future synthetic vertical slice. They do not change accepted
+architecture or authorize code, runtime mutation, deployment, real
+organizational information, or any B2-or-later capability. The live runtime
 was not changed and may differ from repository state; a future operational
-inventory requires separate authority. B1 remains unauthorized.
+inventory requires separate authority.
 
 ## Summary
 
@@ -178,6 +192,13 @@ Its passing `documentation-quality` check proves only that validator's bounded
 result. Both pull requests are preserved for audit and possible future
 file-level analysis; neither supplies current implementation authority.
 
+Pull request #62 completed B0 as canonical commit
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. P1 planning is now active under
+`CA-2026-08-06-P1-PLANNING`. Proposed ADRs 0018 through 0020 and the P1 design
+package are review candidates only. Pull request #63 and its Proposed ADR 0017
+remain a separate noncanonical governance proposal and do not control this
+planning package.
+
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
 `5895e8f5896cf0687a43c978ec2f17da53d6b78c`. JCS remains **Named**, its
@@ -208,8 +229,14 @@ reviewed pull requests.
   strategic direction, preserves accepted Phase 3B architecture, and rejects
   pull request #60's implementation as conforming or operational. Pull request
   #61 made that decision durable at
-  `b1d8dea531ad0b82171cb0f3f3979323b712a5de`; this branch prepares the B0
-  repository recovery for exact-head review and merge.
+  `b1d8dea531ad0b82171cb0f3f3979323b712a5de`; pull request #62 then completed
+  the B0 normal revert as canonical commit
+  `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`.
+- Chief Architect directive `CA-2026-08-06-P1-PLANNING` authorizes planning
+  only against canonical base `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`.
+  It grants no implementation, deployment, or information-use authority.
+- ADRs 0018, 0019, and 0020 and every P1 design artifact are Proposed. Pull
+  request #63 and its Proposed ADR 0017 are separate and noncanonical.
 - Pull request #60 squash-merged source head
   `70db20613e6275d391b2221d04e6ab4314d0a7b5` as
   `991929beb6026511e07b6cb7954e1c9e400b9cb5`. The GitHub record shows no
@@ -429,12 +456,22 @@ abstraction, in-memory reference adapter, and tests. The
 [closeout record](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) owns the exact
 merge, post-merge evidence, exclusions, and remaining gates.
 
-The active milestone is B0 canonical recovery. The separately authorized
-normal revert has been executed on the pull request #62 review branch. Current
-authority is limited to validation, independent exact-head review, and a
-separate Chief Architect decision for the unchanged recovery head. The branch
-recovery is not canonical before merge, and every implementation milestone
-remains unauthorized.
+The active work is P1 planning under
+[`CA-2026-08-06-P1-PLANNING`](docs/governance/CHIEF_ARCHITECT_P1_PLANNING_AUTHORIZATION.md).
+B0 is complete and canonical at
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. Current authority is limited to a
+documentation-only, implementation-ready planning package, bounded historical
+salvage analysis, validation of that package, and exact-head architecture
+review preparation. Every implementation milestone remains unauthorized.
+
+The Proposed P1 package defines one generated synthetic PDF, explicit local
+human disposition, metadata-only Registry registration, a separate
+session-scoped approved-evidence projection, deterministic approved-only
+retrieval, and an evidence-bearing answer in the existing Executive Product
+Shell. None of those proposed future behaviors exists or is activated by this
+planning sprint. ADRs 0018 through 0020 require independent architecture review
+and a later Chief Architect decision; implementation would then require a
+separate explicit authorization after the accepted planning package merges.
 
 The Organizational Intelligence Product Program Phase 3A is the most recently
 completed implementation sprint. Its

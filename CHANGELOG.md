@@ -14,9 +14,33 @@ development. Changes not assigned to a published version remain under
 > nonconforming and is not accepted as conforming or operational. No
 > implementation, real-document, model, retrieval, workspace, deployment, or
 > public-exposure authority follows from those historical entries.
+>
+> `CA-2026-08-06-P1-PLANNING` authorizes the P1 documentation package below
+> for planning only. Every P1 ADR and design remains Proposed; no
+> implementation, dependency, runtime, deployment, or information-use
+> authority follows from its inclusion.
 
 ### Added
 
+- Added the documentation-only
+  [Chief Architect P1 Planning Authorization](docs/governance/CHIEF_ARCHITECT_P1_PLANNING_AUTHORIZATION.md)
+  for the first complete synthetic Organizational Intelligence pilot against
+  canonical B0 base `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`.
+- Added the Proposed
+  [P1 Pilot Plan](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_PLAN.md),
+  [Validation Requirements](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_VALIDATION_REQUIREMENTS.md),
+  [Threat Model](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_THREAT_MODEL.md),
+  [Dependency and Salvage Assessment](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_DEPENDENCY_AND_SALVAGE_ASSESSMENT.md),
+  and
+  [Execution Handoff](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_EXECUTION_HANDOFF.md)
+  as one implementation-ready but non-authorizing planning package.
+- Added Proposed Foundational
+  [ADR 0018](docs/adr/0018-p1-synthetic-organizational-learning-pilot-sequencing.md)
+  for the bounded P1 vertical-slice sequencing exception, Proposed System
+  [ADR 0019](docs/adr/0019-governed-synthetic-evidence-promotion.md) for
+  governed synthetic promotion, and Proposed System
+  [ADR 0020](docs/adr/0020-executive-pilot-read-model-and-deterministic-retrieval.md)
+  for exact approved-only retrieval and evidence-bearing read-model assembly.
 - Added the
   [Master Execution Framework](docs/governance/JEBEDIAH_MASTER_EXECUTION_FRAMEWORK.md)
   for bounded milestone execution, exact-head review, controlled merge,
@@ -229,10 +253,14 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
-- Proposed B0 recovery restores the reviewed pre-PR60 implementation baseline
-  through a normal revert while retaining the reconciliation decision and pull
-  requests #59 and #60 as audit and salvage evidence. No runtime, deployment,
-  real-information, or later-milestone authority is included.
+- Recorded pull request #62's completed B0 normal revert as canonical commit
+  `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`, retaining the reconciliation
+  decision and pull requests #59 and #60 as audit and salvage evidence.
+- Opened P1 planning under `CA-2026-08-06-P1-PLANNING` and reconciled current
+  sprint, status, roadmap, architecture, ADR navigation, documentation
+  navigation, and repository entry-point language without activating
+  implementation, deployment, real information, or B2-or-later work. Pull
+  request #63 and Proposed ADR 0017 remain separate and noncanonical.
 - Canonicalized current status after the Chief Architect classified pull
   request #60 as strategically aligned but architecturally nonconforming and
   not accepted. The Phase 3B Completion Directive is Superseded, the prior

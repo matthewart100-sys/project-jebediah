@@ -92,8 +92,9 @@ Pull request #60 introduced broader Phase 3B, Phase 3C, workspace, and
 deployment artifacts, but
 [CA-2026-08-06-P3B-RECONCILIATION](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
 classifies that implementation as architecturally nonconforming and not
-accepted. B0 canonical recovery is the only current work; no implementation or
-deployment milestone is active.
+accepted. Pull request #62 completed B0 as canonical commit
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. P1 planning is the only current
+work; no implementation or deployment milestone is active.
 
 Required outcomes:
 
@@ -225,7 +226,7 @@ roadmap phase.
 
 | Milestone | Focus | Current status |
 | --- | --- | --- |
-| B0 - Canonical recovery | Restore the reviewed pre-PR60 implementation baseline while retaining reconciliation authority | Proposed recovery complete on review branch; merge unauthorized pending review |
+| B0 - Canonical recovery | Restore the reviewed pre-PR60 implementation baseline while retaining reconciliation authority | Complete and canonical at `37dd437617ed731340e9fd3da6cab0b1c49f7b4a` |
 | B1 - Synthetic custody foundation | Bounded synthetic custody | Future; unauthorized |
 | B2 - Isolated PDF inspection and review | Synthetic PDF isolation and human review | Future; unauthorized |
 | B3 - Lifecycle and recovery readiness | Retention, deletion, hold, backup, restore, and recovery | Future; unauthorized |
@@ -239,6 +240,33 @@ roadmap phase.
 Every future milestone requires its own accepted plan, applicable ADRs,
 independent review, Chief Architect authorization, implementation evidence, and
 exact-head merge decision. Strategic acceptance does not bypass these gates.
+
+### Proposed P1 bounded planning exception
+
+**Status:** Proposed under
+[`CA-2026-08-06-P1-PLANNING`](docs/governance/CHIEF_ARCHITECT_P1_PLANNING_AUTHORIZATION.md);
+planning only; no implementation or milestone activation
+
+The
+[P1 Synthetic Organizational Learning Pilot Plan](docs/P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_PLAN.md)
+proposes one tightly bounded future vertical slice across exact synthetic
+subsets labeled B1, B2, B3, C0, C1, and D1 so the same allowlisted executive
+question can move from insufficient to deterministically grounded only after
+approval of one generated synthetic PDF. It completes none of those general
+milestones and excludes general B2 inspection, B3 lifecycle completion, C0 identity,
+C2 memory or Qdrant projection, D2 workspaces, O1 deployment, real information,
+and every broader capability.
+
+Proposed Foundational
+[ADR 0018](docs/adr/0018-p1-synthetic-organizational-learning-pilot-sequencing.md)
+would establish the exception. Proposed System
+[ADR 0019](docs/adr/0019-governed-synthetic-evidence-promotion.md) and
+[ADR 0020](docs/adr/0020-executive-pilot-read-model-and-deterministic-retrieval.md)
+would define the promotion and read-model/retrieval boundaries. Until those
+decisions and the complete planning package receive independent review, Chief
+Architect acceptance, status activation, and merge, the accepted serial
+B0-through-O1 sequence above remains controlling. Even acceptance and merge of
+the plan would not authorize implementation.
 
 ## Phase 3: Knowledge Graph
 
