@@ -223,6 +223,17 @@ decision.
   custody, isolated inspection/OCR, and human-review architecture without
   active implementation, real-source, downstream-consumer, or deployment
   authority.
+- [ADR 0018: P1 Synthetic Organizational Learning Pilot Sequencing](0018-p1-synthetic-organizational-learning-pilot-sequencing.md)
+  is a Proposed Foundational decision for one bounded synthetic vertical-slice
+  exception to the accepted serial milestone sequence. It grants no
+  implementation, deployment, or information-use authority.
+- [ADR 0019: Governed Synthetic Evidence Promotion](0019-governed-synthetic-evidence-promotion.md)
+  is a Proposed System decision for human-approved registration of metadata in
+  the Knowledge Registry and a separate session-scoped content projection.
+- [ADR 0020: Executive Pilot Read Model and Deterministic Retrieval](0020-executive-pilot-read-model-and-deterministic-retrieval.md)
+  is a Proposed System decision for protocol-separated pilot composition,
+  approved-only exact retrieval, and evidence-bearing read-model assembly in
+  the existing Executive Product Shell.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 
@@ -234,3 +245,10 @@ The
 preserves ADR 0016 as binding, records the unchanged separation required by
 ADRs 0011 and 0014, and identifies future ADR gates without creating or
 accepting those future decisions.
+
+ADR 0017 is a separate Proposed successor to ADR 0005 in
+[pull request #63](https://github.com/matthewart100-sys/project-jebediah/pull/63).
+It is not present on this canonical planning base, is not accepted, and does
+not control the P1 package. Accepted ADR 0005 remains binding unless a reviewed
+successor is later accepted and merged. ADRs 0018 through 0020 do not supersede
+ADR 0005.

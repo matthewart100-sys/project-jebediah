@@ -340,24 +340,26 @@ and operational owners remain unassigned. The executive interface would own
 presentation and navigation, not ingestion, verification, derivation,
 authoritative state, approval, or action execution.
 
-### Pull request #60 repository evidence
+### Pull request #60 historical repository evidence
 
 Pull request #60 placed an Interaction Gateway, promotion, Memory Service,
 Qdrant, model, retrieval, grounded-answer, workspace, and deployment
 implementation on canonical `main`. A later, separately authorized normal
-revert removed those additions from the proposed pull request #62 tree. The
-recovery is not canonical before exact-head approval and merge. The removed
-artifacts survive only through pull request #60, its source head, its squash
-commit, and Git history; that historical evidence is not current architecture
-or operational guidance and must not be run, deployed, exposed, or supplied
-real information.
+revert in pull request #62 removed those additions, completing B0 as canonical
+commit `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. The removed artifacts survive
+only through pull request #60, its source head, its squash commit, and Git
+history; that historical evidence is not current architecture or operational
+guidance and must not be run, deployed, exposed, or supplied real information.
 
-The accepted architecture still has no approved promotion contract,
-interaction/read-model boundary, identity/workspace boundary, or deployment
-boundary for those capabilities. The revised milestone sequence requires a new
+The accepted architecture still has no accepted promotion contract, pilot
+interaction composition, identity/workspace boundary, or deployment boundary
+for those capabilities. The revised milestone sequence requires a new
 promotion ADR, an ADR 0003 amendment or successor, a new interaction/read-model
 ADR, a new identity/workspace ADR, and a new deployment ADR before the
-respective dependent work. None is created by this reconciliation.
+respective dependent work. Proposed ADRs 0019 and 0020 address only the bounded
+P1 promotion and interaction/read-model cases described below; they are not
+accepted, and P1 excludes the memory/Qdrant capability that would trigger an
+ADR 0003 amendment or successor.
 
 ## Accepted Phase 3A Executive Product Shell refinement
 
@@ -429,6 +431,62 @@ scope, and later real-source gate are owned by the
 Architecture acceptance does not activate implementation. No conforming Phase
 3B implementation is accepted, and pull request #60 does not satisfy the
 required future milestone, review, or authority gates.
+
+## Proposed P1 bounded vertical-slice architecture
+
+**Status:** Proposed; planning authorized under
+[`CA-2026-08-06-P1-PLANNING`](governance/CHIEF_ARCHITECT_P1_PLANNING_AUTHORIZATION.md),
+implementation authority none
+
+The
+[P1 Synthetic Organizational Learning Pilot Plan](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_PLAN.md)
+proposes a narrow future composition over existing accepted boundaries:
+
+```mermaid
+flowchart LR
+    Fixture["Exact generated synthetic PDF"]
+    Custody["Bounded encrypted custody"]
+    Promotion["Explicit human disposition\nand promotion policy"]
+    Registry["Knowledge Registry\nmetadata only"]
+    Projection["Session approved-evidence\ncontent projection"]
+    Retrieval["Exact-policy deterministic\nretrieval"]
+    Shell["Executive Product Shell\nevidence-bearing read model"]
+
+    Fixture --> Custody --> Promotion
+    Promotion -->|"approved metadata"| Registry
+    Promotion -->|"approved content"| Projection
+    Registry --> Retrieval
+    Projection --> Retrieval --> Shell
+```
+
+Proposed Foundational
+[ADR 0018](adr/0018-p1-synthetic-organizational-learning-pilot-sequencing.md)
+would permit one bounded vertical-slice exception to the accepted serial
+milestone sequence. Proposed System
+[ADR 0019](adr/0019-governed-synthetic-evidence-promotion.md) would keep
+metadata registration separate from a process-local content projection, and
+Proposed System
+[ADR 0020](adr/0020-executive-pilot-read-model-and-deterministic-retrieval.md)
+would add a protocol-separated pilot coordinator, four fixed synthetic
+actions, dynamic read-model assembly, and approved-only exact retrieval.
+
+This diagram is proposed future structure, not current architecture. The
+accepted ADR 0011 derived-knowledge boundary, ADR 0014 metadata-only Registry
+boundary, ADR 0015 presentation boundary, and ADR 0016 custody and human-review
+separation remain controlling. The proposal adds no general PDF
+parser or scanner, durable Knowledge Vault, Memory Service or Qdrant
+projection, model, authentication, deployment, real information, or public
+exposure. Its security, verification, dependency, and execution constraints
+are specified by the Proposed
+[Threat Model](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_THREAT_MODEL.md),
+[Validation Requirements](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_VALIDATION_REQUIREMENTS.md),
+[Dependency and Salvage Assessment](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_DEPENDENCY_AND_SALVAGE_ASSESSMENT.md),
+and
+[Execution Handoff](P1_SYNTHETIC_ORGANIZATIONAL_LEARNING_PILOT_EXECUTION_HANDOFF.md).
+Independent architecture review, Chief Architect acceptance, status
+activation, and merge are required before this section can describe accepted
+architecture; a later explicit authorization would still be required before
+implementation.
 
 ## Architectural boundaries
 
