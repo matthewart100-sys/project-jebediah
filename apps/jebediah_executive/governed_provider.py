@@ -177,7 +177,7 @@ class _CanonicalRuntimeClient:
         self._ollama_url = (
             os.getenv("OLLAMA_URL", "").strip()
             or os.getenv("BONSAAI_OLLAMA_URL", "").strip()
-            or "http://ollama:11434"
+            or "http://host.docker.internal:11434"
         ).rstrip("/")
         self._timeout_seconds = 10
 
