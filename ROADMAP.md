@@ -88,6 +88,12 @@ pull request #54 terminally closed the Knowledge Manager Phase 2 work at
 gate remains unsatisfied. Sprint 006 Proposal v2
 remains Proposed in draft pull request #43; it is not active and does not
 activate Phase 6. Deployment and external information remain unauthorized.
+Pull request #60 introduced broader Phase 3B, Phase 3C, workspace, and
+deployment artifacts, but
+[CA-2026-08-06-P3B-RECONCILIATION](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+classifies that implementation as architecturally nonconforming and not
+accepted. B0 canonical recovery is the only current work; no implementation or
+deployment milestone is active.
 
 Required outcomes:
 
@@ -191,23 +197,48 @@ validation passed. The
 owns the exact evidence and exclusions. The result cannot satisfy the Phase 2
 Collector exit gate or activate Phase 3 - Knowledge Graph.
 
-### Proposed cross-phase Phase 3B governed intake refinement
+### Accepted cross-phase Phase 3B governed intake architecture
 
-**Status:** Proposed documentation-only architecture; no implementation, real
+**Status:** Accepted architecture under ADR 0016; no implementation, real
 information, deployment, or canonical Roadmap Phase 3 activation
 
-The Organizational Intelligence Product Program label Phase 3B proposes a
+The Organizational Intelligence Product Program label Phase 3B defines a
 bounded refinement inside canonical Roadmap Phase 2: one local operator,
 Virginia B. Andes board-governance roster records, PDF-only pushed admission,
 encrypted local custody, isolated scanning/native extraction/OCR, and explicit
 human review.
 
-Proposed System ADR 0016 and the Phase 3B package preserve ADR 0013's source,
-submission, authority, and state boundaries. The proposed Human Review Workspace
-is not the Knowledge Vault, Knowledge Registry, Memory Service, Qdrant, Knowledge
-Graph, or a grounded-answer consumer. Phase 3B cannot satisfy the Collector exit
-gate until implementation, review, merge, post-merge validation, and terminal
-closeout are canonical.
+Accepted System ADR 0016 and the Phase 3B package preserve ADR 0013's source,
+submission, authority, and state boundaries. The accepted future Human Review
+Workspace design is not the Knowledge Vault, Knowledge Registry, Memory Service,
+Qdrant, Knowledge Graph, or a grounded-answer consumer. Acceptance does not
+activate implementation. The historical Milestone 1 authorization grants no
+current authority, and pull requests #59 and #60 are audit and salvage evidence
+only.
+
+### Revised organizational-intelligence milestone sequence
+
+The reconciliation decision replaces the former broad Phase 3B implementation
+interpretation with this sequence. These program milestones refine work inside
+the canonical roadmap; they do not add, reorder, enter, or satisfy a canonical
+roadmap phase.
+
+| Milestone | Focus | Current status |
+| --- | --- | --- |
+| B0 - Canonical recovery | Durable reconciliation, exact-head review, merge decision, and separately decided future revert | Documentation canonicalization only |
+| B1 - Synthetic custody foundation | Bounded synthetic custody | Future; unauthorized |
+| B2 - Isolated PDF inspection and review | Synthetic PDF isolation and human review | Future; unauthorized |
+| B3 - Lifecycle and recovery readiness | Retention, deletion, hold, backup, restore, and recovery | Future; unauthorized |
+| C0 - Identity and service authorization | Principals, authentication, authorization, and service boundaries | Future; unauthorized |
+| C1 - Governed knowledge promotion | Evidence-to-knowledge promotion boundary | Future; unauthorized |
+| C2 - Memory and Qdrant projection | Governed memory and vector projection | Future; unauthorized |
+| D1 - Evidence read model and grounded assistance | Retrieval, citations, and grounded assistance | Future; unauthorized |
+| D2 - Authenticated operational workspaces | Workspace identity, separation, and lifecycle | Future; unauthorized |
+| O1 - Deployment and exposure | Deployment, operations, domain, and public exposure | Future; unauthorized |
+
+Every future milestone requires its own accepted plan, applicable ADRs,
+independent review, Chief Architect authorization, implementation evidence, and
+exact-head merge decision. Strategic acceptance does not bypass these gates.
 
 ## Phase 3: Knowledge Graph
 

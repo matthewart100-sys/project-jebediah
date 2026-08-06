@@ -65,6 +65,10 @@ searchable, linkable, and version controlled.
 - [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
   defines permanent role authority, mandatory engineering gates, handoff
   packets, and coordination evidence labels.
+- [Chief Architect Phase 3B Reconciliation Decision](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+  records `CA-2026-08-06-P3B-RECONCILIATION`, the inactive implementation
+  authority, revised milestone sequence, pull-request preservation, ADR impact,
+  and documented-but-unexecuted future revert plan.
 - [Documentation Lead Protocol](governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md)
   defines the Documentation Suite's post-merge closeout responsibilities and
   limits.
@@ -121,26 +125,29 @@ searchable, linkable, and version controlled.
   merged synthetic implementation was completed; it grants no live-information,
   deployment, action, or later-phase authority.
 - [Phase 3B Governed Intake Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
-  is the accepted decision-complete, PDF-only, one-operator architecture and
-  unchanged future full-package implementation manifest.
+  is the accepted PDF-only, one-operator architecture. Its former broad-package
+  manifest is historical design and salvage evidence, not active implementation
+  authority.
 - [Phase 3B Lifecycle and Recovery Specification](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_LIFECYCLE_AND_RECOVERY.md)
-  defines Proposed encryption, retention, deletion, hold, reconciliation,
-  backup, restore, and rotation behavior.
+  defines accepted future architecture constraints for encryption, retention,
+  deletion, hold, reconciliation, backup, restore, and rotation without
+  authorizing implementation or custody.
 - [Phase 3B Threat Model](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_THREAT_MODEL.md),
   [Dependency Assessment](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_DEPENDENCY_ASSESSMENT.md),
   and [Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_VALIDATION_REQUIREMENTS.md)
-  define the Proposed security, supply-chain, isolation, test, browser, and
-  negative-capability evidence.
+  define accepted future security, supply-chain, isolation, test, browser, and
+  negative-capability constraints. No dependency, implementation, runtime, or
+  live-use authority is active.
 - [ADR 0016: Local Governed PDF Intake and Custody Boundary](adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
   is the Accepted System decision for the local governed PDF intake and custody
   boundary; it grants no real-source or deployment authority.
 - [Phase 3B Implementation Activation](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_IMPLEMENTATION_ACTIVATION.md)
-  records the completed architecture activation and distinguishes the separately
-  authorized Milestone 1 from the unauthorized complete Phase 3B package.
+  is a historical architecture-activation record with no active implementation
+  authority.
 - [Phase 3B Implementation Milestone 1 Authorization](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_MILESTONE_1_AUTHORIZATION.md)
-  records the Chief Architect's bounded synthetic-only intake and custody
-  implementation authority while preserving every real-document, deployment,
-  knowledge, memory, model, Phase 3C, and Phase 3D prohibition.
+  is a Historical scope record that grants no current implementation authority.
+- [Phase 3B Completion Directive](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_COMPLETION_DIRECTIVE.md)
+  is Superseded as implementation authority and retained for audit context.
 - [Knowledge Manager 1.0 Phase 1 Implementation Plan](KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
   defines the accepted and authorized metadata-only Knowledge Registry
   foundation while preserving its Checkpoint 0 and excluded capabilities.
@@ -196,23 +203,6 @@ searchable, linkable, and version controlled.
   observability, change, recovery, runbooks, incidents, and readiness.
 - [Release Process](RELEASE_PROCESS.md) defines versioning, release gates,
   artifacts, tagging, deployment separation, verification, and withdrawal.
-- [Deployment Guide](DEPLOYMENT_GUIDE.md) defines production compose topology,
-  reverse-proxy exposure, startup wiring, and permanent service deployment steps.
-- [Operations Guide](OPERATIONS_GUIDE.md) defines runtime lifecycle commands,
-  health checks, logging, and incident triage for deployed services.
-- [Production Configuration Guide](PRODUCTION_CONFIGURATION_GUIDE.md) defines
-  host/domain/environment configuration, private-service boundaries, and
-  persistence settings for production operation.
-- [Backup Guide](BACKUP_GUIDE.md) defines backup scope, procedures, and
-  verification checkpoints.
-- [Disaster Recovery Guide](DISASTER_RECOVERY_GUIDE.md) defines recovery
-  prerequisites, restore sequence, and post-restore validation checks.
-- [Administrator Quick Start](ADMINISTRATOR_QUICK_START.md) provides first-run
-  operational commands for platform administrators.
-- [Workspace Guide](WORKSPACE_GUIDE.md) defines demonstration, development, and
-  production workspace behavior, configuration, and separation strategy.
-- [Demonstration Guide](DEMONSTRATION_GUIDE.md) defines the synthetic
-  demonstration workflow and reset procedure.
 - [v0.1.0 Release Checklist](releases/v0.1.0/CHECKLIST.md) applies those gates
   and preserves the verified initial engineering-foundation release record.
 - [v0.1.0 Release Notes](releases/v0.1.0/RELEASE_NOTES.md) define the public
@@ -237,6 +227,30 @@ searchable, linkable, and version controlled.
 Only documents that exist and contain substantive guidance are linked here.
 This index grows only when approved work creates another substantive canonical
 owner.
+
+## Historical pull request #60 audit and salvage artifacts
+
+The following Markdown files were introduced by pull request #60. Their
+substantive instructions are preserved as audit and salvage evidence, with a
+later quarantine notice added so a direct reader cannot mistake them for
+current guidance. They are not canonical operator guidance, confer no
+authority, and must not be executed, followed, deployed, or used to configure a
+runtime, domain, certificate, workspace, backup, restore, or public endpoint:
+
+- `docs/ADMINISTRATOR_QUICK_START.md`
+- `docs/BACKUP_GUIDE.md`
+- `docs/DEMONSTRATION_GUIDE.md`
+- `docs/DEPLOYMENT_GUIDE.md`
+- `docs/DISASTER_RECOVERY_GUIDE.md`
+- `docs/OPERATIONS_GUIDE.md`
+- `docs/PRODUCTION_CONFIGURATION_GUIDE.md`
+- `docs/WORKSPACE_GUIDE.md`
+
+The
+[Chief Architect Phase 3B reconciliation decision](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+owns their disposition. Pull request #60's Git history is the evidence source;
+these files are intentionally excluded from the current canonical-document
+list. Direct access to an artifact does not override this quarantine.
 
 ## Documentation authority
 

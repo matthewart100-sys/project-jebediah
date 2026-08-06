@@ -1,28 +1,48 @@
 # Project Status
 
-**Phase:** Operational workspace integration
+**Phase:** B0 - Canonical recovery
 
-**Status:** The repository baseline includes the first operational governed
-Organizational Intelligence platform implementation and deployment packaging.
-Active work now focuses on integrating demonstration, development, and
-production workspaces into the existing Executive Shell while preserving
-governance and runtime boundaries. Canonical `main` remains authoritative until
-this branch is reviewed and merged.
+**Status:** Documentation reconciliation only. No implementation authority is
+active.
 
-Current branch evidence includes runtime workspace/organization selectors,
-persistent workspace state, mode-specific banners and safeguards, demonstration
-reset controls, deployment configuration for startup workspace defaults, and
-the canonical interaction gateway routes required for governed PDF admission,
-human promotion into semantic memory, workspace-filtered retrieval, and grounded
-questions. The interaction route repair follows deployed HTTP 404 evidence from
-the previously configured but absent `/admission/submit` contract.
+**Controlling decision:**
+[CA-2026-08-06-P3B-RECONCILIATION](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
 
-**Last reviewed:** 2026-08-05
+**Reviewed canonical commit:**
+`991929beb6026511e07b6cb7954e1c9e400b9cb5`
 
-Historical records below retain prior phase authorization boundaries as audit
-evidence; where those records conflict with the active sprint, the current
-Phase 4 directive in [CURRENT_SPRINT.md](CURRENT_SPRINT.md) is controlling for
-this branch.
+**Architecture baseline:**
+`9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`
+
+**Last reviewed:** 2026-08-06
+
+The long-term governed organizational-intelligence direction is strategically
+accepted. Phase 3B architecture is accepted, and ADR 0016 remains binding. The
+implementation merged through pull request #60 is architecturally
+nonconforming and is not accepted as conforming or operational. Its repository
+presence grants no authority to run, merge forward, deploy, expose, or use it.
+
+| Boundary | Current status |
+| --- | --- |
+| Implementation authority | None |
+| Pull request #60 implementation | Strategically aligned; architecturally nonconforming; not accepted |
+| Deployment | Unauthorized |
+| Real documents | Unauthorized |
+| VBA onboarding or use | Unauthorized |
+| Phase 3C | Unauthorized |
+| Phase 3D | Unauthorized |
+| Model use | Unauthorized |
+| Knowledge promotion | Unauthorized |
+| Memory or Qdrant projection | Unauthorized |
+| Retrieval or grounded answers | Unauthorized |
+| Operational workspaces | Unauthorized |
+| Public domain exposure | Unauthorized |
+| Selected normal revert | Planned; not authorized and not executed |
+
+The current work is the documentation-only canonicalization package in
+[CURRENT_SPRINT.md](CURRENT_SPRINT.md). It must receive independent exact-head
+Work Mode review and a separate Chief Architect merge decision. A later revert
+requires another separate Chief Architect authorization.
 
 ## Summary
 
@@ -142,14 +162,18 @@ custody architecture. Pull request #58 merged the architecture package at
 
 The
 [Phase 3B Implementation Milestone 1 authorization](docs/governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_MILESTONE_1_AUTHORIZATION.md)
-separately permits only the Synthetic Intake and Custody Foundation. It asks
-whether Project Jebediah can safely receive, classify, hold, reject, expire, and
-delete a generated synthetic document without promoting it into knowledge or
-memory. The authorization does not activate the complete 59-file Phase 3B
-package and does not authorize real documents, organizational text extraction,
-organizational OCR, Source Document Evidence promotion, Knowledge Objects,
-Knowledge Registry writes, memory, embeddings, Qdrant, retrieval, model use,
-Open WebUI ingestion, external integration, deployment, Phase 3C, or Phase 3D.
+is now a Historical scope record with no active implementation effect. The
+[Phase 3B Completion Directive](docs/governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_COMPLETION_DIRECTIVE.md)
+is Superseded. The revised B0-B3, C0-C2, D1-D2, and O1 sequence replaces the
+former broad Phase 3B implementation interpretation without activating any
+milestone.
+
+Pull request #59 remains open, unreviewed implementation evidence and must not
+be merged or deployed. Pull request #60 merged 79 files as squash commit
+`991929beb6026511e07b6cb7954e1c9e400b9cb5` without a recorded GitHub review.
+Its passing `documentation-quality` check proves only that validator's bounded
+result. Both pull requests are preserved for audit and possible future
+file-level analysis; neither supplies current implementation authority.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -177,6 +201,17 @@ reviewed pull requests.
 
 ## Verified facts
 
+- Chief Architect decision `CA-2026-08-06-P3B-RECONCILIATION` accepts the
+  strategic direction, preserves accepted Phase 3B architecture, and rejects
+  pull request #60's implementation as conforming or operational. This branch
+  prepares the decision for durable exact-head review and merge.
+- Pull request #60 squash-merged source head
+  `70db20613e6275d391b2221d04e6ab4314d0a7b5` as
+  `991929beb6026511e07b6cb7954e1c9e400b9cb5`. The GitHub record shows no
+  review and only a successful documentation-quality check.
+- Pull request #59 remains open at
+  `525ed481ce8492a644343e3bf665220936e52ad7`, has no recorded review, and is
+  not merge or deployment authority.
 - The authoritative repository is
   `matthewart100-sys/project-jebediah`.
 - The default branch is `main`.
@@ -389,9 +424,11 @@ abstraction, in-memory reference adapter, and tests. The
 [closeout record](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) owns the exact
 merge, post-merge evidence, exclusions, and remaining gates.
 
-The active engineering milestone is Phase 3B Implementation Milestone 1,
-Synthetic Intake and Custody Foundation. Its authorization is synthetic-only
-and bounded; implementation has not yet occurred.
+The active milestone is B0 canonical recovery. Current authority is limited to
+the documentation-only reconciliation package, independent exact-head review,
+and a separate Chief Architect decision for that unchanged documentation head.
+The selected future revert and every implementation milestone remain
+unauthorized.
 
 The Organizational Intelligence Product Program Phase 3A is the most recently
 completed implementation sprint. Its
@@ -412,10 +449,11 @@ The accepted Organizational Intelligence Product Program Phase 3A architecture,
 implementation, exact-head review, Chief Architect merge decision, pull request
 #56 squash merge, and post-merge validation are complete. The synthetic shell is
 canonical as standard-library-only source, tests, and an operator preview guide.
-This documentation-only package is the one terminal closeout. It grants no real
+That Phase 3A documentation-only package is the terminal closeout. It grants no real
 document, deployment, knowledge promotion, Phase 3C, Phase 3D, or canonical
-Roadmap Phase 3 authority. The later bounded Phase 3B Milestone 1 authorization
-does not alter that completed Phase 3A result.
+Roadmap Phase 3 authority. The historical Phase 3B Milestone 1 authorization
+and nonconforming pull request #60 implementation do not alter that completed
+Phase 3A result.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and

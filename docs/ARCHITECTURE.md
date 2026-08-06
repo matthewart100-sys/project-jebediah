@@ -27,6 +27,8 @@ not:
   deployed component or as authorization for external information use
 - Treat the accepted executive read-model or document-admission boundaries as
   implemented or authorized for live information use
+- Treat pull request #60's promotion, model, retrieval, workspace, or deployment
+  artifacts as accepted architecture or as authorization for use
 - Approve a production network layout or deployment composition
 - Treat a reported product as a permanent architecture choice
 
@@ -62,9 +64,14 @@ not:
 - ADR 0015 is an Accepted System decision for the Executive Product Shell. The
   component is **Implemented** as a presentation-only, compiled-synthetic,
   loopback local preview on canonical `main` and is not Operational.
-- ADR 0016 and the Phase 3B governed-intake package are Proposed. They select a
-  local, single-operator, PDF-only durable admission and Human Review Workspace
-  refinement but authorize no implementation or real information.
+- ADR 0016 and the Phase 3B governed-intake package are Accepted architecture.
+  They define a local, single-operator, PDF-only durable admission and Human
+  Review Workspace refinement but authorize no implementation or real
+  information.
+- Pull request #60 introduced implementation, Phase 3C, model, retrieval,
+  workspace, and deployment artifacts. Chief Architect decision
+  `CA-2026-08-06-P3B-RECONCILIATION` classifies that implementation as
+  architecturally nonconforming and not accepted as conforming or operational.
 - The project has approved six conceptual layers and named future subsystems.
 
 ### Reported facts
@@ -333,33 +340,21 @@ and operational owners remain unassigned. The executive interface would own
 presentation and navigation, not ingestion, verification, derivation,
 authoritative state, approval, or action execution.
 
-### Active operational branch refinement
+### Pull request #60 repository evidence
 
-The active operational branch implements the already deployed Jebediah
-Interaction Gateway as the canonical coordinator between the Executive Product
-Shell and Memory Service. The bounded runtime sequence is:
+Pull request #60 placed an Interaction Gateway, promotion, Memory Service,
+Qdrant, model, retrieval, grounded-answer, workspace, and deployment
+implementation in the repository. Those artifacts are preserved pending the
+selected future normal revert, which remains unauthorized; they do not define
+current approved architecture. They must not be run, deployed, exposed, or
+supplied real information.
 
-1. Accept and validate browser-pushed PDF bytes as a review candidate.
-2. Require an explicit human promotion request.
-3. Submit promoted text and provenance metadata to the existing Memory Service.
-4. Persist the Memory Service record and derived vector through its existing
-   Qdrant adapter.
-5. Retrieve only approved evidence matching the selected organization and
-   workspace.
-6. Generate a grounded response and return citation identifiers to the shell.
-
-The gateway owns coordination and encrypted durable pending-candidate custody.
-It uses `pypdf` for bounded native PDF text extraction and the existing
-`cryptography` dependency for local custody encryption. The shell retains
-non-content candidate references in its existing durable runtime volume so a
-pending human review survives a shell restart. Promoted candidates use stable
-memory and Qdrant point identities so retrying promotion is idempotent. The
-gateway remains on the internal Docker network, and governed routes require a
-private service bearer token shared with the shell. Human rejection is recorded
-in canonical candidate custody and prevents later promotion. The gateway does
-not own source truth, human approval, memory policy, Qdrant persistence, model
-execution, or organizational action. Canonical `main` remains authoritative
-until the branch is reviewed and merged.
+The accepted architecture still has no approved promotion contract,
+interaction/read-model boundary, identity/workspace boundary, or deployment
+boundary for those capabilities. The revised milestone sequence requires a new
+promotion ADR, an ADR 0003 amendment or successor, a new interaction/read-model
+ADR, a new identity/workspace ADR, and a new deployment ADR before the
+respective dependent work. None is created by this reconciliation.
 
 ## Accepted Phase 3A Executive Product Shell refinement
 
@@ -396,9 +391,9 @@ implementation as `95b9e06ae2edc4585d659efc825ca4553ce452d9`, and the
 owns its post-merge evidence and exclusions. Product Program Phase 3A does not
 activate or rename canonical Roadmap Phase 3 - Knowledge Graph.
 
-## Proposed Phase 3B governed PDF intake refinement
+## Accepted Phase 3B governed PDF intake architecture
 
-Proposed System
+Accepted System
 [ADR 0016](adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
 refines the Source-to-Admission edge only:
 
@@ -410,26 +405,27 @@ flowchart LR
     Workers["Offline isolated\nscan, native parse, OCR"]
     Evidence["Encrypted Source Document\nEvidence candidate"]
     Review["Human Review Workspace\ncandidate disposition"]
-    Phase3C["Future Phase 3C consumer\nnot implemented"]
+    FutureGates["Future C1-C2 and D1 gates\nnot implemented or authorized"]
 
     Authority --> Browser --> Admission
     Admission --> Workers --> Evidence --> Review
-    Review -.->|"separately accepted future contract"| Phase3C
+    Review -.->|"separately accepted future contract"| FutureGates
 ```
 
-The proposed runtime receives no filesystem source path, serves literal
+The accepted future design receives no filesystem source path, serves literal
 loopback only, and assigns no source-truth authority to custody, extraction,
 OCR, or review. SQLite holds opaque state and audit metadata; content-bearing
 objects remain encrypted outside Git. Scanner, native PDF, and OCR workers are
-separate offline rootless OCI executions. Phase 3B review cannot write the
+separate offline rootless OCI executions. Future B2 review cannot write the
 Knowledge Registry, create Knowledge Objects, invoke memory/Qdrant/models, or
 change an Ask answer.
 
-The complete proposal, limits, lifecycle, dependencies, validation, exact file
+The complete architecture, limits, lifecycle, dependencies, validation, exact file
 scope, and later real-source gate are owned by the
 [Phase 3B Governed Intake Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md).
-Nothing in this Proposed section changes current accepted architecture before
-the required Work Mode and Chief Architect decisions.
+Architecture acceptance does not activate implementation. No conforming Phase
+3B implementation is accepted, and pull request #60 does not satisfy the
+required future milestone, review, or authority gates.
 
 ## Architectural boundaries
 

@@ -219,11 +219,18 @@ decision.
   loopback local preview without live information, runtime integration, action,
   or deployment authority.
 - [ADR 0016: Local Governed PDF Intake and Custody Boundary](0016-local-governed-pdf-intake-and-custody-boundary.md)
-  is proposed and defines a local single-operator PDF admission, encrypted
-  custody, isolated inspection/OCR, and human-review boundary without
-  implementation, real-source, downstream-consumer, or deployment authority.
+  is accepted and defines a local single-operator PDF admission, encrypted
+  custody, isolated inspection/OCR, and human-review architecture without
+  active implementation, real-source, downstream-consumer, or deployment
+  authority.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 
 Update this section in the same pull request that adds or changes an ADR's
 status.
+
+The
+[Phase 3B reconciliation decision](../governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+preserves ADR 0016 as binding, records the unchanged separation required by
+ADRs 0011 and 0014, and identifies future ADR gates without creating or
+accepting those future decisions.

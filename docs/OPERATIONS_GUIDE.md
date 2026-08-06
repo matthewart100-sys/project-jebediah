@@ -1,5 +1,10 @@
 # Bonsaai Operations Guide
 
+> **Historical pull request #60 audit and salvage artifact — do not execute.**
+> This file is non-authoritative and grants no implementation, operations, or
+> deployment permission. See the
+> [Phase 3B reconciliation decision](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md).
+
 ## Service lifecycle
 
 From `docker/production`:

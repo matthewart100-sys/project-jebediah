@@ -7,9 +7,14 @@ practical, and long-term maintainability.
 The **Project Genesis (Phase 0)** engineering foundation is complete and
 published as [`v0.1.0`](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0).
 JCS definition was deferred after Milestone C1. The repository now contains a
-bounded Collector and semantic memory implementation plus a governed Executive
-Shell runtime. Phase 4 production deployment artifacts are now tracked in-repo;
-host rollout validation remains an operational gate.
+bounded Collector and semantic memory implementation plus the accepted
+synthetic Executive Product Shell. Pull request #60 added broader runtime and
+deployment artifacts, but Chief Architect decision
+[`CA-2026-08-06-P3B-RECONCILIATION`](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+classifies that implementation as architecturally nonconforming and not
+accepted as conforming or operational. No implementation, deployment,
+real-document, model, retrieval, workspace, or public-exposure authority is
+active.
 
 ## Source of truth
 
@@ -115,15 +120,21 @@ integration, embeddings, Qdrant writes, service, deployment, document upload,
 autonomous promotion, or canonical Roadmap Phase 3 is authorized. JCS remains
 deferred and is not a dependency.
 
-The documentation-only
+The accepted
 [Phase 3B Governed Intake Plan](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
-now proposes the next bounded Collector refinement: one local operator, one
-Virginia B. Andes board-governance domain, PDF-only browser-pushed admission,
-encrypted local custody, isolated offline scanning/native extraction/OCR, and
-explicit human review. Proposed
+and Accepted
 [ADR 0016](docs/adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
-and its prepared implementation activation remain under review. They authorize
-no code, real document, Phase 3C consumer, deployment, or source discovery.
+define a future local, single-operator, PDF-only admission and custody
+architecture. They authorize no implementation, real document, VBA use,
+Phase 3C/3D consumer, model, memory/Qdrant projection, retrieval, deployment,
+or source discovery.
+
+The active work is B0 canonical recovery: record the reconciliation decision,
+obtain independent exact-head review, and obtain a separate Chief Architect
+merge decision. Pull requests #59 and #60 are retained as audit and salvage
+evidence and must not be merged or deployed. The selected future normal revert
+of `991929beb6026511e07b6cb7954e1c9e400b9cb5` is documented but has not been
+authorized or executed.
 
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).

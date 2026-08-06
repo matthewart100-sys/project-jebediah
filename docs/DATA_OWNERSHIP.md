@@ -68,11 +68,11 @@ retention, backups, consumers, or current operation.
 - Local-first operation will require explicit recovery and reconciliation
   rather than implicit dependence on one machine's current state.
 
-### Proposed Phase 3B domain assignment
+### Accepted Phase 3B design-time domain assignment
 
-The Phase 3B package proposes one bounded domain:
+The accepted Phase 3B architecture models one bounded future domain:
 
-| Item | Proposed assignment |
+| Item | Accepted design-time assignment |
 | --- | --- |
 | Domain | Virginia B. Andes board-governance roster records |
 | Source authority | Official roster/governing record maintained by the designated corporate secretary, records custodian, or equivalent information owner |
@@ -87,10 +87,13 @@ The Phase 3B package proposes one bounded domain:
 | Hold authority | Separately signed designated information-owner or legal/privacy role |
 | Custodian | One later-authorized local operator; role holder not yet assigned |
 
-This Proposed assignment does not authorize a source or resolve the general
-project-wide questions below. The later real-source decision must name the
-actual role holders, exact bytes, environment, and private legal/privacy
-approval.
+This design-time assignment does not authorize a source, producer, consumer,
+operator, document, collection, retention, transformation, display, model use,
+or deployment. The historical Milestone 1 record has no active implementation
+effect, and pull request #60 does not create information-use authority. A later
+real-source decision could be considered only after the revised milestone
+sequence and must name the actual role holders, exact bytes, environment, and
+private legal/privacy approval.
 
 ### Open questions
 
