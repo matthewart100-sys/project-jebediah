@@ -641,13 +641,12 @@ Stop and obtain revised architecture or authority if implementation requires:
 
 ## Current review and decision sequence
 
-1. Complete the documentation-only reconciliation package.
-2. Obtain independent Work Mode review of its exact head.
-3. Obtain a separate Chief Architect decision for the unchanged documentation
-   head.
+1. Validate the separately authorized normal revert on pull request #62.
+2. Obtain independent Work Mode review of the exact recovery head.
+3. Obtain a separate Chief Architect decision for the unchanged pull request
+   and head.
 4. Merge only after that exact-head approval.
-5. Stop for a separate future decision on the selected normal revert.
-6. Do not begin implementation after either documentation merge or revert.
+5. Do not begin B1 or any implementation after the recovery merge.
 
 ## Historical architecture-package manifest
 

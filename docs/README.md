@@ -71,7 +71,8 @@ searchable, linkable, and version controlled.
 - [Chief Architect Phase 3B Reconciliation Decision](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
   records `CA-2026-08-06-P3B-RECONCILIATION`, the inactive implementation
   authority, revised milestone sequence, pull-request preservation, ADR impact,
-  and documented-but-unexecuted future revert plan.
+  original historical pre-execution revert plan, and later B0 branch execution
+  status. The recovery is not canonical before exact-head approval and merge.
 - [Documentation Lead Protocol](governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md)
   defines the Documentation Suite's post-merge closeout responsibilities and
   limits.

@@ -427,11 +427,12 @@ abstraction, in-memory reference adapter, and tests. The
 [closeout record](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) owns the exact
 merge, post-merge evidence, exclusions, and remaining gates.
 
-The active milestone is B0 canonical recovery. Current authority is limited to
-the documentation-only reconciliation package, independent exact-head review,
-and a separate Chief Architect decision for that unchanged documentation head.
-The selected future revert and every implementation milestone remain
-unauthorized.
+The active milestone is B0 canonical recovery. The separately authorized
+normal revert has been executed on the pull request #62 review branch. Current
+authority is limited to validation, independent exact-head review, and a
+separate Chief Architect decision for the unchanged recovery head. The branch
+recovery is not canonical before merge, and every implementation milestone
+remains unauthorized.
 
 The Organizational Intelligence Product Program Phase 3A is the most recently
 completed implementation sprint. Its

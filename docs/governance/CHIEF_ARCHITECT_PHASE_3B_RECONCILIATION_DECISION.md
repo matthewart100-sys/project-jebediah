@@ -56,9 +56,11 @@ B1 state and grants no such authority.
 - The Operational Workspace Implementation Sprint and deployment authority
   introduced by the same unreviewed merge are invalidated.
 - Pull requests #59 and #60 remain preserved as audit and salvage evidence.
-- The selected repository correction is a future normal reviewed revert of
-  squash commit `991929beb6026511e07b6cb7954e1c9e400b9cb5`.
-- This package does not authorize or perform that revert.
+- **HISTORICAL PRE-EXECUTION DISPOSITION:** The selected repository correction
+  was a future normal reviewed revert of squash commit
+  `991929beb6026511e07b6cb7954e1c9e400b9cb5`. This original package did not
+  authorize or perform it; the later B0 directive authorized its execution on
+  the pull request #62 recovery branch.
 
 ## 3. Capability-level disposition
 
@@ -114,7 +116,7 @@ implementation milestone.
 
 | Milestone | Purpose | Current state |
 | --- | --- | --- |
-| B0 - Canonical recovery | Make this decision durable, complete independent review, obtain exact-head merge approval, and separately decide the future repository revert | Documentation canonicalization only |
+| B0 - Canonical recovery | Validate the separately authorized pull request #62 recovery, complete independent review, and obtain exact-head merge approval | Recovery branch under review; not canonical before merge |
 | B1 - Synthetic custody foundation | Re-establish a bounded synthetic-only custody question after canonical recovery | Future; unauthorized |
 | B2 - Isolated PDF inspection and review | Validate isolated synthetic PDF inspection and human review without downstream promotion | Future; unauthorized |
 | B3 - Lifecycle and recovery readiness | Prove retention, deletion, hold, backup, restore, and recovery boundaries | Future; unauthorized |
