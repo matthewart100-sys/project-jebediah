@@ -155,12 +155,6 @@ class RetryKind(str, Enum):
     CORRECTED_RESUBMISSION = "corrected_resubmission"
 
 
-class ReconciliationOutcome(str, Enum):
-    RETAINED = "retained"
-    HELD_INTEGRITY_FAILURE = "held_integrity_failure"
-    DELETED_ORPHAN = "deleted_orphan"
-
-
 ADMISSION_TRANSITIONS = frozenset(
     {
         (AdmissionState.RECEIVED, AdmissionState.QUARANTINED),
@@ -280,82 +274,6 @@ class IntegrityVerification:
             raise _invalid("matches")
         if self.matches != (self.expected == self.observed):
             raise _invalid("matches")
-
-
-@dataclass(frozen=True)
-class AuthorizationReceipt:
-    receipt_id: str
-    organization_domain_id: str
-    source_record_id: str
-    source_authority_role: str
-    principal_id: str
-    purpose: str
-    classification: str
-    allowed_operation: str
-    retention_profile_id: str
-    issued_at: datetime
-    expires_at: datetime
-    signer_key_id: str
-    single_use: bool
-    signature_hex: str
-
-    def __post_init__(self) -> None:
-        for name in (
-            "receipt_id",
-            "organization_domain_id",
-            "source_record_id",
-            "source_authority_role",
-            "principal_id",
-            "purpose",
-            "classification",
-            "allowed_operation",
-            "retention_profile_id",
-            "signer_key_id",
-            "signature_hex",
-        ):
-            _require_non_empty(getattr(self, name), name)
-        _require_aware(self.issued_at, "issued_at")
-        _require_aware(self.expires_at, "expires_at")
-        if self.expires_at <= self.issued_at:
-            raise _invalid("expires_at")
-        if self.single_use is not True:
-            raise _invalid("single_use")
-        if (
-            len(self.signature_hex) != 128
-            or self.signature_hex != self.signature_hex.lower()
-            or any(
-                character not in "0123456789abcdef"
-                for character in self.signature_hex
-            )
-        ):
-            raise _invalid("signature_hex")
-
-
-@dataclass(frozen=True)
-class ReceiptVerification:
-    verification_id: str
-    receipt_id: str
-    signer_key_id: str
-    verified: bool
-    reason_code: str | None
-    checked_at: datetime
-
-    def __post_init__(self) -> None:
-        for name in (
-            "verification_id",
-            "receipt_id",
-            "signer_key_id",
-        ):
-            _require_non_empty(getattr(self, name), name)
-        if type(self.verified) is not bool:
-            raise _invalid("verified")
-        if self.reason_code is not None:
-            _require_non_empty(self.reason_code, "reason_code")
-        if self.verified and self.reason_code is not None:
-            raise _invalid("reason_code")
-        if not self.verified and self.reason_code is None:
-            raise _invalid("reason_code")
-        _require_aware(self.checked_at, "checked_at")
 
 
 @dataclass(frozen=True)
@@ -1341,91 +1259,6 @@ class CleanupEvidence:
             and self.completed_at is None
         ):
             raise _invalid("completed_at")
-
-
-@dataclass(frozen=True)
-class CustodyObjectRecord:
-    object_id: str
-    admission_attempt_id: str
-    receipt_id: str
-    content_identity: ContentIdentity
-    state: AdmissionState
-    encrypted_byte_count: int
-    header_version: int
-    created_at: datetime
-    retention_deadline: datetime
-    legal_hold: bool
-    tombstoned_at: datetime | None
-
-    def __post_init__(self) -> None:
-        for name in (
-            "object_id",
-            "admission_attempt_id",
-            "receipt_id",
-        ):
-            _require_non_empty(getattr(self, name), name)
-        _require_instance(self.content_identity, ContentIdentity, "content_identity")
-        _require_instance(self.state, AdmissionState, "state")
-        _require_non_negative(self.encrypted_byte_count, "encrypted_byte_count")
-        _require_positive(self.header_version, "header_version")
-        _require_aware(self.created_at, "created_at")
-        _require_aware(self.retention_deadline, "retention_deadline")
-        if self.retention_deadline <= self.created_at:
-            raise _invalid("retention_deadline")
-        if type(self.legal_hold) is not bool:
-            raise _invalid("legal_hold")
-        _require_optional_aware(self.tombstoned_at, "tombstoned_at")
-        if self.tombstoned_at is not None and self.tombstoned_at < self.created_at:
-            raise _invalid("tombstoned_at")
-
-
-@dataclass(frozen=True)
-class CustodyAuditEvent:
-    event_id: str
-    subject_id: str
-    object_id: str | None
-    event_kind: str
-    reason_code: str
-    recorded_at: datetime
-    prior_event_hmac_hex: str
-    event_hmac_hex: str
-
-    def __post_init__(self) -> None:
-        for name in (
-            "event_id",
-            "subject_id",
-            "event_kind",
-            "reason_code",
-            "prior_event_hmac_hex",
-            "event_hmac_hex",
-        ):
-            _require_non_empty(getattr(self, name), name)
-        if self.object_id is not None:
-            _require_non_empty(self.object_id, "object_id")
-        _require_aware(self.recorded_at, "recorded_at")
-        for name in ("prior_event_hmac_hex", "event_hmac_hex"):
-            value = getattr(self, name)
-            if (
-                len(value) != 64
-                or value != value.lower()
-                or any(character not in "0123456789abcdef" for character in value)
-            ):
-                raise _invalid(name)
-
-
-@dataclass(frozen=True)
-class ReconciliationFinding:
-    finding_id: str
-    object_id: str
-    outcome: ReconciliationOutcome
-    reason_code: str
-    recorded_at: datetime
-
-    def __post_init__(self) -> None:
-        for name in ("finding_id", "object_id", "reason_code"):
-            _require_non_empty(getattr(self, name), name)
-        _require_instance(self.outcome, ReconciliationOutcome, "outcome")
-        _require_aware(self.recorded_at, "recorded_at")
 
 
 @dataclass(frozen=True)

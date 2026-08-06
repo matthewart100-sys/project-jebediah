@@ -124,9 +124,12 @@ does not change either component's current maturity and grants no code,
 real-source, Phase 3C, Phase 3D, or deployment authority.
 Pull request #60 added an Interaction Gateway and broader runtime artifacts, but
 the reconciliation decision classifies them as architecturally nonconforming
-and not accepted. The gateway is therefore not a registered component. Its
-repository path is audit and salvage evidence pending the selected future
-normal revert, which remains unauthorized.
+and not accepted. The gateway is therefore not a registered component. A
+later, separately authorized normal revert removed its path from the proposed
+pull request #62 tree. The gateway survives only in pull request #60, its
+source head, its squash commit, and Git history as non-executable audit and
+salvage evidence. The recovery is not canonical before exact-head approval and
+merge.
 VBA demonstration artifacts exist only on an unmerged proposal branch; their
 evidence validation is pending, and no live organizational pilot is authorized.
 The Digital Twin has an approved conceptual position but no bounded

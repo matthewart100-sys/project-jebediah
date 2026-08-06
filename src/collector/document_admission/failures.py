@@ -56,21 +56,5 @@ class CleanupFailed(DocumentAdmissionError):
     """Raised when required synthetic cleanup does not complete."""
 
 
-class AuthorizationFailure(DocumentAdmissionError):
-    """Raised when authorization receipt validation fails closed."""
-
-
-class CustodyFailure(DocumentAdmissionError):
-    """Raised when durable custody persistence or access fails."""
-
-
-class ExpiredContent(DocumentAdmissionError):
-    """Raised when an operation attempts to consume expired content."""
-
-
-class ReconciliationRequired(DocumentAdmissionError):
-    """Raised when startup reconciliation must complete before mutation."""
-
-
 class UnknownOutcome(DocumentAdmissionError):
     """Raised when an indeterminate operation requires reconciliation."""

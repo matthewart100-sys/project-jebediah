@@ -8,11 +8,13 @@ The **Project Genesis (Phase 0)** engineering foundation is complete and
 published as [`v0.1.0`](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0).
 JCS definition was deferred after Milestone C1. The repository now contains a
 bounded Collector and semantic memory implementation plus the accepted
-synthetic Executive Product Shell. Pull request #60 added broader runtime and
-deployment artifacts, but Chief Architect decision
+synthetic Executive Product Shell. The B0 review branch removes the broader
+runtime and deployment artifacts added by pull request #60 through a normal
+revert while retaining Chief Architect decision
 [`CA-2026-08-06-P3B-RECONCILIATION`](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
-classifies that implementation as architecturally nonconforming and not
-accepted as conforming or operational. No implementation, deployment,
+which classifies that implementation as architecturally nonconforming and not
+accepted as conforming or operational. The recovery is not canonical before
+review and merge. No implementation, deployment,
 real-document, model, retrieval, workspace, or public-exposure authority is
 active.
 
@@ -129,12 +131,15 @@ architecture. They authorize no implementation, real document, VBA use,
 Phase 3C/3D consumer, model, memory/Qdrant projection, retrieval, deployment,
 or source discovery.
 
-The active work is B0 canonical recovery: record the reconciliation decision,
-obtain independent exact-head review, and obtain a separate Chief Architect
-merge decision. Pull requests #59 and #60 are retained as audit and salvage
-evidence and must not be merged or deployed. The selected future normal revert
-of `991929beb6026511e07b6cb7954e1c9e400b9cb5` is documented but has not been
-authorized or executed.
+The active work is B0 canonical recovery. A later, separate B0 execution
+directive authorized the normal revert of
+`991929beb6026511e07b6cb7954e1c9e400b9cb5` on pull request #62, and that
+revert has been executed on the review branch. The recovery is not canonical
+until the corrected exact head passes CI, receives independent Work Mode
+approval and a separate Chief Architect exact-head merge decision, and is
+merged. Pull requests #59 and #60 remain audit and salvage evidence and must
+not be merged or deployed. No runtime rollback, deployment mutation, or B1 or
+later implementation occurred or is authorized.
 
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).

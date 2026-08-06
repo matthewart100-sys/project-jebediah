@@ -1,9 +1,17 @@
-"""Executive Product Shell package.
+"""Executive Product Shell (Phase 3A synthetic local preview).
 
-This package owns presentation, navigation, and bounded workflow interfaces for
-the Bonsaai executive shell. It defaults to an operational workspace provider
-that supports demonstration, development, and production modes while preserving
-the existing module routes and layout.
+This package renders one immutable, evidence-bearing executive briefing over
+compiled fabricated fixtures. It owns presentation, navigation, and
+deterministic synthetic demonstration behavior only.
+
+It has no source-record, verification, derivation, approval, action,
+live-information, persistence, or deployment authority, and it imports no
+Collector, Knowledge Registry, Memory Service, model, retrieval, workflow, or
+external-service package.
+
+All data in this package is fabricated. It is not real organizational
+information and must never be treated as live, current, verified, complete,
+production, or operational.
 """
 
 from __future__ import annotations

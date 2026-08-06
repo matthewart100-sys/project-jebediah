@@ -226,7 +226,9 @@ artifact may be discovered, opened, hashed, scanned, parsed, OCR-processed,
 stored, reviewed, or supplied to a model. Model use, memory or Qdrant
 projection, retrieval, grounded answers, deployment, DNS/domain work, and
 public exposure remain unauthorized. Pull request #60 does not satisfy these
-gates by being present on `main`.
+gates through its merged record or historical evidence. Its nonconforming
+artifacts have been removed from the proposed pull request #62 tree, and the
+recovery remains noncanonical before exact-head approval and merge.
 
 ## AI and automation security
 

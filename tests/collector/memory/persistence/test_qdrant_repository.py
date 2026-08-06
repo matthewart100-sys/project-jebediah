@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from types import SimpleNamespace
-from uuid import NAMESPACE_URL, UUID, uuid5
+from uuid import UUID
 
 import pytest
 from qdrant_client import QdrantClient
@@ -96,9 +96,6 @@ def test_acknowledged_index_is_one_point_write_with_full_payload():
     assert result.vector_dimensions == 768
     assert result.reconciled is False
     UUID(result.point_id)
-    assert result.point_id == str(
-        uuid5(NAMESPACE_URL, "jebediah-memory:application-memory-id")
-    )
     assert result.point_id != result.memory_id
     assert len(client.upserts) == 1
     assert client.upserts[0]["wait"] is True
@@ -343,32 +340,6 @@ def test_returned_semantic_candidate_requires_approved_identity_and_vector(
 
     assert len(client.query_calls) == 1
     assert client.query_calls[0]["with_vectors"] is True
-
-
-def test_semantic_search_pushes_workspace_filter_into_qdrant():
-    client = FakeQdrantClient()
-    repository = QdrantMemoryRepository(client=client)
-
-    repository.search(
-        APPROVED_VECTOR,
-        APPROVED_IDENTITY,
-        metadata_filter={
-            "organization_id": "synthetic-organization",
-            "workspace_mode": "development",
-            "governance_state": "approved",
-        },
-    )
-
-    query_filter = client.query_calls[0]["query_filter"]
-    conditions = {
-        condition.key: condition.match.value
-        for condition in query_filter.must
-    }
-    assert conditions == {
-        "metadata.governance_state": "approved",
-        "metadata.organization_id": "synthetic-organization",
-        "metadata.workspace_mode": "development",
-    }
 
 
 def test_incompatible_collection_geometry_fails_without_recreation():

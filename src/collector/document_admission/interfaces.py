@@ -22,34 +22,15 @@ from .models import (
     SubmissionEnvelope,
     TransformationAttemptRecord,
     TransformationTransition,
-    AuthorizationReceipt,
-    ReceiptVerification,
-    CustodyObjectRecord,
-    CustodyAuditEvent,
-    ReconciliationFinding,
 )
 from .policies import (
     AdmissionPolicies,
-    AuthorizationPolicy,
-    CustodyPolicy,
     DigestPolicy,
     InspectionPolicy,
     ResourceLimitPolicy,
     RetentionPolicy,
     SyntheticConsumerPolicy,
 )
-
-
-class AuthorizationVerifier(ABC):
-    @abstractmethod
-    def verify(
-        self,
-        receipt: AuthorizationReceipt,
-        policy: AuthorizationPolicy,
-        verification_id: str,
-        checked_at: datetime,
-    ) -> ReceiptVerification:
-        raise NotImplementedError
 
 
 class ByteIntegrityVerifier(ABC):
@@ -271,66 +252,4 @@ class DocumentAdmissionOrchestrator(ABC):
         legal_hold: LegalHoldEvidence | None,
         context: CleanupOperationContext,
     ) -> CleanupEvidence:
-        raise NotImplementedError
-
-
-class DurableObjectCustody(ABC):
-    @abstractmethod
-    def reserve_receipt(self, receipt_id: str, reserved_at: datetime) -> None:
-        raise NotImplementedError
-
-    @abstractmethod
-    def store(
-        self,
-        object_id: str,
-        admission_attempt_id: str,
-        receipt_id: str,
-        plaintext: bytes,
-        policy: CustodyPolicy,
-        retention: RetentionPolicy,
-        created_at: datetime,
-    ) -> CustodyObjectRecord:
-        raise NotImplementedError
-
-    @abstractmethod
-    def get(self, object_id: str) -> CustodyObjectRecord | None:
-        raise NotImplementedError
-
-    @abstractmethod
-    def list_active(self) -> tuple[CustodyObjectRecord, ...]:
-        raise NotImplementedError
-
-    @abstractmethod
-    def retrieve_plaintext(self, object_id: str) -> bytes:
-        raise NotImplementedError
-
-    @abstractmethod
-    def tombstone(
-        self,
-        object_id: str,
-        reason_code: str,
-        tombstoned_at: datetime,
-    ) -> CustodyObjectRecord:
-        raise NotImplementedError
-
-    @abstractmethod
-    def append_audit_event(
-        self,
-        event_id: str,
-        subject_id: str,
-        object_id: str | None,
-        event_kind: str,
-        reason_code: str,
-        recorded_at: datetime,
-    ) -> CustodyAuditEvent:
-        raise NotImplementedError
-
-    @abstractmethod
-    def audit_history(self, subject_id: str) -> tuple[CustodyAuditEvent, ...]:
-        raise NotImplementedError
-
-
-class CustodyReconciler(ABC):
-    @abstractmethod
-    def reconcile(self, checked_at: datetime) -> tuple[ReconciliationFinding, ...]:
         raise NotImplementedError

@@ -344,10 +344,13 @@ authoritative state, approval, or action execution.
 
 Pull request #60 placed an Interaction Gateway, promotion, Memory Service,
 Qdrant, model, retrieval, grounded-answer, workspace, and deployment
-implementation in the repository. Those artifacts are preserved pending the
-selected future normal revert, which remains unauthorized; they do not define
-current approved architecture. They must not be run, deployed, exposed, or
-supplied real information.
+implementation on canonical `main`. A later, separately authorized normal
+revert removed those additions from the proposed pull request #62 tree. The
+recovery is not canonical before exact-head approval and merge. The removed
+artifacts survive only through pull request #60, its source head, its squash
+commit, and Git history; that historical evidence is not current architecture
+or operational guidance and must not be run, deployed, exposed, or supplied
+real information.
 
 The accepted architecture still has no approved promotion contract,
 interaction/read-model boundary, identity/workspace boundary, or deployment

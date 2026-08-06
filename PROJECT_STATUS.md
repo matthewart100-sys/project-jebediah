@@ -2,14 +2,14 @@
 
 **Phase:** B0 - Canonical recovery
 
-**Status:** Documentation reconciliation only. No implementation authority is
-active.
+**Status:** Canonical recovery proposed on a review branch. No implementation
+authority is active after B0.
 
 **Controlling decision:**
 [CA-2026-08-06-P3B-RECONCILIATION](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
 
-**Reviewed canonical commit:**
-`991929beb6026511e07b6cb7954e1c9e400b9cb5`
+**B0 recovery base:**
+`b1d8dea531ad0b82171cb0f3f3979323b712a5de`
 
 **Architecture baseline:**
 `9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`
@@ -37,12 +37,15 @@ presence grants no authority to run, merge forward, deploy, expose, or use it.
 | Retrieval or grounded answers | Unauthorized |
 | Operational workspaces | Unauthorized |
 | Public domain exposure | Unauthorized |
-| Selected normal revert | Planned; not authorized and not executed |
+| Selected normal revert | Executed on the B0 review branch; not canonical before merge |
 
-The current work is the documentation-only canonicalization package in
-[CURRENT_SPRINT.md](CURRENT_SPRINT.md). It must receive independent exact-head
-Work Mode review and a separate Chief Architect merge decision. A later revert
-requires another separate Chief Architect authorization.
+The current work is the authorized B0 recovery in
+[CURRENT_SPRINT.md](CURRENT_SPRINT.md). The review branch restores the
+pre-PR60 implementation content, retains the reconciliation record, and adds
+the reusable execution framework. It must receive independent exact-head Work
+Mode review and a separate Chief Architect merge decision. The live runtime
+was not changed and may differ from repository state; a future operational
+inventory requires separate authority. B1 remains unauthorized.
 
 ## Summary
 
@@ -203,8 +206,10 @@ reviewed pull requests.
 
 - Chief Architect decision `CA-2026-08-06-P3B-RECONCILIATION` accepts the
   strategic direction, preserves accepted Phase 3B architecture, and rejects
-  pull request #60's implementation as conforming or operational. This branch
-  prepares the decision for durable exact-head review and merge.
+  pull request #60's implementation as conforming or operational. Pull request
+  #61 made that decision durable at
+  `b1d8dea531ad0b82171cb0f3f3979323b712a5de`; this branch prepares the B0
+  repository recovery for exact-head review and merge.
 - Pull request #60 squash-merged source head
   `70db20613e6275d391b2221d04e6ab4314d0a7b5` as
   `991929beb6026511e07b6cb7954e1c9e400b9cb5`. The GitHub record shows no
@@ -424,11 +429,12 @@ abstraction, in-memory reference adapter, and tests. The
 [closeout record](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) owns the exact
 merge, post-merge evidence, exclusions, and remaining gates.
 
-The active milestone is B0 canonical recovery. Current authority is limited to
-the documentation-only reconciliation package, independent exact-head review,
-and a separate Chief Architect decision for that unchanged documentation head.
-The selected future revert and every implementation milestone remain
-unauthorized.
+The active milestone is B0 canonical recovery. The separately authorized
+normal revert has been executed on the pull request #62 review branch. Current
+authority is limited to validation, independent exact-head review, and a
+separate Chief Architect decision for the unchanged recovery head. The branch
+recovery is not canonical before merge, and every implementation milestone
+remains unauthorized.
 
 The Organizational Intelligence Product Program Phase 3A is the most recently
 completed implementation sprint. Its

@@ -20,13 +20,6 @@ from apps.jebediah_executive.routes import (
 
 _FIXED_PAGES = [
     ("/", "overview"),
-    ("/demo", "demo"),
-    ("/knowledge-manager", "knowledge-manager"),
-    ("/organizational-intelligence", "organizational-intelligence"),
-    ("/organizational-memory", "organizational-memory"),
-    ("/governance", "governance"),
-    ("/audit", "audit"),
-    ("/administration", "administration"),
     ("/attention", "attention"),
     ("/knowledge", "knowledge"),
     ("/next", "next"),
@@ -57,13 +50,6 @@ def test_stylesheet_resolves_as_static() -> None:
 def test_product_routes_manifest_is_exact() -> None:
     assert PRODUCT_ROUTES == (
         "/",
-        "/demo",
-        "/knowledge-manager",
-        "/organizational-intelligence",
-        "/organizational-memory",
-        "/governance",
-        "/audit",
-        "/administration",
         "/attention",
         "/knowledge",
         "/next",

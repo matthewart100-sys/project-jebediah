@@ -109,12 +109,14 @@ may be refined when a language and source layout are approved.
 
 `src/collector/` contains the tested Python Collector package.
 `services/jebediah-memory/` contains the memory-service runtime candidate.
-`services/jebediah-interaction/` is present only because pull request #60
-introduced an architecturally nonconforming Interaction Gateway candidate. It
-has no accepted component, service, promotion, retrieval, model, workspace,
-deployment, or operational authority and is pending the selected future normal
-revert, which remains unauthorized. Its path does not make it canonical or
-assign responsibility.
+Pull request #60 introduced an architecturally nonconforming Interaction
+Gateway candidate at `services/jebediah-interaction/`. A later, separately
+authorized normal revert removed that path from the proposed pull request #62
+tree. It survives only through pull request #60, its source head, its squash
+commit, and Git history. That historical evidence is not a current-tree or
+executable copy, does not assign component responsibility, and grants no
+service, promotion, retrieval, model, workspace, deployment, or operational
+authority. The recovery is not canonical before exact-head approval and merge.
 `apps/` is reserved for independently runnable, user-facing applications whose
 component, language, entry point, dependency, test, security, operations, and
 ownership boundaries are approved. Accepted ADR 0015 assigns

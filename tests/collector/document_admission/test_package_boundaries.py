@@ -6,12 +6,9 @@ from pathlib import Path
 import collector.document_admission as package
 import collector.document_admission.models as model_module
 from collector.document_admission import (
-    AuthorizationVerifier,
     AdmissionAttemptRecord,
     ByteIntegrityVerifier,
     ConsumerEligibilityEvaluator,
-    CustodyReconciler,
-    DurableObjectCustody,
     DocumentAdmissionOrchestrator,
     EvidenceJournal,
     FormatDetector,
@@ -29,17 +26,12 @@ SOURCE = ROOT / "src" / "collector" / "document_admission"
 TESTS = ROOT / "tests" / "collector" / "document_admission"
 SOURCE_MANIFEST = {
     "__init__.py",
-    "authorization.py",
-    "crypto.py",
-    "durable_repository.py",
     "failures.py",
     "in_memory_adapters.py",
     "interfaces.py",
-    "lifecycle.py",
     "models.py",
     "orchestration.py",
     "policies.py",
-    "runtime.py",
     "state_transitions.py",
 }
 TEST_MANIFEST = {
@@ -57,10 +49,6 @@ TEST_MANIFEST = {
     "test_admission_orchestration.py",
     "test_failure_and_retry.py",
     "test_cleanup.py",
-    "test_gate1_authorization.py",
-    "test_gate1_durable_repository.py",
-    "test_gate1_lifecycle.py",
-    "test_gate1_runtime.py",
     "test_package_boundaries.py",
 }
 
@@ -78,20 +66,12 @@ def test_exact_authorized_source_and_test_manifests_exist():
 def test_runtime_package_uses_standard_library_and_relative_imports_only():
     allowed_roots = {
         "abc",
-        "__future__",
         "collections",
         "dataclasses",
         "datetime",
         "enum",
         "hashlib",
-        "hmac",
-        "json",
-        "os",
-        "pathlib",
-        "secrets",
-        "sqlite3",
         "typing",
-        "cryptography",
     }
     for path, tree in source_trees():
         for node in ast.walk(tree):
@@ -144,7 +124,6 @@ def test_runtime_package_has_no_prohibited_integration_terms():
 def test_all_external_behavior_contracts_remain_abstract():
     contracts = (
         ByteIntegrityVerifier,
-        AuthorizationVerifier,
         QuarantineRepository,
         EvidenceJournal,
         FormatDetector,
@@ -153,8 +132,6 @@ def test_all_external_behavior_contracts_remain_abstract():
         IsolatedInspector,
         ConsumerEligibilityEvaluator,
         DocumentAdmissionOrchestrator,
-        DurableObjectCustody,
-        CustodyReconciler,
     )
     assert all(inspect.isabstract(contract) for contract in contracts)
 

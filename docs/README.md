@@ -65,10 +65,14 @@ searchable, linkable, and version controlled.
 - [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
   defines permanent role authority, mandatory engineering gates, handoff
   packets, and coordination evidence labels.
+- [Master Execution Framework](governance/JEBEDIAH_MASTER_EXECUTION_FRAMEWORK.md)
+  defines the reusable milestone workflow, stop conditions, and role
+  boundaries without authorizing any milestone.
 - [Chief Architect Phase 3B Reconciliation Decision](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
   records `CA-2026-08-06-P3B-RECONCILIATION`, the inactive implementation
   authority, revised milestone sequence, pull-request preservation, ADR impact,
-  and documented-but-unexecuted future revert plan.
+  original historical pre-execution revert plan, and later B0 branch execution
+  status. The recovery is not canonical before exact-head approval and merge.
 - [Documentation Lead Protocol](governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md)
   defines the Documentation Suite's post-merge closeout responsibilities and
   limits.
@@ -230,12 +234,13 @@ owner.
 
 ## Historical pull request #60 audit and salvage artifacts
 
-The following Markdown files were introduced by pull request #60. Their
-substantive instructions are preserved as audit and salvage evidence, with a
-later quarantine notice added so a direct reader cannot mistake them for
-current guidance. They are not canonical operator guidance, confer no
-authority, and must not be executed, followed, deployed, or used to configure a
-runtime, domain, certificate, workspace, backup, restore, or public endpoint:
+The following Markdown files were introduced by pull request #60 and removed
+from the proposed B0 repository tree. They remain preserved only through pull
+request #60, its source head `70db20613e6275d391b2221d04e6ab4314d0a7b5`,
+its squash commit `991929beb6026511e07b6cb7954e1c9e400b9cb5`, and Git
+history. They are audit and salvage evidence, not current repository guidance,
+and no current-tree copy exists to follow, execute, deploy, or use to configure
+a runtime, domain, certificate, workspace, backup, restore, or public endpoint:
 
 - `docs/ADMINISTRATOR_QUICK_START.md`
 - `docs/BACKUP_GUIDE.md`
@@ -248,9 +253,9 @@ runtime, domain, certificate, workspace, backup, restore, or public endpoint:
 
 The
 [Chief Architect Phase 3B reconciliation decision](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
-owns their disposition. Pull request #60's Git history is the evidence source;
-these files are intentionally excluded from the current canonical-document
-list. Direct access to an artifact does not override this quarantine.
+owns their disposition. Pull request #60 and Git history are the evidence
+sources; these removed files are intentionally absent from the current
+canonical-document list.
 
 ## Documentation authority
 
