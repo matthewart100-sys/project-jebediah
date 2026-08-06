@@ -206,8 +206,10 @@ reviewed pull requests.
 
 - Chief Architect decision `CA-2026-08-06-P3B-RECONCILIATION` accepts the
   strategic direction, preserves accepted Phase 3B architecture, and rejects
-  pull request #60's implementation as conforming or operational. This branch
-  prepares the decision for durable exact-head review and merge.
+  pull request #60's implementation as conforming or operational. Pull request
+  #61 made that decision durable at
+  `b1d8dea531ad0b82171cb0f3f3979323b712a5de`; this branch prepares the B0
+  repository recovery for exact-head review and merge.
 - Pull request #60 squash-merged source head
   `70db20613e6275d391b2221d04e6ab4314d0a7b5` as
   `991929beb6026511e07b6cb7954e1c9e400b9cb5`. The GitHub record shows no
