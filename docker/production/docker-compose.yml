@@ -1,44 +1,4 @@
 services:
-  reverse-proxy:
-    image: caddy:2.10-alpine
-    container_name: bonsaai-reverse-proxy
-    restart: unless-stopped
-    ports:
-      - "${BONSAAI_HTTP_PORT:-80}:80"
-      - "${BONSAAI_HTTPS_PORT:-443}:443"
-    environment:
-      ACME_EMAIL: ${ACME_EMAIL:-admin@example.invalid}
-      BONSAAI_PUBLIC_HOSTS: ${BONSAAI_PUBLIC_HOSTS:-bonsaai.local}
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - bonsaai_caddy_data:/data
-      - bonsaai_caddy_config:/config
-    depends_on:
-      executive-shell:
-        condition: service_healthy
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "caddy",
-          "version",
-        ]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 15s
-    networks:
-      - jebediah_external
-      - jebediah_internal
-    deploy:
-      resources:
-        limits:
-          cpus: "0.50"
-          memory: 256M
-        reservations:
-          cpus: "0.10"
-          memory: 64M
-
   executive-shell:
     build:
       context: ../..
@@ -86,6 +46,46 @@ services:
         reservations:
           cpus: "0.25"
           memory: 512M
+
+  reverse-proxy:
+    image: caddy:2.10-alpine
+    container_name: bonsaai-reverse-proxy
+    restart: unless-stopped
+    ports:
+      - "${BONSAAI_HTTP_PORT:-80}:80"
+      - "${BONSAAI_HTTPS_PORT:-443}:443"
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL:-admin@example.invalid}
+      BONSAAI_PUBLIC_HOSTS: ${BONSAAI_PUBLIC_HOSTS:-bonsaai.local}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - bonsaai_caddy_data:/data
+      - bonsaai_caddy_config:/config
+    depends_on:
+      executive-shell:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "caddy",
+          "version",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - jebediah_external
+      - jebediah_internal
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+        reservations:
+          cpus: "0.10"
+          memory: 64M
 
 networks:
   jebediah_external:
