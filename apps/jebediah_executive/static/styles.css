@@ -58,6 +58,47 @@ main {
   padding-block: var(--space-4);
 }
 
+.demo-guide-callout {
+  max-width: var(--max-width);
+  margin: var(--space-3) auto 0;
+  padding: var(--space-2) var(--space-3);
+  background-color: #eef4f4;
+  border: 1px solid var(--color-accent);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius);
+}
+
+.demo-guide-callout p {
+  margin: 0;
+}
+
+.workspace-banner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 700;
+}
+
+.workspace-banner p {
+  margin: 0;
+}
+
+.workspace-banner.tone-blue {
+  background-color: #dcebff;
+  color: #0a3d8f;
+}
+
+.workspace-banner.tone-orange {
+  background-color: #fff1df;
+  color: #8a4300;
+}
+
+.workspace-banner.tone-green {
+  background-color: #e8f7ec;
+  color: #1f6b2c;
+}
+
 /* Skip link ---------------------------------------------------------------- */
 .skip-link {
   display: inline-flex;
@@ -209,6 +250,51 @@ a {
   margin-block-end: var(--space-3);
 }
 
+.journey-step,
+.question-focus,
+.evidence-dossier {
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  margin-block: var(--space-3);
+  background-color: #f4f8f8;
+}
+
+.welcome-oneliner,
+.question-focus-prompt {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.workflow-form textarea,
+.workflow-form input[type="text"],
+.workflow-form input[type="file"],
+.workflow-form select {
+  width: min(100%, 50rem);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: var(--space-2);
+  font: inherit;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+.workflow-form button {
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  background-color: var(--color-accent);
+  color: #fff;
+  padding: 0.55rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+}
+
+.workflow-form button:hover,
+.workflow-form button:focus-visible {
+  filter: brightness(0.9);
+}
+
 .card .statement {
   font-weight: 600;
 }
@@ -328,7 +414,8 @@ thead th {
 /* Lists -------------------------------------------------------------------- */
 .activity,
 .ask-list,
-.state-list {
+.state-list,
+.demo-steps {
   list-style: none;
   margin: 0;
   padding: 0;

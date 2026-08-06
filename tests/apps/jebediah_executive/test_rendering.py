@@ -24,13 +24,20 @@ from apps.jebediah_executive.rendering import (
     NO_ACTION_STATEMENT,
     STATE_ROUTE_TO_ENUM,
     SYNTHETIC_BADGE,
+    render_administration,
     render_ask_index,
     render_ask_response,
     render_attention,
+    render_audit,
     render_board,
+    render_demo_walkthrough,
+    render_governance,
     render_error,
     render_knowledge,
+    render_knowledge_manager,
     render_next,
+    render_organizational_intelligence,
+    render_organizational_memory,
     render_overview,
     render_state_detail,
     render_states_gallery,
@@ -43,6 +50,13 @@ BRIEFING = build_briefing()
 def _core_pages() -> list[tuple[str, str]]:
     return [
         ("overview", render_overview(BRIEFING)),
+        ("demo", render_demo_walkthrough(BRIEFING)),
+        ("knowledge-manager", render_knowledge_manager(BRIEFING)),
+        ("organizational-intelligence", render_organizational_intelligence(BRIEFING)),
+        ("organizational-memory", render_organizational_memory(BRIEFING)),
+        ("governance", render_governance(BRIEFING)),
+        ("audit", render_audit(BRIEFING)),
+        ("administration", render_administration(BRIEFING)),
         ("attention", render_attention(BRIEFING)),
         ("knowledge", render_knowledge(BRIEFING)),
         ("next", render_next(BRIEFING)),
@@ -63,7 +77,13 @@ def _all_pages() -> list[tuple[str, str]]:
     return pages
 
 
-@pytest.mark.parametrize("name,html", _all_pages())
+_ALL_PAGES = _all_pages()
+_ALL_PAGE_IDS = [name for name, _html in _ALL_PAGES]
+_CORE_PAGES = _core_pages()
+_CORE_PAGE_IDS = [name for name, _html in _CORE_PAGES]
+
+
+@pytest.mark.parametrize("name,html", _ALL_PAGES, ids=_ALL_PAGE_IDS)
 def test_document_skeleton(name: str, html: str) -> None:
     assert html.startswith("<!DOCTYPE html>"), name
     assert "<html lang=\"en\">" in html, name
@@ -77,7 +97,7 @@ def test_document_skeleton(name: str, html: str) -> None:
     assert "<footer" in html and "</footer>" in html, name
 
 
-@pytest.mark.parametrize("name,html", _all_pages())
+@pytest.mark.parametrize("name,html", _ALL_PAGES, ids=_ALL_PAGE_IDS)
 def test_exactly_one_h1_and_ordered_headings(name: str, html: str) -> None:
     assert html.count("<h1>") == 1, name
     levels = [int(m) for m in re.findall(r"<h([1-4])[ >]", html)]
@@ -89,7 +109,7 @@ def test_exactly_one_h1_and_ordered_headings(name: str, html: str) -> None:
         seen_max = max(seen_max, level)
 
 
-@pytest.mark.parametrize("name,html", _all_pages())
+@pytest.mark.parametrize("name,html", _ALL_PAGES, ids=_ALL_PAGE_IDS)
 def test_boundary_labels_on_every_page(name: str, html: str) -> None:
     assert SYNTHETIC_BADGE in html, name
     assert NO_ACTION_STATEMENT in html, name
@@ -97,11 +117,18 @@ def test_boundary_labels_on_every_page(name: str, html: str) -> None:
     # Fixed synthetic clock and coverage scope from the header.
     assert "Fixed synthetic clock:" in html, name
     assert "Coverage scope:" in html, name
+    assert "Start guided walkthrough" in html, name
     # Footer material limitations list.
     assert "Material limitations" in html, name
 
 
-@pytest.mark.parametrize("name,html", _core_pages())
+@pytest.mark.parametrize("name,html", _ALL_PAGES, ids=_ALL_PAGE_IDS)
+def test_workspace_banner_renders_on_every_page(name: str, html: str) -> None:
+    assert "Workspace banner" in html, name
+    assert "Demonstration Mode" in html, name
+
+
+@pytest.mark.parametrize("name,html", _CORE_PAGES, ids=_CORE_PAGE_IDS)
 def test_no_external_resources_or_scripts(name: str, html: str) -> None:
     assert "http://" not in html, name
     assert "https://" not in html, name
@@ -110,12 +137,20 @@ def test_no_external_resources_or_scripts(name: str, html: str) -> None:
     assert "onerror=" not in html and "onclick=" not in html, name
 
 
-@pytest.mark.parametrize("name,html", _all_pages())
-def test_no_score_percentage_or_confidence(name: str, html: str) -> None:
+@pytest.mark.parametrize("name,html", _ALL_PAGES, ids=_ALL_PAGE_IDS)
+def test_no_score_or_percentage(name: str, html: str) -> None:
     lowered = html.lower()
-    assert "confidence" not in lowered, name
     assert "probability" not in lowered, name
     assert not re.search(r"\d\s*%", html), name
+
+
+def test_organizational_intelligence_emphasizes_question_focus_and_dossier() -> None:
+    intelligence = render_organizational_intelligence(BRIEFING)
+    assert "Ask an executive question" in intelligence
+    grounded = render_ask_response(BRIEFING, BRIEFING.ask_response("grounded-priorities"))
+    assert "Confidence posture" in grounded
+    assert "Evidence dossier" in grounded
+    assert "/audit" in grounded
 
 
 def test_current_navigation_is_programmatic() -> None:
@@ -129,6 +164,8 @@ def test_overview_shows_derived_counts() -> None:
     counts = BRIEFING.summary_counts
     assert f"<dd>{counts.priority_count}</dd>" in html
     assert f"<dd>{counts.eligible_source_count}</dd>" in html
+    assert "Switch workspace" in html
+    assert "Switch organization" in html
 
 
 def test_items_show_evidence_freshness_and_uncertainty() -> None:
@@ -169,11 +206,12 @@ def test_source_references_are_local_disclosures() -> None:
     assert "href=\"http" not in html
 
 
-def test_workspace_has_table_and_no_input_controls() -> None:
+def test_workspace_has_table_and_workspace_controls() -> None:
     html = render_workspace(BRIEFING)
     assert "<table class=\"workspace-table\">" in html
-    for control in ("<form", "<input", "<textarea", "<button", "type=\"file\""):
-        assert control not in html, control
+    for control in ("<form", "<select", "<button"):
+        assert control in html, control
+    assert "type=\"file\"" not in html
 
 
 def test_workspace_table_cells_carry_responsive_data_labels() -> None:

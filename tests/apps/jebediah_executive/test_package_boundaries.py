@@ -31,8 +31,10 @@ OPERATOR_GUIDE = (
 EXPECTED_APP_FILES = {
     "__init__.py",
     "__main__.py",
+    "auth.py",
     "app.py",
     "fixtures.py",
+    "governed_provider.py",
     "models.py",
     "rendering.py",
     "routes.py",
@@ -43,6 +45,7 @@ EXPECTED_TEST_FILES = {
     "test_accessibility.py",
     "test_app.py",
     "test_fixtures.py",
+    "test_governed_provider.py",
     "test_models.py",
     "test_package_boundaries.py",
     "test_rendering.py",
@@ -87,7 +90,6 @@ FORBIDDEN_IMPORT_ROOTS = frozenset(
         "uvicorn",
         "gunicorn",
         # Project runtime / collector / memory / vector / model serving.
-        "collector",
         "jebediah",
         "jebediah_memory",
         "qdrant_client",
@@ -163,6 +165,9 @@ def test_imports_are_stdlib_or_package_local(path: Path) -> None:
         if isinstance(node, ast.Import):
             for alias in node.names:
                 root = alias.name.split(".")[0]
+                if root == "collector":
+                    assert path.name == "governed_provider.py", f"{path.name}: {alias.name}"
+                    continue
                 assert root not in FORBIDDEN_IMPORT_ROOTS, f"{path.name}: {alias.name}"
                 assert root in stdlib or root == "apps", f"{path.name}: {alias.name}"
         elif isinstance(node, ast.ImportFrom):
@@ -170,6 +175,12 @@ def test_imports_are_stdlib_or_package_local(path: Path) -> None:
                 continue  # package-local relative import
             module = node.module or ""
             root = module.split(".")[0]
+            if module == "urllib.parse":
+                assert path.name == "app.py", f"{path.name}: {module}"
+                continue
+            if root == "collector":
+                assert path.name == "governed_provider.py", f"{path.name}: {module}"
+                continue
             assert root not in FORBIDDEN_IMPORT_ROOTS, f"{path.name}: {module}"
             assert root in stdlib or root == "apps", f"{path.name}: {module}"
 
@@ -197,11 +208,19 @@ def test_no_forbidden_call_capabilities(path: Path) -> None:
 
 @pytest.mark.parametrize("path", _app_source_files(), ids=lambda p: p.name)
 def test_single_bounded_resource_read(path: Path) -> None:
-    """Only app.py reads bytes, and only from the packaged stylesheet resource."""
+    """Only bounded local resource reads are permitted in the app package."""
     source = path.read_text(encoding="utf-8")
     if path.name == "app.py":
         assert source.count(".read_bytes(") <= 1
         assert ".read_text(" not in source or "styles.css" in source
+    elif path.name == "governed_provider.py":
+        # Workspace mode persistence reads one local workspace-state JSON file.
+        assert source.count(".read_text(") <= 1
+        assert source.count(".write_text(") <= 1
+    elif path.name == "auth.py":
+        # Authentication runtime persists one bounded local user ledger.
+        assert source.count(".read_text(") <= 1
+        assert source.count(".write_text(") <= 1
     else:
         assert ".read_bytes(" not in source
         assert ".read_text(" not in source

@@ -14,12 +14,19 @@ from dataclasses import dataclass
 from .models import ExecutiveBriefing
 from .rendering import (
     STATE_ROUTE_TO_ENUM,
+    render_administration,
     render_attention,
+    render_audit,
+    render_demo_walkthrough,
     render_ask_index,
     render_ask_response,
     render_board,
+    render_governance,
     render_knowledge,
+    render_knowledge_manager,
     render_next,
+    render_organizational_intelligence,
+    render_organizational_memory,
     render_overview,
     render_state_detail,
     render_states_gallery,
@@ -38,6 +45,13 @@ STATIC_STYLESHEET_PATH = "/static/styles.css"
 
 PRODUCT_ROUTES: tuple[str, ...] = (
     "/",
+    "/demo",
+    "/knowledge-manager",
+    "/organizational-intelligence",
+    "/organizational-memory",
+    "/governance",
+    "/audit",
+    "/administration",
     "/attention",
     "/knowledge",
     "/next",
@@ -62,6 +76,16 @@ class RouteResolution:
 
 _SIMPLE_ROUTES: dict[str, tuple[str, Renderer]] = {
     "/": ("overview", render_overview),
+    "/demo": ("demo", render_demo_walkthrough),
+    "/knowledge-manager": ("knowledge-manager", render_knowledge_manager),
+    "/organizational-intelligence": (
+        "organizational-intelligence",
+        render_organizational_intelligence,
+    ),
+    "/organizational-memory": ("organizational-memory", render_organizational_memory),
+    "/governance": ("governance", render_governance),
+    "/audit": ("audit", render_audit),
+    "/administration": ("administration", render_administration),
     "/attention": ("attention", render_attention),
     "/knowledge": ("knowledge", render_knowledge),
     "/next": ("next", render_next),

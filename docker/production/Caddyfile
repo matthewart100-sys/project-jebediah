@@ -1,0 +1,20 @@
+{
+	email {$ACME_EMAIL:admin@example.invalid}
+}
+
+{$BONSAAI_PUBLIC_HOSTS:bonsaai.local} {
+	encode zstd gzip
+
+	@proxy_health path /healthz
+	handle @proxy_health {
+		respond "ok" 200
+	}
+
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "no-referrer"
+	}
+
+	reverse_proxy executive-shell:8080
+}
