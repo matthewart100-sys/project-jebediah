@@ -2,6 +2,11 @@
 
 **Status:** Active
 
+**Transition:** The Independent Reviewer, Work Mode, and Merge Operator meanings
+below are the successor policy proposed by ADR 0017 and become effective only
+after that ADR is accepted and merged. Until then, ADR 0005 controls and requires
+incumbent Work Mode exact-head review of the successor package.
+
 ## Purpose
 
 This glossary owns the current shared meaning of Project Jebediah terms.
@@ -102,15 +107,32 @@ owns its authority.
 ### Implementation Engineer
 
 The Codex role responsible for planning, evidence-based implementation,
-validation, repository quality, controlled merge, and review handoff within
-approved scope. Earlier historical documents may call this role Lead Engineer;
-the Project Coordination Protocol uses Implementation Engineer.
+validation, repository quality, review handoff, and post-merge verification
+within approved scope. It may not merge its own implementation. Earlier
+historical documents may call this role Lead Engineer; the Project Coordination
+Protocol uses Implementation Engineer.
+
+### Independent Reviewer
+
+A distinct, read-only role that challenges assumptions, inspects actual plans
+or exact implementation artifacts, requires evidence, and may block
+implementation or merge. The reviewer cannot issue final architecture or merge
+approval, override the Chief Architect, or have authored or materially modified
+the reviewed artifact. Routine review uses a fresh normal ChatGPT conversation.
 
 ### Work Mode
 
-The independent architecture and quality review role. It challenges
-assumptions, requires evidence, and may block implementation or merge, but it
-cannot issue final architecture approval or override the Chief Architect.
+An optional mechanism for occupying the Independent Reviewer role when the
+Chief Architect explicitly requests unusually high-risk, cross-cutting, or
+adversarial review. Work Mode is not the mandatory routine reviewer and does not
+gain final decision authority.
+
+### Merge Operator
+
+The maintainer or another explicitly assigned operator that did not author or
+implement the artifact. The role executes only an unchanged exact head approved
+by the Chief Architect and gains no scope, review, or decision authority from
+merge execution.
 
 ### Documentation Suite
 
@@ -133,7 +155,9 @@ inspection and review; B3 lifecycle and recovery readiness; C0 identity and
 service authorization; C1 governed knowledge promotion; C2 memory and Qdrant
 projection; D1 evidence read model and grounded assistance; D2 authenticated
 operational workspaces; and O1 deployment and exposure. The labels describe
-gates, not active or pre-authorized implementation.
+gates, not blanket implementation authority. B0 is complete. B1's generated-
+synthetic custody scope becomes active only after pull request #63 merges under
+`CA-2026-08-06-B1-ACTIVATION`; B2 and every later gate remain unauthorized.
 
 ## Architecture terms
 
@@ -279,11 +303,14 @@ An **Implemented** repository component for bounded text-record ingestion,
 provenance, deterministic identity, and storage coordination. Accepted ADR 0013
 and the terminally closed Knowledge Manager Phase 2 package add a disconnected
 synthetic document-admission and inspection boundary. Real sources, production
-parsers and scanners, durable quarantine, runtime integration, deployment, and
-operational ownership remain unapproved. Accepted ADR 0016 defines a bounded
-PDF-only architecture candidate, but current maturity and authority do not
-change without a separately reviewed and authorized future milestone,
-implementation, review, and merge.
+parsers and scanners, worker-backed or active-content inspection, runtime
+integration, deployment, and operational ownership remain unapproved. Accepted
+ADR 0016 defines a bounded PDF-only architecture candidate. After pull request
+#63 merges, B1 authority permits only a bounded generated-synthetic custody
+implementation under the exact activation boundary, including encrypted
+quarantine and staging plus deterministic restart/interruption reconciliation.
+Collector maturity does not change until that separately reviewed B1
+implementation merges.
 
 ### Executive Product Shell
 

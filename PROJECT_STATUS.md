@@ -44,8 +44,10 @@ The current work is the documentation-only B1 activation package in
 [CURRENT_SPRINT.md](CURRENT_SPRINT.md). After it merges, B1 may implement only
 generated synthetic PDF custody: local validation, identity, encrypted opaque
 storage, lifecycle audit, duplicates, expiration, deletion, reset, and
-recovery. No real information, extraction, OCR, downstream intelligence,
-runtime, deployment, or public exposure is authorized.
+deterministic restart reconciliation of its own custody state. No scanner or
+parser worker, extraction, OCR, human review, legal hold, backup/restore,
+operational recovery, real information, downstream intelligence, deployment,
+or public exposure is authorized.
 
 ## Summary
 
@@ -55,11 +57,15 @@ published as `v0.1.0`. The repository now contains a Python Collector package,
 unit tests, and a Dockerized semantic memory service using FastAPI, Ollama, and
 Qdrant adapter boundaries.
 
-Project governance now defines a permanent multi-role operating model with
-separate Chief Architect, Implementation Engineer, Work Mode,
-Documentation Suite, and future Jebediah Runtime responsibilities. The model
-requires independent plan and implementation review, exact Chief Architect
-approvals, controlled merge verification, and evidence-based post-merge
+Pull request #63 proposes a successor multi-role operating model with separate
+Chief Architect, Implementation Engineer, Independent Reviewer, Merge Operator,
+Documentation Suite, and future Jebediah Runtime responsibilities. ADR 0005
+remains controlling until ADR 0017 is accepted and merged and requires incumbent
+Work Mode exact-head review of that successor package. The accepted merge will
+make a fresh, read-only normal ChatGPT conversation the routine review mechanism
+and Work Mode an explicit risk-triggered option. The model preserves independent
+plan and implementation review, exact Chief Architect approvals, controlled
+merge verification, and evidence-based post-merge
 documentation closeout. Knowledge Manager 1.0 Phase 1 completed those gates,
 and pull request #50 established the Phase 2 document-inspection architecture
 and validation baseline. Pull request #52 then merged the independently reviewed
@@ -168,8 +174,9 @@ The
 is now a Historical scope record with no active implementation effect. The
 [Phase 3B Completion Directive](docs/governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_COMPLETION_DIRECTIVE.md)
 is Superseded. The revised B0-B3, C0-C2, D1-D2, and O1 sequence replaces the
-former broad Phase 3B implementation interpretation without activating any
-milestone.
+former broad Phase 3B implementation interpretation. The separate B1
+activation decision authorizes only B1 after pull request #63 merges; B2 and
+every later milestone remain unauthorized.
 
 Pull request #59 remains open, unreviewed implementation evidence and must not
 be merged or deployed. Pull request #60 merged 79 files as squash commit
@@ -208,8 +215,8 @@ reviewed pull requests.
   strategic direction, preserves accepted Phase 3B architecture, and rejects
   pull request #60's implementation as conforming or operational. Pull request
   #61 made that decision durable at
-  `b1d8dea531ad0b82171cb0f3f3979323b712a5de`; this branch prepares the B0
-  repository recovery for exact-head review and merge.
+  `b1d8dea531ad0b82171cb0f3f3979323b712a5de`; pull request #62 then made B0
+  recovery canonical at `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`.
 - Pull request #60 squash-merged source head
   `70db20613e6275d391b2221d04e6ab4314d0a7b5` as
   `991929beb6026511e07b6cb7954e1c9e400b9cb5`. The GitHub record shows no
@@ -465,9 +472,9 @@ records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and
 `Successor: Sprint 006 Proposal v2`. Proposal v2 is now authored on draft pull
 request #43 as a new proposal from the accepted post-Sprint 005 baseline. Its
 specification and validation requirements both remain Proposed, and
-implementation and deployment remain Unauthorized. Independent Work Mode
-review, Chief Architect acceptance, proposal merge, and separate sprint
-authorization are required before implementation.
+implementation and deployment remain Unauthorized. Independent review, Chief
+Architect acceptance, proposal merge, and separate sprint authorization are
+required before implementation.
 
 Pull request #45 squash-merged reviewed source
 `c0a83f8fb4ec6ad82c90c658a4b83b8c596cd250` to `main` as

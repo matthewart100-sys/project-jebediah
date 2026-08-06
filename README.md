@@ -131,8 +131,11 @@ and Accepted
 define a local, single-operator, PDF-only admission and custody architecture.
 Decision `CA-2026-08-06-B1-ACTIVATION` activates only its generated-synthetic-
 PDF custody subset after the activation package merges. Real documents, VBA
-use, extraction, OCR, Phase 3C/3D consumers, models, memory/Qdrant projection,
-retrieval, deployment, and source discovery remain unauthorized.
+use, scanner/parser workers, extraction, OCR, human review, legal hold,
+backup/restore, operational recovery, Phase 3C/3D consumers, models,
+memory/Qdrant projection, retrieval, deployment, and source discovery remain
+unauthorized. B1 recovery means only deterministic restart/interruption
+reconciliation of its generated-synthetic custody state.
 
 B0 canonical recovery merged through pull request #62 at
 `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. Pull requests #59 and #60 remain

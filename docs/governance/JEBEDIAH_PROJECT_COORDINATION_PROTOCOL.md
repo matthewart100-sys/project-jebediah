@@ -1,10 +1,14 @@
 # Jebediah Project Coordination Protocol
 
-**Status:** Active; routine review policy amended by
+**Status:** Proposed successor state; effective only after ADR 0017 acceptance
+and merge. The incumbent ADR 0005 protocol controls this transition. The
+successor policy is recorded by
 [`CA-2026-08-06-B1-ACTIVATION`](CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md)
+and [ADR 0017](../adr/0017-project-coordination-and-independent-review-authority.md)
 
 **Decision level:** Foundational under
-[ADR 0005](../adr/0005-project-coordination-and-role-authority.md)
+[ADR 0017](../adr/0017-project-coordination-and-independent-review-authority.md)
+after its acceptance and merge; ADR 0005 controls the transition
 
 ## Purpose
 
@@ -69,12 +73,12 @@ Codex:
 - writes or updates tests when implementation scope requires them
 - runs required validation
 - prepares architecture, implementation, merge, and closeout handoff packets
-- performs a controlled merge only after explicit Chief Architect approval
-- verifies the merged state and reports exact results
+- verifies the merged state after a non-author Merge Operator executes the
+  exact Chief Architect-approved merge and reports exact results
 
 Codex may identify contradictions, risks, and missing decisions. It must not
 redefine architecture, expand scope, accept an ADR, authorize a sprint, or
-grant its own merge approval.
+grant its own merge approval or merge its own implementation.
 
 ### Independent Reviewer
 
@@ -100,6 +104,14 @@ pull-request evidence, identify evidence limitations, and return `APPROVED`,
 `REVISIONS REQUIRED`, or `BLOCKED`. Work Mode is optional and may be used only
 when explicitly requested for unusually high-risk, cross-cutting, or
 adversarial review.
+
+### Merge Operator
+
+The Merge Operator is the maintainer or another explicitly assigned operator
+that did not author or implement the reviewed artifact. The operator may execute
+only the unchanged exact head approved by the Chief Architect and may not alter
+scope, waive checks, resolve findings, or treat repository custody as decision
+authority. Codex may not act as Merge Operator for its own implementation.
 
 ### Documentation Suite — Documentation Lead
 
@@ -136,11 +148,12 @@ operations, and recovery review.
 | --- | --- | --- | --- |
 | Strategy and roadmap direction | Chief Architect | Independent review may challenge; Codex may provide feasibility evidence | No tool or runtime may reprioritize work |
 | Architecture and ADR acceptance | Chief Architect | Independent reviewer examines artifacts; Codex supplies evidence | Reviewer may block but may not give final approval |
-| Sprint and scope authorization | Chief Architect | Codex plans; independent reviewer examines architecture when required | Codex may not self-authorize or expand scope |
+| Sprint and scope authorization | Chief Architect | Codex plans; independent reviewer examines architecture- or security-significant plans and other plans when the Chief Architect requires it | Codex may not self-authorize or expand scope |
 | Implementation | Codex | Chief Architect supplies approved scope | Review or documentation roles do not implement by default |
 | Implementation validation | Independent reviewer | Codex supplies evidence and corrections | The author or implementer may not perform the independent review |
 | Merge approval | Chief Architect | Independent reviewer supplies disposition | Codex may not grant its own merge authority |
-| Controlled merge and merge verification | Codex | Chief Architect identifies the exact approved artifacts | Approval does not itself perform or prove the merge |
+| Controlled merge | Non-author Merge Operator | Chief Architect identifies the exact approved artifacts; Codex supplies the verified packet | The author or implementer may not merge its own artifact; execution grants no decision authority |
+| Merge verification | Codex | Merge Operator supplies the resulting commit | Approval does not itself perform or prove the merge |
 | Documentation closeout | Documentation Suite | Codex supplies merged commit and validation evidence | Documentation may not precede or manufacture merged reality |
 | Operational consumption | Jebediah Runtime | Approved future interfaces and policy | Runtime output is not engineering authority |
 
@@ -148,9 +161,10 @@ operations, and recovery review.
 
 Every implementation-bearing change follows this order:
 
-**Chief Architect authorization → Codex implementation and validation →
-independent read-only normal-chat review → Chief Architect exact-head decision
-→ controlled merge → post-merge validation and closeout**
+**PLAN → applicable independent architecture review → Chief Architect
+authorization → Codex implementation and validation → independent read-only
+exact-head review → Chief Architect exact-head decision → non-author controlled
+merge → post-merge validation and closeout**
 
 ### 1. Plan
 
@@ -158,12 +172,13 @@ Codex or another authorized planner defines the problem, outcome, scope,
 non-goals, acceptance criteria, affected architecture and ADRs, dependencies,
 risks, validation, rollback, and requested decision.
 
-### 2. Independent architecture review when required
+### 2. Independent architecture review
 
-An independent reviewer examines the actual plan and relevant repository
-evidence when architecture or security risk requires pre-implementation
-review. The reviewer returns
-blocking corrections, non-blocking risks, and an explicit review disposition.
+Architecture- or security-significant work always receives independent
+pre-implementation review of the actual plan and relevant repository evidence.
+The Chief Architect may require that review for other work based on risk. The
+reviewer returns blocking corrections, non-blocking risks, and an explicit
+review disposition.
 Blocking findings stop the workflow until corrected or explicitly disposed by
 the Chief Architect under the blocker-disposition rules below.
 
@@ -182,24 +197,25 @@ invalidates the approved plan.
 
 ### 5. Independent implementation validation
 
-The fresh read-only normal-chat reviewer inspects the exact implementation,
-tests, validation output, diff, and remaining risk. Blocking findings return to
-Codex for bounded correction
-and revalidation or to the Chief Architect for an explicit disposition.
+The Independent Reviewer inspects the exact implementation, tests, validation
+output, diff, and remaining risk. Blocking findings return to Codex for bounded
+correction and revalidation or to the Chief Architect for an explicit
+disposition.
 
 ### 6. Chief Architect merge approval
 
 The Chief Architect reviews the final implementation packet and independent
-review disposition. Merge approval names the exact pull request and head commit. A
-changed head invalidates the approval unless the Chief Architect explicitly
-approves the new artifacts.
+review disposition. Merge approval names the exact pull request and head
+commit. A changed head invalidates the approval unless the Chief Architect
+explicitly approves the new artifacts.
 
-### 7. Codex controlled merge
+### 7. Non-author controlled merge
 
-Codex confirms branch, commit, files, checks, and approval; applies the
-repository's established merge method; updates local `main`; reruns required
-post-merge validation; and reports the final commit and clean status. It does
-not deploy or mutate live systems unless separately authorized.
+The Merge Operator confirms the unchanged branch, commit, files, checks, and
+approval and applies the repository's established merge method. Codex may then
+update local `main`, rerun required post-merge validation, and report the final
+commit and clean status. Neither role deploys or mutates live systems unless
+separately authorized.
 
 ### 8. Documentation Suite closeout
 
@@ -217,7 +233,8 @@ Except for the narrowly bounded emergency deferral defined below, no
 implementation begins without:
 
 - a defined scope and non-goals
-- architecture review when required by risk or explicit Chief Architect request
+- applicable independent architecture review, which is mandatory for
+  architecture- or security-significant work
 - explicit Chief Architect approval for the exact plan
 
 If any item is absent, Codex stops before implementation and requests the
@@ -264,14 +281,15 @@ applicable security and operations rules.
 
 Before an emergency correction may merge:
 
-1. An independent reviewer performs the deferred architecture review and implementation
-   validation on the exact artifacts.
+1. An independent reviewer performs the deferred architecture review and
+   implementation validation on the exact artifacts.
 2. Every finding receives the normal correction or Chief Architect
    disposition.
 3. Required validation and the Definition of Done pass, or a permitted
    exception is recorded.
 4. The Chief Architect approves the exact pull request and head commit.
-5. Codex uses the normal controlled merge and post-merge process.
+5. A non-author Merge Operator uses the normal controlled-merge process; Codex
+   performs post-merge verification.
 
 No merge gate is deferred. The pull request records the emergency declaration,
 deferred gate, retrospective review, decisions, validation, and follow-up work.
@@ -280,8 +298,9 @@ authorized security or operations procedures and does not weaken this path.
 
 ## Independent-review blocker disposition
 
-The independent reviewer classifies each finding as a reproducible evidence or validation
-failure, an architecture or quality concern, or a non-blocking recommendation.
+The independent reviewer classifies each finding as a reproducible evidence or
+validation failure, an architecture or quality concern, or a non-blocking
+recommendation.
 A blocking finding must identify the affected artifact, evidence, risk, and
 condition required to clear it.
 
@@ -331,10 +350,11 @@ implementation and before Chief Architect merge approval.
 
 A post-merge closeout begins from the confirmed merge handoff rather than a new
 feature plan. The Documentation Suite prepares only the authorized canonical
-reconciliation. A fresh normal-chat reviewer performs an independent documentation and evidence
-review, and the Chief Architect grants or withholds merge approval for the
-exact closeout head. The merge of that approved pull request is the terminal
-closeout event and does not trigger another mandatory closeout.
+reconciliation. A fresh normal-chat reviewer performs an independent
+documentation and evidence review, and the Chief Architect grants or withholds
+merge approval for the exact closeout head. The merge of that approved pull
+request is the terminal closeout event and does not trigger another mandatory
+closeout.
 
 If a documentation change does not clearly fit a path, work pauses for Chief
 Architect classification. A documentation label may not be used to bypass an
@@ -367,8 +387,11 @@ Role-specific handoffs add:
   withheld, and the next permitted gate.
 - **Codex:** exact changed files, commands and results, working-tree status,
   implementation limitations, and rollback point.
-- **Independent reviewer:** review method, blocking findings, recommendations, evidence
-  gaps, and review disposition.
+- **Independent reviewer:** review method, blocking findings, recommendations,
+  evidence gaps, and review disposition.
+- **Merge Operator:** exact approved pull request and head, required checks,
+  merge method, resulting canonical commit, and confirmation that the operator
+  did not author or implement the artifact.
 - **Documentation Suite:** merged commit, documents reconciled, claims left
   deferred, link and documentation validation, and unresolved documentation
   gaps.
@@ -424,8 +447,8 @@ validation success.
 ## Authority and conflict rules
 
 - No role may silently assume another role's authority.
-- An independent reviewer may block implementation or merge but may not give final
-  architecture approval.
+- An independent reviewer may block implementation or merge but may not give
+  final architecture or merge approval.
 - Codex may implement approved work but may not redefine architecture or
   scope independently.
 - The Documentation Suite may document confirmed state but may not invent
@@ -471,8 +494,8 @@ proposal:
   pull-request diff, compare link, or equivalent repository-backed diff
 - the proposal worktree must contain no uncommitted or untracked artifact that
   is necessary to interpret the review target
-- The independent reviewer must verify that the repository head and manifest resolve before
-  treating the review as evidence
+- The independent reviewer must verify that the repository head and manifest
+  resolve before treating the review as evidence
 
 The worktree requirement is scoped to the proposal review target. It does not
 require unrelated local work to be absent. Unrelated work must remain
@@ -532,11 +555,10 @@ Sensitive evidence follows the retention contract under `Validation Verified`;
 raw sensitive material is never copied into the public repository or packet.
 
 Changes to role authority, mandatory gate order, or final decision ownership
-are Foundational decisions and require a durable Chief Architect decision plus
-independent exact-head review. They also require a new or superseding ADR when
-the change alters product, system, or security architecture. Editorial
-corrections may use the normal documentation workflow when they do not change
-meaning.
+are Foundational decisions and always require a new or superseding Foundational
+ADR, independent exact-head review, and a durable Chief Architect decision.
+Editorial corrections may use the normal documentation workflow when they do
+not change meaning.
 
 Historical plans, changelog entries, and review records may retain earlier
 role names or authority wording as evidence of the process in effect at that

@@ -21,10 +21,14 @@ Codex acts as the Implementation Engineer defined by the
 - Tests and validation
 - Utilities and repository tooling
 - Branch, commit, and pull-request execution
-- Evidence-based handoff to Work Mode and the Chief Architect
+- Evidence-based handoff to an independent reviewer and the Chief Architect
 
 Codex does not invent product intent, redefine scope or architecture, grant
 its own approval, or use conversation history as an undocumented requirement.
+
+The Independent Reviewer policy in proposed ADR 0017 becomes effective only
+after acceptance and merge. ADR 0005 controls the transition and requires
+incumbent Work Mode exact-head review of the successor package.
 
 ## Startup checklist
 
@@ -63,9 +67,12 @@ and publish a bounded review artifact when authorized.
 
 ### Architecture-significant change
 
-Prepare the required architecture or ADR material, obtain Work Mode
+Prepare the required architecture or ADR material, obtain independent
 architecture review, and obtain Chief Architect approval before dependent
-implementation.
+implementation. The routine reviewer is a fresh, read-only normal ChatGPT
+conversation that did not author or modify the artifact. Work Mode is optional
+only when the Chief Architect explicitly requests unusually high-risk,
+cross-cutting, or adversarial review.
 
 ## Planning gate
 
@@ -121,14 +128,17 @@ When authorized to publish:
 4. Push the branch with tracking.
 5. Open a draft pull request containing scope, reason, impact, validation, ADR
    assessment, and review focus.
-6. Provide Work Mode with the actual changed files or patch for independent
-   implementation validation.
+6. Provide a distinct independent reviewer with the actual changed files or
+   patch for implementation validation. Routine review uses a fresh, read-only
+   normal ChatGPT conversation.
 7. Resolve blocking findings and provide the final packet to the Chief
    Architect.
 8. Record the Chief Architect's formal decision for the exact head commit.
-9. Merge only after approval and the Definition of Done.
-10. Synchronize local `main`, verify the merge, and hand confirmed evidence to
-    the Documentation Suite for closeout when required.
+9. Hand the unchanged approved head to a non-author Merge Operator; Codex may
+   not merge its own implementation.
+10. After that operator merges, synchronize local `main`, verify the merge, and
+    hand confirmed evidence to the Documentation Suite for closeout when
+    required.
 
 If one publication method lacks permission, use an approved documented fallback
 without weakening authentication or review.
@@ -148,8 +158,9 @@ includes:
 - Review focus
 - Relevant facts, assumptions, questions, and ADR impact
 
-Work Mode may return blocking findings but cannot grant final architecture or
-merge approval. Accept only an explicit `APPROVED TO MERGE`,
+The independent reviewer may return blocking findings but cannot grant final
+architecture or merge approval. Codex may self-audit but may not independently
+approve or merge its own artifact. Accept only an explicit `APPROVED TO MERGE`,
 `REVISIONS REQUIRED`, or `APPROVED TO CONTINUE WITHOUT MERGE` Chief Architect
 decision for the applicable checkpoint.
 

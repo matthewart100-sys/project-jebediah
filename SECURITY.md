@@ -213,22 +213,29 @@ use cases and applicable obligations.
 
 ### Accepted Phase 3B architecture boundary
 
-The accepted Phase 3B architecture package and ADR 0016 define, but do not
-authorize implementation or use of, one local PDF intake path. The design
+The accepted Phase 3B architecture package and ADR 0016 define, but do not by
+themselves authorize implementation or use of, one local PDF intake path. The
+separate B1 activation decision authorizes only generated-synthetic custody
+after pull request #63 merges. The broader design
 requires a signed single-use authorization receipt, browser-pushed bytes
 without a server-side path, encrypted custody outside Git, offline rootless
 scanner/parser/OCR workers, explicit human review, fixed retention/deletion,
 signed legal-hold authority, tombstone-aware recovery, and a separately
 reviewed exact real-source decision.
 
-No conforming implementation has been accepted. No real document or VBA
+No conforming full Phase 3B implementation has been accepted. No real document or VBA
 artifact may be discovered, opened, hashed, scanned, parsed, OCR-processed,
 stored, reviewed, or supplied to a model. Model use, memory or Qdrant
 projection, retrieval, grounded answers, deployment, DNS/domain work, and
 public exposure remain unauthorized. Pull request #60 does not satisfy these
 gates through its merged record or historical evidence. Its nonconforming
-artifacts have been removed from the proposed pull request #62 tree, and the
-recovery remains noncanonical before exact-head approval and merge.
+artifacts were removed from canonical `main` through pull request #62 at
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`.
+
+B1 does not authorize scanner/parser/OCR workers, extracted evidence, human
+review, legal hold, backup/restore, operational recovery, or any real-data
+retention profile. Its bounded structural validation and restart reconciliation
+must remain inside the generated-synthetic custody boundary.
 
 ## AI and automation security
 

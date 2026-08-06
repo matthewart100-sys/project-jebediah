@@ -27,6 +27,10 @@ The maintainer:
 Repository custody does not silently replace the role authority assigned by
 the Project Coordination Protocol.
 
+Proposed ADR 0017 does not authorize its own adoption. Until it is accepted and
+merged, ADR 0005 controls the transition and its incumbent Work Mode exact-head
+review gate remains required for that successor package.
+
 ### Chief Architect
 
 The Chief Architect:
@@ -54,13 +58,24 @@ Codex:
 - Verifies merges and updates status
 
 Codex performs this role under `CODEX_BOOTSTRAP.md` and may not redefine
-architecture or scope independently.
+architecture or scope independently and may not merge its own implementation.
 
-### Work Mode — Independent Architecture and Quality Reviewer
+### Independent Reviewer
 
-Work Mode challenges assumptions, reviews plans and exact implementation
-artifacts, requires evidence, and may block implementation or merge. It may
-not override the Chief Architect or issue final architecture approval.
+The Independent Reviewer challenges assumptions, reviews plans and exact
+implementation artifacts read-only, requires evidence, and may block
+implementation or merge. The routine reviewer is a fresh normal ChatGPT
+conversation that did not author or modify the artifact. Work Mode may occupy
+this role only when the Chief Architect explicitly requests unusually
+high-risk, cross-cutting, or adversarial review. The reviewer may not override
+the Chief Architect or issue final architecture or merge approval.
+
+### Merge Operator
+
+The Merge Operator is the maintainer or another explicitly assigned operator
+that did not author or implement the artifact. It executes only the unchanged
+exact head approved by the Chief Architect. Merge execution grants no scope,
+review, or final-decision authority.
 
 ### Documentation Suite — Documentation Lead
 
@@ -90,10 +105,13 @@ Within the repository:
    Project Coordination Protocol.
 2. Reviewed GitHub `main` records the authoritative project state.
 3. Accepted architecture and ADRs govern implementation.
-4. Work Mode independently reviews and may block but may not grant final
-   architecture approval. Blocking findings require correction or the written
-   Chief Architect disposition defined by the Project Coordination Protocol.
-5. Codex implements and merges only within exact approved authority.
+4. A distinct Independent Reviewer examines the actual artifacts and may block
+   but may not grant final architecture or merge approval. Blocking findings
+   require correction or the written Chief Architect disposition defined by
+   the Project Coordination Protocol.
+5. Codex implements only within exact approved authority and may not merge its
+   own artifact. A non-author Merge Operator executes an exact Chief
+   Architect-approved merge without acquiring decision authority.
 6. The Documentation Suite documents confirmed merged state without inventing
    behavior or priority.
 7. The future Runtime consumes approved state and has no current engineering
@@ -125,9 +143,11 @@ Identify:
 
 ### 3. Plan and architecture review before structural work
 
-Codex checks feasibility and implementation risk. Work Mode reviews the plan
-and challenges assumptions. The Chief Architect then approves, rejects, or
-requires revision before implementation begins.
+Codex checks feasibility and implementation risk. Architecture- or
+security-significant work always receives pre-implementation review from a
+distinct Independent Reviewer. The Chief Architect may require that review for
+other work based on risk. After the applicable review, the Chief Architect
+approves, rejects, or requires revision before implementation begins.
 
 ### 4. Implement in bounded increments
 
@@ -138,14 +158,15 @@ hidden.
 ### 5. Independently review actual artifacts
 
 The review package contains the diff, patch, or exact changed files. Reviewers
-assess what was built, not what a summary claims was built. Work Mode performs
-implementation validation before the Chief Architect considers merge
-approval.
+assess what was built, not what a summary claims was built. A fresh, read-only
+normal ChatGPT conversation performs routine implementation validation before
+the Chief Architect considers merge approval.
 
-The author or implementer of an artifact cannot satisfy Work Mode's independent
-review for that same artifact by announcing a role change. Work Mode must be a
-distinct review instance that did not author or materially modify the reviewed
-artifacts. If that separation is unavailable, the gate remains blocked.
+The author or implementer of an artifact cannot satisfy its independent review
+by announcing a role change. The reviewer must be a distinct review instance
+that did not author or materially modify the reviewed artifacts. Codex may
+self-audit, but that audit is not independent approval. If reviewer separation
+is unavailable, the gate remains blocked.
 
 ### 6. Record the decision
 

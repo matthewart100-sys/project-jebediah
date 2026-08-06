@@ -1,6 +1,7 @@
 # Project Jebediah Master Execution Framework
 
-**Status:** Active process framework after merge
+**Status:** Proposed process framework; active after ADR 0017 acceptance and
+merge of the B1 activation package
 
 ## Purpose
 
@@ -47,15 +48,17 @@ missing earlier decision.
     rollback, and requested decision.
 12. **Non-draft pull request.** Publish one reviewable pull request when its
     bounded scope and validation are complete.
-13. **Independent exact-head normal-chat review.** A fresh read-only normal
-    ChatGPT conversation that did not author or modify the artifacts reviews
-    the exact head and complete evidence package and returns `APPROVED`,
-    `REVISIONS REQUIRED`, or `BLOCKED`.
-14. **Chief Architect exact-PR and exact-head decision.** After independent review,
-    obtain the formal decision for the unchanged pull request head and resolve
-    every blocking finding under the coordination protocol.
-15. **Controlled merge.** Merge only with required approval and passing gates;
-    do not rewrite `main` history.
+13. **Independent exact-head review.** For routine work, a fresh read-only
+    normal ChatGPT conversation that did not author or modify the artifacts
+    reviews the exact head and complete evidence package and returns `APPROVED`,
+    `REVISIONS REQUIRED`, or `BLOCKED`. Work Mode may fill this role only when
+    explicitly requested under the coordination protocol.
+14. **Chief Architect exact-PR and exact-head decision.** After independent
+    review, obtain the formal decision for the unchanged pull request head and
+    resolve every blocking finding under the coordination protocol.
+15. **Controlled merge.** A non-author Merge Operator merges only the exact
+    approved head with passing gates; Codex may not merge its own work, and no
+    operator rewrites `main` history.
 16. **Canonical read-back.** Fetch and verify the merge commit, changed files,
     branch state, and canonical documents from updated `main`.
 17. **Post-merge validation.** Repeat checks whose evidence depends on merged
@@ -102,17 +105,24 @@ authority unless each authority is explicitly and separately exercised.
 The Implementation Engineer inspects, plans, implements authorized scope,
 validates, publishes evidence, and prepares handoffs. The engineer may perform
 internal self-audits but cannot perform their own independent review or grant
-themselves Chief Architect authority.
+themselves Chief Architect authority, and may not merge their own work.
 
 ### Independent reviewer
 
-The independent reviewer is a fresh normal ChatGPT conversation that did not
-author or materially modify the reviewed artifact. It remains read-only,
-inspects actual supplied pull-request evidence, identifies limitations, and
-may issue blocking findings and a review disposition but cannot modify GitHub,
-grant final architecture or merge approval, or begin the next milestone. Work
-Mode is optional and requires an explicit unusually high-risk, cross-cutting,
-or adversarial review request.
+The Independent Reviewer is distinct from the artifact's author or implementer,
+remains read-only, inspects actual supplied pull-request evidence, identifies
+limitations, and may issue blocking findings and a review disposition but
+cannot modify GitHub, grant final architecture or merge approval, or begin the
+next milestone. Routine review uses a fresh normal ChatGPT conversation. Work
+Mode may occupy the role only for an explicitly requested unusually high-risk,
+cross-cutting, or adversarial review.
+
+### Merge Operator
+
+The Merge Operator is a maintainer or another explicitly assigned operator that
+did not author or implement the artifact. The operator executes only the
+unchanged exact head approved by the Chief Architect and gains no review,
+scope, or decision authority from merge execution.
 
 ### Documentation Lead
 

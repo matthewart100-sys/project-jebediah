@@ -1,7 +1,8 @@
 # Organizational Intelligence Phase 3B Governed Intake Plan
 
-**Status:** Accepted architecture package; implementation, deployment, and
-real-information use remain unauthorized
+**Status:** Accepted architecture package; B1's generated-synthetic custody
+subset becomes authorized only after pull request #63 merges; all other
+implementation, deployment, and real-information use remain unauthorized
 
 **Program phase:** Organizational Intelligence Product Program Phase 3B -
 Governed Real-Document Intake and Inspection
@@ -12,14 +13,16 @@ Governed Real-Document Intake and Inspection
 `9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`; ADR 0016 remains Accepted and
 binding
 
-**Implementation authority:** None under
-[Chief Architect decision CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+**Implementation authority:** B1's generated-synthetic custody subset only,
+effective after merge of pull request #63 under
+[CA-2026-08-06-B1-ACTIVATION](governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md)
 
 **Reconciliation effect:** The strategic direction and architecture remain
 accepted. The former broad-package and Milestone 1 implementation
 interpretations are historical only. Future work must follow the revised B0-B3,
 C0-C2, D1-D2, and O1 sequence; Appendix A is not an active implementation
-manifest.
+manifest. The B1 activation decision supersedes the reconciliation record only
+for B1's post-merge authority; B2 and every later gate remain unauthorized.
 
 ## Purpose
 
@@ -28,8 +31,26 @@ Phase 3B turns the disconnected synthetic admission contracts accepted by ADR
 create organizational knowledge or make the dashboard answer from uploaded
 content.
 
-No implementation is currently authorized. Any future synthetic or real-source
-work requires the applicable revised milestone and a separate exact decision.
+Before pull request #63 merges, no B1 implementation is authorized. After that
+merge, only the B1 applicability boundary below may begin. Real-source and all
+later work require their applicable revised milestone and a separate exact
+decision.
+
+## B1 applicability boundary
+
+B1 selects only generated synthetic PDFs; local or loopback programmatic
+custody; fail-closed signature, bounded structure, MIME, and size validation;
+SHA-256 identity; opaque metadata; encrypted quarantine and staging; custody
+states and audit; duplicates; expiration; deletion; reset; interruption-safe
+persistence; and deterministic restart reconciliation of generated-synthetic
+custody state.
+
+B1 does not select this plan's signed real-source receipts, source-authority
+roles, scanner/native-parser/OCR workers, active-content inspection, extracted
+evidence, Human Review Workspace, legal hold, backup/restore,
+recovery-authority ledger, key/trust rotation, operational recovery, downstream
+consumer, deployment, or real-information design. Those sections remain
+binding future constraints for B2, B3, and later separately authorized gates.
 
 ## Accepted future-design outcome
 
@@ -73,8 +94,9 @@ rediscovered:
 - The Executive Product Shell is Implemented but synthetic, loopback-only,
   non-operational, and disconnected from document admission.
 - No accepted real-information use, deployment, live source, parser, scanner,
-  OCR, durable custody, downstream consumer, or operational use is currently
-  authorized. Pull request #60 repository artifacts do not alter this status.
+  OCR, downstream consumer, or operational use is authorized. Generated-
+  synthetic durable custody becomes authorized only through the B1 activation
+  merge. Pull request #60 repository artifacts do not alter this status.
 - No filename, directory path, organization document, personal information,
   credential, or private topology may enter the public repository.
 - Information authority does not grant action authority.
@@ -449,7 +471,11 @@ a later operations decision.
   records authority, assigned only in the real-source decision.
 - **Legal/privacy authority:** A distinct designated role for hold/lift and
   privacy confirmation.
-- **Security review:** Work Mode plus the accepted project security process.
+- **Security review:** A distinct security-focused Independent Reviewer under
+  the accepted project security and coordination processes. Routine review is
+  read-only in a fresh normal ChatGPT conversation; Work Mode is used only when
+  explicitly requested for unusually high-risk, cross-cutting, or adversarial
+  review.
 
 There is no availability promise, background service, remote support, or
 production operator.
@@ -639,14 +665,27 @@ Stop and obtain revised architecture or authority if implementation requires:
 - files outside the exact manifest; or
 - a changed authority, retention, legal-hold, privacy, or deletion boundary.
 
-## Current review and decision sequence
+## Current B1 activation sequence
+
+1. Complete ADR 0017's incumbent transition review and exact-head Chief
+   Architect acceptance.
+2. Publish the status and reciprocal-supersession head required by ADR 0017 and
+   obtain fresh incumbent Work Mode exact-head review.
+3. Obtain Chief Architect merge approval for the unchanged pull request #63
+   head after all required checks pass.
+4. Merge pull request #63.
+5. Only then may B1 implementation begin; B2, B3, and every later capability
+   remain separately gated.
+
+## Historical B0 review and decision sequence
 
 1. Validate the separately authorized normal revert on pull request #62.
 2. Obtain independent Work Mode review of the exact recovery head.
 3. Obtain a separate Chief Architect decision for the unchanged pull request
    and head.
 4. Merge only after that exact-head approval.
-5. Do not begin B1 or any implementation after the recovery merge.
+5. At that time, do not begin B1 or any implementation after the recovery
+   merge without a later activation decision.
 
 ## Historical architecture-package manifest
 

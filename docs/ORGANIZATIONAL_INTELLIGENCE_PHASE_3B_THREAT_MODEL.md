@@ -1,12 +1,27 @@
 # Phase 3B Governed Intake Threat Model
 
-**Status:** Accepted architecture threat requirements; no implementation,
-real-information, model, retrieval, deployment, or public-exposure authority
+**Status:** Accepted architecture threat requirements; B1's generated-synthetic
+custody controls apply after pull request #63 merges; real-information, model,
+retrieval, deployment, and public-exposure authority remain absent
 
-**Reconciliation:** The accepted controls remain future requirements under
-[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md).
+**Reconciliation:** The accepted controls remain milestone-specific
+requirements under
+[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+and
+[CA-2026-08-06-B1-ACTIVATION](governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md).
 Pull request #60 does not satisfy them and is not accepted as conforming or
 operational.
+
+## B1 applicability
+
+B1 applies only to generated-synthetic PDF validation, identity, encrypted
+opaque custody, local persistence, audit, duplicate/expiry/deletion/reset, and
+restart/interruption threats. Receipt and real-source authority, browser and
+session controls, scanner/parser/OCR workers, active-content inspection, Human
+Review Workspace, legal hold, backup/restore, recovery authority, operational
+readiness, downstream consumers, and deployment remain B2, B3, or later.
+Threats below remain binding design constraints only when their owning
+milestone is activated.
 
 ## Assets
 

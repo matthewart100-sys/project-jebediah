@@ -1,7 +1,11 @@
 # Project Jebediah Documentation Lead Protocol
 
-**Status:** Accepted by the Chief Architect on 2026-08-01; becomes active after
-the required exact-head review and merge to `main`
+**Status:** Active
+
+**Transition:** The Independent Reviewer and optional Work Mode provisions in
+this protocol are successor policy proposed by ADR 0017 and become effective
+only after that ADR is accepted and merged. Until then, ADR 0005 controls and
+requires incumbent Work Mode exact-head review of the successor package.
 
 ## Purpose
 
@@ -42,7 +46,8 @@ The Documentation Suite may not:
   without exact evidence
 - rewrite accepted ADR rationale or silently change an ADR's meaning
 - infer behavior from plans, research, or conversation
-- use documentation changes to bypass Work Mode or Chief Architect gates
+- use documentation changes to bypass independent-review or Chief Architect
+  gates
 
 ## Preconditions for closeout
 
@@ -112,12 +117,15 @@ At minimum:
 
 ### 6. Request review
 
-Open a documentation-only pull request. Work Mode performs the independent
-documentation and evidence review for the exact artifacts. After every
-blocking finding is corrected or receives the disposition required by the
-Project Coordination Protocol, the Chief Architect grants or withholds merge
-approval for the exact head commit. The handoff identifies both requested
-decisions and the transition between them.
+Open a documentation-only pull request. A distinct reviewer performs the
+independent, read-only documentation and evidence review for the exact
+artifacts. Routine closeout review uses a fresh normal ChatGPT conversation;
+Work Mode is optional only when the Chief Architect explicitly requests
+unusually high-risk, cross-cutting, or adversarial review. After every blocking
+finding is corrected or receives the disposition required by the Project
+Coordination Protocol, the Chief Architect grants or withholds merge approval
+for the exact head commit. The handoff identifies both requested decisions and
+the transition between them.
 
 Merging the approved closeout pull request completes the Documentation Suite
 closeout. The closeout merge does not recursively create another closeout;
@@ -185,7 +193,8 @@ A Documentation Suite closeout is complete only when:
 - documentation and link validation pass
 - the diff is documentation-only and whitespace-clean
 - the pull request records the exact evidence and decision requested
-- Work Mode completed independent documentation and evidence review
+- a distinct reviewer completed independent, read-only documentation and
+  evidence review
 - every blocker was corrected or explicitly disposed under the Project
   Coordination Protocol
 - the Chief Architect approved the exact closeout head for merge

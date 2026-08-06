@@ -1,11 +1,27 @@
 # Phase 3B Governed Intake Validation Requirements
 
-**Status:** Accepted future validation contract; inactive because no
-implementation is authorized
+**Status:** Accepted milestone validation contract; the B1 subset becomes
+active only after pull request #63 merges
 
 **Reconciliation:** Pull request #60's `documentation-quality` result does not
-satisfy this contract. Future validation is milestone-specific under
-[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md).
+satisfy this contract. Validation is milestone-specific under
+[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+and
+[CA-2026-08-06-B1-ACTIVATION](governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md).
+
+## B1 applicability matrix
+
+| Area | Required for B1 | Reserved for B2, B3, or later |
+| --- | --- | --- |
+| Inputs | Generated synthetic PDFs only; no discovery or existing file access | Real-source receipts, source authority, browser upload, or organizational information |
+| Validation | Signature, bounded fail-closed structure, MIME, and configurable size checks | Scanner/native-parser workers, active-content inspection, extraction, OCR, container isolation, or human review |
+| Identity and custody | SHA-256 identity, opaque metadata, encrypted quarantine/staging, atomic persistence and audit | Extracted evidence, review dispositions, downstream consumers, or operational workspace |
+| Lifecycle | Duplicates, expiration, deletion, reset, failure isolation, and deterministic restart/interruption reconciliation | Legal hold, backup creation, backup restore, recovery-authority ledger/attestation, key/trust rotation, or operational recovery readiness |
+| Boundaries | Deterministic tests, negative imports/capabilities, no real data, and the exact B1 manifest | The historical 59-file manifest, worker images, browser workflow, deployment, or B2 and later capabilities |
+
+Only the B1 column is required to accept a B1 implementation. Requirements
+below that belong to a later column remain binding future constraints but are
+not implementation authority or B1 acceptance criteria.
 
 ## Evidence principles
 
@@ -198,6 +214,10 @@ runner supplies the evidence.
 
 ## Required commands
 
+For B1, the exact implementation plan supplies commands and test selectors for
+the bounded B1 manifest. The full Phase 3B commands and worker evidence below
+become mandatory only when their owning later milestones are activated.
+
 During implementation, targeted selectors may be used. Before publication:
 
 ```text
@@ -237,7 +257,9 @@ Also verify:
 
 ## Implementation acceptance
 
-Implementation is eligible for independent review only when every required test
-passes, exact file scope matches, the operator guide reproduces the synthetic
-workflow, no real information was accessed, and all residual limitations remain
-visible.
+Implementation is eligible for independent review only when every test required
+for the currently authorized milestone passes, exact file scope matches, no
+real information was accessed, and all residual limitations remain visible. A
+B1 implementation does not require the later operator guide, browser, worker,
+OCR, human-review, legal-hold, backup, restore, or operational-recovery
+evidence.

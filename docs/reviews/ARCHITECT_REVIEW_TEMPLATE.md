@@ -10,6 +10,11 @@ other lasting technical direction.
 The review must be based on actual artifacts. A summary without the diff or
 changed files is not sufficient evidence for approval.
 
+For the ADR 0017 successor package itself, ADR 0005 remains controlling until
+ADR 0017 is accepted and merged. That transition requires incumbent Work Mode
+exact-head review; a normal-chat review may add evidence but cannot substitute
+for the incumbent gate.
+
 ## Review request
 
 ### Change
@@ -47,7 +52,7 @@ Also include:
 - Confirmation that every required proposal artifact is tracked at the stated
   head and no necessary artifact remains uncommitted or untracked
 - Validation commands and results
-- Work Mode review disposition, reviewer independence, and blocker status
+- Independent-review disposition, reviewer independence, and blocker status
 - Chief Architect disposition for any blocker not corrected in the artifacts
 - Relevant ADRs
 - Known facts, reported facts, working assumptions, and open questions
@@ -71,10 +76,12 @@ Also include:
 - [ ] If this is a multi-document architecture proposal, chat attachments,
       downloads, archives, and model memory are not being used as the canonical
       review target.
-- [ ] Work Mode review was performed by a distinct review instance that did
-      not author or materially modify the reviewed artifacts.
-- [ ] Every Work Mode blocker is corrected or has the explicit disposition
-      required by the Project Coordination Protocol.
+- [ ] Independent review was performed read-only by a distinct review instance
+      that did not author or materially modify the reviewed artifacts; routine
+      review used a fresh normal ChatGPT conversation unless the Chief
+      Architect explicitly requested Work Mode for unusual risk.
+- [ ] Every independent-review blocker is corrected or has the explicit
+      disposition required by the Project Coordination Protocol.
 - [ ] Security, data ownership, operations, recovery, and observability impacts
       are considered where relevant.
 - [ ] The change is maintainable by a future engineer or AI using the
@@ -83,8 +90,8 @@ Also include:
 
 ## Required decision
 
-Work Mode review is required evidence but is not the final decision. The Chief
-Architect returns exactly one:
+Independent review is required evidence but is not the final decision. The
+Chief Architect returns exactly one:
 
 ### APPROVED TO MERGE
 

@@ -200,8 +200,10 @@ Collector exit gate or activate Phase 3 - Knowledge Graph.
 
 ### Accepted cross-phase Phase 3B governed intake architecture
 
-**Status:** Accepted architecture under ADR 0016; no implementation, real
-information, deployment, or canonical Roadmap Phase 3 activation
+**Status:** Accepted architecture under ADR 0016; no B1 implementation exists
+yet, and its generated-synthetic custody authority becomes effective only after
+the activation package merges. Real information, deployment, and canonical
+Roadmap Phase 3 remain unauthorized.
 
 The Organizational Intelligence Product Program label Phase 3B defines a
 bounded refinement inside canonical Roadmap Phase 2: one local operator,
@@ -228,9 +230,9 @@ roadmap phase.
 | Milestone | Focus | Current status |
 | --- | --- | --- |
 | B0 - Canonical recovery | Restore the reviewed pre-PR60 implementation baseline while retaining reconciliation authority | Complete and canonical at `37dd437617ed731340e9fd3da6cab0b1c49f7b4a` |
-| B1 - Synthetic custody foundation | Generated synthetic PDF validation, encrypted local custody, identity, audit, lifecycle, deletion, reset, and recovery | Authorized after activation package review and merge |
+| B1 - Synthetic custody foundation | Generated synthetic PDF validation, encrypted local custody, identity, audit, lifecycle, deletion, reset, and deterministic restart/interruption reconciliation | Authorized after activation package review and merge |
 | B2 - Isolated PDF inspection and review | Synthetic PDF isolation and human review | Future; unauthorized |
-| B3 - Lifecycle and recovery readiness | Retention, deletion, hold, backup, restore, and recovery | Future; unauthorized |
+| B3 - Lifecycle and recovery readiness | Real-data retention profiles, legal hold, backup, restore, recovery-authority evidence, rotation, and operational recovery readiness | Future; unauthorized |
 | C0 - Identity and service authorization | Principals, authentication, authorization, and service boundaries | Future; unauthorized |
 | C1 - Governed knowledge promotion | Evidence-to-knowledge promotion boundary | Future; unauthorized |
 | C2 - Memory and Qdrant projection | Governed memory and vector projection | Future; unauthorized |

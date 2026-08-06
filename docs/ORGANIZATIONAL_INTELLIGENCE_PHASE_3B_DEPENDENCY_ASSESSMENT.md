@@ -1,13 +1,25 @@
 # Phase 3B Dependency Assessment
 
-**Status:** Accepted architecture dependency selection; no dependency
-installation, lock change, implementation, deployment, or runtime use is
-authorized
+**Status:** Accepted architecture dependency selection; B1 may propose only the
+dependency work required for its generated-synthetic custody subset after pull
+request #63 merges; no deployment or runtime use is authorized
 
-**Reconciliation:** This assessment remains a future milestone constraint under
-[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md).
+**Reconciliation:** This assessment remains a milestone-specific constraint
+under
+[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+and
+[CA-2026-08-06-B1-ACTIVATION](governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md).
 Repository dependencies introduced by pull request #60 are not retroactively
 approved by this document.
+
+## B1 applicability
+
+B1 may select only custody-relevant dependency and lock changes that its exact
+implementation plan proves necessary for encrypted opaque storage, identity,
+audit, lifecycle, and restart reconciliation. Rootless Podman, qpdf, `pypdf`,
+ClamAV, Poppler, Tesseract, scanner/parser/OCR workers, and their image or system
+dependencies remain B2 or later. This documentation package changes no
+dependency or lock file.
 
 ## Purpose
 

@@ -19,14 +19,18 @@ to work in small, reviewable increments.
 
 ## Starting work
 
+Proposed ADR 0017's Independent Reviewer policy becomes effective only after
+acceptance and merge. ADR 0005 controls the successor pull request's transition
+and requires incumbent Work Mode exact-head review until then.
+
 Before creating a branch:
 
 1. Read `PROJECT_STATUS.md`, `CURRENT_SPRINT.md`, and relevant standards.
 2. Confirm the work is authorized and has acceptance criteria.
 3. Identify the current gate and authorized role under the
    [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
-4. Apply the [ADR Process](adr/README.md) and check which Work Mode and Chief
-   Architect reviews are required.
+4. Apply the [ADR Process](adr/README.md) and check which independent-review and
+   Chief Architect decisions are required.
 5. Make sure the working tree is understood and unrelated changes are
    preserved.
 6. Synchronize local `main` with `origin/main` using a fast-forward update.
@@ -105,7 +109,7 @@ use the [Chief Architect Review Template](reviews/ARCHITECT_REVIEW_TEMPLATE.md).
 Provide the actual diff or changed files. A summary alone is insufficient
 evidence.
 
-Before independent Work Mode review, a proposal spanning multiple documents
+Before independent review, a proposal spanning multiple documents
 must be committed and pushed to one short-lived branch in the authoritative
 repository. Its review packet identifies the full base and head commits,
 complete file manifest, and repository-backed compare or pull-request diff.
@@ -114,7 +118,10 @@ chat attachments and uncommitted files cannot satisfy the review target. The
 [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
 owns abandonment and successor handling when an exact proposal target is lost.
 
-Work Mode performs the required architecture or implementation review first.
+The distinct Independent Reviewer performs the required architecture or
+implementation review first. Routine review uses a fresh, read-only normal
+ChatGPT conversation; Work Mode is optional only when the Chief Architect
+explicitly requests unusually high-risk, cross-cutting, or adversarial review.
 The Chief Architect then grants or withholds final approval for the exact
 artifacts. The Project Coordination Protocol owns this sequence, the required
 same-artifact reviewer separation, and the written disposition of blocking
@@ -139,13 +146,14 @@ Classify documentation-only changes using the
 [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md):
 
 - Editorial corrections use documentation, link, and whitespace validation
-  plus Chief Architect exact-head merge approval. They do not require Work
-  Mode architecture or implementation review unless meaning changes or the
+  plus Chief Architect exact-head merge approval. They do not require
+  architecture or implementation review unless meaning changes or the
   classification is disputed.
-- Architecture-significant documentation follows the full Work Mode and Chief
-  Architect sequence.
-- Documentation Suite closeout receives independent Work Mode documentation
-  and evidence review followed by Chief Architect exact-head merge approval.
+- Architecture-significant documentation follows the full Independent Reviewer
+  and Chief Architect sequence.
+- Documentation Suite closeout receives independent documentation and evidence
+  review in a fresh, read-only normal ChatGPT conversation, followed by Chief
+  Architect exact-head merge approval.
   Merging that closeout pull request completes the closeout and does not create
   a recursive closeout requirement.
 
@@ -154,11 +162,15 @@ Classify documentation-only changes using the
 Squash merge is the default. The pull-request title becomes the commit subject
 on `main` and must summarize the complete result.
 
+The maintainer or another explicitly assigned non-author Merge Operator executes
+the exact Chief Architect-approved merge. An author or implementer may not merge
+its own artifact, and merge execution does not grant decision authority.
+
 Merge only when:
 
 - Required review is approved.
-- Every Work Mode blocking finding is corrected or has the explicit Chief
-  Architect disposition required by the Project Coordination Protocol.
+- Every independent-review blocking finding is corrected or has the explicit
+  Chief Architect disposition required by the Project Coordination Protocol.
 - The Chief Architect approved the exact pull request and head commit.
 - Checks pass.
 - Review comments are resolved.
@@ -200,12 +212,12 @@ Architect may declare a repository engineering emergency under the
 [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
 
 1. Record the active material risk, time boundary, exact scope, rollback, and
-   the pre-implementation Work Mode architecture-review gate being deferred.
+   the pre-implementation independent architecture-review gate being deferred.
 2. Obtain Chief Architect authorization before repository implementation.
 3. Create the smallest safe branch and implement only the reversible
    containment or correction that was authorized.
 4. Validate the correction and rollback path.
-5. Before merge, obtain the deferred Work Mode architecture review and the
+5. Before merge, obtain the deferred independent architecture review and the
    normal independent implementation validation.
 6. Correct or obtain an explicit Chief Architect disposition for every
    finding, then obtain Chief Architect approval for the exact pull request and

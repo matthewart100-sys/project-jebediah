@@ -17,6 +17,12 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added proposed Foundational
+  [ADR 0017](docs/adr/0017-project-coordination-and-independent-review-authority.md)
+  to supersede ADR 0005 after the incumbent transition review and Chief
+  Architect acceptance. It defines the capability-neutral Independent Reviewer
+  role, routine fresh read-only normal-chat review, optional risk-triggered Work
+  Mode, and unchanged exact-head Chief Architect authority.
 - Added Chief Architect decision `CA-2026-08-06-B1-ACTIVATION`, activating the
   bounded generated-synthetic-PDF custody milestone after this package merges
   and adopting independent read-only normal-chat review as the routine review
