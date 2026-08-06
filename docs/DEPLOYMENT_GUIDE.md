@@ -77,7 +77,7 @@ flowchart LR
      - `BONSAAI_ORGANIZATION_ID=virginia-b-andes`
    - Confirm runtime discovery values match the existing server:
      - `BONSAAI_QDRANT_URL=http://qdrant:6333`
-     - `BONSAAI_OLLAMA_URL=http://host.docker.internal:11434`
+     - `BONSAAI_OLLAMA_URL=http://ollama:11434` (override in `.env` if Ollama is reached through a host gateway endpoint)
      - `BONSAAI_MEMORY_API_URL=http://jebediah-memory:8000`
      - `BONSAAI_INTERACTION_API_URL=http://jebediah-interaction:8001`
      - `BONSAAI_INTERACTION_ADMISSION_PATH=/admission/submit`
@@ -138,7 +138,7 @@ Run from `~/project-jebediah/docker/production`:
    docker exec bonsaai-executive-shell python -c "import urllib.request; print('memory', urllib.request.urlopen('http://jebediah-memory:8000/health', timeout=8).status)"
    docker exec bonsaai-executive-shell python -c "import urllib.request; print('interaction', urllib.request.urlopen('http://jebediah-interaction:8001/health', timeout=8).status)"
    docker exec bonsaai-executive-shell python -c "import urllib.request; print('qdrant', urllib.request.urlopen('http://qdrant:6333/healthz', timeout=8).status)"
-   docker exec bonsaai-executive-shell python -c "import urllib.request; print('ollama', urllib.request.urlopen('http://host.docker.internal:11434/api/tags', timeout=8).status)"
+   docker exec bonsaai-executive-shell python -c "import os, urllib.request; base=os.environ.get('OLLAMA_URL','http://ollama:11434').rstrip('/'); print('ollama', urllib.request.urlopen(base + '/api/tags', timeout=8).status)"
    ```
 
    Expected: each command returns HTTP 200.

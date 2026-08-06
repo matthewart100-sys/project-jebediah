@@ -16,7 +16,7 @@ services:
       BONSAAI_INTERACTION_ADMISSION_PATH: ${BONSAAI_INTERACTION_ADMISSION_PATH:-/admission/submit}
       BONSAAI_INTERACTION_ASK_PATH: ${BONSAAI_INTERACTION_ASK_PATH:-/questions/ask}
       QDRANT_URL: ${BONSAAI_QDRANT_URL:-http://qdrant:6333}
-      OLLAMA_URL: ${BONSAAI_OLLAMA_URL:-http://host.docker.internal:11434}
+      OLLAMA_URL: ${BONSAAI_OLLAMA_URL:-http://ollama:11434}
       COLLECTION_NAME: ${COLLECTION_NAME:-jebediah_memory}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nomic-embed-text:v1.5}
       BONSAAI_WORKSPACE_MODE: ${BONSAAI_WORKSPACE_MODE:-production}
@@ -24,8 +24,6 @@ services:
       BONSAAI_ORGANIZATION_ID: ${BONSAAI_ORGANIZATION_ID:-virginia-b-andes}
     volumes:
       - bonsaai_runtime_data:/var/lib/bonsaai/runtime
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     healthcheck:
       test:
         [

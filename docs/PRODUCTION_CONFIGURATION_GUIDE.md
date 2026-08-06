@@ -17,7 +17,7 @@
 | `COLLECTION_NAME` | Qdrant collection for memory | `jebediah_memory` |
 | `EMBEDDING_MODEL` | Approved embedding model identity | `nomic-embed-text:v1.5` |
 | `BONSAAI_QDRANT_URL` | Existing Jebediah Qdrant endpoint on `jebediah_internal` | `http://qdrant:6333` |
-| `BONSAAI_OLLAMA_URL` | Existing Jebediah Ollama endpoint reachable from Executive Shell | `http://host.docker.internal:11434` |
+| `BONSAAI_OLLAMA_URL` | Existing Jebediah Ollama endpoint reachable from Executive Shell | `http://ollama:11434` |
 | `BONSAAI_MEMORY_API_URL` | Existing Jebediah memory API endpoint on `jebediah_internal` | `http://jebediah-memory:8000` |
 | `BONSAAI_INTERACTION_API_URL` | Existing Jebediah interaction API endpoint on `jebediah_internal` | `http://jebediah-interaction:8001` |
 | `BONSAAI_INTERACTION_ADMISSION_PATH` | Interaction API admission route path | `/admission/submit` |
@@ -34,8 +34,8 @@
 - Reverse proxy ingress runs on existing `jebediah_external`.
 - Qdrant, jebediah-memory, and jebediah-interaction are reused from the existing
   governed runtime network.
-- Ollama is reused through the configured endpoint (`BONSAAI_OLLAMA_URL`), which
-  defaults to host-gateway routing (`host.docker.internal`) for this deployment.
+- Ollama is reused through the configured endpoint (`BONSAAI_OLLAMA_URL`) and
+  may be overridden in deployment `.env` when host-gateway routing is required.
 - Executive runtime remains governed by existing admission/promotion/review
   boundaries.
 
