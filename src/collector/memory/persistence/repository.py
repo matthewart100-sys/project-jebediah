@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Mapping, Protocol, Sequence
+from typing import Protocol, Sequence
 
 from collector.embeddings import EmbeddingIdentity
 
@@ -36,7 +36,6 @@ class SemanticMemoryRepository(Protocol):
         query_vector: Sequence[float],
         embedding_identity: EmbeddingIdentity,
         limit: int,
-        metadata_filter: Mapping[str, str] | None = None,
     ) -> list[RetrievalCandidate]: ...
 
 

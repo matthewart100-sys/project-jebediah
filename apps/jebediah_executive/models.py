@@ -13,7 +13,7 @@ This module knows nothing about HTTP, files, networks, or rendering.
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 
@@ -175,22 +175,6 @@ class ActivityKind(str, Enum):
     KNOWLEDGE_STATUS_CHANGED = "knowledge_status_changed"
 
 
-class WorkspaceMode(str, Enum):
-    """Operational workspace profile mode."""
-
-    DEMONSTRATION = "demonstration"
-    DEVELOPMENT = "development"
-    PRODUCTION = "production"
-
-
-class WorkspaceBannerTone(str, Enum):
-    """Visual banner tone for persistent workspace labeling."""
-
-    BLUE = "blue"
-    ORANGE = "orange"
-    GREEN = "green"
-
-
 # ---------------------------------------------------------------------------
 # Permitted relationships and matrices
 # ---------------------------------------------------------------------------
@@ -225,7 +209,6 @@ WORKSPACE_KIND_STATES: dict[WorkspaceKind, frozenset[WorkspaceState]] = {
             WorkspaceState.REJECTED,
             WorkspaceState.HELD,
             WorkspaceState.EVALUATION_FAILED,
-            WorkspaceState.PROCESSING_FAILED,
             WorkspaceState.DELETED,
         }
     ),
@@ -417,140 +400,6 @@ def _require_sorted_unique(values: tuple[str, ...], field_name: str) -> tuple[st
 # ---------------------------------------------------------------------------
 # Supporting records
 # ---------------------------------------------------------------------------
-
-
-@dataclass(frozen=True)
-class OrganizationProfile:
-    """Configured organization metadata for workspace context."""
-
-    organization_id: str
-    name: str
-    description: str
-    theme: str
-    logo: str
-    knowledge_root: str
-    runtime_root: str
-    governance_policy: str
-
-    def __post_init__(self) -> None:
-        _require_text(self.organization_id, "organization_id")
-        _require_text(self.name, "organization_name")
-        _require_text(self.description, "organization_description")
-        _require_text(self.theme, "organization_theme")
-        _require_text(self.logo, "organization_logo")
-        _require_text(self.knowledge_root, "organization_knowledge_root")
-        _require_text(self.runtime_root, "organization_runtime_root")
-        _require_text(self.governance_policy, "organization_governance_policy")
-
-
-@dataclass(frozen=True)
-class WorkspaceContext:
-    """Operational workspace and organization selection context."""
-
-    mode: WorkspaceMode
-    banner_label: str
-    banner_tone: WorkspaceBannerTone
-    runtime_name: str
-    model_name: str
-    profile: OrganizationProfile
-    recent_organization_ids: tuple[str, ...]
-    available_organization_ids: tuple[str, ...]
-    available_workspace_modes: tuple[str, ...]
-    diagnostics_enabled: bool
-    demo_reset_available: bool
-    csrf_token: str = ""
-    auth_required: bool = False
-    authenticated: bool = False
-    authenticated_user_display: str = "anonymous"
-    authenticated_user_role: str = "viewer"
-    active_session_count: int = 0
-    locked_account_count: int = 0
-
-    @staticmethod
-    def demonstration_default() -> "WorkspaceContext":
-        return WorkspaceContext(
-            mode=WorkspaceMode.DEMONSTRATION,
-            banner_label="Demonstration Mode",
-            banner_tone=WorkspaceBannerTone.BLUE,
-            runtime_name="Synthetic demonstration runtime",
-            model_name="none",
-            profile=OrganizationProfile(
-                organization_id="demo-organization",
-                name="Demo Organization",
-                description="Synthetic organization for demonstrations and training.",
-                theme="Executive demonstration",
-                logo="DEMO",
-                knowledge_root="synthetic demo knowledge root",
-                runtime_root="synthetic demo runtime root",
-                governance_policy="Synthetic demo governance policy",
-            ),
-            recent_organization_ids=("demo-organization",),
-            available_organization_ids=("demo-organization",),
-            available_workspace_modes=(
-                WorkspaceMode.DEMONSTRATION.value,
-                WorkspaceMode.DEVELOPMENT.value,
-                WorkspaceMode.PRODUCTION.value,
-            ),
-            diagnostics_enabled=False,
-            demo_reset_available=True,
-            csrf_token="",
-            auth_required=False,
-            authenticated=False,
-            authenticated_user_display="anonymous",
-            authenticated_user_role="viewer",
-            active_session_count=0,
-            locked_account_count=0,
-        )
-
-    def __post_init__(self) -> None:
-        if not isinstance(self.mode, WorkspaceMode):
-            raise ContractError("workspace mode must be a WorkspaceMode")
-        _require_text(self.banner_label, "workspace_banner_label")
-        if not isinstance(self.banner_tone, WorkspaceBannerTone):
-            raise ContractError("workspace banner tone must be a WorkspaceBannerTone")
-        _require_text(self.runtime_name, "workspace_runtime_name")
-        _require_text(self.model_name, "workspace_model_name")
-        if not isinstance(self.profile, OrganizationProfile):
-            raise ContractError("workspace profile must be an OrganizationProfile")
-        _require_text_tuple(
-            self.recent_organization_ids, "workspace recent organization ids"
-        )
-        _require_text_tuple(
-            self.available_organization_ids, "workspace available organization ids"
-        )
-        _require_text_tuple(
-            self.available_workspace_modes, "workspace available mode ids"
-        )
-        if self.mode.value not in self.available_workspace_modes:
-            raise ContractError("workspace mode must exist in available workspace modes")
-        if self.profile.organization_id not in self.available_organization_ids:
-            raise ContractError(
-                "workspace profile organization_id must exist in available organizations"
-            )
-        if not isinstance(self.diagnostics_enabled, bool):
-            raise ContractError("workspace diagnostics_enabled must be a bool")
-        if not isinstance(self.demo_reset_available, bool):
-            raise ContractError("workspace demo_reset_available must be a bool")
-        if not isinstance(self.csrf_token, str):
-            raise ContractError("workspace csrf_token must be text")
-        if not isinstance(self.auth_required, bool):
-            raise ContractError("workspace auth_required must be a bool")
-        if not isinstance(self.authenticated, bool):
-            raise ContractError("workspace authenticated must be a bool")
-        _require_text(self.authenticated_user_display, "workspace user display")
-        _require_text(self.authenticated_user_role, "workspace user role")
-        if (
-            not isinstance(self.active_session_count, int)
-            or isinstance(self.active_session_count, bool)
-            or self.active_session_count < 0
-        ):
-            raise ContractError("workspace active_session_count must be non-negative int")
-        if (
-            not isinstance(self.locked_account_count, int)
-            or isinstance(self.locked_account_count, bool)
-            or self.locked_account_count < 0
-        ):
-            raise ContractError("workspace locked_account_count must be non-negative int")
 
 
 @dataclass(frozen=True)
@@ -1022,9 +871,6 @@ class ExecutiveBriefing:
     ask_responses: tuple[AskResponse, ...]
     summary_counts: SummaryCounts
     limitations: tuple[str, ...]
-    workspace_context: WorkspaceContext = field(
-        default_factory=WorkspaceContext.demonstration_default
-    )
 
     def __post_init__(self) -> None:
         _require_identity(self.briefing_id, "briefing_id")
@@ -1051,8 +897,6 @@ class ExecutiveBriefing:
         if not isinstance(self.ask_responses, tuple):
             raise ContractError("ask_responses must be a tuple")
         _require_text_tuple(self.limitations, "briefing limitations")
-        if not isinstance(self.workspace_context, WorkspaceContext):
-            raise ContractError("workspace_context must be a WorkspaceContext")
 
         self._validate_items()
         self._validate_workspace()

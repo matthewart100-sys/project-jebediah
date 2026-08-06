@@ -53,82 +53,6 @@ SYNTHETIC_RESOURCE_LIMITS = {
 
 
 @dataclass(frozen=True)
-class AuthorizationPolicy:
-    policy_id: str
-    policy_version: str
-    required_purpose: str
-    required_classification: str
-    required_operation: str
-    trusted_signer_key_ids: tuple[str, ...]
-    max_receipt_lifetime_seconds: int
-    requires_single_use: bool
-
-    def __post_init__(self) -> None:
-        expected = {
-            "policy_id": "synthetic-authorization-policy",
-            "policy_version": "1",
-            "required_purpose": "synthetic_document_admission",
-            "required_classification": "synthetic_non_sensitive",
-            "required_operation": "admit_synthetic_document",
-        }
-        for name, value in expected.items():
-            if getattr(self, name) != value:
-                raise _invalid(name)
-        signer_ids = _normalize_tuple(
-            self.trusted_signer_key_ids,
-            "trusted_signer_key_ids",
-            required=True,
-        )
-        if not all(
-            isinstance(signer_id, str) and signer_id.strip()
-            for signer_id in signer_ids
-        ):
-            raise _invalid("trusted_signer_key_ids")
-        object.__setattr__(self, "trusted_signer_key_ids", signer_ids)
-        _require_positive(
-            self.max_receipt_lifetime_seconds,
-            "max_receipt_lifetime_seconds",
-        )
-        if self.requires_single_use is not True:
-            raise _invalid("requires_single_use")
-
-
-@dataclass(frozen=True)
-class CustodyPolicy:
-    policy_id: str
-    policy_version: str
-    encryption_algorithm: str
-    header_version: int
-    key_derivation_id: str
-    required_object_kind: str
-    requires_authenticated_encryption: bool
-    allows_plaintext_persistence: bool
-    max_ciphertext_expansion_bytes: int
-
-    def __post_init__(self) -> None:
-        expected_strings = {
-            "policy_id": "synthetic-custody-policy",
-            "policy_version": "1",
-            "encryption_algorithm": "synthetic-xor-stream-v1",
-            "key_derivation_id": "synthetic-hkdf-sha256-v1",
-            "required_object_kind": "source",
-        }
-        for name, value in expected_strings.items():
-            if getattr(self, name) != value:
-                raise _invalid(name)
-        _require_positive(self.header_version, "header_version")
-        _require_non_empty(self.required_object_kind, "required_object_kind")
-        if self.requires_authenticated_encryption is not True:
-            raise _invalid("requires_authenticated_encryption")
-        if self.allows_plaintext_persistence is not False:
-            raise _invalid("allows_plaintext_persistence")
-        _require_positive(
-            self.max_ciphertext_expansion_bytes,
-            "max_ciphertext_expansion_bytes",
-        )
-
-
-@dataclass(frozen=True)
 class DigestPolicy:
     policy_id: str
     policy_version: str
@@ -509,33 +433,4 @@ def synthetic_inspection_policy() -> InspectionPolicy:
         required_output_kinds=SYNTHETIC_REQUIRED_OUTPUTS,
         resource_policy_id="synthetic-resource-limits",
         resource_policy_version="1",
-    )
-
-
-def synthetic_authorization_policy(
-    signer_key_ids: tuple[str, ...],
-) -> AuthorizationPolicy:
-    return AuthorizationPolicy(
-        policy_id="synthetic-authorization-policy",
-        policy_version="1",
-        required_purpose="synthetic_document_admission",
-        required_classification="synthetic_non_sensitive",
-        required_operation="admit_synthetic_document",
-        trusted_signer_key_ids=signer_key_ids,
-        max_receipt_lifetime_seconds=900,
-        requires_single_use=True,
-    )
-
-
-def synthetic_custody_policy() -> CustodyPolicy:
-    return CustodyPolicy(
-        policy_id="synthetic-custody-policy",
-        policy_version="1",
-        encryption_algorithm="synthetic-xor-stream-v1",
-        header_version=1,
-        key_derivation_id="synthetic-hkdf-sha256-v1",
-        required_object_kind="source",
-        requires_authenticated_encryption=True,
-        allows_plaintext_persistence=False,
-        max_ciphertext_expansion_bytes=128,
     )

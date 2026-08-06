@@ -1,1 +1,0 @@
-"""Canonical Jebediah interaction gateway."""

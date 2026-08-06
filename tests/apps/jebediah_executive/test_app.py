@@ -3,67 +3,31 @@
 These tests exercise the WSGI application end to end without binding a socket:
 method and query validation, security headers, HEAD mirroring, sanitized
 errors, cookie/session/persistence absence, Host/Origin neutrality, sanitized
-logging, executive workflow rendering, and bounded governed POST workflows.
+logging, the six executive workflows, and the failure-injection matrix.
 """
 
 from __future__ import annotations
 
 import io
 import logging
-from pathlib import Path
 import re
 import socket
-import tempfile
 import threading
 from wsgiref.simple_server import make_server
 
 import pytest
 
-from apps.jebediah_executive import app as executive_app
 from apps.jebediah_executive.app import (
     LOOPBACK_HOST,
     SanitizedRequestHandler,
     create_app,
     validate_port,
 )
-from apps.jebediah_executive.governed_provider import OperationalWorkspaceProvider
 from apps.jebediah_executive.fixtures import (
     SyntheticBriefingProvider,
     build_briefing,
 )
 from apps.jebediah_executive.models import ExecutiveBriefing
-
-
-def test_default_provider_falls_back_outside_canonical_mode(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.delenv("BONSAAI_CANONICAL_RUNTIME", raising=False)
-
-    def _raise(_cls):
-        raise RuntimeError("init failed")
-
-    monkeypatch.setattr(
-        OperationalWorkspaceProvider,
-        "create_default",
-        classmethod(_raise),
-    )
-
-    provider = executive_app._default_provider()
-    assert isinstance(provider, SyntheticBriefingProvider)
-
-
-def test_default_provider_fails_fast_in_canonical_mode(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("BONSAAI_CANONICAL_RUNTIME", "1")
-
-    def _raise(_cls):
-        raise RuntimeError("init failed")
-
-    monkeypatch.setattr(
-        OperationalWorkspaceProvider,
-        "create_default",
-        classmethod(_raise),
-    )
-
-    with pytest.raises(RuntimeError, match="canonical_runtime_provider_initialization_failed"):
-        executive_app._default_provider()
 
 
 class _ExplodingInput:
@@ -83,16 +47,7 @@ class Client:
     def __init__(self, app=None) -> None:
         self.app = app or create_app()
 
-    def request(
-        self,
-        method: str,
-        path: str,
-        query: str = "",
-        *,
-        body: bytes | None = None,
-        content_type: str = "application/x-www-form-urlencoded",
-        **extra: str,
-    ):
+    def request(self, method: str, path: str, query: str = "", **extra: str):
         captured: dict[str, object] = {}
 
         def start_response(status: str, headers):
@@ -103,15 +58,10 @@ class Client:
             "REQUEST_METHOD": method,
             "PATH_INFO": path,
             "QUERY_STRING": query,
+            "wsgi.input": _ExplodingInput(),
             "SERVER_NAME": "127.0.0.1",
             "SERVER_PORT": "8765",
         }
-        if body is None:
-            environ["wsgi.input"] = _ExplodingInput()
-        else:
-            environ["wsgi.input"] = io.BytesIO(body)
-            environ["CONTENT_TYPE"] = content_type
-            environ["CONTENT_LENGTH"] = str(len(body))
         environ.update(extra)
         body = b"".join(self.app(environ, start_response))
         headers = {k: v for k, v in captured["headers"]}
@@ -165,7 +115,7 @@ def test_security_headers_present_on_pages(client: Client) -> None:
     assert "default-src 'none'" in csp
     assert "style-src 'self'" in csp
     assert "base-uri 'none'" in csp
-    assert "form-action 'self'" in csp
+    assert "form-action 'none'" in csp
     assert "frame-ancestors 'none'" in csp
     for key, value in REQUIRED_SECURITY.items():
         assert headers[key] == value
@@ -246,23 +196,21 @@ def test_head_mirrors_get(client: Client) -> None:
 
 
 @pytest.mark.parametrize(
-    "method", ["PUT", "PATCH", "DELETE", "CONNECT", "OPTIONS", "TRACE"]
+    "method", ["POST", "PUT", "PATCH", "DELETE", "CONNECT", "OPTIONS", "TRACE"]
 )
 def test_unsupported_methods_405(client: Client, method: str) -> None:
     status, headers, _ = client.request(method, "/")
     assert status == "405 Method Not Allowed"
-    assert headers["Allow"] == "GET, HEAD, POST"
+    assert headers["Allow"] == "GET, HEAD"
 
 
-def test_get_request_body_never_read(client: Client) -> None:
-    # A GET must never read body content.
+def test_request_body_never_read(client: Client) -> None:
+    # _ExplodingInput raises if read; a POST must still return 405 cleanly.
+    status, _, _ = client.request("POST", "/attention")
+    assert status == "405 Method Not Allowed"
+    # A GET must also not read the body.
     status, _, _ = client.request("GET", "/", extra_env_ignored="")
     assert status == "200 OK"
-
-
-def test_post_unknown_route_is_404_with_interactive_provider(client: Client) -> None:
-    status, _, _ = client.request("POST", "/attention", body=b"")
-    assert status == "404 Not Found"
 
 
 # ---------------------------------------------------------------------------
@@ -321,7 +269,7 @@ def test_host_and_origin_do_not_affect_response(client: Client) -> None:
     assert b1 == b2
     assert h1 == h2
     # Product links remain relative.
-    assert b"href=\"/knowledge-manager\"" in b1
+    assert b"href=\"/attention\"" in b1
     assert b"href=\"https://" not in b1
     assert b"evil.example" not in b1
 
@@ -344,10 +292,10 @@ class _CountingProvider:
 def test_provider_is_consumed_once_during_app_initialization() -> None:
     provider = _CountingProvider()
     client = Client(create_app(provider))
-    assert provider.calls == 0
+    assert provider.calls == 1
     client.request("GET", "/")
     client.request("GET", "/attention")
-    assert provider.calls == 2
+    assert provider.calls == 1
 
 
 # ---------------------------------------------------------------------------
@@ -365,12 +313,12 @@ def test_logs_are_sanitized(client: Client, caplog: pytest.LogCaptureFixture) ->
     expected = (
         r"GET attention 200 \d+\.\d{3}ms",
         r"GET unrecognized 400 \d+\.\d{3}ms",
-        r"POST overview 404 \d+\.\d{3}ms",
+        r"unsupported overview 405 \d+\.\d{3}ms",
     )
     for pattern in expected:
         assert any(re.fullmatch(pattern, message) for message in messages), pattern
     joined = "\n".join(messages)
-    for leak in ("secret", "leak", "token", "abcd1234", "\x1b", "XXXXX"):
+    for leak in ("secret", "leak", "token", "abcd1234", "\x1b", "POST", "XXXXX"):
         assert leak not in joined
     assert all(len(message) < 80 for message in messages)
 
@@ -394,7 +342,7 @@ def test_internal_render_failure_is_sanitized_500() -> None:
     # A sanitized page is returned with the synthetic, no-action boundary and
     # no reflected internals.
     assert b"no organizational action is taken" in body
-    assert b"Governed runtime" in body
+    assert b"Synthetic demonstration" in body
     for landmark in (b"class=\"skip-link\"", b"<header", b"<nav", b"<footer"):
         assert landmark in body
 
@@ -448,7 +396,7 @@ def test_port_in_range_accepted(port: int) -> None:
 
 def test_workflow_executive_orientation(client: Client) -> None:
     _, _, overview = client.request("GET", "/")
-    assert b"Runtime status" in overview
+    assert b"Synthetic status" in overview
     assert b"Material limitations" in overview
     _, _, attention = client.request("GET", "/attention")
     # An attention item shows its separately linked next-item kind.
@@ -460,6 +408,8 @@ def test_workflow_executive_orientation(client: Client) -> None:
 def test_workflow_decision_preparation(client: Client) -> None:
     _, _, nxt = client.request("GET", "/next")
     assert b"Decision required" in nxt
+    assert b"Organizational gate" in nxt
+    assert b"Action candidate" in nxt
     assert b"Human authority required" in nxt
     # No execution control exists.
     for control in (b"<button", b"<form", b"<input"):
@@ -467,74 +417,26 @@ def test_workflow_decision_preparation(client: Client) -> None:
 
 
 def test_workflow_knowledge_boundary(client: Client) -> None:
-    _, _, knowledge = client.request("GET", "/organizational-memory")
+    _, _, knowledge = client.request("GET", "/knowledge")
     assert b"Knowledge gap" in knowledge or b"knowledge_gap" in knowledge
     _, _, board = client.request("GET", "/board")
     assert b"Missing information" in board
     assert b"Conflicting information" in board
     assert b"Stale information" in board
-    _, _, workspace = client.request("GET", "/knowledge-manager")
+    _, _, workspace = client.request("GET", "/workspace")
     assert b"lineage" in workspace.lower()
 
 
 def test_workflow_ask_boundary(client: Client) -> None:
-    _, _, index = client.request("GET", "/organizational-intelligence")
-    assert b"preset synthetic questions" in index
+    _, _, index = client.request("GET", "/ask")
+    for control in (b"<textarea", b"<input", b"<form"):
+        assert control not in index
     _, _, grounded = client.request("GET", "/ask/grounded-priorities")
-    assert b"State:" in grounded
+    assert b"Grounded" in grounded
     _, _, insufficient = client.request("GET", "/ask/insufficient-program-outcomes")
     assert b"No answer is fabricated" in insufficient
     _, _, failed = client.request("GET", "/ask/failed-source-review")
     assert b"Failed" in failed
-
-
-def test_workflow_admission_promotion_and_question_post_round_trip(client: Client) -> None:
-    provider = OperationalWorkspaceProvider(Path(tempfile.mkdtemp(prefix="workflow-runtime-test-")))
-    provider.select_workspace("development")
-    client = Client(create_app(provider))
-    boundary = "----bonsaai-test-boundary"
-    admit_body = (
-        f"--{boundary}\r\n"
-        "Content-Disposition: form-data; name=\"source_record_id\"\r\n\r\n"
-        "source-record-777\r\n"
-        f"--{boundary}\r\n"
-        "Content-Disposition: form-data; name=\"document_file\"; filename=\"report.txt\"\r\n"
-        "Content-Type: text/plain\r\n\r\n"
-        "Governance committee approved the reconciliation plan.\r\n"
-        f"--{boundary}--\r\n"
-    ).encode("utf-8")
-    admit_content_type = (
-        f"multipart/form-data; boundary={boundary}"
-    )
-    status, headers, _ = client.request(
-        "POST",
-        "/knowledge-manager/admit",
-        body=admit_body,
-        content_type=admit_content_type,
-    )
-    assert status == "303 See Other"
-    assert headers["Location"] == "/knowledge-manager"
-
-    status, headers, _ = client.request(
-        "POST",
-        "/knowledge-manager/promote-latest",
-        body=b"",
-    )
-    assert status == "303 See Other"
-    assert headers["Location"] == "/knowledge-manager"
-
-    ask_body = b"question=What+should+leadership+decide+next+based+on+approved+evidence%3F"
-    status, headers, _ = client.request(
-        "POST",
-        "/organizational-intelligence/ask",
-        body=ask_body,
-    )
-    assert status == "303 See Other"
-    assert headers["Location"] == "/organizational-intelligence"
-
-    _, _, grounded = client.request("GET", "/ask/grounded-priorities")
-    assert b"Grounded" in grounded
-    assert b"Evidence citation" in grounded
 
 
 def test_workflow_board_preparation(client: Client) -> None:
@@ -543,77 +445,6 @@ def test_workflow_board_preparation(client: Client) -> None:
         assert marker in board or marker.lower() in board.lower()
     # Print rules retain evidence and limitations (present in the CSS and body).
     assert b"Material limitations" in board
-
-
-def test_primary_navigation_exposes_unified_platform_sections(client: Client) -> None:
-    _, _, home = client.request("GET", "/")
-    for label in (
-        b"Executive Dashboard",
-        b"Knowledge Manager",
-        b"Organizational Intelligence",
-        b"Organizational Memory",
-        b"Governance",
-        b"Audit",
-        b"Administration",
-    ):
-        assert label in home
-
-
-def test_demonstration_mode_walkthrough_is_available(client: Client) -> None:
-    status, _, body = client.request("GET", "/demo")
-    assert status == "200 OK"
-    assert b"Guided executive walkthrough" in body
-    assert b"Document admission" in body
-    assert b"evidence-backed answer" in body.lower()
-
-
-def test_canonical_admission_failure_renders_without_http_500(
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    def _fail_submission(self, **kwargs):
-        del self, kwargs
-        raise RuntimeError("runtime_request_failed: interaction_admission")
-
-    monkeypatch.setenv("BONSAAI_CANONICAL_RUNTIME", "1")
-    monkeypatch.setattr(
-        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.submit_admission",
-        _fail_submission,
-    )
-    monkeypatch.setattr(
-        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.runtime_health",
-        lambda self: (),
-    )
-    provider = OperationalWorkspaceProvider(
-        Path(tempfile.mkdtemp(prefix="canonical-admission-failure-test-"))
-    )
-    provider.select_workspace("production")
-    client = Client(create_app(provider))
-    boundary = "----bonsaai-failure-boundary"
-    body = (
-        f"--{boundary}\r\n"
-        "Content-Disposition: form-data; name=\"source_record_id\"\r\n\r\n"
-        "source-record-failed\r\n"
-        f"--{boundary}\r\n"
-        "Content-Disposition: form-data; name=\"document_file\"; filename=\"failed.pdf\"\r\n"
-        "Content-Type: application/pdf\r\n\r\n"
-        "%PDF-1.4 synthetic\r\n"
-        f"--{boundary}--\r\n"
-    ).encode("utf-8")
-
-    status, headers, _ = client.request(
-        "POST",
-        "/knowledge-manager/admit",
-        body=body,
-        content_type=f"multipart/form-data; boundary={boundary}",
-    )
-    assert status == "303 See Other"
-    assert headers["Location"] == "/knowledge-manager"
-
-    status, _, page = client.request("GET", "/knowledge-manager")
-    assert status == "200 OK"
-    assert b"processing_failed" in page
-    assert b"runtime_request_failed: interaction_admission" in page
-    assert b"http://jebediah-interaction" not in page
 
 
 def test_workflow_failure_awareness(client: Client) -> None:
@@ -634,110 +465,4 @@ def test_workflow_failure_awareness(client: Client) -> None:
         status, _, detail = client.request("GET", f"/states/{state_id}")
         assert status == "200 OK", state_id
         assert b"no organizational action" in detail
-        assert b"Governed runtime" in detail
-
-
-def test_workspace_switch_and_organization_switch_round_trip() -> None:
-    provider = OperationalWorkspaceProvider(Path(tempfile.mkdtemp(prefix="workspace-app-test-")))
-    client = Client(create_app(provider))
-    status, headers, _ = client.request(
-        "POST",
-        "/workspace/select",
-        body=b"workspace_mode=development",
-    )
-    assert status == "303 See Other"
-    assert headers["Location"] == "/"
-    status, headers, _ = client.request(
-        "POST",
-        "/workspace/select-organization",
-        body=b"organization_id=virginia-b-andes",
-    )
-    assert status == "303 See Other"
-    assert headers["Location"] == "/"
-    _, _, body = client.request("GET", "/")
-    assert b"Development Environment" in body
-    assert b"Virginia B. Andes" in body
-
-
-def test_demo_reset_route_returns_redirect() -> None:
-    provider = OperationalWorkspaceProvider(Path(tempfile.mkdtemp(prefix="workspace-app-test-")))
-    client = Client(create_app(provider))
-    status, headers, _ = client.request(
-        "POST",
-        "/workspace/reset-demo",
-        body=b"",
-    )
-    assert status == "303 See Other"
-    assert headers["Location"] == "/demo"
-
-
-def test_auth_required_redirects_to_login(
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    monkeypatch.setenv("BONSAAI_REQUIRE_AUTH", "1")
-    monkeypatch.setenv("BONSAAI_ALLOW_DEMO_ANONYMOUS", "0")
-    monkeypatch.setenv("BONSAAI_BOOTSTRAP_ADMIN_EMAIL", "admin@example.com")
-    monkeypatch.setenv("BONSAAI_BOOTSTRAP_ADMIN_PASSWORD", "AdminPassword!234")
-    monkeypatch.setenv(
-        "JEBEDIAH_RUNTIME_ROOT", tempfile.mkdtemp(prefix="auth-required-runtime-")
-    )
-    client = Client(create_app())
-    status, headers, _ = client.request("GET", "/")
-    assert status == "303 See Other"
-    assert headers["Location"] == "/login"
-
-
-def test_login_sets_cookie_and_can_reach_dashboard(
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    monkeypatch.setenv("BONSAAI_REQUIRE_AUTH", "1")
-    monkeypatch.setenv("BONSAAI_BOOTSTRAP_ADMIN_EMAIL", "admin@example.com")
-    monkeypatch.setenv("BONSAAI_BOOTSTRAP_ADMIN_PASSWORD", "AdminPassword!234")
-    monkeypatch.setenv("BONSAAI_ALLOW_DEMO_ANONYMOUS", "0")
-    monkeypatch.setenv(
-        "JEBEDIAH_RUNTIME_ROOT", tempfile.mkdtemp(prefix="auth-login-runtime-")
-    )
-    client = Client(create_app())
-    body = b"email=admin%40example.com&password=AdminPassword%21234"
-    status, headers, _ = client.request("POST", "/login", body=body)
-    assert status == "303 See Other"
-    assert headers["Location"] == "/"
-    cookie = headers.get("Set-Cookie", "")
-    assert "bonsaai_session=" in cookie
-    session_value = cookie.split(";", 1)[0]
-    status, _, body = client.request("GET", "/", HTTP_COOKIE=session_value)
-    assert status == "200 OK"
-    assert b"Signed in as" in body
-
-
-def test_logout_requires_csrf_and_clears_cookie(
-    monkeypatch: pytest.MonkeyPatch,
-) -> None:
-    monkeypatch.setenv("BONSAAI_REQUIRE_AUTH", "1")
-    monkeypatch.setenv("BONSAAI_BOOTSTRAP_ADMIN_EMAIL", "admin@example.com")
-    monkeypatch.setenv("BONSAAI_BOOTSTRAP_ADMIN_PASSWORD", "AdminPassword!234")
-    monkeypatch.setenv(
-        "JEBEDIAH_RUNTIME_ROOT", tempfile.mkdtemp(prefix="auth-logout-runtime-")
-    )
-    client = Client(create_app())
-    login_body = b"email=admin%40example.com&password=AdminPassword%21234"
-    _, login_headers, _ = client.request("POST", "/login", body=login_body)
-    cookie = login_headers["Set-Cookie"].split(";", 1)[0]
-    _, _, dashboard = client.request("GET", "/", HTTP_COOKIE=cookie)
-    match = re.search(rb'name="csrf_token" value="([^"]+)"', dashboard)
-    assert match is not None
-    csrf_token = match.group(1).decode("utf-8")
-
-    status, _, _ = client.request("POST", "/logout", body=b"", HTTP_COOKIE=cookie)
-    assert status == "400 Bad Request"
-
-    logout_body = f"csrf_token={csrf_token}".encode("utf-8")
-    status, headers, _ = client.request(
-        "POST",
-        "/logout",
-        body=logout_body,
-        HTTP_COOKIE=cookie,
-    )
-    assert status == "303 See Other"
-    assert headers["Location"] == "/login"
-    assert "Max-Age=0" in headers["Set-Cookie"]
+        assert b"Synthetic demonstration" in detail
