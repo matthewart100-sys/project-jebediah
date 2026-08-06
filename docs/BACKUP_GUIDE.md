@@ -13,11 +13,15 @@ service continuity.
 
 Generated outputs:
 
-- `qdrant_snapshot_response.json`
 - `runtime_data.tar.gz`
-- `qdrant_storage.tar.gz`
 - `caddy_data.tar.gz`
-- `ollama_models.txt`
+- `caddy_config.tar.gz`
+- `compose_services.txt`
+
+The backup covers only Bonsaai-owned overlay state. Existing canonical runtime
+dependencies such as Qdrant, Ollama, `jebediah-memory`, and
+`jebediah-interaction` must be backed up through their own approved runtime
+procedures.
 
 ## Recommended schedule
 
@@ -31,5 +35,6 @@ After each backup:
 
 1. Confirm backup directory exists with timestamp.
 2. Confirm `runtime_data.tar.gz` is present and non-empty.
-3. Confirm `qdrant_storage.tar.gz` and `caddy_data.tar.gz` are present.
-4. Confirm snapshot response contains HTTP success payload.
+3. Confirm `caddy_data.tar.gz` and `caddy_config.tar.gz` are present.
+4. Confirm `compose_services.txt` contains exactly `executive-shell` and
+   `reverse-proxy`.

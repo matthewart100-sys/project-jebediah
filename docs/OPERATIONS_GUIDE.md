@@ -5,10 +5,10 @@
 From `docker/production`:
 
 ```bash
-docker-compose up -d
-docker-compose down
-docker-compose restart executive-shell reverse-proxy
-docker-compose ps
+docker compose up -d
+docker compose down
+docker compose restart executive-shell reverse-proxy
+docker compose ps
 ```
 
 ## Health and status checks
@@ -16,22 +16,27 @@ docker-compose ps
 ```bash
 curl -k https://bonsaai.local/healthz
 curl -k https://bonsaai.local/health
-docker-compose ps
-docker-compose logs --tail=200 executive-shell
-docker-compose logs --tail=200 memory-runtime
+docker compose ps
+docker compose logs --tail=200 executive-shell
+docker exec bonsaai-executive-shell python -c "import urllib.request; print('memory', urllib.request.urlopen('http://jebediah-memory:8000/health', timeout=8).status)"
+docker exec bonsaai-executive-shell python -c "import urllib.request; print('interaction', urllib.request.urlopen('http://jebediah-interaction:8001/health', timeout=8).status)"
+docker exec bonsaai-executive-shell python -c "import urllib.request; print('qdrant', urllib.request.urlopen('http://qdrant:6333/healthz', timeout=8).status)"
+docker exec bonsaai-executive-shell python -c "import os, urllib.request; base=os.environ.get('OLLAMA_URL', 'http://ollama:11434').rstrip('/'); print('ollama', urllib.request.urlopen(base + '/api/tags', timeout=8).status)"
 ```
 
 Expected healthy state:
 
 - `reverse-proxy`: running
 - `executive-shell`: healthy
-- `memory-runtime`: healthy
-- `qdrant`: healthy
-- `ollama`: running/ready
+- Existing runtime dependencies reachable from `executive-shell`:
+  - `jebediah-memory`: HTTP 200
+  - `jebediah-interaction`: HTTP 200
+  - `qdrant`: HTTP 200
+  - `ollama`: HTTP 200
 
 ## Logging
 
-- Container logs are available via `docker-compose logs`.
+- Container logs are available via `docker compose logs`.
 - Persist operational incidents in tracked issue/PR artifacts (not ad-hoc chat).
 
 ## Resource and capacity checks
@@ -47,12 +52,13 @@ docker system df
 2. Executive shell health (`/health`).
 3. Qdrant health and storage.
 4. Ollama readiness/model availability.
-5. Memory runtime logs for retrieval/store failures.
+5. Existing canonical runtime dependency health from the Executive Shell
+   container context.
 
 ## Controlled shutdown
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 Use controlled shutdown before host reboots whenever possible.

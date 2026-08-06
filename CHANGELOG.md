@@ -189,6 +189,13 @@ development. Changes not assigned to a published version remain under
   risks, validation, and acceptance criteria without defining JCS; opened
   Milestone C1 for a proposed specification and proposed ADRs only.
 
+### Fixed
+
+- Fixed the production operations scripts and runbooks to match the current
+  overlay compose topology by removing stale `memory-runtime`/runtime-volume
+  assumptions, backing up and restoring the Bonsaai-owned Caddy config volume,
+  and supporting both `docker compose` and `docker-compose` CLIs.
+
 ### Changed
 
 - Updated the default Executive Shell provider in

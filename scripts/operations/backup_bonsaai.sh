@@ -7,17 +7,17 @@ COMPOSE_FILE="${REPO_ROOT}/docker/production/docker-compose.yml"
 TIMESTAMP="$(date -u +%Y%m%dT%H%M%SZ)"
 BACKUP_ROOT="${1:-${REPO_ROOT}/backups}"
 TARGET_DIR="${BACKUP_ROOT}/${TIMESTAMP}"
-COLLECTION="${COLLECTION_NAME:-jebediah_memory}"
+
+if docker compose version >/dev/null 2>&1; then
+  COMPOSE_CMD=(docker compose)
+elif command -v docker-compose >/dev/null 2>&1; then
+  COMPOSE_CMD=(docker-compose)
+else
+  echo "Docker Compose CLI not found. Install 'docker compose' or 'docker-compose'."
+  exit 1
+fi
 
 mkdir -p "${TARGET_DIR}"
-
-echo "Creating Qdrant snapshot..."
-docker-compose -f "${COMPOSE_FILE}" exec -T memory-runtime \
-  python -c "import json, urllib.request; \
-request = urllib.request.Request('http://qdrant:6333/collections/${COLLECTION}/snapshots', method='POST'); \
-response = urllib.request.urlopen(request, timeout=30); \
-print(json.dumps(json.loads(response.read().decode('utf-8')), indent=2))" \
-  > "${TARGET_DIR}/qdrant_snapshot_response.json"
 
 echo "Exporting runtime volume archive..."
 docker run --rm \
@@ -26,13 +26,6 @@ docker run --rm \
   alpine:3.22 \
   tar -czf /backup/runtime_data.tar.gz -C /data .
 
-echo "Exporting Qdrant volume archive..."
-docker run --rm \
-  -v bonsaai_qdrant_storage:/data:ro \
-  -v "${TARGET_DIR}:/backup" \
-  alpine:3.22 \
-  tar -czf /backup/qdrant_storage.tar.gz -C /data .
-
 echo "Exporting reverse-proxy certificate volume..."
 docker run --rm \
   -v bonsaai_caddy_data:/data:ro \
@@ -40,8 +33,15 @@ docker run --rm \
   alpine:3.22 \
   tar -czf /backup/caddy_data.tar.gz -C /data .
 
-echo "Exporting Ollama model metadata..."
-docker-compose -f "${COMPOSE_FILE}" exec -T ollama ollama list \
-  > "${TARGET_DIR}/ollama_models.txt"
+echo "Exporting reverse-proxy configuration volume..."
+docker run --rm \
+  -v bonsaai_caddy_config:/data:ro \
+  -v "${TARGET_DIR}:/backup" \
+  alpine:3.22 \
+  tar -czf /backup/caddy_config.tar.gz -C /data .
+
+echo "Recording overlay service topology..."
+"${COMPOSE_CMD[@]}" -f "${COMPOSE_FILE}" config --services \
+  > "${TARGET_DIR}/compose_services.txt"
 
 echo "Backup completed: ${TARGET_DIR}"

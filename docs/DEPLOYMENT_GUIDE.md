@@ -172,7 +172,7 @@ Requires=docker.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-WorkingDirectory=/home/cryptids/project-jebediah/docker/production
+WorkingDirectory=/home/<operator>/project-jebediah/docker/production
 ExecStart=/usr/bin/docker compose up -d
 ExecStop=/usr/bin/docker compose down
 TimeoutStartSec=300

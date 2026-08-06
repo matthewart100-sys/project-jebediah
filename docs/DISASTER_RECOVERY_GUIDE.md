@@ -14,6 +14,10 @@
 
 ## Restore sequence
 
+This guide restores only the Bonsaai overlay. Existing canonical runtime
+dependencies (`qdrant`, `jebediah-memory`, `jebediah-interaction`, and Ollama)
+must already be recovered and healthy through their own approved restore path.
+
 1. Rebuild deployment baseline:
 
    ```bash
@@ -43,3 +47,5 @@
 - Organizational Intelligence ask flow returns evidence-backed or
   insufficient-evidence outcomes.
 - Audit timeline remains visible.
+- Existing runtime dependency health remains HTTP 200 from the Executive Shell
+  network context.
