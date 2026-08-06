@@ -436,11 +436,22 @@ def create_app(
 
 
 def _default_provider() -> BriefingProvider:
+    canonical_runtime_required = (
+        os.getenv("BONSAAI_CANONICAL_RUNTIME", "").strip().lower()
+        in {"1", "true", "yes", "on"}
+    )
     try:
         from .governed_provider import OperationalWorkspaceProvider
 
         return OperationalWorkspaceProvider.create_default()
-    except Exception:  # noqa: BLE001
+    except Exception as error:  # noqa: BLE001
+        if canonical_runtime_required:
+            logger.exception(
+                "governed provider initialization failed in canonical runtime mode"
+            )
+            raise RuntimeError(
+                "canonical_runtime_provider_initialization_failed"
+            ) from error
         logger.error("governed provider initialization failed; falling back to synthetic")
         return SyntheticBriefingProvider()
 

@@ -19,6 +19,7 @@ from wsgiref.simple_server import make_server
 
 import pytest
 
+from apps.jebediah_executive import app as executive_app
 from apps.jebediah_executive.app import (
     LOOPBACK_HOST,
     SanitizedRequestHandler,
@@ -31,6 +32,38 @@ from apps.jebediah_executive.fixtures import (
     build_briefing,
 )
 from apps.jebediah_executive.models import ExecutiveBriefing
+
+
+def test_default_provider_falls_back_outside_canonical_mode(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("BONSAAI_CANONICAL_RUNTIME", raising=False)
+
+    def _raise(_cls):
+        raise RuntimeError("init failed")
+
+    monkeypatch.setattr(
+        OperationalWorkspaceProvider,
+        "create_default",
+        classmethod(_raise),
+    )
+
+    provider = executive_app._default_provider()
+    assert isinstance(provider, SyntheticBriefingProvider)
+
+
+def test_default_provider_fails_fast_in_canonical_mode(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("BONSAAI_CANONICAL_RUNTIME", "1")
+
+    def _raise(_cls):
+        raise RuntimeError("init failed")
+
+    monkeypatch.setattr(
+        OperationalWorkspaceProvider,
+        "create_default",
+        classmethod(_raise),
+    )
+
+    with pytest.raises(RuntimeError, match="canonical_runtime_provider_initialization_failed"):
+        executive_app._default_provider()
 
 
 class _ExplodingInput:
