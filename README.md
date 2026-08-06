@@ -8,11 +8,13 @@ The **Project Genesis (Phase 0)** engineering foundation is complete and
 published as [`v0.1.0`](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0).
 JCS definition was deferred after Milestone C1. The repository now contains a
 bounded Collector and semantic memory implementation plus the accepted
-synthetic Executive Product Shell. Pull request #60 added broader runtime and
-deployment artifacts, but Chief Architect decision
+synthetic Executive Product Shell. The B0 review branch removes the broader
+runtime and deployment artifacts added by pull request #60 through a normal
+revert while retaining Chief Architect decision
 [`CA-2026-08-06-P3B-RECONCILIATION`](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
-classifies that implementation as architecturally nonconforming and not
-accepted as conforming or operational. No implementation, deployment,
+which classifies that implementation as architecturally nonconforming and not
+accepted as conforming or operational. The recovery is not canonical before
+review and merge. No implementation, deployment,
 real-document, model, retrieval, workspace, or public-exposure authority is
 active.
 

@@ -18,12 +18,17 @@ development. Changes not assigned to a published version remain under
 ### Added
 
 - Added the
+  [Master Execution Framework](docs/governance/JEBEDIAH_MASTER_EXECUTION_FRAMEWORK.md)
+  for bounded milestone execution, exact-head review, controlled merge,
+  separate deployment and information-use authority, and mandatory stops.
+- Added the
   [Chief Architect Phase 3B Reconciliation Decision](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md),
   preserving strategic direction and Accepted ADR 0016 while recording no
   active implementation authority, the revised B0-O1 milestone sequence, pull
   requests #59 and #60 as audit/salvage evidence, future ADR gates, and the
   planned-but-unauthorized-and-unexecuted normal revert of
   `991929beb6026511e07b6cb7954e1c9e400b9cb5`.
+
 - Added an Operational Workspace model in
   `apps.jebediah_executive.governed_provider` with persistent workspace and
   organization selection across `demonstration`, `development`, and
@@ -224,6 +229,10 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Proposed B0 recovery restores the reviewed pre-PR60 implementation baseline
+  through a normal revert while retaining the reconciliation decision and pull
+  requests #59 and #60 as audit and salvage evidence. No runtime, deployment,
+  real-information, or later-milestone authority is included.
 - Canonicalized current status after the Chief Architect classified pull
   request #60 as strategically aligned but architecturally nonconforming and
   not accepted. The Phase 3B Completion Directive is Superseded, the prior

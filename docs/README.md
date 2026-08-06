@@ -65,6 +65,9 @@ searchable, linkable, and version controlled.
 - [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
   defines permanent role authority, mandatory engineering gates, handoff
   packets, and coordination evidence labels.
+- [Master Execution Framework](governance/JEBEDIAH_MASTER_EXECUTION_FRAMEWORK.md)
+  defines the reusable milestone workflow, stop conditions, and role
+  boundaries without authorizing any milestone.
 - [Chief Architect Phase 3B Reconciliation Decision](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
   records `CA-2026-08-06-P3B-RECONCILIATION`, the inactive implementation
   authority, revised milestone sequence, pull-request preservation, ADR impact,

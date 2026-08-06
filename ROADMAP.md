@@ -225,7 +225,7 @@ roadmap phase.
 
 | Milestone | Focus | Current status |
 | --- | --- | --- |
-| B0 - Canonical recovery | Durable reconciliation, exact-head review, merge decision, and separately decided future revert | Documentation canonicalization only |
+| B0 - Canonical recovery | Restore the reviewed pre-PR60 implementation baseline while retaining reconciliation authority | Proposed recovery complete on review branch; merge unauthorized pending review |
 | B1 - Synthetic custody foundation | Bounded synthetic custody | Future; unauthorized |
 | B2 - Isolated PDF inspection and review | Synthetic PDF isolation and human review | Future; unauthorized |
 | B3 - Lifecycle and recovery readiness | Retention, deletion, hold, backup, restore, and recovery | Future; unauthorized |
