@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import tempfile
 from pathlib import Path
+import json
 
 import pytest
 
@@ -9,7 +10,12 @@ from apps.jebediah_executive.governed_provider import (
     GovernedRuntimeBriefingProvider,
     OperationalWorkspaceProvider,
 )
-from apps.jebediah_executive.models import AskState, WorkspaceKind, WorkspaceState
+from apps.jebediah_executive.models import (
+    AskState,
+    WorkspaceKind,
+    WorkspaceMode,
+    WorkspaceState,
+)
 
 
 def _provider() -> GovernedRuntimeBriefingProvider:
@@ -97,3 +103,78 @@ def test_workspace_provider_blocks_live_mutation_in_demo_mode() -> None:
     provider = OperationalWorkspaceProvider(runtime_dir)
     with pytest.raises(RuntimeError):
         provider.admit_document("Synthetic text", "source-record-001")
+
+
+def test_governed_provider_canonical_runtime_mode_uses_external_services(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class _FakeResponse:
+        def __init__(self, payload: dict[str, object]) -> None:
+            self._bytes = json.dumps(payload).encode("utf-8")
+
+        def read(self) -> bytes:
+            return self._bytes
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    def _fake_urlopen(request, timeout=0):
+        del timeout
+        url = request.full_url
+        method = request.get_method()
+        if url.endswith("/admission/submit") and method == "POST":
+            return _FakeResponse(
+                {
+                    "state": "review_pending",
+                    "candidate_id": "candidate-001",
+                    "reason": "admitted",
+                }
+            )
+        if url.endswith("/questions/ask") and method == "POST":
+            return _FakeResponse(
+                {
+                    "state": "grounded",
+                    "statement": "Leadership should prioritize grant closeout.",
+                    "trace_id": "trace-001",
+                    "recommended_decision": "Proceed with documented reviewer approval.",
+                }
+            )
+        if url.endswith("/memory/context") and method == "POST":
+            return _FakeResponse(
+                {
+                    "memories": [
+                        {"metadata": {"source_record_id": "source-record-009"}},
+                    ]
+                }
+            )
+        if url.endswith("/health") or url.endswith("/healthz") or url.endswith("/api/tags"):
+            return _FakeResponse({"status": "online"})
+        raise AssertionError(f"unexpected request: {method} {url}")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        Path(tempfile.mkdtemp(prefix="gov-provider-canonical-test-")),
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+    provider.admit_submission(
+        payload=b"Board approved governance closeout package.",
+        source_record_id="source-record-009",
+        file_name="board-update.txt",
+        media_type="text/plain",
+    )
+    provider.ask_question("What decision should leadership make next?")
+    briefing = provider.briefing()
+    grounded = briefing.ask_response("grounded-priorities")
+    assert grounded.state is AskState.GROUNDED
+    assert grounded.source_references
+    assert any(
+        record.record_id.startswith("demo-runtime-") for record in briefing.workspace_records
+    )

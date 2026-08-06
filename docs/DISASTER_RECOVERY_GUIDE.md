@@ -17,9 +17,9 @@
 1. Rebuild deployment baseline:
 
    ```bash
-   cd /opt/project-jebediah/docker/production
+   cd ~/project-jebediah/docker/production
    cp .env.example .env
-   docker-compose up -d --build
+   docker compose up -d --build
    ```
 
 2. Restore runtime data:
@@ -31,7 +31,7 @@
 3. Validate:
 
    ```bash
-   docker-compose ps
+   docker compose ps
    curl -k https://bonsaai.local/healthz
    curl -k https://bonsaai.local/health
    ```

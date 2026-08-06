@@ -168,6 +168,11 @@ def test_imports_are_stdlib_or_package_local(path: Path) -> None:
                 if root == "collector":
                     assert path.name == "governed_provider.py", f"{path.name}: {alias.name}"
                     continue
+                if root == "urllib" and path.name == "governed_provider.py":
+                    assert alias.name in {"urllib.request", "urllib.error"}, (
+                        f"{path.name}: {alias.name}"
+                    )
+                    continue
                 assert root not in FORBIDDEN_IMPORT_ROOTS, f"{path.name}: {alias.name}"
                 assert root in stdlib or root == "apps", f"{path.name}: {alias.name}"
         elif isinstance(node, ast.ImportFrom):
@@ -177,6 +182,9 @@ def test_imports_are_stdlib_or_package_local(path: Path) -> None:
             root = module.split(".")[0]
             if module == "urllib.parse":
                 assert path.name == "app.py", f"{path.name}: {module}"
+                continue
+            if module in {"urllib.request", "urllib.error"}:
+                assert path.name == "governed_provider.py", f"{path.name}: {module}"
                 continue
             if root == "collector":
                 assert path.name == "governed_provider.py", f"{path.name}: {module}"

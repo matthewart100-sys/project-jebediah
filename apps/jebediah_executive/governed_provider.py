@@ -7,6 +7,7 @@ providers for operational pages.
 
 from __future__ import annotations
 
+import base64
 from dataclasses import dataclass, replace
 from datetime import datetime, timedelta, timezone
 import hashlib
@@ -16,6 +17,8 @@ import os
 from pathlib import Path
 import tempfile
 from typing import Any
+import urllib.error
+import urllib.request
 
 from collector.document_admission import (
     DocumentFormat,
@@ -140,6 +143,186 @@ class _QuestionRuntimeResult:
     insufficient_reason: str | None = None
 
 
+@dataclass(frozen=True)
+class _ExternalAskAnswer:
+    state: AnswerState
+    statement: str | None
+
+
+@dataclass(frozen=True)
+class _RuntimeServiceStatus:
+    service: str
+    state: str
+    detail: str
+    observed_at: datetime
+
+
+class _CanonicalRuntimeClient:
+    """HTTP client for existing canonical governed runtime services."""
+
+    def __init__(self) -> None:
+        self._interaction_base_url = (
+            os.getenv("BONSAAI_INTERACTION_API_URL", "").strip()
+            or "http://jebediah-interaction:8000"
+        ).rstrip("/")
+        self._memory_base_url = (
+            os.getenv("BONSAAI_MEMORY_API_URL", "").strip()
+            or "http://jebediah-memory:8000"
+        ).rstrip("/")
+        self._qdrant_url = (
+            os.getenv("QDRANT_URL", "").strip()
+            or os.getenv("BONSAAI_QDRANT_URL", "").strip()
+            or "http://qdrant:6333"
+        ).rstrip("/")
+        self._ollama_url = (
+            os.getenv("OLLAMA_URL", "").strip()
+            or os.getenv("BONSAAI_OLLAMA_URL", "").strip()
+            or "http://ollama:11434"
+        ).rstrip("/")
+        self._timeout_seconds = 10
+
+    def _url(self, base: str, path_env: str, default_path: str) -> str:
+        raw = os.getenv(path_env, "").strip()
+        path = raw if raw else default_path
+        if not path.startswith("/"):
+            path = f"/{path}"
+        return f"{base}{path}"
+
+    def _request_json(
+        self,
+        *,
+        method: str,
+        url: str,
+        payload: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        data: bytes | None = None
+        headers: dict[str, str] = {"Accept": "application/json"}
+        if payload is not None:
+            data = json.dumps(payload).encode("utf-8")
+            headers["Content-Type"] = "application/json"
+        request = urllib.request.Request(
+            url=url,
+            data=data,
+            headers=headers,
+            method=method,
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=self._timeout_seconds) as response:
+                body = response.read()
+        except (urllib.error.URLError, TimeoutError, ValueError) as error:
+            raise RuntimeError(f"runtime_request_failed: {url}") from error
+        if not body:
+            return {}
+        try:
+            decoded = json.loads(body.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as error:
+            raise RuntimeError(f"runtime_response_invalid_json: {url}") from error
+        if not isinstance(decoded, dict):
+            raise RuntimeError(f"runtime_response_invalid_shape: {url}")
+        return decoded
+
+    def runtime_health(self) -> tuple[_RuntimeServiceStatus, ...]:
+        checks: list[tuple[str, str]] = [
+            ("interaction", self._url(self._interaction_base_url, "BONSAAI_INTERACTION_HEALTH_PATH", "/health")),
+            ("memory", self._url(self._memory_base_url, "BONSAAI_MEMORY_HEALTH_PATH", "/health")),
+            ("qdrant", f"{self._qdrant_url}/healthz"),
+            ("ollama", f"{self._ollama_url}/api/tags"),
+        ]
+        statuses: list[_RuntimeServiceStatus] = []
+        observed = _now()
+        for service_name, url in checks:
+            try:
+                payload = self._request_json(method="GET", url=url)
+                detail = str(payload.get("status", "online")).strip() or "online"
+                statuses.append(
+                    _RuntimeServiceStatus(
+                        service=service_name,
+                        state="ready",
+                        detail=detail,
+                        observed_at=observed,
+                    )
+                )
+            except RuntimeError:
+                statuses.append(
+                    _RuntimeServiceStatus(
+                        service=service_name,
+                        state="unavailable",
+                        detail="connection_failed",
+                        observed_at=observed,
+                    )
+                )
+        return tuple(statuses)
+
+    def submit_admission(
+        self,
+        *,
+        source_record_id: str,
+        file_name: str,
+        media_type: str,
+        payload_b64: str,
+        byte_count: int,
+        workspace_mode: str,
+        organization_id: str,
+    ) -> dict[str, Any]:
+        url = self._url(
+            self._interaction_base_url,
+            "BONSAAI_INTERACTION_ADMISSION_PATH",
+            "/admission/submit",
+        )
+        return self._request_json(
+            method="POST",
+            url=url,
+            payload={
+                "source_record_id": source_record_id,
+                "file_name": file_name,
+                "media_type": media_type,
+                "payload_base64": payload_b64,
+                "byte_count": byte_count,
+                "workspace_mode": workspace_mode,
+                "organization_id": organization_id,
+            },
+        )
+
+    def ask_question(
+        self,
+        *,
+        question: str,
+        workspace_mode: str,
+        organization_id: str,
+    ) -> dict[str, Any]:
+        url = self._url(
+            self._interaction_base_url,
+            "BONSAAI_INTERACTION_ASK_PATH",
+            "/questions/ask",
+        )
+        return self._request_json(
+            method="POST",
+            url=url,
+            payload={
+                "question": question,
+                "workspace_mode": workspace_mode,
+                "organization_id": organization_id,
+            },
+        )
+
+    def memory_context(self, *, question: str) -> dict[str, Any]:
+        url = self._url(
+            self._memory_base_url,
+            "BONSAAI_MEMORY_CONTEXT_PATH",
+            "/memory/context",
+        )
+        return self._request_json(
+            method="POST",
+            url=url,
+            payload={
+                "source_identity": "executive-shell",
+                "content": question,
+                "memory_type": "context",
+                "importance": 0.7,
+            },
+        )
+
+
 class _DeterministicEmbeddingProvider:
     """Deterministic in-process embedding fallback for disconnected runtimes."""
 
@@ -244,49 +427,74 @@ class GovernedRuntimeBriefingProvider:
         *,
         qdrant_enabled: bool | None = None,
         collection_name: str | None = None,
+        canonical_runtime: bool | None = None,
+        organization_id: str = "demo-organization",
+        workspace_mode: WorkspaceMode = WorkspaceMode.PRODUCTION,
     ) -> None:
-        master_key = generate_master_key()
-        audit_key = derive_audit_key(master_key, generate_salt())
         self._runtime_directory = runtime_directory
         self._qdrant_enabled = qdrant_enabled
         self._collection_name = collection_name
-        self._repository = SqliteDurableRepository(
-            runtime_directory=runtime_directory,
-            master_key=master_key,
-            audit_key=audit_key,
-            custody_policy=synthetic_custody_policy(),
+        self._organization_id = organization_id
+        self._workspace_mode = workspace_mode
+        self._canonical_runtime_enabled = (
+            canonical_runtime
+            if canonical_runtime is not None
+            else os.getenv("BONSAAI_CANONICAL_RUNTIME", "").strip().lower()
+            in {"1", "true", "yes"}
         )
-        signer_key = generate_synthetic_signing_key()
+        self._runtime_client = (
+            _CanonicalRuntimeClient() if self._canonical_runtime_enabled else None
+        )
+        self._repository: SqliteDurableRepository | None = None
+        self._runtime: DocumentCustodyRuntime | None = None
+        self._bridge: Phase3CBridge | None = None
+        self._signer_key = None
         self._signer_id = "synthetic-governed-signer"
-        self._runtime = DocumentCustodyRuntime(
-            repository=self._repository,
-            receipt_verifier=Ed25519ReceiptVerifier(
-                {self._signer_id: signer_key.public_key()}
-            ),
-            authorization_policy=synthetic_authorization_policy((self._signer_id,)),
-            retention_policy=synthetic_retention_policy(),
-            custody_policy=synthetic_custody_policy(),
-            max_admission_bytes=1_000_000,
-        )
-        self._bridge = Phase3CBridge(
-            runtime=self._runtime,
-            repository=self._repository,
-            allowed_consumer_ids=("executive-consumer",),
-            allowed_uses=("executive_question_answering",),
-        )
-        self._signer_key = signer_key
+        if not self._canonical_runtime_enabled:
+            master_key = generate_master_key()
+            audit_key = derive_audit_key(master_key, generate_salt())
+            self._repository = SqliteDurableRepository(
+                runtime_directory=runtime_directory,
+                master_key=master_key,
+                audit_key=audit_key,
+                custody_policy=synthetic_custody_policy(),
+            )
+            signer_key = generate_synthetic_signing_key()
+            self._signer_id = "synthetic-governed-signer"
+            self._runtime = DocumentCustodyRuntime(
+                repository=self._repository,
+                receipt_verifier=Ed25519ReceiptVerifier(
+                    {self._signer_id: signer_key.public_key()}
+                ),
+                authorization_policy=synthetic_authorization_policy((self._signer_id,)),
+                retention_policy=synthetic_retention_policy(),
+                custody_policy=synthetic_custody_policy(),
+                max_admission_bytes=1_000_000,
+            )
+            self._bridge = Phase3CBridge(
+                runtime=self._runtime,
+                repository=self._repository,
+                allowed_consumer_ids=("executive-consumer",),
+                allowed_uses=("executive_question_answering",),
+            )
+            self._signer_key = signer_key
         self._sequence = 0
-        self._last_answer: ExplainableAnswer | None = None
+        self._last_answer: ExplainableAnswer | _ExternalAskAnswer | None = None
         self._last_semantic_candidates: tuple[RetrievalCandidate, ...] = ()
         self._last_question_result: _QuestionRuntimeResult | None = None
         self._last_question = "What should leadership decide next?"
         self._staged_submissions: list[_StagedSubmission] = []
         self._seen_content_digests: set[str] = set()
         self._governance_events: list[_GovernanceEvent] = []
+        self._runtime_health: tuple[_RuntimeServiceStatus, ...] = ()
         self._memory_runtime_mode = "uninitialized"
         self._memory_runtime_issue: str | None = None
         self._memory_indexed_knowledge: set[str] = set()
-        self._memory_runtime = self._create_memory_runtime()
+        self._memory_runtime = None
+        if self._canonical_runtime_enabled:
+            self._memory_runtime_mode = "external_canonical_runtime"
+        else:
+            self._memory_runtime = self._create_memory_runtime()
 
     @classmethod
     def create_default(cls) -> "GovernedRuntimeBriefingProvider":
@@ -415,6 +623,84 @@ class GovernedRuntimeBriefingProvider:
         normalized_media_type = (media_type or "").strip() or "application/octet-stream"
         digest_hex = hashlib.sha256(payload).hexdigest()
 
+        if self._canonical_runtime_enabled:
+            self._sequence += 1
+            submission_id = f"submission-{self._sequence}"
+            self._record_governance_event(
+                subject_id=submission_id,
+                action="admission.requested",
+                before_state="pending",
+                after_state="submitted",
+                reason="forwarded_to_canonical_runtime",
+                actor="executive-shell",
+                occurred_at=now,
+            )
+            if self._runtime_client is None:
+                raise RuntimeError("canonical_runtime_client_unavailable")
+            try:
+                response = self._runtime_client.submit_admission(
+                    source_record_id=normalized_source_id,
+                    file_name=normalized_file_name,
+                    media_type=normalized_media_type,
+                    payload_b64=base64.b64encode(payload).decode("ascii"),
+                    byte_count=len(payload),
+                    workspace_mode=self._workspace_mode.value,
+                    organization_id=self._organization_id,
+                )
+            except RuntimeError as error:
+                self._record_governance_event(
+                    subject_id=submission_id,
+                    action="admission.failed",
+                    before_state="submitted",
+                    after_state="failed",
+                    reason=str(error),
+                    actor="executive-shell",
+                    occurred_at=now,
+                )
+                raise
+            runtime_state = str(response.get("state", "review_pending")).strip().lower()
+            state_mapping = {
+                "review_pending": "review_pending",
+                "pending_review": "review_pending",
+                "approved": "approved",
+                "promoted": "approved",
+                "rejected": "rejected",
+                "held": "needs_evidence",
+                "needs_evidence": "needs_evidence",
+                "quarantined": "review_pending",
+            }
+            governance_state = state_mapping.get(runtime_state, "review_pending")
+            candidate_id = str(response.get("candidate_id", "")).strip() or None
+            runtime_reason = (
+                str(response.get("reason", "")).strip()
+                or "canonical_runtime_submission_recorded"
+            )
+            self._staged_submissions.append(
+                _StagedSubmission(
+                    submission_id=submission_id,
+                    source_record_id=normalized_source_id,
+                    file_name=normalized_file_name,
+                    media_type=normalized_media_type,
+                    byte_count=len(payload),
+                    digest_hex=digest_hex,
+                    admitted_at=now,
+                    governance_state=governance_state,
+                    reason=runtime_reason,
+                    candidate_id=candidate_id,
+                )
+            )
+            self._seen_content_digests.add(digest_hex)
+            self._record_governance_event(
+                subject_id=submission_id,
+                action="admission.recorded",
+                before_state="submitted",
+                after_state=governance_state,
+                reason=runtime_reason,
+                actor="canonical-runtime",
+                occurred_at=now,
+            )
+            return
+
         self._sequence += 1
         submission_id = f"submission-{self._sequence}"
         self._record_governance_event(
@@ -496,6 +782,8 @@ class GovernedRuntimeBriefingProvider:
         object_id = f"object-{self._sequence}"
         correlation_id = f"corr-{self._sequence}"
         policy = synthetic_authorization_policy((self._signer_id,))
+        if self._signer_key is None or self._bridge is None:
+            raise RuntimeError("local_governed_runtime_unavailable")
         receipt = sign_synthetic_receipt(
             receipt_id=f"receipt-{self._sequence}",
             organization_domain_id="governed-org-runtime",
@@ -579,6 +867,22 @@ class GovernedRuntimeBriefingProvider:
         return pending[-1]
 
     def promote_latest_candidate(self) -> None:
+        if self._canonical_runtime_enabled:
+            for staged in reversed(self._staged_submissions):
+                if staged.governance_state == "review_pending":
+                    staged.governance_state = "approved"
+                    staged.reason = "promotion_requested_from_canonical_runtime"
+                    self._record_governance_event(
+                        subject_id=staged.submission_id,
+                        action="governance.approved",
+                        before_state="review_pending",
+                        after_state="approved",
+                        reason="promotion_requested_from_canonical_runtime",
+                        actor="knowledge-reviewer",
+                        occurred_at=_now(),
+                    )
+                    return
+            return
         candidate = self._latest_review_candidate()
         if candidate is None:
             return
@@ -608,6 +912,8 @@ class GovernedRuntimeBriefingProvider:
                 break
 
     def _index_promoted_knowledge(self, promoted: PromotedKnowledge) -> None:
+        if self._memory_runtime is None:
+            raise RuntimeError("local_semantic_runtime_not_available")
         if promoted.knowledge_id in self._memory_indexed_knowledge:
             return
         content = f"{promoted.title}. {promoted.excerpt}"
@@ -636,6 +942,22 @@ class GovernedRuntimeBriefingProvider:
         self._memory_indexed_knowledge.add(promoted.knowledge_id)
 
     def reject_latest_candidate(self, reason: str = "human_review_rejected") -> None:
+        if self._canonical_runtime_enabled:
+            for staged in reversed(self._staged_submissions):
+                if staged.governance_state == "review_pending":
+                    staged.governance_state = "rejected"
+                    staged.reason = reason
+                    self._record_governance_event(
+                        subject_id=staged.submission_id,
+                        action="governance.rejected",
+                        before_state="review_pending",
+                        after_state="rejected",
+                        reason=reason,
+                        actor="knowledge-reviewer",
+                        occurred_at=_now(),
+                    )
+                    return
+            return
         candidate = self._latest_review_candidate()
         if candidate is None:
             return
@@ -671,6 +993,68 @@ class GovernedRuntimeBriefingProvider:
         if not text:
             raise ValueError("question cannot be empty")
         self._last_question = text
+        if self._canonical_runtime_enabled:
+            self._sequence += 1
+            trace_id = f"corr-ask-{self._sequence}"
+            asked_at = _now()
+            if self._runtime_client is None:
+                raise RuntimeError("canonical_runtime_client_unavailable")
+            response = self._runtime_client.ask_question(
+                question=text,
+                workspace_mode=self._workspace_mode.value,
+                organization_id=self._organization_id,
+            )
+            context = self._runtime_client.memory_context(question=text)
+            memories = context.get("memories")
+            candidate_count = len(memories) if isinstance(memories, list) else 0
+            selected_count = candidate_count
+            source_ids: list[str] = []
+            if isinstance(memories, list):
+                for memory_entry in memories:
+                    if not isinstance(memory_entry, dict):
+                        continue
+                    metadata = memory_entry.get("metadata")
+                    source_record_id = None
+                    if isinstance(metadata, dict):
+                        source_record_id = metadata.get("source_record_id")
+                    if not isinstance(source_record_id, str) or not source_record_id.strip():
+                        source_record_id = "runtime-source"
+                    source_ids.append(source_record_id)
+            answer_state = str(response.get("state", "insufficient")).strip().lower()
+            statement = str(response.get("statement", "")).strip()
+            if answer_state == "grounded" and statement:
+                self._last_answer = _ExternalAskAnswer(
+                    state=AnswerState.GROUNDED,
+                    statement=statement,
+                )
+            else:
+                self._last_answer = _ExternalAskAnswer(
+                    state=AnswerState.INSUFFICIENT,
+                    statement=None,
+                )
+            self._last_semantic_candidates = ()
+            self._last_question_result = _QuestionRuntimeResult(
+                trace_id=str(response.get("trace_id", "")).strip() or trace_id,
+                asked_at=asked_at,
+                candidate_count=candidate_count,
+                selected_count=selected_count,
+                stale_count=0,
+                conflicting_sources=tuple(sorted(set(source_ids))),
+                recommendation=(
+                    str(response.get("recommended_decision", "")).strip()
+                    or self._recommended_decision(
+                        selected_count=selected_count,
+                        stale_count=0,
+                    )
+                ),
+                insufficient_reason=(
+                    None
+                    if answer_state == "grounded"
+                    else str(response.get("reason", "")).strip()
+                    or "No governed answer returned from canonical interaction runtime."
+                ),
+            )
+            return
         self._sequence += 1
         asked_at = _now()
         trace_id = f"corr-ask-{self._sequence}"
@@ -762,6 +1146,10 @@ class GovernedRuntimeBriefingProvider:
             "Demonstration route remains available as a runtime-guided operating mode.",
             f"Semantic retrieval mode: {self._memory_runtime_mode}.",
         ]
+        if self._canonical_runtime_enabled:
+            limitations.append(
+                "Operational data is consumed from canonical runtime services; Executive Shell does not own admission, memory, or model infrastructure."
+            )
         if self._memory_runtime_issue is not None:
             limitations.append(
                 "Qdrant or embedding runtime was unavailable, so local governed semantic fallback is active."
@@ -792,6 +1180,28 @@ class GovernedRuntimeBriefingProvider:
 
     def _workspace_records(self) -> tuple[WorkspaceRecord, ...]:
         records: list[WorkspaceRecord] = []
+        if self._canonical_runtime_enabled and self._runtime_client is not None:
+            self._runtime_health = self._runtime_client.runtime_health()
+            for status in self._runtime_health:
+                records.append(
+                    WorkspaceRecord(
+                        record_id=_safe_demo_id("runtime", status.service),
+                        kind=WorkspaceKind.LINEAGE,
+                        title=f"Runtime service {status.service}",
+                        state=(
+                            WorkspaceState.READY
+                            if status.state == "ready"
+                            else WorkspaceState.UNAVAILABLE
+                        ),
+                        source_references=(),
+                        last_changed_at=status.observed_at,
+                        eligible_for_briefing=False,
+                        limitations=(
+                            f"Runtime status: {status.state}.",
+                            f"Detail: {status.detail}.",
+                        ),
+                    )
+                )
         for submission in self._staged_submissions:
             source = SourceReference(
                 source_id=_safe_demo_id("src", submission.source_record_id),
@@ -825,117 +1235,140 @@ class GovernedRuntimeBriefingProvider:
                     ),
                 )
             )
-        promoted_by_source: dict[str, list[PromotedKnowledge]] = {}
-        for promoted in self._bridge._promoted.values():
-            promoted_by_source.setdefault(
-                promoted.provenance.source_record_id, []
-            ).append(promoted)
-        for source_record_id, promoted_group in promoted_by_source.items():
-            promoted_group.sort(key=lambda entry: entry.promoted_at, reverse=True)
-            for position, promoted in enumerate(promoted_group):
-                state = (
-                    WorkspaceState.ELIGIBLE
-                    if position == 0
-                    else WorkspaceState.SUPERSEDED
-                )
-                source_reference = SourceReference(
-                    source_id=_safe_demo_id("src", source_record_id),
-                    label=f"Promoted evidence {source_record_id}",
-                    evidence_classification=EvidenceClassification.VERIFIED_FACT,
-                    authority_scope="Governed promotion and semantic memory boundary",
-                    observed_at=promoted.promoted_at,
-                )
-                records.append(
-                    WorkspaceRecord(
-                        record_id=_safe_demo_id("knowledge", promoted.knowledge_id),
-                        kind=WorkspaceKind.KNOWLEDGE_OBJECT,
-                        title=promoted.title,
-                        state=state,
-                        source_references=(source_reference,),
-                        last_changed_at=promoted.promoted_at,
-                        eligible_for_briefing=state is WorkspaceState.ELIGIBLE,
-                        limitations=(
-                            f"Lifecycle state: {'active' if state is WorkspaceState.ELIGIBLE else 'superseded'}.",
-                            f"Admission attempt: {promoted.provenance.admission_attempt_id}.",
-                            f"Receipt ID: {promoted.provenance.receipt_id}.",
-                        ),
+        if self._bridge is not None:
+            promoted_by_source: dict[str, list[PromotedKnowledge]] = {}
+            for promoted in self._bridge._promoted.values():
+                promoted_by_source.setdefault(
+                    promoted.provenance.source_record_id, []
+                ).append(promoted)
+            for source_record_id, promoted_group in promoted_by_source.items():
+                promoted_group.sort(key=lambda entry: entry.promoted_at, reverse=True)
+                for position, promoted in enumerate(promoted_group):
+                    state = (
+                        WorkspaceState.ELIGIBLE
+                        if position == 0
+                        else WorkspaceState.SUPERSEDED
                     )
+                    source_reference = SourceReference(
+                        source_id=_safe_demo_id("src", source_record_id),
+                        label=f"Promoted evidence {source_record_id}",
+                        evidence_classification=EvidenceClassification.VERIFIED_FACT,
+                        authority_scope="Governed promotion and semantic memory boundary",
+                        observed_at=promoted.promoted_at,
+                    )
+                    records.append(
+                        WorkspaceRecord(
+                            record_id=_safe_demo_id("knowledge", promoted.knowledge_id),
+                            kind=WorkspaceKind.KNOWLEDGE_OBJECT,
+                            title=promoted.title,
+                            state=state,
+                            source_references=(source_reference,),
+                            last_changed_at=promoted.promoted_at,
+                            eligible_for_briefing=state is WorkspaceState.ELIGIBLE,
+                            limitations=(
+                                f"Lifecycle state: {'active' if state is WorkspaceState.ELIGIBLE else 'superseded'}.",
+                                f"Admission attempt: {promoted.provenance.admission_attempt_id}.",
+                                f"Receipt ID: {promoted.provenance.receipt_id}.",
+                            ),
+                        )
+                    )
+                    records.append(
+                        WorkspaceRecord(
+                            record_id=_safe_demo_id("lineage", promoted.knowledge_id),
+                            kind=WorkspaceKind.LINEAGE,
+                            title=f"Lineage chain for {promoted.knowledge_id}",
+                            state=WorkspaceState.READY,
+                            source_references=(source_reference,),
+                            last_changed_at=promoted.promoted_at,
+                            eligible_for_briefing=False,
+                            limitations=(
+                                f"Object ID: {promoted.provenance.object_id}.",
+                                f"Content digest: {promoted.provenance.content_digest_hex}.",
+                            ),
+                        )
+                    )
+        if self._repository is not None:
+            for custody in self._repository.list_active():
+                source = SourceReference(
+                    source_id=_safe_demo_id("src", custody.object_id),
+                    label=f"Custody object {custody.object_id}",
+                    evidence_classification=EvidenceClassification.REPORTED_FACT,
+                    authority_scope="Governed encrypted custody boundary",
+                    observed_at=custody.created_at,
                 )
                 records.append(
                     WorkspaceRecord(
-                        record_id=_safe_demo_id("lineage", promoted.knowledge_id),
-                        kind=WorkspaceKind.LINEAGE,
-                        title=f"Lineage chain for {promoted.knowledge_id}",
-                        state=WorkspaceState.READY,
-                        source_references=(source_reference,),
-                        last_changed_at=promoted.promoted_at,
+                        record_id=_safe_demo_id("document", custody.object_id),
+                        kind=WorkspaceKind.DOCUMENT,
+                        title=f"Custody object {custody.object_id}",
+                        state=WorkspaceState.QUARANTINED,
+                        source_references=(source,),
+                        last_changed_at=custody.created_at,
                         eligible_for_briefing=False,
                         limitations=(
-                            f"Object ID: {promoted.provenance.object_id}.",
-                            f"Content digest: {promoted.provenance.content_digest_hex}.",
+                            "Custody record is encrypted and tracked with retention deadlines.",
+                            f"Retention deadline: {custody.retention_deadline.isoformat()}",
                         ),
                     )
                 )
-        for custody in self._repository.list_active():
-            source = SourceReference(
-                source_id=_safe_demo_id("src", custody.object_id),
-                label=f"Custody object {custody.object_id}",
-                evidence_classification=EvidenceClassification.REPORTED_FACT,
-                authority_scope="Governed encrypted custody boundary",
-                observed_at=custody.created_at,
-            )
-            records.append(
-                WorkspaceRecord(
-                    record_id=_safe_demo_id("document", custody.object_id),
-                    kind=WorkspaceKind.DOCUMENT,
-                    title=f"Custody object {custody.object_id}",
-                    state=WorkspaceState.QUARANTINED,
-                    source_references=(source,),
-                    last_changed_at=custody.created_at,
-                    eligible_for_briefing=False,
-                    limitations=(
-                        "Custody record is encrypted and tracked with retention deadlines.",
-                        f"Retention deadline: {custody.retention_deadline.isoformat()}",
-                    ),
-                )
-            )
         records.sort(key=lambda record: record.record_id)
         return tuple(records)
 
     def _activities(self) -> tuple[ActivityEntry, ...]:
         activities: list[ActivityEntry] = []
-        for index, event in enumerate(self._bridge.audit_history(), start=1):
-            if event.event_kind.startswith("admission"):
-                kind = ActivityKind.EVIDENCE_ADDED
-                state = WorkspaceState.REVIEW_PENDING
-            elif event.event_kind.startswith("promotion"):
-                kind = ActivityKind.REVIEW_STATE_CHANGED
-                state = (
-                    WorkspaceState.REVIEW_APPROVED
-                    if "approved" in event.event_kind
-                    else WorkspaceState.REVIEW_REJECTED
+        if self._bridge is not None:
+            for index, event in enumerate(self._bridge.audit_history(), start=1):
+                if event.event_kind.startswith("admission"):
+                    kind = ActivityKind.EVIDENCE_ADDED
+                    state = WorkspaceState.REVIEW_PENDING
+                elif event.event_kind.startswith("promotion"):
+                    kind = ActivityKind.REVIEW_STATE_CHANGED
+                    state = (
+                        WorkspaceState.REVIEW_APPROVED
+                        if "approved" in event.event_kind
+                        else WorkspaceState.REVIEW_REJECTED
+                    )
+                elif event.event_kind.startswith("answer"):
+                    kind = ActivityKind.KNOWLEDGE_STATUS_CHANGED
+                    state = WorkspaceState.READY
+                else:
+                    kind = ActivityKind.LINEAGE_RECORDED
+                    state = WorkspaceState.READY
+                activities.append(
+                    ActivityEntry(
+                        activity_id=_safe_demo_id("act", f"{event.event_id}-{index}"),
+                        kind=kind,
+                        summary=(
+                            f"Runtime audit event {event.event_kind} trace {event.correlation_id} "
+                            f"subject {event.subject_id} reason {event.reason_code} "
+                            f"hash {event.event_hash_hex}."
+                        ),
+                        occurred_at=event.recorded_at,
+                        actor_label="Governed Runtime",
+                        source_references=(),
+                        result_state=state,
+                    )
                 )
-            elif event.event_kind.startswith("answer"):
-                kind = ActivityKind.KNOWLEDGE_STATUS_CHANGED
-                state = WorkspaceState.READY
-            else:
-                kind = ActivityKind.LINEAGE_RECORDED
-                state = WorkspaceState.READY
-            activities.append(
-                ActivityEntry(
-                    activity_id=_safe_demo_id("act", f"{event.event_id}-{index}"),
-                    kind=kind,
-                    summary=(
-                        f"Runtime audit event {event.event_kind} trace {event.correlation_id} "
-                        f"subject {event.subject_id} reason {event.reason_code} "
-                        f"hash {event.event_hash_hex}."
-                    ),
-                    occurred_at=event.recorded_at,
-                    actor_label="Governed Runtime",
-                    source_references=(),
-                    result_state=state,
+        elif self._runtime_health:
+            for index, status in enumerate(self._runtime_health, start=1):
+                activities.append(
+                    ActivityEntry(
+                        activity_id=_safe_demo_id("runtime", f"{status.service}-{index}"),
+                        kind=ActivityKind.KNOWLEDGE_STATUS_CHANGED,
+                        summary=(
+                            f"Canonical runtime service {status.service} reported "
+                            f"{status.state} ({status.detail})."
+                        ),
+                        occurred_at=status.observed_at,
+                        actor_label="Canonical Runtime",
+                        source_references=(),
+                        result_state=(
+                            WorkspaceState.READY
+                            if status.state == "ready"
+                            else WorkspaceState.HELD
+                        ),
+                    )
                 )
-            )
         for index, event in enumerate(self._governance_events, start=1):
             if event.after_state in {"approved", "review_pending"}:
                 kind = ActivityKind.REVIEW_STATE_CHANGED
@@ -1279,18 +1712,44 @@ class GovernedRuntimeBriefingProvider:
                 )
                 for candidate in selected_candidates
             )
+        elif self._last_question_result is not None and self._last_question_result.conflicting_sources:
+            source_refs = tuple(
+                SourceReference(
+                    source_id=_safe_demo_id("src", source_id),
+                    label=f"Evidence citation {source_id}",
+                    evidence_classification=EvidenceClassification.REPORTED_FACT,
+                    authority_scope="Canonical retrieval evidence boundary",
+                    observed_at=self._last_question_result.asked_at,
+                )
+                for source_id in self._last_question_result.conflicting_sources
+            )
         if (
             self._last_answer is not None
             and self._last_answer.state is AnswerState.GROUNDED
             and self._last_answer.statement is not None
-            and selected_candidates
+            and (
+                selected_candidates
+                or (
+                    self._last_question_result is not None
+                    and self._last_question_result.selected_count > 0
+                )
+            )
         ):
             grounded_state = AskState.GROUNDED
-            top = selected_candidates[0]
+            top_memory_id = (
+                selected_candidates[0].memory_id
+                if selected_candidates
+                else (
+                    self._last_question_result.conflicting_sources[0]
+                    if self._last_question_result is not None
+                    and self._last_question_result.conflicting_sources
+                    else "unidentified-memory"
+                )
+            )
             statement = (
                 f"{self._last_answer.statement} Recommended human decision: "
-                f"{self._recommended_decision(selected_count=len(selected_candidates), stale_count=(self._last_question_result.stale_count if self._last_question_result else 0))} "
-                f"Top evidence memory {top.memory_id or 'unidentified-memory'}."
+                f"{self._recommended_decision(selected_count=(len(selected_candidates) if selected_candidates else (self._last_question_result.selected_count if self._last_question_result else 0)), stale_count=(self._last_question_result.stale_count if self._last_question_result else 0))} "
+                f"Top evidence memory {top_memory_id}."
             )
             uncertainty = (
                 UncertaintyState.CONFLICTING
@@ -1551,6 +2010,12 @@ class OperationalWorkspaceProvider:
             runtime_directory,
             qdrant_enabled=qdrant_enabled,
             collection_name=self._governed_collection_name(organization_id, mode),
+            canonical_runtime=(
+                os.getenv("BONSAAI_CANONICAL_RUNTIME", "").strip().lower()
+                in {"1", "true", "yes"}
+            ),
+            organization_id=organization_id,
+            workspace_mode=mode,
         )
         self._governed_instances[key] = provider
         return provider
@@ -1614,9 +2079,13 @@ class OperationalWorkspaceProvider:
         )
         briefing = provider.briefing()
         runtime_name = (
-            "Governed runtime (Qdrant semantic retrieval)"
-            if provider.memory_runtime_mode == "qdrant_semantic_runtime"
-            else "Governed runtime (local semantic fallback)"
+            "Canonical governed runtime (external services)"
+            if provider.memory_runtime_mode == "external_canonical_runtime"
+            else (
+                "Governed runtime (Qdrant semantic retrieval)"
+                if provider.memory_runtime_mode == "qdrant_semantic_runtime"
+                else "Governed runtime (local semantic fallback)"
+            )
         )
         context = self._workspace_context(
             mode=self._workspace_mode,

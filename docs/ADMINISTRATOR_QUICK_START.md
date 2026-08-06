@@ -3,15 +3,15 @@
 ## 1) Start services
 
 ```bash
-cd /opt/project-jebediah/docker/production
+cd ~/project-jebediah/docker/production
 cp .env.example .env
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ## 2) Check status
 
 ```bash
-docker-compose ps
+docker compose ps
 curl -k https://bonsaai.local/healthz
 curl -k https://bonsaai.local/health
 ```
@@ -31,9 +31,9 @@ On the Executive Dashboard landing page:
 
 ## 5) Basic operations
 
-- Tail logs: `docker-compose logs -f executive-shell`
-- Restart app: `docker-compose restart executive-shell`
-- Stop stack: `docker-compose down`
+- Tail logs: `docker compose logs -f executive-shell`
+- Restart app: `docker compose restart executive-shell`
+- Stop stack: `docker compose down`
 
 ## 6) Back up data
 
