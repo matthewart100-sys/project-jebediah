@@ -13,12 +13,27 @@
 | Architecture baseline | `9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8` |
 | Architecture-baseline tree | `5670add97e9da35e756be8d57e9f78547442c486` |
 | Disposition | Strategically aligned, architecturally nonconforming, implementation not accepted |
-| Execution authority | None |
-| Record status | Prepared for independent exact-head review and separate Chief Architect merge approval |
+| Execution authority | None in this original pre-execution decision |
+| Record status | Original pre-execution reconciliation decision; retained as controlling reconciliation authority |
 
-This package records the Chief Architect's reconciliation decision. It does
-not execute the selected revert and grants no coding, merge, deployment,
-runtime mutation, public exposure, or real-data authority.
+This package records the Chief Architect's original pre-execution
+reconciliation decision. It did not authorize or execute the selected revert
+and granted no coding, merge, deployment, runtime mutation, public exposure, or
+real-data authority.
+
+### Later B0 execution status
+
+A later, separate B0 execution directive authorized the normal revert of
+`991929beb6026511e07b6cb7954e1c9e400b9cb5` on the pull request #62 recovery
+branch. That revert has been executed on the branch. References below to a
+"future" or unauthorized revert preserve the boundary at the time of this
+original decision; they do not describe the later branch state.
+
+The recovery is not canonical until its corrected exact head passes CI,
+receives independent Work Mode approval and a separate Chief Architect
+exact-PR and exact-head merge decision, and pull request #62 is merged. The
+branch operation changed no runtime, deployment, server, information-use, or
+B1 state and grants no such authority.
 
 ## 2. Executive decision
 

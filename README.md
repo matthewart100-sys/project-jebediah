@@ -131,12 +131,15 @@ architecture. They authorize no implementation, real document, VBA use,
 Phase 3C/3D consumer, model, memory/Qdrant projection, retrieval, deployment,
 or source discovery.
 
-The active work is B0 canonical recovery: record the reconciliation decision,
-obtain independent exact-head review, and obtain a separate Chief Architect
-merge decision. Pull requests #59 and #60 are retained as audit and salvage
-evidence and must not be merged or deployed. The selected future normal revert
-of `991929beb6026511e07b6cb7954e1c9e400b9cb5` is documented but has not been
-authorized or executed.
+The active work is B0 canonical recovery. A later, separate B0 execution
+directive authorized the normal revert of
+`991929beb6026511e07b6cb7954e1c9e400b9cb5` on pull request #62, and that
+revert has been executed on the review branch. The recovery is not canonical
+until the corrected exact head passes CI, receives independent Work Mode
+approval and a separate Chief Architect exact-head merge decision, and is
+merged. Pull requests #59 and #60 remain audit and salvage evidence and must
+not be merged or deployed. No runtime rollback, deployment mutation, or B1 or
+later implementation occurred or is authorized.
 
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).
