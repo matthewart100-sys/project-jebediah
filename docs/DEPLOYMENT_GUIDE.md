@@ -59,14 +59,40 @@ flowchart LR
 
 ## Upgrade deployment (layering Bonsaai onto existing runtime)
 
-1. Copy environment template:
+1. Configure the Interaction Gateway custody key and a shared service token
+   outside Git. Preserve both values during upgrades:
+
+   ```bash
+   cd ~/project-jebediah/services/jebediah-interaction
+   umask 077
+   test -f .env || touch .env
+   grep -q '^INTERACTION_STATE_KEY=' .env || \
+     printf 'INTERACTION_STATE_KEY=%s\n' \
+       "$(python3 -c 'import base64, os; print(base64.urlsafe_b64encode(os.urandom(32)).decode())')" \
+       >> .env
+   grep -q '^INTERACTION_SERVICE_TOKEN=' .env || \
+     printf 'INTERACTION_SERVICE_TOKEN=%s\n' \
+       "$(python3 -c 'import secrets; print(secrets.token_urlsafe(48))')" \
+       >> .env
+   cd ~/project-jebediah/services/jebediah-memory
+   docker compose up -d --build
+   cd ~/project-jebediah/services/jebediah-interaction
+   docker compose up -d --build
+   ```
+
+   Replacing `INTERACTION_STATE_KEY` makes previously admitted pending
+   candidates unreadable. Configure `BONSAAI_INTERACTION_SERVICE_TOKEN` in the
+   production `.env` to the exact `INTERACTION_SERVICE_TOKEN` value without
+   printing either value to logs.
+
+2. Copy environment template:
 
    ```bash
    cd ~/project-jebediah/docker/production
    cp .env.example .env
    ```
 
-2. Edit `.env`:
+3. Edit `.env`:
    - `BONSAAI_PUBLIC_HOSTS=bonsaai.local` for local mode.
    - Include production domain when available (for example
      `BONSAAI_PUBLIC_HOSTS=bonsaai.local,bonsaai.example.com`).
@@ -81,17 +107,18 @@ flowchart LR
      - `BONSAAI_MEMORY_API_URL=http://jebediah-memory:8000`
      - `BONSAAI_INTERACTION_API_URL=http://jebediah-interaction:8001`
      - `BONSAAI_INTERACTION_ADMISSION_PATH=/admission/submit`
+     - `BONSAAI_INTERACTION_PROMOTION_PATH=/admission/promote`
      - `BONSAAI_INTERACTION_ASK_PATH=/questions/ask`
      - `BONSAAI_CANONICAL_RUNTIME=1`
 
-3. Start stack:
+4. Start stack:
 
    ```bash
    cd ~/project-jebediah/docker/production
    docker compose up -d --build
    ```
 
-4. Verify runtime:
+5. Verify runtime:
 
    ```bash
    docker compose ps
@@ -100,7 +127,7 @@ flowchart LR
    curl -k https://bonsaai.local/health
    ```
 
-5. Confirm Bonsaai did not create replacement governed runtime services:
+6. Confirm Bonsaai did not create replacement governed runtime services:
    - no `bonsaai-qdrant`
    - no `bonsaai-ollama`
    - no `bonsaai-memory-runtime`

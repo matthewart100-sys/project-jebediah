@@ -11,7 +11,11 @@ this branch is reviewed and merged.
 
 Current branch evidence includes runtime workspace/organization selectors,
 persistent workspace state, mode-specific banners and safeguards, demonstration
-reset controls, and deployment configuration for startup workspace defaults.
+reset controls, deployment configuration for startup workspace defaults, and
+the canonical interaction gateway routes required for governed PDF admission,
+human promotion into semantic memory, workspace-filtered retrieval, and grounded
+questions. The interaction route repair follows deployed HTTP 404 evidence from
+the previously configured but absent `/admission/submit` contract.
 
 **Last reviewed:** 2026-08-05
 

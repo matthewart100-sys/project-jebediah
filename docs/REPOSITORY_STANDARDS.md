@@ -109,6 +109,9 @@ may be refined when a language and source layout are approved.
 
 `src/collector/` contains the tested Python Collector package.
 `services/jebediah-memory/` contains the memory-service runtime candidate.
+`services/jebediah-interaction/` contains the canonical interaction gateway
+that coordinates governed admission, human promotion, workspace-filtered
+memory retrieval, model generation, and its existing chat compatibility routes.
 `apps/` is reserved for independently runnable, user-facing applications whose
 component, language, entry point, dependency, test, security, operations, and
 ownership boundaries are approved. Accepted ADR 0015 assigns

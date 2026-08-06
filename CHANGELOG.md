@@ -191,6 +191,15 @@ development. Changes not assigned to a published version remain under
 
 ### Fixed
 
+- Added the missing canonical interaction admission, promotion, and governed
+  question routes after deployed validation proved the configured endpoints
+  returned HTTP 404. Human promotion now writes organization/workspace-scoped
+  provenance metadata through the existing Memory Service into Qdrant, and
+  retrieval excludes evidence outside the selected governed workspace.
+  Pending candidates and shell review references survive service restarts,
+  promotion retries use stable memory and Qdrant identities, native PDF text is
+  parsed with `pypdf`, and the unauthenticated gateway is no longer published
+  on a host port.
 - Fixed canonical runtime admission failures so Knowledge Manager renders a
   governed `processing_failed` document record without exposing internal
   service URLs or returning HTTP 500.

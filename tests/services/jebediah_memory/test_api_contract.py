@@ -3,6 +3,7 @@ import importlib.util
 import subprocess
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import httpx
 
@@ -151,6 +152,7 @@ assert legacy_stored["payload"]["lifecycle"]["state"] == "active"
 
 stored = main.store_memory(
     main.MemoryRequest(
+        memory_id="governed-candidate-001",
         source_identity="synthetic-source",
         content="Synthetic API memory.",
         memory_type="fact",
@@ -161,6 +163,7 @@ stored = main.store_memory(
     )
 )
 assert stored["status"] == "stored"
+assert stored["memory_id"] == "governed-candidate-001"
 assert {
     "status",
     "memory_id",
@@ -429,6 +432,26 @@ def test_fastapi_paths_validation_status_and_lifespan_are_compatible():
                 assert stored.json()["status"] == "stored"
                 assert stored.json()["payload"]["memory_type"] == "context"
 
+                governed = await client.post(
+                    "/memory/store",
+                    json={
+                        "source_identity": "source-governed",
+                        "content": "Synthetic governed memory.",
+                        "memory_type": "decision",
+                        "importance": 0.9,
+                        "metadata": {
+                            "organization_id": "synthetic-organization",
+                            "workspace_mode": "development",
+                            "governance_state": "approved",
+                        },
+                    },
+                )
+                assert governed.status_code == 200
+                governed_metadata = governed.json()["payload"]["metadata"]
+                assert governed_metadata["organization_id"] == "synthetic-organization"
+                assert governed_metadata["workspace_mode"] == "development"
+                assert governed_metadata["governance_state"] == "approved"
+
                 context = await client.post(
                     "/memory/context",
                     json={
@@ -448,3 +471,77 @@ def test_fastapi_paths_validation_status_and_lifespan_are_compatible():
 
     assert provider.ready_calls == 1
     assert repository.verify_calls == 1
+
+
+def test_memory_context_filters_governed_workspace_metadata():
+    project_root = Path(__file__).resolve().parents[3]
+    main_path = project_root / "services" / "jebediah-memory" / "app" / "main.py"
+    spec = importlib.util.spec_from_file_location(
+        "jebediah_memory_workspace_filter_contract",
+        main_path,
+    )
+    assert spec is not None and spec.loader is not None
+    main = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(main)
+
+    def candidate(source: str, organization: str, workspace: str, state: str):
+        return SimpleNamespace(
+            content=f"Evidence from {source}.",
+            metadata={
+                "metadata": {
+                    "source_record_id": source,
+                    "organization_id": organization,
+                    "workspace_mode": workspace,
+                    "governance_state": state,
+                }
+            },
+            signals=SimpleNamespace(semantic_relevance=0.9),
+        )
+
+    class Service:
+        def ensure_ready(self):
+            return None
+
+        def context(self, _content, limit, metadata_filter):
+            assert limit == 5
+            assert metadata_filter == {
+                "organization_id": "synthetic-organization",
+                "workspace_mode": "development",
+                "governance_state": "approved",
+            }
+            return [
+                candidate(
+                    "eligible-source",
+                    "synthetic-organization",
+                    "development",
+                    "approved",
+                ),
+            ]
+
+    main._memory_application_service = Service()
+
+    async def exercise_api():
+        transport = httpx.ASGITransport(app=main.app)
+        async with main.lifespan(main.app):
+            async with httpx.AsyncClient(
+                transport=transport,
+                base_url="http://synthetic.test",
+            ) as client:
+                response = await client.post(
+                    "/memory/context",
+                    json={
+                        "source_identity": "synthetic",
+                        "content": "Synthetic context query.",
+                        "memory_type": "context",
+                        "importance": 0.5,
+                        "organization_id": "synthetic-organization",
+                        "workspace_mode": "development",
+                        "approved_only": True,
+                    },
+                )
+                assert response.status_code == 200
+                memories = response.json()["memories"]
+                assert len(memories) == 1
+                assert memories[0]["metadata"]["source_record_id"] == "eligible-source"
+
+    asyncio.run(exercise_api())

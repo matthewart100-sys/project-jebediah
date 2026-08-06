@@ -78,8 +78,10 @@ class FakeSemanticRepository:
             payload={"memory_id": memory.id},
         )
 
-    def search(self, vector, embedding_identity, limit):
-        self.search_calls.append((vector, embedding_identity, limit))
+    def search(self, vector, embedding_identity, limit, metadata_filter=None):
+        self.search_calls.append(
+            (vector, embedding_identity, limit, metadata_filter)
+        )
         return self.search_results
 
 
@@ -218,6 +220,24 @@ def test_context_ranking_remains_semantic_only():
 
     assert [candidate.memory_id for candidate in results] == ["high", "low"]
     assert len(repository.search_calls) == 1
+
+
+def test_context_passes_workspace_filter_to_repository():
+    provider = FakeEmbeddingProvider()
+    repository = FakeSemanticRepository()
+    service = MemoryApplicationService(provider, repository)
+    metadata_filter = {
+        "organization_id": "synthetic-organization",
+        "workspace_mode": "development",
+        "governance_state": "approved",
+    }
+
+    service.context(
+        "Synthetic query.",
+        metadata_filter=metadata_filter,
+    )
+
+    assert repository.search_calls[0][3] == metadata_filter
 
 
 def test_readiness_checks_both_dependencies():

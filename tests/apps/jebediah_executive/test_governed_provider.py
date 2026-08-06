@@ -126,12 +126,22 @@ def test_governed_provider_canonical_runtime_mode_uses_external_services(
         del timeout
         url = request.full_url
         method = request.get_method()
+        if url.endswith(("/admission/submit", "/admission/promote", "/questions/ask")):
+            assert request.get_header("Authorization") == "Bearer service-token"
         if url.endswith("/admission/submit") and method == "POST":
             return _FakeResponse(
                 {
                     "state": "review_pending",
                     "candidate_id": "candidate-001",
                     "reason": "admitted",
+                }
+            )
+        if url.endswith("/admission/promote") and method == "POST":
+            return _FakeResponse(
+                {
+                    "state": "promoted",
+                    "candidate_id": "candidate-001",
+                    "knowledge_id": "memory-001",
                 }
             )
         if url.endswith("/questions/ask") and method == "POST":
@@ -147,7 +157,14 @@ def test_governed_provider_canonical_runtime_mode_uses_external_services(
             return _FakeResponse(
                 {
                     "memories": [
-                        {"metadata": {"source_record_id": "source-record-009"}},
+                        {
+                            "metadata": {
+                                "source_record_id": "source-record-009",
+                                "organization_id": "virginia-b-andes",
+                                "workspace_mode": "production",
+                                "governance_state": "approved",
+                            }
+                        },
                     ]
                 }
             )
@@ -159,6 +176,7 @@ def test_governed_provider_canonical_runtime_mode_uses_external_services(
         "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
         _fake_urlopen,
     )
+    monkeypatch.setenv("BONSAAI_INTERACTION_SERVICE_TOKEN", "service-token")
     provider = GovernedRuntimeBriefingProvider(
         Path(tempfile.mkdtemp(prefix="gov-provider-canonical-test-")),
         canonical_runtime=True,
@@ -171,6 +189,7 @@ def test_governed_provider_canonical_runtime_mode_uses_external_services(
         file_name="board-update.txt",
         media_type="text/plain",
     )
+    provider.promote_latest_candidate()
     provider.ask_question("What decision should leadership make next?")
     briefing = provider.briefing()
     grounded = briefing.ask_response("grounded-priorities")
@@ -179,6 +198,149 @@ def test_governed_provider_canonical_runtime_mode_uses_external_services(
     assert any(
         record.record_id.startswith("demo-runtime-") for record in briefing.workspace_records
     )
+
+
+def test_canonical_pending_submission_survives_provider_restart(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    class _FakeResponse:
+        def __init__(self, payload: dict[str, object]) -> None:
+            self._bytes = json.dumps(payload).encode("utf-8")
+
+        def read(self) -> bytes:
+            return self._bytes
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    promotion_requests: list[dict[str, object]] = []
+
+    def _fake_urlopen(request, timeout=0):
+        del timeout
+        if request.full_url.endswith("/admission/submit"):
+            return _FakeResponse(
+                {
+                    "state": "review_pending",
+                    "candidate_id": "candidate-restart-001",
+                }
+            )
+        if request.full_url.endswith("/admission/promote"):
+            promotion_requests.append(json.loads(request.data))
+            return _FakeResponse(
+                {
+                    "state": "promoted",
+                    "candidate_id": "candidate-restart-001",
+                    "knowledge_id": "memory-restart-001",
+                }
+            )
+        raise AssertionError(f"unexpected request: {request.full_url}")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        tmp_path,
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+    provider.admit_submission(
+        payload=b"Restart-safe governed admission.",
+        source_record_id="source-record-restart",
+        file_name="restart.pdf",
+        media_type="application/pdf",
+    )
+
+    restarted = GovernedRuntimeBriefingProvider(
+        tmp_path,
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+    restarted.promote_latest_candidate()
+
+    assert promotion_requests == [
+        {
+            "candidate_id": "candidate-restart-001",
+            "workspace_mode": "production",
+            "organization_id": "virginia-b-andes",
+        }
+    ]
+    restarted_again = GovernedRuntimeBriefingProvider(
+        tmp_path,
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+    restarted_again.promote_latest_candidate()
+    assert len(promotion_requests) == 1
+
+
+def test_canonical_rejection_is_recorded_by_interaction_service(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    class _FakeResponse:
+        def __init__(self, payload: dict[str, object]) -> None:
+            self._bytes = json.dumps(payload).encode("utf-8")
+
+        def read(self) -> bytes:
+            return self._bytes
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    requests: list[str] = []
+
+    def _fake_urlopen(request, timeout=0):
+        del timeout
+        requests.append(request.full_url)
+        if request.full_url.endswith("/admission/submit"):
+            return _FakeResponse(
+                {"state": "review_pending", "candidate_id": "candidate-reject-001"}
+            )
+        if request.full_url.endswith("/admission/reject"):
+            assert json.loads(request.data)["reason"] == "evidence_insufficient"
+            return _FakeResponse(
+                {"state": "rejected", "candidate_id": "candidate-reject-001"}
+            )
+        raise AssertionError(f"unexpected request: {request.full_url}")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        tmp_path,
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+    provider.admit_submission(
+        payload=b"Governed rejection candidate.",
+        source_record_id="source-record-reject",
+        file_name="reject.pdf",
+        media_type="application/pdf",
+    )
+    provider.reject_latest_candidate("evidence_insufficient")
+
+    assert requests[-1].endswith("/admission/reject")
+    restarted = GovernedRuntimeBriefingProvider(
+        tmp_path,
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+    restarted.promote_latest_candidate()
+    assert len(requests) == 2
 
 
 def test_governed_provider_canonical_admission_failure_is_recorded(
@@ -233,6 +395,70 @@ def test_governed_provider_canonical_admission_failure_is_recorded(
         in " ".join(record.limitations)
         for record in briefing.workspace_records
     )
+
+
+def test_governed_provider_excludes_other_workspace_runtime_evidence(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class _FakeResponse:
+        def __init__(self, payload: dict[str, object]) -> None:
+            self._bytes = json.dumps(payload).encode("utf-8")
+
+        def read(self) -> bytes:
+            return self._bytes
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    def _fake_urlopen(request, timeout=0):
+        del timeout
+        url = request.full_url
+        if url.endswith("/questions/ask"):
+            return _FakeResponse(
+                {
+                    "state": "grounded",
+                    "statement": "Production-only statement.",
+                    "trace_id": "trace-isolation",
+                }
+            )
+        if url.endswith("/memory/context"):
+            return _FakeResponse(
+                {
+                    "memories": [
+                        {
+                            "metadata": {
+                                "source_record_id": "source-production",
+                                "organization_id": "virginia-b-andes",
+                                "workspace_mode": "production",
+                                "governance_state": "approved",
+                            }
+                        }
+                    ]
+                }
+            )
+        if url.endswith("/health") or url.endswith("/healthz") or url.endswith("/api/tags"):
+            return _FakeResponse({"status": "online"})
+        raise AssertionError(f"unexpected request: {request.get_method()} {url}")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        Path(tempfile.mkdtemp(prefix="gov-provider-isolation-test-")),
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.DEVELOPMENT,
+    )
+
+    provider.ask_question("What should leadership do next?")
+
+    answer = provider.briefing().ask_response("grounded-priorities")
+    assert answer.state is AskState.INSUFFICIENT
+    assert answer.source_references == ()
 
 
 def test_governed_provider_canonical_runtime_health_handles_non_json(

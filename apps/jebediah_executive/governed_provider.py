@@ -179,6 +179,9 @@ class _CanonicalRuntimeClient:
             os.getenv("BONSAAI_INTERACTION_API_URL", "").strip()
             or "http://jebediah-interaction:8001"
         ).rstrip("/")
+        self._interaction_service_token = os.getenv(
+            "BONSAAI_INTERACTION_SERVICE_TOKEN", ""
+        ).strip()
         self._memory_base_url = (
             os.getenv("BONSAAI_MEMORY_API_URL", "").strip()
             or "http://jebediah-memory:8000"
@@ -210,12 +213,15 @@ class _CanonicalRuntimeClient:
         operation: str,
         payload: dict[str, Any] | None = None,
         allow_non_json: bool = False,
+        bearer_token: str | None = None,
     ) -> dict[str, Any]:
         data: bytes | None = None
         headers: dict[str, str] = {"Accept": "application/json"}
         if payload is not None:
             data = json.dumps(payload).encode("utf-8")
             headers["Content-Type"] = "application/json"
+        if bearer_token:
+            headers["Authorization"] = f"Bearer {bearer_token}"
         request = urllib.request.Request(
             url=url,
             data=data,
@@ -329,6 +335,7 @@ class _CanonicalRuntimeClient:
                 "organization_id": organization_id,
             },
             allow_non_json=True,
+            bearer_token=self._interaction_service_token,
         )
 
     def ask_question(
@@ -352,9 +359,66 @@ class _CanonicalRuntimeClient:
                 "workspace_mode": workspace_mode,
                 "organization_id": organization_id,
             },
+            bearer_token=self._interaction_service_token,
         )
 
-    def memory_context(self, *, question: str) -> dict[str, Any]:
+    def promote_admission(
+        self,
+        *,
+        candidate_id: str,
+        workspace_mode: str,
+        organization_id: str,
+    ) -> dict[str, Any]:
+        url = self._url(
+            self._interaction_base_url,
+            "BONSAAI_INTERACTION_PROMOTION_PATH",
+            "/admission/promote",
+        )
+        return self._request_json(
+            method="POST",
+            url=url,
+            operation="interaction_promotion",
+            payload={
+                "candidate_id": candidate_id,
+                "workspace_mode": workspace_mode,
+                "organization_id": organization_id,
+            },
+            bearer_token=self._interaction_service_token,
+        )
+
+    def reject_admission(
+        self,
+        *,
+        candidate_id: str,
+        reason: str,
+        workspace_mode: str,
+        organization_id: str,
+    ) -> dict[str, Any]:
+        url = self._url(
+            self._interaction_base_url,
+            "BONSAAI_INTERACTION_REJECTION_PATH",
+            "/admission/reject",
+        )
+        return self._request_json(
+            method="POST",
+            url=url,
+            operation="interaction_rejection",
+            payload={
+                "candidate_id": candidate_id,
+                "reason": reason,
+                "workspace_mode": workspace_mode,
+                "organization_id": organization_id,
+            },
+            bearer_token=self._interaction_service_token,
+        )
+
+    def memory_context(
+        self,
+        *,
+        question: str,
+        workspace_mode: str,
+        organization_id: str,
+    ) -> dict[str, Any]:
         url = self._url(
             self._memory_base_url,
             "BONSAAI_MEMORY_CONTEXT_PATH",
@@ -369,6 +433,9 @@ class _CanonicalRuntimeClient:
                 "content": question,
                 "memory_type": "context",
                 "importance": 0.7,
+                "organization_id": organization_id,
+                "workspace_mode": workspace_mode,
+                "approved_only": True,
             },
         )
 
@@ -535,6 +602,11 @@ class GovernedRuntimeBriefingProvider:
         self._last_question = "What should leadership decide next?"
         self._staged_submissions: list[_StagedSubmission] = []
         self._seen_content_digests: set[str] = set()
+        self._canonical_submission_state_path = (
+            self._runtime_directory / "canonical-submissions.json"
+        )
+        if self._canonical_runtime_enabled:
+            self._load_canonical_submissions()
         self._governance_events: list[_GovernanceEvent] = []
         self._runtime_health: tuple[_RuntimeServiceStatus, ...] = ()
         self._memory_runtime_mode = "uninitialized"
@@ -545,6 +617,71 @@ class GovernedRuntimeBriefingProvider:
             self._memory_runtime_mode = "external_canonical_runtime"
         else:
             self._memory_runtime = self._create_memory_runtime()
+
+    def _load_canonical_submissions(self) -> None:
+        if not self._canonical_submission_state_path.exists():
+            return
+        try:
+            with self._canonical_submission_state_path.open(
+                "r", encoding="utf-8"
+            ) as state_file:
+                payload = json.load(state_file)
+            if not isinstance(payload, list):
+                raise ValueError("submission state must be a list")
+            submissions = [
+                _StagedSubmission(
+                    submission_id=str(item["submission_id"]),
+                    source_record_id=str(item["source_record_id"]),
+                    file_name=str(item["file_name"]),
+                    media_type=str(item["media_type"]),
+                    byte_count=int(item["byte_count"]),
+                    digest_hex=str(item["digest_hex"]),
+                    admitted_at=datetime.fromisoformat(str(item["admitted_at"])),
+                    governance_state=str(item["governance_state"]),
+                    reason=str(item["reason"]),
+                    candidate_id=(
+                        str(item["candidate_id"]) if item.get("candidate_id") else None
+                    ),
+                )
+                for item in payload
+                if isinstance(item, dict)
+            ]
+        except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError) as error:
+            raise RuntimeError("canonical_submission_state_invalid") from error
+        self._staged_submissions = submissions
+        self._seen_content_digests = {
+            submission.digest_hex for submission in submissions
+        }
+        sequence_numbers = [
+            int(submission.submission_id.removeprefix("submission-"))
+            for submission in submissions
+            if submission.submission_id.removeprefix("submission-").isdigit()
+        ]
+        self._sequence = max(sequence_numbers, default=0)
+
+    def _persist_canonical_submissions(self) -> None:
+        payload = [
+            {
+                "submission_id": submission.submission_id,
+                "source_record_id": submission.source_record_id,
+                "file_name": submission.file_name,
+                "media_type": submission.media_type,
+                "byte_count": submission.byte_count,
+                "digest_hex": submission.digest_hex,
+                "admitted_at": submission.admitted_at.isoformat(),
+                "governance_state": submission.governance_state,
+                "reason": submission.reason,
+                "candidate_id": submission.candidate_id,
+            }
+            for submission in self._staged_submissions
+        ]
+        temporary_path = self._canonical_submission_state_path.with_suffix(".tmp")
+        try:
+            with temporary_path.open("w", encoding="utf-8") as state_file:
+                json.dump(payload, state_file, separators=(",", ":"))
+            temporary_path.replace(self._canonical_submission_state_path)
+        except OSError as error:
+            raise RuntimeError("canonical_submission_state_write_failed") from error
 
     @classmethod
     def create_default(cls) -> "GovernedRuntimeBriefingProvider":
@@ -712,6 +849,7 @@ class GovernedRuntimeBriefingProvider:
                         reason=failure_reason,
                     )
                 )
+                self._persist_canonical_submissions()
                 self._record_governance_event(
                     subject_id=submission_id,
                     action="admission.failed",
@@ -754,6 +892,7 @@ class GovernedRuntimeBriefingProvider:
                 )
             )
             self._seen_content_digests.add(digest_hex)
+            self._persist_canonical_submissions()
             self._record_governance_event(
                 subject_id=submission_id,
                 action="admission.recorded",
@@ -934,14 +1073,26 @@ class GovernedRuntimeBriefingProvider:
         if self._canonical_runtime_enabled:
             for staged in reversed(self._staged_submissions):
                 if staged.governance_state == "review_pending":
+                    if self._runtime_client is None:
+                        raise RuntimeError("canonical_runtime_client_unavailable")
+                    if staged.candidate_id is None:
+                        raise RuntimeError("canonical_runtime_candidate_id_missing")
+                    response = self._runtime_client.promote_admission(
+                        candidate_id=staged.candidate_id,
+                        workspace_mode=self._workspace_mode.value,
+                        organization_id=self._organization_id,
+                    )
+                    if response.get("state") != "promoted":
+                        raise RuntimeError("canonical_runtime_promotion_failed")
                     staged.governance_state = "approved"
-                    staged.reason = "promotion_requested_from_canonical_runtime"
+                    staged.reason = "promoted_by_canonical_runtime"
+                    self._persist_canonical_submissions()
                     self._record_governance_event(
                         subject_id=staged.submission_id,
                         action="governance.approved",
                         before_state="review_pending",
                         after_state="approved",
-                        reason="promotion_requested_from_canonical_runtime",
+                        reason="promoted_by_canonical_runtime",
                         actor="knowledge-reviewer",
                         occurred_at=_now(),
                     )
@@ -1009,8 +1160,21 @@ class GovernedRuntimeBriefingProvider:
         if self._canonical_runtime_enabled:
             for staged in reversed(self._staged_submissions):
                 if staged.governance_state == "review_pending":
+                    if self._runtime_client is None:
+                        raise RuntimeError("canonical_runtime_client_unavailable")
+                    if staged.candidate_id is None:
+                        raise RuntimeError("canonical_runtime_candidate_id_missing")
+                    response = self._runtime_client.reject_admission(
+                        candidate_id=staged.candidate_id,
+                        reason=reason,
+                        workspace_mode=self._workspace_mode.value,
+                        organization_id=self._organization_id,
+                    )
+                    if response.get("state") != "rejected":
+                        raise RuntimeError("canonical_runtime_rejection_failed")
                     staged.governance_state = "rejected"
                     staged.reason = reason
+                    self._persist_canonical_submissions()
                     self._record_governance_event(
                         subject_id=staged.submission_id,
                         action="governance.rejected",
@@ -1068,22 +1232,33 @@ class GovernedRuntimeBriefingProvider:
                 workspace_mode=self._workspace_mode.value,
                 organization_id=self._organization_id,
             )
-            context = self._runtime_client.memory_context(question=text)
+            context = self._runtime_client.memory_context(
+                question=text,
+                workspace_mode=self._workspace_mode.value,
+                organization_id=self._organization_id,
+            )
             memories = context.get("memories")
             candidate_count = len(memories) if isinstance(memories, list) else 0
-            selected_count = candidate_count
+            selected_count = 0
             source_ids: list[str] = []
             if isinstance(memories, list):
                 for memory_entry in memories:
                     if not isinstance(memory_entry, dict):
                         continue
                     metadata = memory_entry.get("metadata")
-                    source_record_id = None
-                    if isinstance(metadata, dict):
-                        source_record_id = metadata.get("source_record_id")
+                    if not isinstance(metadata, dict):
+                        continue
+                    if metadata.get("organization_id") != self._organization_id:
+                        continue
+                    if metadata.get("workspace_mode") != self._workspace_mode.value:
+                        continue
+                    if metadata.get("governance_state") != "approved":
+                        continue
+                    source_record_id = metadata.get("source_record_id")
                     if not isinstance(source_record_id, str) or not source_record_id.strip():
                         source_record_id = "runtime-source"
                     source_ids.append(source_record_id)
+                    selected_count += 1
             answer_state = str(response.get("state", "insufficient")).strip().lower()
             statement = str(response.get("statement", "")).strip()
             if answer_state == "grounded" and statement:

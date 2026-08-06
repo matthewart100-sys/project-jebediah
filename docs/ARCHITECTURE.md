@@ -333,6 +333,34 @@ and operational owners remain unassigned. The executive interface would own
 presentation and navigation, not ingestion, verification, derivation,
 authoritative state, approval, or action execution.
 
+### Active operational branch refinement
+
+The active operational branch implements the already deployed Jebediah
+Interaction Gateway as the canonical coordinator between the Executive Product
+Shell and Memory Service. The bounded runtime sequence is:
+
+1. Accept and validate browser-pushed PDF bytes as a review candidate.
+2. Require an explicit human promotion request.
+3. Submit promoted text and provenance metadata to the existing Memory Service.
+4. Persist the Memory Service record and derived vector through its existing
+   Qdrant adapter.
+5. Retrieve only approved evidence matching the selected organization and
+   workspace.
+6. Generate a grounded response and return citation identifiers to the shell.
+
+The gateway owns coordination and encrypted durable pending-candidate custody.
+It uses `pypdf` for bounded native PDF text extraction and the existing
+`cryptography` dependency for local custody encryption. The shell retains
+non-content candidate references in its existing durable runtime volume so a
+pending human review survives a shell restart. Promoted candidates use stable
+memory and Qdrant point identities so retrying promotion is idempotent. The
+gateway remains on the internal Docker network, and governed routes require a
+private service bearer token shared with the shell. Human rejection is recorded
+in canonical candidate custody and prevents later promotion. The gateway does
+not own source truth, human approval, memory policy, Qdrant persistence, model
+execution, or organizational action. Canonical `main` remains authoritative
+until the branch is reviewed and merged.
+
 ## Accepted Phase 3A Executive Product Shell refinement
 
 The Organizational Intelligence Product Program Phase 3A package accepts System

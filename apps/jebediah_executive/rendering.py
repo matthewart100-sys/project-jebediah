@@ -819,7 +819,7 @@ def render_knowledge_manager(briefing: ExecutiveBriefing) -> str:
         + "value=\"source-record-001\" required></p>"
         + "<p><label for=\"document_file\">Document file</label><br>"
         + "<input id=\"document_file\" name=\"document_file\" type=\"file\" "
-        + "accept=\".pdf,.docx,.md,.markdown,.txt,image/*\" required></p>"
+        + "accept=\".pdf,application/pdf\" required></p>"
         + "<p><button type=\"submit\">Upload and admit document</button></p>"
         + "</form>"
         if not is_demo

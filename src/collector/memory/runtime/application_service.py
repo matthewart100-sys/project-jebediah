@@ -1,4 +1,5 @@
 from dataclasses import dataclass, replace
+from typing import Mapping
 
 from collector.embeddings import EmbeddingProvider
 
@@ -62,11 +63,20 @@ class MemoryApplicationService:
         self,
         content: str,
         limit: int = 5,
+        metadata_filter: Mapping[str, str] | None = None,
     ) -> list[RetrievalCandidate]:
         vector = self.embedding_provider.embed(content)
-        candidates = self.repository.search(
-            vector,
-            self.embedding_provider.identity,
-            limit,
-        )
+        if metadata_filter is None:
+            candidates = self.repository.search(
+                vector,
+                self.embedding_provider.identity,
+                limit,
+            )
+        else:
+            candidates = self.repository.search(
+                vector,
+                self.embedding_provider.identity,
+                limit,
+                metadata_filter=metadata_filter,
+            )
         return self.retrieval_ranker.rank(candidates)
