@@ -78,7 +78,7 @@ B1 state and grants no such authority.
 | Retrieval or grounded answers | Not approved | Unauthorized |
 | Operational workspaces | Invalidated as an active sprint or authority | Unauthorized |
 | Deployment or public domain exposure | Not approved | Unauthorized |
-| Future normal revert | Selected strategy only | Not yet authorized |
+| Normal revert at the time of this decision | Selected strategy only | Not authorized by this original decision |
 
 Repository presence, a passing documentation check, a merged pull request, or
 historical wording does not change any disposition in this table.
@@ -96,13 +96,15 @@ current execution authority. The
 [Phase 3B Milestone 1 Authorization](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_MILESTONE_1_AUTHORIZATION.md)
 is Historical and cannot be used to resume, merge, deploy, or expand work.
 
-The only currently authorized repository work is this documentation
-canonicalization package. Its next gates are, in order:
+The original decision authorized only its documentation canonicalization
+package. That package later became durable through pull request #61. A separate
+B0 directive subsequently authorized the normal revert on the pull request #62
+branch. The current recovery gates are, in order:
 
-1. independent Work Mode review of the exact documentation head;
-2. a separate Chief Architect decision for that exact head; and
-3. only after this record is merged and canonical, a separate future decision
-   on whether to authorize the selected revert.
+1. successful CI for the corrected exact pull request #62 head;
+2. independent Work Mode review of that exact head;
+3. a separate Chief Architect merge decision for the unchanged head; and
+4. merge before the recovery becomes canonical.
 
 ## 5. Revised milestone structure
 
@@ -150,14 +152,17 @@ The required future ADRs are not drafted, Proposed, or Accepted by this record.
 
 ## 7. Repository disposition
 
-Pull request #60's squash commit remains present on `main` unless and until a
-separately authorized future normal revert is reviewed and merged. Its files
-are preserved only as repository, audit, and salvage evidence. Their presence
-does not establish approved architecture, implementation maturity, operational
-readiness, deployment authority, or permission to run them.
+Pull request #60's squash commit remains present on canonical `main`. A later,
+separately authorized normal revert has been executed on the pull request #62
+B0 recovery branch, but that recovery is not canonical before exact-head CI,
+independent Work Mode approval, a separate Chief Architect merge decision, and
+merge. Pull request #60 and its commits remain repository, audit, and salvage
+evidence. Their historical presence establishes no approved architecture,
+implementation maturity, operational readiness, deployment authority, or
+permission to run them.
 
-The eight operator and deployment guides added by pull request #60 are
-historical evidence pending the selected future revert:
+The B0 recovery removed all eight operator and deployment guides added by pull
+request #60 from the proposed pull request #62 tree:
 
 - `docs/ADMINISTRATOR_QUICK_START.md`
 - `docs/BACKUP_GUIDE.md`
@@ -168,12 +173,13 @@ historical evidence pending the selected future revert:
 - `docs/PRODUCTION_CONFIGURATION_GUIDE.md`
 - `docs/WORKSPACE_GUIDE.md`
 
-They are not current operator guidance and must not be executed. This package
-preserves their substantive instructions for inspection and adds only a
-prominent quarantine notice to each file. Pull request #60 and its exact
-commits remain the unchanged audit source. A future normal revert must remove
-these pull-request-#60 additions; a quarantine notice does not make them
-canonical or exempt them from the inverse.
+No current-tree or quarantine-notice copy remains. Their historical evidence
+survives only through pull request #60, source head
+`70db20613e6275d391b2221d04e6ab4314d0a7b5`, squash commit
+`991929beb6026511e07b6cb7954e1c9e400b9cb5`, and normal Git history. That
+preservation supplies audit and salvage evidence only; it does not make the
+guides current repository guidance, provide operator availability, grant
+deployment authority, or permit anyone to execute their instructions.
 
 ## 8. Preservation requirements for pull requests #59 and #60
 
@@ -201,23 +207,34 @@ sequence and a fresh reviewed implementation. Pull request #59 must not be
 merged or deployed. Pull request #60 is already merged; its content must not be
 merged forward, run, deployed, or treated as accepted.
 
-## 9. Required corrective implementation
+## 9. Historical pre-execution corrective plan
 
-### Selected future action
+This section preserves the corrective plan as it stood when the original
+reconciliation decision was recorded. A later, separate B0 execution directive
+authorized the normal revert on the pull request #62 recovery branch, where it
+has been executed but is not yet canonical. The original decision itself did
+not authorize or perform the operation.
 
-The selected correction is a normal Git revert of pull request #60's squash
-commit. It is a future repository action, not an implementation approval and
-not an action authorized by this package.
+### Originally selected future action
+
+The selected correction was a normal Git revert of pull request #60's squash
+commit. At the time of this original decision it was a future repository
+action, not an implementation approval and not an action authorized by this
+package.
 
 | Item | Required value |
 | --- | --- |
-| Future corrective branch | `fix/revert-pr60-nonconforming-implementation` |
+| Originally planned corrective branch | `fix/revert-pr60-nonconforming-implementation` |
 | Target squash commit | `991929beb6026511e07b6cb7954e1c9e400b9cb5` |
 | Target parent / content baseline | `9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8` |
 | Target parent tree | `5670add97e9da35e756be8d57e9f78547442c486` |
 | Required Git operation | Apply the normal revert inverse without an automatic commit, validate it, then create an ordinary revert commit; no reset, rebase, force update, or history rewrite |
 
-### Future pre-flight
+The later B0 directive superseded the planned branch name with
+`fix/b0-canonical-repository-recovery` and separately supplied execution
+authority.
+
+### Historical future pre-flight
 
 Before running a revert command, the Implementation Engineer must:
 
@@ -238,17 +255,17 @@ Before running a revert command, the Implementation Engineer must:
 
 If any check fails, stop without running the revert.
 
-### Exact future revert command
+### Exact planned revert command
 
 ```text
 git revert --no-commit 991929beb6026511e07b6cb7954e1c9e400b9cb5
 ```
 
 This controlled command applies the inverse without automatically creating a
-commit, allowing conflict inspection and validation first. It is recorded for
-the future authorized branch only and was not run by this documentation
-package. After successful resolution and validation, the future branch must
-create one ordinary revert commit before push and exact-head review.
+commit, allowing conflict inspection and validation first. It was not run or
+authorized by the original documentation package. The later B0 directive
+authorized its execution on the pull request #62 recovery branch, followed by
+an ordinary revert commit, validation, push, and exact-head review.
 
 ### Expected baseline and conflict policy
 
@@ -267,7 +284,7 @@ If the normal revert reports a conflict:
   corrections that make it durable;
 - restore the inverse of pull request #60 for code, tests, dependencies,
   workflows, Docker, Caddy, runtime, service, and operator artifacts;
-- resolve any delete/modify conflict on the eight quarantined operator guides
+- resolve any delete/modify conflict on the eight then-quarantined operator guides
   by removing those pull-request-#60 additions, while retaining their history
   in pull request #60 and its commits;
 - resolve only paths inside the separately authorized corrective manifest;
@@ -278,15 +295,15 @@ If the normal revert reports a conflict:
 No conflict resolution may salvage implementation into the corrective branch
 without a separately accepted milestone and implementation authorization.
 
-### Future validation
+### Historical planned validation
 
-The future corrective branch must:
+The planned corrective branch was required to:
 
 - show `git status --short`, `git diff --stat`, `git diff --name-only`, and the
   complete diff from its authorized base;
 - verify every pull-request-#60 path matches the target parent's content or
   absence except the exact surviving reconciliation items 1-23 in section 10;
-- verify the eight quarantined pull-request-#60 guides in items 24-31 are absent
+- verify the eight then-quarantined pull-request-#60 guides in items 24-31 are absent
   from the corrective result and remain preserved through pull request #60 and
   its commits;
 - verify no pull-request-#59 content was merged or substituted;
@@ -299,16 +316,17 @@ The future corrective branch must:
 - publish one non-draft pull request for independent exact-head Work Mode
   review.
 
-A separate Chief Architect authorization is required before the revert command
-may run. After the inverse is resolved, validated, committed normally, pushed,
-and independently reviewed at its exact head, a later separate Chief Architect
-decision must approve that unchanged revert head for merge. No history
-rewriting, force-resetting `main`, deployment mutation, or automatic merge is
-permitted.
+At the time of the original decision, separate Chief Architect authorization
+was required before the revert command could run. The later B0 execution
+directive supplied that branch authority. The resulting pull request #62 head
+still requires independent exact-head review and a separate Chief Architect
+decision before merge. No history rewriting, force-resetting `main`, deployment
+mutation, or automatic merge is permitted.
 
-## 10. Required documentation updates
+## 10. Historical original canonicalization manifest
 
-This canonicalization package changes exactly these 31 Markdown files:
+The original reconciliation canonicalization package changed exactly these 31
+Markdown files:
 
 1. `README.md`
 2. `CHANGELOG.md`
@@ -344,7 +362,9 @@ This canonicalization package changes exactly these 31 Markdown files:
 
 No code, test, dependency, lock, workflow, Docker, Caddy, script, runtime, or
 other executable or non-Markdown deployment artifact belongs to this package.
-The eight operator/deployment-guide changes are quarantine notices only.
+In that original package, items 24-31 received quarantine notices only. The
+later B0 recovery removes all eight files from the proposed pull request #62
+tree; their evidence remains only in pull request #60 and normal Git history.
 
 ## 11. Future implementation gates
 
@@ -389,9 +409,9 @@ This record and package authorize none of the following:
 The Chief Architect accepted decision
 `CA-2026-08-06-P3B-RECONCILIATION` in conversation against reviewed canonical
 commit `991929beb6026511e07b6cb7954e1c9e400b9cb5`. Conversation acceptance
-authorizes preparation of this documentation package only.
+authorized preparation of the original documentation package only.
 
-The decision becomes durable repository authority only after:
+The original chain-of-custody requirements were:
 
 1. every artifact in the exact 31-file manifest is committed and pushed on one
    short-lived branch;
@@ -401,8 +421,9 @@ The decision becomes durable repository authority only after:
 4. the Chief Architect separately approves that unchanged head for merge; and
 5. the reviewed pull request merges to `main`.
 
-Until then, canonical `main` remains the repository source of truth and this
-branch is a proposed durable record. Neither preparation, review, approval, nor
-merge of this documentation package authorizes the future revert or any
-implementation. A separate Chief Architect decision is required for the revert
-and another exact-head decision is required before its merge.
+Those requirements were satisfied when pull request #61 merged the decision as
+canonical commit `b1d8dea531ad0b82171cb0f3f3979323b712a5de`. That merge did
+not authorize the revert or any implementation. A later, separate B0 directive
+authorized the normal revert only on the pull request #62 recovery branch.
+That recovery remains noncanonical until exact-head CI, independent Work Mode
+approval, a separate Chief Architect exact-head merge decision, and merge.
