@@ -331,3 +331,54 @@ def test_governed_provider_canonical_admission_allows_non_json_success(
         record.state is WorkspaceState.REVIEW_PENDING
         for record in briefing.workspace_records
     )
+
+
+def test_governed_provider_canonical_runtime_health_handles_oserror(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class _FakeResponse:
+        def __init__(self, body: bytes) -> None:
+            self._body = body
+
+        def read(self) -> bytes:
+            return self._body
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    def _fake_urlopen(request, timeout=0):
+        del timeout
+        url = request.full_url
+        method = request.get_method()
+        if method != "GET":
+            raise AssertionError(f"unexpected request: {method} {url}")
+        if url.endswith("/healthz"):
+            raise OSError("socket closed")
+        if url.endswith("/api/tags"):
+            return _FakeResponse(b"{\"status\":\"online\"}")
+        if url.endswith("/health"):
+            return _FakeResponse(b"{\"status\":\"online\"}")
+        raise AssertionError(f"unexpected request: {method} {url}")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        Path(tempfile.mkdtemp(prefix="gov-provider-canonical-oserror-test-")),
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+    briefing = provider.briefing()
+    qdrant_records = [
+        record
+        for record in briefing.workspace_records
+        if record.record_id.startswith("demo-runtime-")
+        and "qdrant" in record.title.lower()
+    ]
+    assert qdrant_records
+    assert all(record.state is WorkspaceState.UNAVAILABLE for record in qdrant_records)

@@ -210,7 +210,7 @@ class _CanonicalRuntimeClient:
         try:
             with urllib.request.urlopen(request, timeout=self._timeout_seconds) as response:
                 body = response.read()
-        except (urllib.error.URLError, TimeoutError, ValueError) as error:
+        except (urllib.error.URLError, TimeoutError, ValueError, OSError) as error:
             raise RuntimeError(f"runtime_request_failed: {url}") from error
         if not body:
             return {}
@@ -235,7 +235,7 @@ class _CanonicalRuntimeClient:
         try:
             with urllib.request.urlopen(request, timeout=self._timeout_seconds):
                 return True
-        except (urllib.error.URLError, TimeoutError, ValueError):
+        except (urllib.error.URLError, TimeoutError, ValueError, OSError):
             return False
 
     def runtime_health(self) -> tuple[_RuntimeServiceStatus, ...]:
