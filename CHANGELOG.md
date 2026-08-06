@@ -10,6 +10,89 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added an Operational Workspace model in
+  `apps.jebediah_executive.governed_provider` with persistent workspace and
+  organization selection across `demonstration`, `development`, and
+  `production` modes, mode-specific runtime safeguards, and demonstration reset.
+- Added workspace-aware Executive Shell rendering in
+  `apps.jebediah_executive.rendering`, including persistent mode banners,
+  landing-page workspace/organization selectors, recent organizations, runtime
+  and model status, and mode-appropriate workflow controls.
+- Added workspace runtime deployment configuration in
+  `docker/production/.env.example` and
+  `docker/production/docker-compose.yml` for startup workspace and organization
+  defaults.
+- Added workspace and demonstration operator documentation in
+  `docs/WORKSPACE_GUIDE.md` and `docs/DEMONSTRATION_GUIDE.md`.
+- Added Phase 4 production deployment artifacts under `docker/production`,
+  including a full-stack `docker-compose.yml`, reverse proxy `Caddyfile`,
+  environment template, persistent volume mappings, health checks, restart
+  policies, and private internal service topology that exposes only the
+  Executive Shell.
+- Added deployment runtime entrypoint `docker/production/executive_server.py`
+  to run the existing Executive Shell WSGI app as a production container
+  process with health endpoints while preserving established app boundaries.
+- Added operations scripts under `scripts/operations` for backup, restore, and
+  upgrade workflows targeting the production compose stack.
+- Added Phase 4 operational documentation: deployment guide, operations guide,
+  production configuration guide, backup guide, disaster recovery guide, and
+  administrator quick start.
+- Connected Executive Question runtime flow to the canonical memory runtime
+  boundary by indexing promoted governed knowledge into semantic memory and
+  executing governed semantic retrieval in
+  `apps.jebediah_executive.governed_provider`. The provider now records audit
+  trace IDs, retrieval freshness/conflict posture, and recommendation language
+  in Ask responses while preserving insufficient-evidence behavior when active
+  promoted evidence is missing.
+- Added runtime-aware semantic execution modes for the executive shell:
+  Qdrant/Ollama-backed retrieval when explicitly enabled and a governed local
+  semantic fallback when runtime dependencies are unavailable, without changing
+  UI routes or governance gates.
+- Expanded runtime audit and administration displays with operational facets in
+  `apps.jebediah_executive.rendering`, including event-kind/state filter
+  summaries, audit CSV export snapshot, and governance-queue/review counters.
+- Replaced executive-shell fixture-backed briefing assembly with a governed
+  runtime provider in
+  `apps.jebediah_executive.governed_provider`, including runtime-derived
+  dashboard items, workspace records, governance transitions, audit activity,
+  promotion/rejection workflow state, and governed Ask response assembly.
+- Added multipart Knowledge Manager upload handling for runtime submissions and
+  introduced bounded DOCX/TXT/Markdown admission validation in
+  `collector.document_admission.runtime` while preserving governance and custody
+  boundaries.
+- Updated shell rendering language and module content to present governed
+  runtime posture across Executive Dashboard, Knowledge Manager, Organizational
+  Intelligence, Organizational Memory, Governance, Audit, and Administration
+  surfaces without fixture-backed summaries in operational mode.
+- Added a branch-level
+  [Phase 3B Completion Directive](docs/governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_COMPLETION_DIRECTIVE.md)
+  to ratify the active transition from synthetic executive-shell providers to
+  governed runtime-backed behavior while preserving the existing shell module
+  architecture and review boundaries.
+- Refined the unified Bonsaai Platform shell for executive demonstration readiness
+  by adding a guided walkthrough route, a one-sentence landing introduction,
+  Knowledge Manager first-action cues for synthetic admission and governance
+  states, an executive-focused Organizational Intelligence question surface, and
+  an evidence dossier on answers that elevates answer, confidence posture,
+  citations, provenance disclosure, and audit access as first-class outputs.
+- Added a bounded Gate 2 Phase 3C bridge implementation under
+  `collector.organizational_intelligence` that reuses Gate 1 governed synthetic
+  admission and custody to produce approved knowledge promotion, governed
+  retrieval checks, evidence-backed synthetic answers, citation and provenance
+  payloads, and append-only bridge audit-chain verification. Added deterministic
+  tests for promotion gating, retrieval boundaries, citation/provenance
+  preservation, audit integrity, failure isolation, and full end-to-end
+  synthetic demonstration flow.
+- Authorized Knowledge Manager Phase 3B Implementation Milestone 1, Synthetic
+  Intake and Custody Foundation, against canonical architecture baseline
+  `9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`. The milestone is limited to
+  generated synthetic PDF fixtures and loopback intake, custody, lifecycle,
+  audit, expiry, deletion/reset, recovery, and deterministic validation needed
+  to answer whether a synthetic document can be handled without promotion into
+  knowledge or memory. The complete 59-file Phase 3B implementation, real
+  documents, deployment, knowledge promotion, memory, embeddings, Qdrant,
+  retrieval, model use, Open WebUI ingestion, Phase 3C, and Phase 3D remain
+  unauthorized.
 - Proposed the documentation-only Organizational Intelligence Product Program
   Phase 3B governed PDF intake package: System ADR 0016, a decision-complete
   one-operator plan, lifecycle/recovery specification, threat model, dependency
@@ -106,8 +189,38 @@ development. Changes not assigned to a published version remain under
   risks, validation, and acceptance criteria without defining JCS; opened
   Milestone C1 for a proposed specification and proposed ADRs only.
 
+### Fixed
+
+- Added the missing canonical interaction admission, promotion, and governed
+  question routes after deployed validation proved the configured endpoints
+  returned HTTP 404. Human promotion now writes organization/workspace-scoped
+  provenance metadata through the existing Memory Service into Qdrant, and
+  retrieval excludes evidence outside the selected governed workspace.
+  Pending candidates and shell review references survive service restarts,
+  promotion retries use stable memory and Qdrant identities, native PDF text is
+  parsed with `pypdf`, and the unauthenticated gateway is no longer published
+  on a host port.
+- Fixed canonical runtime admission failures so Knowledge Manager renders a
+  governed `processing_failed` document record without exposing internal
+  service URLs or returning HTTP 500.
+- Fixed the production operations scripts and runbooks to match the current
+  overlay compose topology by removing stale `memory-runtime`/runtime-volume
+  assumptions, backing up and restoring the Bonsaai-owned Caddy config volume,
+  and supporting both `docker compose` and `docker-compose` CLIs.
+
 ### Changed
 
+- Updated the default Executive Shell provider in
+  `apps.jebediah_executive.app` to use the operational workspace runtime
+  boundary and added workspace selection/reset POST workflows.
+- Updated sprint and status canonicals for the Operational Workspace
+  Implementation Sprint.
+- Updated governed runtime provider initialization in
+  `apps.jebediah_executive.governed_provider` to support a persistent runtime
+  root via `JEBEDIAH_RUNTIME_ROOT` for deployment continuity, with the existing
+  temporary runtime fallback retained for local/disconnected operation.
+- Updated canonical sprint/status/index records to reflect the active Phase 4
+  deployment sprint and newly tracked operational artifacts.
 - Reconciled pull request #54's squash merge of exact corrected closeout head
   `4de5f2df2d4c82e286890f7f3d5e462693322a1f` as
   `58f40054faba1167c25d828186e74d66e6c0681b`, terminally closing Knowledge

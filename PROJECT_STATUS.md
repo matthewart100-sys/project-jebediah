@@ -1,15 +1,28 @@
 # Project Status
 
-**Phase:** Phase 2: Collector and memory foundation
+**Phase:** Operational workspace integration
 
-**Status:** Knowledge Manager 1.0 Phase 2 and Organizational Intelligence Product
-Program Phase 3A are terminally closed. The Executive Product Shell is
-**Implemented** as a synthetic, loopback-only local preview. A documentation-only
-Phase 3B governed PDF intake architecture and prepared implementation activation
-are Proposed; implementation, external information, deployment, operational use,
-Phase 3C/3D, and canonical Roadmap Phase 3 remain unauthorized
+**Status:** The repository baseline includes the first operational governed
+Organizational Intelligence platform implementation and deployment packaging.
+Active work now focuses on integrating demonstration, development, and
+production workspaces into the existing Executive Shell while preserving
+governance and runtime boundaries. Canonical `main` remains authoritative until
+this branch is reviewed and merged.
+
+Current branch evidence includes runtime workspace/organization selectors,
+persistent workspace state, mode-specific banners and safeguards, demonstration
+reset controls, deployment configuration for startup workspace defaults, and
+the canonical interaction gateway routes required for governed PDF admission,
+human promotion into semantic memory, workspace-filtered retrieval, and grounded
+questions. The interaction route repair follows deployed HTTP 404 evidence from
+the previously configured but absent `/admission/submit` contract.
 
 **Last reviewed:** 2026-08-05
+
+Historical records below retain prior phase authorization boundaries as audit
+evidence; where those records conflict with the active sprint, the current
+Phase 4 directive in [CURRENT_SPRINT.md](CURRENT_SPRINT.md) is controlling for
+this branch.
 
 ## Summary
 
@@ -121,13 +134,22 @@ not activate or rename canonical Roadmap Phase 3 - Knowledge Graph. The
 [Phase 3A Closeout](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_CLOSEOUT.md)
 owns the exact merge, validation, exclusions, rollback, and remaining gates.
 
-The Proposed
+The accepted
 [Phase 3B Governed Intake Plan](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
-selects one local, single-operator, PDF-only review path for the Virginia B.
-Andes board-governance roster domain. Proposed ADR 0016, lifecycle/recovery,
-threat, dependency, validation, and prepared activation records form one
-documentation-only review target. They do not change current runtime maturity
-or authorize implementation, a real source, Phase 3C, Phase 3D, or deployment.
+and accepted ADR 0016 define one local, single-operator, PDF-only admission and
+custody architecture. Pull request #58 merged the architecture package at
+`9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`.
+
+The
+[Phase 3B Implementation Milestone 1 authorization](docs/governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_MILESTONE_1_AUTHORIZATION.md)
+separately permits only the Synthetic Intake and Custody Foundation. It asks
+whether Project Jebediah can safely receive, classify, hold, reject, expire, and
+delete a generated synthetic document without promoting it into knowledge or
+memory. The authorization does not activate the complete 59-file Phase 3B
+package and does not authorize real documents, organizational text extraction,
+organizational OCR, Source Document Evidence promotion, Knowledge Objects,
+Knowledge Registry writes, memory, embeddings, Qdrant, retrieval, model use,
+Open WebUI ingestion, external integration, deployment, Phase 3C, or Phase 3D.
 
 Milestone C1 found no evidence-supported JCS purpose, responsibility, consumer,
 or boundary. Pull request #18 therefore merged the **DEFER JCS** outcome at
@@ -367,6 +389,10 @@ abstraction, in-memory reference adapter, and tests. The
 [closeout record](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) owns the exact
 merge, post-merge evidence, exclusions, and remaining gates.
 
+The active engineering milestone is Phase 3B Implementation Milestone 1,
+Synthetic Intake and Custody Foundation. Its authorization is synthetic-only
+and bounded; implementation has not yet occurred.
+
 The Organizational Intelligence Product Program Phase 3A is the most recently
 completed implementation sprint. Its
 [closeout record](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3A_CLOSEOUT.md)
@@ -386,9 +412,10 @@ The accepted Organizational Intelligence Product Program Phase 3A architecture,
 implementation, exact-head review, Chief Architect merge decision, pull request
 #56 squash merge, and post-merge validation are complete. The synthetic shell is
 canonical as standard-library-only source, tests, and an operator preview guide.
-This documentation-only package is the one terminal closeout. No parser,
-service, real document, runtime integration, deployment, Product Program Phase
-3B implementation, or canonical Roadmap Phase 3 work is authorized.
+This documentation-only package is the one terminal closeout. It grants no real
+document, deployment, knowledge promotion, Phase 3C, Phase 3D, or canonical
+Roadmap Phase 3 authority. The later bounded Phase 3B Milestone 1 authorization
+does not alter that completed Phase 3A result.
 
 The [Sprint 006 Proposal v1 abandonment record](docs/SPRINT_006_PROPOSAL_V1_ABANDONED.md)
 records `Status: Abandoned`, `Reason: Unrecoverable proposal artifacts`, and

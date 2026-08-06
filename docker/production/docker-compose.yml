@@ -1,0 +1,104 @@
+services:
+  executive-shell:
+    build:
+      context: ../..
+      dockerfile: docker/production/executive.Dockerfile
+    container_name: bonsaai-executive-shell
+    restart: unless-stopped
+    environment:
+      EXECUTIVE_BIND_HOST: 0.0.0.0
+      EXECUTIVE_PORT: 8080
+      JEBEDIAH_QDRANT_RUNTIME: "1"
+      JEBEDIAH_RUNTIME_ROOT: /var/lib/bonsaai/runtime
+      BONSAAI_CANONICAL_RUNTIME: ${BONSAAI_CANONICAL_RUNTIME:-1}
+      BONSAAI_MEMORY_API_URL: ${BONSAAI_MEMORY_API_URL:-http://jebediah-memory:8000}
+      BONSAAI_INTERACTION_API_URL: ${BONSAAI_INTERACTION_API_URL:-http://jebediah-interaction:8001}
+      BONSAAI_INTERACTION_ADMISSION_PATH: ${BONSAAI_INTERACTION_ADMISSION_PATH:-/admission/submit}
+      BONSAAI_INTERACTION_PROMOTION_PATH: ${BONSAAI_INTERACTION_PROMOTION_PATH:-/admission/promote}
+      BONSAAI_INTERACTION_REJECTION_PATH: ${BONSAAI_INTERACTION_REJECTION_PATH:-/admission/reject}
+      BONSAAI_INTERACTION_ASK_PATH: ${BONSAAI_INTERACTION_ASK_PATH:-/questions/ask}
+      BONSAAI_INTERACTION_SERVICE_TOKEN: ${BONSAAI_INTERACTION_SERVICE_TOKEN:?set BONSAAI_INTERACTION_SERVICE_TOKEN}
+      QDRANT_URL: ${BONSAAI_QDRANT_URL:-http://qdrant:6333}
+      OLLAMA_URL: ${BONSAAI_OLLAMA_URL:-http://ollama:11434}
+      COLLECTION_NAME: ${COLLECTION_NAME:-jebediah_memory}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nomic-embed-text:v1.5}
+      BONSAAI_WORKSPACE_MODE: ${BONSAAI_WORKSPACE_MODE:-production}
+      BONSAAI_DEFAULT_WORKSPACE: ${BONSAAI_DEFAULT_WORKSPACE:-production}
+      BONSAAI_ORGANIZATION_ID: ${BONSAAI_ORGANIZATION_ID:-virginia-b-andes}
+    volumes:
+      - bonsaai_runtime_data:/var/lib/bonsaai/runtime
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/health', timeout=5).read()",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 45s
+    networks:
+      - jebediah_internal
+    deploy:
+      resources:
+        limits:
+          cpus: "1.50"
+          memory: 1536M
+        reservations:
+          cpus: "0.25"
+          memory: 512M
+
+  reverse-proxy:
+    image: caddy:2.10-alpine
+    container_name: bonsaai-reverse-proxy
+    restart: unless-stopped
+    ports:
+      - "${BONSAAI_HTTP_PORT:-80}:80"
+      - "${BONSAAI_HTTPS_PORT:-443}:443"
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL:-admin@example.invalid}
+      BONSAAI_PUBLIC_HOSTS: ${BONSAAI_PUBLIC_HOSTS:-bonsaai.local}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - bonsaai_caddy_data:/data
+      - bonsaai_caddy_config:/config
+    depends_on:
+      executive-shell:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "caddy",
+          "version",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - jebediah_external
+      - jebediah_internal
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 256M
+        reservations:
+          cpus: "0.10"
+          memory: 64M
+
+networks:
+  jebediah_external:
+    external: true
+    name: jebediah_external
+  jebediah_internal:
+    external: true
+    name: jebediah_internal
+
+volumes:
+  bonsaai_caddy_data:
+  bonsaai_caddy_config:
+  bonsaai_runtime_data:

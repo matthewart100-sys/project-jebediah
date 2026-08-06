@@ -121,8 +121,8 @@ searchable, linkable, and version controlled.
   merged synthetic implementation was completed; it grants no live-information,
   deployment, action, or later-phase authority.
 - [Phase 3B Governed Intake Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
-  is the Proposed decision-complete, PDF-only, one-operator architecture and
-  exact implementation manifest.
+  is the accepted decision-complete, PDF-only, one-operator architecture and
+  unchanged future full-package implementation manifest.
 - [Phase 3B Lifecycle and Recovery Specification](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_LIFECYCLE_AND_RECOVERY.md)
   defines Proposed encryption, retention, deletion, hold, reconciliation,
   backup, restore, and rotation behavior.
@@ -132,10 +132,15 @@ searchable, linkable, and version controlled.
   define the Proposed security, supply-chain, isolation, test, browser, and
   negative-capability evidence.
 - [ADR 0016: Local Governed PDF Intake and Custody Boundary](adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
-  is Proposed and grants no implementation or real-source authority.
+  is the Accepted System decision for the local governed PDF intake and custody
+  boundary; it grants no real-source or deployment authority.
 - [Phase 3B Implementation Activation](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_IMPLEMENTATION_ACTIVATION.md)
-  is prepared for a later exact-head Chief Architect decision; it is not
-  adopted.
+  records the completed architecture activation and distinguishes the separately
+  authorized Milestone 1 from the unauthorized complete Phase 3B package.
+- [Phase 3B Implementation Milestone 1 Authorization](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_MILESTONE_1_AUTHORIZATION.md)
+  records the Chief Architect's bounded synthetic-only intake and custody
+  implementation authority while preserving every real-document, deployment,
+  knowledge, memory, model, Phase 3C, and Phase 3D prohibition.
 - [Knowledge Manager 1.0 Phase 1 Implementation Plan](KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
   defines the accepted and authorized metadata-only Knowledge Registry
   foundation while preserving its Checkpoint 0 and excluded capabilities.
@@ -191,6 +196,23 @@ searchable, linkable, and version controlled.
   observability, change, recovery, runbooks, incidents, and readiness.
 - [Release Process](RELEASE_PROCESS.md) defines versioning, release gates,
   artifacts, tagging, deployment separation, verification, and withdrawal.
+- [Deployment Guide](DEPLOYMENT_GUIDE.md) defines production compose topology,
+  reverse-proxy exposure, startup wiring, and permanent service deployment steps.
+- [Operations Guide](OPERATIONS_GUIDE.md) defines runtime lifecycle commands,
+  health checks, logging, and incident triage for deployed services.
+- [Production Configuration Guide](PRODUCTION_CONFIGURATION_GUIDE.md) defines
+  host/domain/environment configuration, private-service boundaries, and
+  persistence settings for production operation.
+- [Backup Guide](BACKUP_GUIDE.md) defines backup scope, procedures, and
+  verification checkpoints.
+- [Disaster Recovery Guide](DISASTER_RECOVERY_GUIDE.md) defines recovery
+  prerequisites, restore sequence, and post-restore validation checks.
+- [Administrator Quick Start](ADMINISTRATOR_QUICK_START.md) provides first-run
+  operational commands for platform administrators.
+- [Workspace Guide](WORKSPACE_GUIDE.md) defines demonstration, development, and
+  production workspace behavior, configuration, and separation strategy.
+- [Demonstration Guide](DEMONSTRATION_GUIDE.md) defines the synthetic
+  demonstration workflow and reset procedure.
 - [v0.1.0 Release Checklist](releases/v0.1.0/CHECKLIST.md) applies those gates
   and preserves the verified initial engineering-foundation release record.
 - [v0.1.0 Release Notes](releases/v0.1.0/RELEASE_NOTES.md) define the public

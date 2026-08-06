@@ -1,8 +1,8 @@
 import os
 from datetime import datetime
 from numbers import Real
-from typing import Any, Sequence
-from uuid import uuid4
+from typing import Any, Mapping, Sequence
+from uuid import NAMESPACE_URL, uuid5
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import (
@@ -124,7 +124,7 @@ class QdrantMemoryRepository:
         self.verify_vector_space()
 
         governed_memory = ensure_memory_governance(memory)
-        point_id = str(uuid4())
+        point_id = str(uuid5(NAMESPACE_URL, f"jebediah-memory:{governed_memory.id}"))
         payload = self._payload_for(governed_memory, embedding_identity)
         point = PointStruct(
             id=point_id,
@@ -302,17 +302,34 @@ class QdrantMemoryRepository:
         query_vector: Sequence[Real],
         embedding_identity: EmbeddingIdentity,
         limit: int = 5,
+        metadata_filter: Mapping[str, str] | None = None,
     ) -> list[RetrievalCandidate]:
         embedding_identity.require_approved()
         validated_vector = validate_embedding_vector(query_vector)
         self.verify_vector_space()
 
+        query_filter = None
+        if metadata_filter:
+            query_filter = Filter(
+                must=[
+                    FieldCondition(
+                        key=f"metadata.{key}",
+                        match=MatchValue(value=value),
+                    )
+                    for key, value in sorted(metadata_filter.items())
+                ]
+            )
+        query_kwargs: dict[str, Any] = {
+            "collection_name": self.collection_name,
+            "query": validated_vector,
+            "limit": limit,
+            "with_payload": True,
+            "with_vectors": True,
+        }
+        if query_filter is not None:
+            query_kwargs["query_filter"] = query_filter
         results = self.client.query_points(
-            collection_name=self.collection_name,
-            query=validated_vector,
-            limit=limit,
-            with_payload=True,
-            with_vectors=True,
+            **query_kwargs,
         )
         candidates = []
         for point in results.points:

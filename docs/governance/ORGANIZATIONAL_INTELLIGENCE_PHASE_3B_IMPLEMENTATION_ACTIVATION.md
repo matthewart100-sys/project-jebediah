@@ -1,7 +1,8 @@
 # Organizational Intelligence Phase 3B Implementation Activation
 
-**Status:** Adopted for status activation only; implementation remains
-unauthorized
+**Status:** Architecture activation complete; Milestone 1 remains the historical
+bounded authorization baseline, and branch-level completion work now references
+the [Phase 3B Completion Directive](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_COMPLETION_DIRECTIVE.md)
 
 **Program phase:** Phase 3B - Governed Real-Document Intake and Inspection
 
@@ -14,19 +15,41 @@ review
 
 **Adopted architecture head:** `bfa18ab35ae1bcd0cf6a91090dba62ab9220076a`
 
-**Chief Architect decision:** Pull request #58, 2026-08-05 - adopt ADR 0016 and
-the Phase 3B architecture package; authorize only this bounded status activation
+**Chief Architect architecture decision:** Pull request #58, 2026-08-05 - adopt
+ADR 0016 and merge the Phase 3B architecture package
 
-**Still unauthorized:** Architecture merge, implementation, deployment, real
-Virginia B. Andes or other organizational document use, and every Phase 3C or
-Phase 3D capability
+**Chief Architect implementation decision:** Authorize only Phase 3B
+Implementation Milestone 1, Synthetic Intake and Custody Foundation, against
+canonical baseline `9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`
 
-## Recommended disposition
+**Still unauthorized:** The complete Phase 3B implementation, deployment, real
+Virginia B. Andes or other organizational document use, knowledge promotion,
+memory integration, and every Phase 3C or Phase 3D capability
+
+## Current bounded authorization
+
+For this branch, the active implementation authority is the
+[Phase 3B Completion Directive](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_COMPLETION_DIRECTIVE.md).
+Milestone 1 remains the accepted historical bounded authorization that
+established the custody foundation and prohibitions.
+
+The
+[Phase 3B Implementation Milestone 1 authorization](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_MILESTONE_1_AUTHORIZATION.md)
+is the canonical implementation authority now in force. It permits only the
+synthetic intake and custody foundation needed to answer whether Project
+Jebediah can receive, classify, hold, reject, expire, and delete a generated
+synthetic document without promoting it into knowledge or memory.
+
+Milestone 1 does not activate the complete 59-file implementation manifest in
+the Phase 3B Governed Intake Plan. That manifest remains unchanged as a future
+full-package boundary and requires a separate exact authorization.
+
+## Historical full-package disposition
 
 **ADOPT ADR 0016 AND AUTHORIZE THE SYNTHETIC-ONLY PHASE 3B IMPLEMENTATION**
 
-Authorize only the exact 59-file implementation in the Phase 3B Governed Intake
-Plan after:
+This prepared disposition did not authorize the complete 59-file implementation.
+That full package remains gated by:
 
 1. the complete Proposed architecture package is independently approved at one
    exact head;
@@ -37,10 +60,11 @@ Plan after:
 5. the Chief Architect separately approves that unchanged head for merge; and
 6. the package merges to canonical `main`.
 
-This decision would authorize generated synthetic PDF fixtures only. It would
-not authorize a real VBA document.
+Any later full-package decision may authorize only generated synthetic PDF
+fixtures unless another separately reviewed decision changes the information-use
+boundary. It cannot authorize a real VBA document implicitly.
 
-## Recommended option
+## Prepared full-package option
 
 Implement one local, single-operator, PDF-only intake and review slice using:
 
@@ -69,7 +93,7 @@ custody, SQLite migrations, rootless OCI workers, dependency/image maintenance,
 manual backups, and explicit cleanup. It remains a repository candidate with no
 availability or deployment claim. All testing uses generated synthetic PDFs.
 
-## Exact authorization text
+## Historical full-package authorization template
 
 > For repository `matthewart100-sys/project-jebediah`, I adopt System ADR 0016
 > and the Phase 3B architecture package at exact reviewed head
@@ -84,13 +108,12 @@ availability or deployment claim. All testing uses generated synthetic PDFs.
 > architecture merge, implementation review, implementation merge, real-source
 > use, and deployment each remain separately gated as documented.
 
-## Exact implementation scope
+## Full-package implementation scope
 
-The Phase 3B Governed Intake Plan's Appendix A is the sole file manifest.
-Implementation may add the specified host dependency, lock exact worker
-dependencies and images, extend the current admission contracts compatibly,
-create durable adapters/workers, extend the Executive Product Shell workspace,
-add the exact tests/workflow/operator guide, and update direct documentation.
+The Phase 3B Governed Intake Plan's Appendix A remains the sole file manifest for
+a future complete Phase 3B implementation. Milestone 1 does not activate that
+manifest as a whole. No file in Appendix A is added to Milestone 1 merely because
+it appears in the future full-package manifest.
 
 ## Explicitly unauthorized
 
@@ -106,26 +129,28 @@ add the exact tests/workflow/operator guide, and update direct documentation.
   models, grounded answers, Phase 3C, Phase 3D, or action;
 - changing the exact limits, retention, deletion, hold, authority, privacy,
   encryption, worker, or file-scope decisions; and
-- implementation or architecture merge without their later exact-head decisions.
+- full Phase 3B implementation or implementation merge without its later
+  exact-head decisions.
 
 ## Implementation gates
 
-Before code:
+Before Milestone 1 code:
 
 - the architecture package and ADR 0016 are canonical Accepted records;
-- this activation is canonical Adopted;
+- the Milestone 1 authorization is canonical;
 - `main` is clean and synchronized at the architecture merge;
-- documentation validation, whitespace, sensitive-value, lock, and existing
-  Python tests pass;
-- worker build prerequisites are available without credentials; and
+- the exact bounded Milestone 1 implementation manifest is published before
+  coding;
+- required baseline validation passes; and
 - the implementation owner confirms no prohibited input is required.
 
 ## Implementation review and merge gates
 
-The implementation must match all 59 files, pass the complete Phase 3B
-validation inventory, publish one exact head, receive one independent Work Mode
-review, and stop for a separate Chief Architect implementation merge decision.
-A changed implementation head requires fresh review.
+Milestone 1 must remain inside its separately published exact changed-file
+manifest, use generated synthetic fixtures only, pass its complete required
+validation, publish one non-draft pull request at one exact head, receive one
+independent read-only Work Mode review, and stop for a separate Chief Architect
+exact-head merge decision. A changed implementation head requires fresh review.
 
 ## Later real-source decision
 

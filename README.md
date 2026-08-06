@@ -7,8 +7,9 @@ practical, and long-term maintainability.
 The **Project Genesis (Phase 0)** engineering foundation is complete and
 published as [`v0.1.0`](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0).
 JCS definition was deferred after Milestone C1. The repository now contains a
-bounded Collector and semantic memory implementation; its deployment and live
-home-lab operation remain unverified.
+bounded Collector and semantic memory implementation plus a governed Executive
+Shell runtime. Phase 4 production deployment artifacts are now tracked in-repo;
+host rollout validation remains an operational gate.
 
 ## Source of truth
 
