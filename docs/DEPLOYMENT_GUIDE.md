@@ -78,7 +78,7 @@ flowchart LR
      - `BONSAAI_QDRANT_URL=http://qdrant:6333`
      - `BONSAAI_OLLAMA_URL=http://ollama:11434`
      - `BONSAAI_MEMORY_API_URL=http://jebediah-memory:8000`
-     - `BONSAAI_INTERACTION_API_URL=http://jebediah-interaction:8000`
+     - `BONSAAI_INTERACTION_API_URL=http://jebediah-interaction:8001`
      - `BONSAAI_INTERACTION_ADMISSION_PATH=/admission/submit`
      - `BONSAAI_INTERACTION_ASK_PATH=/questions/ask`
      - `BONSAAI_CANONICAL_RUNTIME=1`
@@ -135,7 +135,7 @@ Run from `~/project-jebediah/docker/production`:
 
    ```bash
    curl -fsS http://jebediah-memory:8000/health
-   curl -fsS http://jebediah-interaction:8000/health
+   curl -fsS http://jebediah-interaction:8001/health
    curl -fsS http://qdrant:6333/healthz
    curl -fsS http://ollama:11434/api/tags
    ```

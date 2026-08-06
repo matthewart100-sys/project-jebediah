@@ -163,7 +163,7 @@ class _CanonicalRuntimeClient:
     def __init__(self) -> None:
         self._interaction_base_url = (
             os.getenv("BONSAAI_INTERACTION_API_URL", "").strip()
-            or "http://jebediah-interaction:8000"
+            or "http://jebediah-interaction:8001"
         ).rstrip("/")
         self._memory_base_url = (
             os.getenv("BONSAAI_MEMORY_API_URL", "").strip()

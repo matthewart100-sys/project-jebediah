@@ -19,7 +19,7 @@
 | `BONSAAI_QDRANT_URL` | Existing Jebediah Qdrant endpoint on `jebediah_internal` | `http://qdrant:6333` |
 | `BONSAAI_OLLAMA_URL` | Existing Jebediah Ollama endpoint on `jebediah_internal` | `http://ollama:11434` |
 | `BONSAAI_MEMORY_API_URL` | Existing Jebediah memory API endpoint on `jebediah_internal` | `http://jebediah-memory:8000` |
-| `BONSAAI_INTERACTION_API_URL` | Existing Jebediah interaction API endpoint on `jebediah_internal` | `http://jebediah-interaction:8000` |
+| `BONSAAI_INTERACTION_API_URL` | Existing Jebediah interaction API endpoint on `jebediah_internal` | `http://jebediah-interaction:8001` |
 | `BONSAAI_INTERACTION_ADMISSION_PATH` | Interaction API admission route path | `/admission/submit` |
 | `BONSAAI_INTERACTION_ASK_PATH` | Interaction API question-answer route path | `/questions/ask` |
 | `BONSAAI_CANONICAL_RUNTIME` | Enables Executive Shell canonical-runtime client mode | `1` |
