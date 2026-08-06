@@ -47,10 +47,11 @@ missing earlier decision.
     rollback, and requested decision.
 12. **Non-draft pull request.** Publish one reviewable pull request when its
     bounded scope and validation are complete.
-13. **Independent exact-head Work Mode review.** A distinct review instance
-    that did not author or modify the artifacts reviews the exact head and
-    complete evidence package.
-14. **Chief Architect exact-PR and exact-head decision.** After Work Mode,
+13. **Independent exact-head normal-chat review.** A fresh read-only normal
+    ChatGPT conversation that did not author or modify the artifacts reviews
+    the exact head and complete evidence package and returns `APPROVED`,
+    `REVISIONS REQUIRED`, or `BLOCKED`.
+14. **Chief Architect exact-PR and exact-head decision.** After independent review,
     obtain the formal decision for the unchanged pull request head and resolve
     every blocking finding under the coordination protocol.
 15. **Controlled merge.** Merge only with required approval and passing gates;
@@ -100,15 +101,18 @@ authority unless each authority is explicitly and separately exercised.
 
 The Implementation Engineer inspects, plans, implements authorized scope,
 validates, publishes evidence, and prepares handoffs. The engineer may perform
-internal self-audits but cannot perform their own independent Work Mode
-approval or grant themselves Chief Architect authority.
+internal self-audits but cannot perform their own independent review or grant
+themselves Chief Architect authority.
 
-### Work Mode reviewer
+### Independent reviewer
 
-The Work Mode reviewer is a distinct instance that did not author or
-materially modify the reviewed artifact. Work Mode may issue blocking findings
-and a review disposition but cannot grant final architecture or merge
-approval.
+The independent reviewer is a fresh normal ChatGPT conversation that did not
+author or materially modify the reviewed artifact. It remains read-only,
+inspects actual supplied pull-request evidence, identifies limitations, and
+may issue blocking findings and a review disposition but cannot modify GitHub,
+grant final architecture or merge approval, or begin the next milestone. Work
+Mode is optional and requires an explicit unusually high-risk, cross-cutting,
+or adversarial review request.
 
 ### Documentation Lead
 
@@ -129,5 +133,6 @@ Each Codex chat has one bounded milestone objective. A session may prepare an
 exact prompt or implementation packet for the next phase, but it must not begin
 that phase without its own documented authority and gates.
 
-For B0, this framework records reusable process only. It does not authorize B1
-or any later milestone.
+This framework does not itself authorize a milestone. B1 authority is owned by
+[`CA-2026-08-06-B1-ACTIVATION`](CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md);
+B2 and later milestones remain unauthorized.

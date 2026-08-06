@@ -8,8 +8,7 @@
 
 **Decision owner:** Chief Architect
 
-**Required reviewers:** Independent Work Mode architecture review, then Chief
-Architect final decision
+**Required reviewers:** Independent review, then Chief Architect final decision
 
 **Adopted architecture head:** `bfa18ab35ae1bcd0cf6a91090dba62ab9220076a`
 
@@ -18,9 +17,11 @@ request #58 at `9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`
 
 **Architecture status:** Accepted and binding within this ADR's existing scope
 
-**Implementation authority:** None under
-[CA-2026-08-06-P3B-RECONCILIATION](../governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md);
-deployment and real organizational document use remain unauthorized
+**Implementation authority:** B1's generated-synthetic-PDF custody subset only,
+effective after merge of
+[CA-2026-08-06-B1-ACTIVATION](../governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md);
+inspection, OCR, human review, deployment, downstream consumers, and real
+organizational document use remain unauthorized
 
 ## Decision summary
 

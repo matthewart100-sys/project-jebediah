@@ -17,6 +17,10 @@ development. Changes not assigned to a published version remain under
 
 ### Added
 
+- Added Chief Architect decision `CA-2026-08-06-B1-ACTIVATION`, activating the
+  bounded generated-synthetic-PDF custody milestone after this package merges
+  and adopting independent read-only normal-chat review as the routine review
+  path while preserving exact-head Chief Architect merge authority.
 - Added the
   [Master Execution Framework](docs/governance/JEBEDIAH_MASTER_EXECUTION_FRAMEWORK.md)
   for bounded milestone execution, exact-head review, controlled merge,

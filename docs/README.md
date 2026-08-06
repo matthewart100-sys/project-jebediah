@@ -68,11 +68,15 @@ searchable, linkable, and version controlled.
 - [Master Execution Framework](governance/JEBEDIAH_MASTER_EXECUTION_FRAMEWORK.md)
   defines the reusable milestone workflow, stop conditions, and role
   boundaries without authorizing any milestone.
+- [Chief Architect B1 Activation Decision](governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md)
+  records `CA-2026-08-06-B1-ACTIVATION`, the bounded synthetic custody scope,
+  routine independent normal-chat review policy, exclusions, and activation
+  gate.
 - [Chief Architect Phase 3B Reconciliation Decision](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
   records `CA-2026-08-06-P3B-RECONCILIATION`, the inactive implementation
   authority, revised milestone sequence, pull-request preservation, ADR impact,
   original historical pre-execution revert plan, and later B0 branch execution
-  status. The recovery is not canonical before exact-head approval and merge.
+  status. B0 subsequently merged through pull request #62.
 - [Documentation Lead Protocol](governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md)
   defines the Documentation Suite's post-merge closeout responsibilities and
   limits.

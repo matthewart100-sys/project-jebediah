@@ -8,15 +8,17 @@ The **Project Genesis (Phase 0)** engineering foundation is complete and
 published as [`v0.1.0`](https://github.com/matthewart100-sys/project-jebediah/releases/tag/v0.1.0).
 JCS definition was deferred after Milestone C1. The repository now contains a
 bounded Collector and semantic memory implementation plus the accepted
-synthetic Executive Product Shell. The B0 review branch removes the broader
+synthetic Executive Product Shell. B0 removed the broader
 runtime and deployment artifacts added by pull request #60 through a normal
 revert while retaining Chief Architect decision
 [`CA-2026-08-06-P3B-RECONCILIATION`](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
 which classifies that implementation as architecturally nonconforming and not
-accepted as conforming or operational. The recovery is not canonical before
-review and merge. No implementation, deployment,
-real-document, model, retrieval, workspace, or public-exposure authority is
-active.
+accepted as conforming or operational. B0 is canonical, merged, complete, and
+validated at `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. Decision
+[`CA-2026-08-06-B1-ACTIVATION`](docs/governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md)
+authorizes only a generated-synthetic-PDF local custody implementation after
+its activation package merges. Deployment, real documents, extraction, OCR,
+models, retrieval, workspaces, and public exposure remain unauthorized.
 
 ## Source of truth
 
@@ -126,20 +128,18 @@ The accepted
 [Phase 3B Governed Intake Plan](docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
 and Accepted
 [ADR 0016](docs/adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
-define a future local, single-operator, PDF-only admission and custody
-architecture. They authorize no implementation, real document, VBA use,
-Phase 3C/3D consumer, model, memory/Qdrant projection, retrieval, deployment,
-or source discovery.
+define a local, single-operator, PDF-only admission and custody architecture.
+Decision `CA-2026-08-06-B1-ACTIVATION` activates only its generated-synthetic-
+PDF custody subset after the activation package merges. Real documents, VBA
+use, extraction, OCR, Phase 3C/3D consumers, models, memory/Qdrant projection,
+retrieval, deployment, and source discovery remain unauthorized.
 
-The active work is B0 canonical recovery. A later, separate B0 execution
-directive authorized the normal revert of
-`991929beb6026511e07b6cb7954e1c9e400b9cb5` on pull request #62, and that
-revert has been executed on the review branch. The recovery is not canonical
-until the corrected exact head passes CI, receives independent Work Mode
-approval and a separate Chief Architect exact-head merge decision, and is
-merged. Pull requests #59 and #60 remain audit and salvage evidence and must
-not be merged or deployed. No runtime rollback, deployment mutation, or B1 or
-later implementation occurred or is authorized.
+B0 canonical recovery merged through pull request #62 at
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. Pull requests #59 and #60 remain
+audit and salvage evidence and must not be merged or deployed. The active work
+is the documentation-only B1 activation package; no B1 code may begin before
+that package receives independent review, an exact-head Chief Architect merge
+decision, and merge.
 
 The permanent plan-to-closeout role sequence is defined by the
 [Project Coordination Protocol](docs/governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md).

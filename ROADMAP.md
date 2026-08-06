@@ -92,8 +92,9 @@ Pull request #60 introduced broader Phase 3B, Phase 3C, workspace, and
 deployment artifacts, but
 [CA-2026-08-06-P3B-RECONCILIATION](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
 classifies that implementation as architecturally nonconforming and not
-accepted. B0 canonical recovery is the only current work; no implementation or
-deployment milestone is active.
+accepted. B0 canonical recovery is complete. The documentation-only B1
+activation package is current; B1 implementation begins only after that
+package merges. No deployment milestone is active.
 
 Required outcomes:
 
@@ -211,10 +212,11 @@ human review.
 Accepted System ADR 0016 and the Phase 3B package preserve ADR 0013's source,
 submission, authority, and state boundaries. The accepted future Human Review
 Workspace design is not the Knowledge Vault, Knowledge Registry, Memory Service,
-Qdrant, Knowledge Graph, or a grounded-answer consumer. Acceptance does not
-activate implementation. The historical Milestone 1 authorization grants no
-current authority, and pull requests #59 and #60 are audit and salvage evidence
-only.
+Qdrant, Knowledge Graph, or a grounded-answer consumer. Acceptance now supports
+only the separately authorized B1 synthetic custody slice after the activation
+package merges. The historical Milestone 1 authorization grants no current
+authority, and pull requests #59 and #60 remain file-level audit and salvage
+evidence only.
 
 ### Revised organizational-intelligence milestone sequence
 
@@ -225,8 +227,8 @@ roadmap phase.
 
 | Milestone | Focus | Current status |
 | --- | --- | --- |
-| B0 - Canonical recovery | Restore the reviewed pre-PR60 implementation baseline while retaining reconciliation authority | Proposed recovery complete on review branch; merge unauthorized pending review |
-| B1 - Synthetic custody foundation | Bounded synthetic custody | Future; unauthorized |
+| B0 - Canonical recovery | Restore the reviewed pre-PR60 implementation baseline while retaining reconciliation authority | Complete and canonical at `37dd437617ed731340e9fd3da6cab0b1c49f7b4a` |
+| B1 - Synthetic custody foundation | Generated synthetic PDF validation, encrypted local custody, identity, audit, lifecycle, deletion, reset, and recovery | Authorized after activation package review and merge |
 | B2 - Isolated PDF inspection and review | Synthetic PDF isolation and human review | Future; unauthorized |
 | B3 - Lifecycle and recovery readiness | Retention, deletion, hold, backup, restore, and recovery | Future; unauthorized |
 | C0 - Identity and service authorization | Principals, authentication, authorization, and service boundaries | Future; unauthorized |

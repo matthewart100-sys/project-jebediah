@@ -1,12 +1,13 @@
 # Project Status
 
-**Phase:** B0 - Canonical recovery
+**Phase:** B1 - Synthetic Custody Foundation activation
 
-**Status:** Canonical recovery proposed on a review branch. No implementation
-authority is active after B0.
+**Status:** B0 is canonical, merged, complete, and validated. B1 implementation
+is authorized only after this activation package is reviewed, approved, and
+merged.
 
 **Controlling decision:**
-[CA-2026-08-06-P3B-RECONCILIATION](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+[CA-2026-08-06-B1-ACTIVATION](docs/governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md)
 
 **B0 recovery base:**
 `b1d8dea531ad0b82171cb0f3f3979323b712a5de`
@@ -24,7 +25,7 @@ presence grants no authority to run, merge forward, deploy, expose, or use it.
 
 | Boundary | Current status |
 | --- | --- |
-| Implementation authority | None |
+| Implementation authority | B1 synthetic custody only, effective after activation merge |
 | Pull request #60 implementation | Strategically aligned; architecturally nonconforming; not accepted |
 | Deployment | Unauthorized |
 | Real documents | Unauthorized |
@@ -37,15 +38,14 @@ presence grants no authority to run, merge forward, deploy, expose, or use it.
 | Retrieval or grounded answers | Unauthorized |
 | Operational workspaces | Unauthorized |
 | Public domain exposure | Unauthorized |
-| Selected normal revert | Executed on the B0 review branch; not canonical before merge |
+| B0 recovery | Canonical, merged, complete, and validated at `37dd437617ed731340e9fd3da6cab0b1c49f7b4a` |
 
-The current work is the authorized B0 recovery in
-[CURRENT_SPRINT.md](CURRENT_SPRINT.md). The review branch restores the
-pre-PR60 implementation content, retains the reconciliation record, and adds
-the reusable execution framework. It must receive independent exact-head Work
-Mode review and a separate Chief Architect merge decision. The live runtime
-was not changed and may differ from repository state; a future operational
-inventory requires separate authority. B1 remains unauthorized.
+The current work is the documentation-only B1 activation package in
+[CURRENT_SPRINT.md](CURRENT_SPRINT.md). After it merges, B1 may implement only
+generated synthetic PDF custody: local validation, identity, encrypted opaque
+storage, lifecycle audit, duplicates, expiration, deletion, reset, and
+recovery. No real information, extraction, OCR, downstream intelligence,
+runtime, deployment, or public exposure is authorized.
 
 ## Summary
 
@@ -429,12 +429,11 @@ abstraction, in-memory reference adapter, and tests. The
 [closeout record](docs/KNOWLEDGE_MANAGER_1_PHASE_1_CLOSEOUT.md) owns the exact
 merge, post-merge evidence, exclusions, and remaining gates.
 
-The active milestone is B0 canonical recovery. The separately authorized
-normal revert has been executed on the pull request #62 review branch. Current
-authority is limited to validation, independent exact-head review, and a
-separate Chief Architect decision for the unchanged recovery head. The branch
-recovery is not canonical before merge, and every implementation milestone
-remains unauthorized.
+The active milestone is the documentation-only B1 activation package. B0
+canonical recovery merged through pull request #62 at
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. After the activation package
+merges, implementation authority is limited to the bounded B1 generated-
+synthetic-PDF custody scope; every later milestone remains unauthorized.
 
 The Organizational Intelligence Product Program Phase 3A is the most recently
 completed implementation sprint. Its
