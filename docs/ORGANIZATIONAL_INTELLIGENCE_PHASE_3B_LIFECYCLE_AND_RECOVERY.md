@@ -1,7 +1,12 @@
 # Phase 3B Lifecycle and Recovery Specification
 
-**Status:** Proposed; no implementation, live information, or deployment
-authorized
+**Status:** Accepted architecture specification; no implementation, custody,
+live information, backup, restore, deployment, or runtime mutation authorized
+
+**Reconciliation:** These lifecycle and recovery requirements remain binding
+future constraints under
+[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md).
+Pull request #60 does not establish conformance or operational readiness.
 
 ## Purpose
 

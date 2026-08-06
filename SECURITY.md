@@ -20,6 +20,11 @@ supported software release.
 - `v0.1.0` is a published engineering-foundation release, not a supported
   software release.
 - No supported software release exists.
+- Pull request #60 added runtime, model, retrieval, workspace, Docker, Caddy,
+  operations, and public-exposure artifacts, but Chief Architect decision
+  `CA-2026-08-06-P3B-RECONCILIATION` classifies that implementation as
+  architecturally nonconforming and not accepted. Those artifacts must not be
+  run, deployed, exposed, or supplied real information.
 - GitHub private vulnerability reporting was enabled and read back as enabled
   through the GitHub API on 2026-07-30.
 - GitHub API evidence on 2026-07-30 confirms that `main` requires pull
@@ -206,15 +211,22 @@ Apply [Data Ownership](docs/DATA_OWNERSHIP.md):
 A future classification model and privacy requirements must be based on real
 use cases and applicable obligations.
 
-### Proposed Phase 3B document boundary
+### Accepted Phase 3B architecture boundary
 
-The Phase 3B architecture package proposes, but does not yet authorize, one
-local PDF intake path. It requires a signed single-use authorization receipt,
-browser-pushed bytes without a server-side path, encrypted custody outside Git,
-offline rootless scanner/parser/OCR workers, explicit human review, fixed
-retention/deletion, signed legal-hold authority, tombstone-aware recovery, and
-an exact later real-source decision. Until adoption and implementation closeout,
-no real document may enter that path.
+The accepted Phase 3B architecture package and ADR 0016 define, but do not
+authorize implementation or use of, one local PDF intake path. The design
+requires a signed single-use authorization receipt, browser-pushed bytes
+without a server-side path, encrypted custody outside Git, offline rootless
+scanner/parser/OCR workers, explicit human review, fixed retention/deletion,
+signed legal-hold authority, tombstone-aware recovery, and a separately
+reviewed exact real-source decision.
+
+No conforming implementation has been accepted. No real document or VBA
+artifact may be discovered, opened, hashed, scanned, parsed, OCR-processed,
+stored, reviewed, or supplied to a model. Model use, memory or Qdrant
+projection, retrieval, grounded answers, deployment, DNS/domain work, and
+public exposure remain unauthorized. Pull request #60 does not satisfy these
+gates by being present on `main`.
 
 ## AI and automation security
 

@@ -2,45 +2,68 @@
 
 ## Active sprint
 
-**Name:** Operational Workspace Implementation Sprint
+**Name:** Phase 3B Reconciliation Canonicalization
 
-**Status:** Active under Chief Architect directive to complete multi-workspace
-operations within the existing Executive Shell, with no architecture redesign,
-governance changes, or duplicate runtime implementations.
+**Status:** Active documentation-only recovery package under Chief Architect
+decision `CA-2026-08-06-P3B-RECONCILIATION`
 
-**Deployment status:** Authorized (operational workspace integration)
+**Canonical base:** `991929beb6026511e07b6cb7954e1c9e400b9cb5`
 
-**Information-use status:** Workspace controls must preserve governed
-information boundaries and prevent cross-workspace data leakage.
+**Implementation authority:** None
+
+**Deployment status:** Unauthorized
+
+**Information-use status:** Synthetic or real document use, VBA access, model
+use, knowledge promotion, memory/Qdrant projection, retrieval, grounded
+answers, and public exposure are unauthorized.
 
 ## Active milestone question
 
-Can Bonsaai run demonstration, development, and production workspaces from one
-Executive Shell with persistent selection, strict runtime separation, and no
-application redeploy?
+Can Project Jebediah make the accepted Phase 3B reconciliation decision durable
+and restore one unambiguous repository authority state without changing code,
+executing the selected revert, or mutating any runtime?
 
 ## Authorized milestone boundary
 
 This sprint authorizes:
 
-- workspace mode selection (demo/development/production);
-- organization configuration selection at startup/landing;
-- persistent workspace state;
-- workspace banner and safeguards;
-- demonstration reset behavior;
-- deployment/runtime configuration updates for workspace defaults;
-- documentation and validation updates required by this work.
+- one documentation-only canonicalization package;
+- the formal Chief Architect reconciliation record;
+- supersession and historical-status corrections;
+- the revised B0-B3, C0-C2, D1-D2, and O1 milestone sequence;
+- preservation of pull requests #59 and #60 as audit and salvage evidence;
+- documentation of, but not execution of, the selected future normal revert;
+  and
+- documentation, local-link, sensitive-content, and whitespace validation.
 
 This sprint does **not** authorize:
 
-- new business capabilities;
-- architecture or governance redesign;
-- replacement or duplication of existing runtime pipelines.
+- code, tests, dependencies, locks, workflows, Docker, Caddy, services, or
+  scripts;
+- a revert, cherry-pick, reset, rebase, force update, merge, or deployment;
+- implementation of any revised milestone;
+- real documents or VBA access;
+- Phase 3B, Phase 3C, Phase 3D, workspace, identity, model, promotion, memory,
+  Qdrant, retrieval, grounded-answer, or public-exposure work; or
+- any runtime, server, container, DNS, certificate, database, or external-state
+  mutation.
 
 ## Success criteria
 
-1. Workspace and organization selection are integrated into the existing shell.
-2. Demonstration reset is available and restores synthetic baseline behavior.
-3. Development and production runtime state are isolated.
-4. Deployment package supports workspace startup configuration.
-5. Validation passes for tests, docs, and repository checks.
+1. The exact documentation manifest states one consistent current authority.
+2. ADR 0016 remains Accepted and unbroadened.
+3. The Completion Directive is Superseded and Milestone 1 is Historical.
+4. The revised milestone sequence and future ADR gates are recorded.
+5. Pull requests #59 and #60 remain preserved and explicitly non-deployable.
+6. The future revert plan is exact but unexecuted and unauthorized.
+7. Only Markdown changes are present, and required documentation validation
+   passes.
+8. One non-draft pull request receives independent exact-head Work Mode review
+   and then a separate Chief Architect merge decision.
+
+## Next authority gate
+
+After this package is committed and pushed, work stops for independent Work
+Mode review. A separate Chief Architect decision is required for the unchanged
+documentation head. Even after this package merges, a separate future Chief
+Architect authorization is required before the selected revert may begin.

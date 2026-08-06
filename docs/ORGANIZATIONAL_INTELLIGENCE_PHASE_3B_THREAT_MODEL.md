@@ -1,6 +1,12 @@
 # Phase 3B Governed Intake Threat Model
 
-**Status:** Proposed; no real-information or deployment authorization
+**Status:** Accepted architecture threat requirements; no implementation,
+real-information, model, retrieval, deployment, or public-exposure authority
+
+**Reconciliation:** The accepted controls remain future requirements under
+[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md).
+Pull request #60 does not satisfy them and is not accepted as conforming or
+operational.
 
 ## Assets
 

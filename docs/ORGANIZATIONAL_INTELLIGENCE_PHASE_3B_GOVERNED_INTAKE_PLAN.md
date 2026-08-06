@@ -1,15 +1,25 @@
 # Organizational Intelligence Phase 3B Governed Intake Plan
 
-**Status:** Proposed; documentation-only architecture package; implementation,
-deployment, and real-information use remain unauthorized
+**Status:** Accepted architecture package; implementation, deployment, and
+real-information use remain unauthorized
 
 **Program phase:** Organizational Intelligence Product Program Phase 3B -
 Governed Real-Document Intake and Inspection
 
 **Prepared:** 2026-08-05
 
-**Required decision:** Independent Work Mode exact-head review followed by Chief
-Architect adoption of ADR 0016 and the bounded implementation activation
+**Architecture adoption:** Pull request #58 merged the accepted package at
+`9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`; ADR 0016 remains Accepted and
+binding
+
+**Implementation authority:** None under
+[Chief Architect decision CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+
+**Reconciliation effect:** The strategic direction and architecture remain
+accepted. The former broad-package and Milestone 1 implementation
+interpretations are historical only. Future work must follow the revised B0-B3,
+C0-C2, D1-D2, and O1 sequence; Appendix A is not an active implementation
+manifest.
 
 ## Purpose
 
@@ -18,12 +28,13 @@ Phase 3B turns the disconnected synthetic admission contracts accepted by ADR
 create organizational knowledge or make the dashboard answer from uploaded
 content.
 
-The first implementation may use only generated synthetic PDF fixtures.
-Processing one real document remains a later exact-source authorization gate.
+No implementation is currently authorized. Any future synthetic or real-source
+work requires the applicable revised milestone and a separate exact decision.
 
-## Outcome
+## Accepted future-design outcome
 
-The bounded implementation will let one authorized local operator:
+If separately authorized through the revised milestone sequence, the accepted
+design would let one authorized local operator:
 
 1. start the Executive Product Shell on literal loopback;
 2. see an honest insufficient-approved-evidence answer before intake;
@@ -61,16 +72,17 @@ rediscovered:
   adapters, and deterministic tests.
 - The Executive Product Shell is Implemented but synthetic, loopback-only,
   non-operational, and disconnected from document admission.
-- No real information, deployment, live source, parser, scanner, OCR, durable
-  custody, downstream consumer, or operational use is currently authorized.
+- No accepted real-information use, deployment, live source, parser, scanner,
+  OCR, durable custody, downstream consumer, or operational use is currently
+  authorized. Pull request #60 repository artifacts do not alter this status.
 - No filename, directory path, organization document, personal information,
   credential, or private topology may enter the public repository.
 - Information authority does not grant action authority.
 - Human approval does not establish truth.
-- Phase 3C owns Source Document Evidence promotion, Knowledge Objects, memory
-  eligibility, embeddings, Qdrant, retrieval, and grounded response.
-- Phase 3D owns the complete presentation workflow after Phase 3C is terminally
-  closed.
+- The revised sequence assigns future design gates: C1 for governed knowledge
+  promotion, C2 for memory and Qdrant projection, D1 for the evidence read
+  model, retrieval, citations, and grounded assistance, and D2 for authenticated
+  operational workspaces. Every gate remains unauthorized.
 
 ## Decision-complete first release
 
@@ -454,10 +466,12 @@ state and images, and only then reverts code. Schema downgrade is unsupported;
 restore uses the last compatible reviewed version or a reviewed forward
 migration.
 
-### 20. Exact implementation file scope
+### 20. Historical broad-package file scope
 
-The exact authorized manifest is in [Appendix A](#appendix-a-exact-implementation-manifest).
-Files outside it require a changed architecture head and fresh review.
+Appendix A preserves the former broad-package design manifest for audit and
+salvage analysis. It is not authorized, active, or reusable as a future
+implementation manifest. Each revised milestone requires a new exact manifest
+and fresh review.
 
 ### 21. Exact validation inventory
 
@@ -513,7 +527,7 @@ flowchart LR
     Native["Offline native PDF worker"]
     OCR["Offline OCR fallback worker"]
     Review["Human Review Workspace"]
-    Future["Phase 3C consumer\nnot implemented"]
+    Future["Future C1-C2 and D1-D2 consumers\nnot implemented or authorized"]
 
     Human --> Browser --> Shell
     Shell --> Auth --> Admission
@@ -570,7 +584,11 @@ The
 owns encryption, retention, deletion, hold, reconciliation, backup, restore, and
 key lifecycle.
 
-## Implementation sequence
+## Historical broad-package implementation sequence
+
+The sequence below describes the accepted design's former broad-package
+approach. It grants no authority and is replaced for execution planning by the
+revised milestone sequence in the reconciliation record.
 
 1. Extend immutable contracts and policies without breaking Phase 2 tests.
 2. Implement signed authorization, encryption, durable object/SQLite adapters,
@@ -584,9 +602,9 @@ key lifecycle.
 7. Run targeted suites, then the exact full publication gates.
 8. Publish one implementation head for one independent read-only review.
 
-## Acceptance criteria
+## Historical broad-package acceptance criteria
 
-Phase 3B implementation is complete only when:
+The former broad-package design would not have been complete unless:
 
 - every decision above is represented in code, tests, operator documentation,
   and safe failure behavior;
@@ -595,8 +613,8 @@ Phase 3B implementation is complete only when:
   Podman;
 - encrypted durable custody, restart recovery, review, reset, deletion, hold,
   backup, and restore tests pass;
-- Ask remains insufficient before and after Phase 3B approval because Phase 3C
-  is absent;
+- Ask would have remained insufficient before and after Phase 3B review because
+  C1 promotion, C2 projection, and D1 grounded assistance were absent;
 - no real document or private locator was accessed;
 - one independent exact-head implementation review approves it;
 - the Chief Architect approves the unchanged implementation head;
@@ -621,19 +639,17 @@ Stop and obtain revised architecture or authority if implementation requires:
 - files outside the exact manifest; or
 - a changed authority, retention, legal-hold, privacy, or deletion boundary.
 
-## Review and decision sequence
+## Current review and decision sequence
 
-1. Publish this documentation-only package in one non-draft pull request.
-2. Assign exactly one independent read-only Work Mode reviewer.
-3. Apply any supported revisions narrowly; every changed head requires fresh
-   review by the same reviewer.
-4. Stop for one exact-head Chief Architect decision.
-5. If adopted, activate ADR 0016 and the implementation authorization in a
-   bounded documentation edit, obtain fresh exact-head review, and merge only
-   after a separate Chief Architect merge decision.
-6. Start implementation from that canonical merge.
+1. Complete the documentation-only reconciliation package.
+2. Obtain independent Work Mode review of its exact head.
+3. Obtain a separate Chief Architect decision for the unchanged documentation
+   head.
+4. Merge only after that exact-head approval.
+5. Stop for a separate future decision on the selected normal revert.
+6. Do not begin implementation after either documentation merge or revert.
 
-## Exact architecture-package manifest
+## Historical architecture-package manifest
 
 This documentation-only package contains exactly 19 files:
 
@@ -657,10 +673,12 @@ This documentation-only package contains exactly 19 files:
 18. `docs/reference/COMPONENT_REGISTRY.md`
 19. `docs/reference/GLOSSARY.md`
 
-## Appendix A: Exact implementation manifest
+## Appendix A: Historical broad-package implementation manifest
 
-The implementation manifest contains 59 files: 29 application/runtime files,
-17 tests, 1 workflow, and 12 direct documentation files.
+This historical design manifest contains 59 files: 29 application/runtime
+files, 17 tests, 1 workflow, and 12 direct documentation files. It is preserved
+for audit and salvage context only and grants no current or future execution
+authority.
 
 ### Application and runtime - 29 files
 
@@ -733,5 +751,5 @@ The implementation manifest contains 59 files: 29 application/runtime files,
 11. `docs/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_LOCAL_OPERATOR_GUIDE.md`
 12. `docs/reference/COMPONENT_REGISTRY.md`
 
-Implementation may update the same plan and validation files with execution
-evidence but may not change their accepted architecture meaning.
+Any future milestone must publish a new bounded manifest. It may not treat this
+list, pull request #59, or pull request #60 as implementation authority.

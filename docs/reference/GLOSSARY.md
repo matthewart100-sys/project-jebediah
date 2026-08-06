@@ -124,6 +124,17 @@ A future operational consumer of approved, merged, validated, and documented
 project state. It has no current engineering authority and is not an approved
 runtime component merely because the role is named.
 
+### Revised organizational-intelligence milestone sequence
+
+The gated recovery and capability sequence established by
+[CA-2026-08-06-P3B-RECONCILIATION](../governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md):
+B0 canonical recovery; B1 synthetic custody foundation; B2 isolated PDF
+inspection and review; B3 lifecycle and recovery readiness; C0 identity and
+service authorization; C1 governed knowledge promotion; C2 memory and Qdrant
+projection; D1 evidence read model and grounded assistance; D2 authenticated
+operational workspaces; and O1 deployment and exposure. The labels describe
+gates, not active or pre-authorized implementation.
+
 ## Architecture terms
 
 ### Local-first
@@ -204,17 +215,18 @@ admissibility but does not verify source truth.
 A Phase 3B encrypted derived representation of one exact submitted document,
 including content identity, source/provenance references, extraction method,
 page locations, warnings, omissions, quality, limitations, and review state. It
-is not source truth, a Knowledge Object, memory, an embedding, an index entry, or
-a supported answer. Proposed ADR 0016 defines the first candidate boundary but
-does not yet authorize implementation or a real source.
+is not source truth, a Knowledge Object, memory, an embedding, an index entry,
+or a supported answer. Accepted ADR 0016 defines the architecture boundary but
+does not authorize implementation or a real source.
 
 ### Human Review Workspace
 
-The Proposed Phase 3B local Executive Product Shell surface that presents
-admission and Source Document Evidence candidates to one authorized operator for
-append-only approval, rejection, correction, supersession, deletion, and reset.
-Its approval means only `approved_for_phase3c_candidate`; it does not verify
-facts or invoke a Phase 3C consumer.
+The accepted but unimplemented Phase 3B Executive Product Shell surface design
+that would present admission and Source Document Evidence candidates to one
+authorized operator for append-only approval, rejection, correction,
+supersession, deletion, and reset. Its approval would mean only
+`approved_for_phase3c_candidate`; it would not verify facts or invoke a Phase
+3C consumer. No implementation or real-document use is active.
 
 ### VBA demonstration materials
 
@@ -268,9 +280,10 @@ provenance, deterministic identity, and storage coordination. Accepted ADR 0013
 and the terminally closed Knowledge Manager Phase 2 package add a disconnected
 synthetic document-admission and inspection boundary. Real sources, production
 parsers and scanners, durable quarantine, runtime integration, deployment, and
-operational ownership remain unapproved. Proposed ADR 0016 specifies a bounded
-PDF-only implementation candidate, but current maturity does not change before
-adoption, implementation, review, and merge.
+operational ownership remain unapproved. Accepted ADR 0016 defines a bounded
+PDF-only architecture candidate, but current maturity and authority do not
+change without a separately reviewed and authorized future milestone,
+implementation, review, and merge.
 
 ### Executive Product Shell
 

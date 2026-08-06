@@ -1,7 +1,13 @@
 # Phase 3B Dependency Assessment
 
-**Status:** Proposed; applies only after exact-head architecture adoption and
-implementation activation
+**Status:** Accepted architecture dependency selection; no dependency
+installation, lock change, implementation, deployment, or runtime use is
+authorized
+
+**Reconciliation:** This assessment remains a future milestone constraint under
+[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md).
+Repository dependencies introduced by pull request #60 are not retroactively
+approved by this document.
 
 ## Purpose
 

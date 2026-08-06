@@ -8,8 +8,22 @@ development. Changes not assigned to a published version remain under
 
 ## Unreleased
 
+> **Authority notice:** Entries below that describe pull request #60 record
+> repository history only. Under
+> `CA-2026-08-06-P3B-RECONCILIATION`, that implementation is architecturally
+> nonconforming and is not accepted as conforming or operational. No
+> implementation, real-document, model, retrieval, workspace, deployment, or
+> public-exposure authority follows from those historical entries.
+
 ### Added
 
+- Added the
+  [Chief Architect Phase 3B Reconciliation Decision](docs/governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md),
+  preserving strategic direction and Accepted ADR 0016 while recording no
+  active implementation authority, the revised B0-O1 milestone sequence, pull
+  requests #59 and #60 as audit/salvage evidence, future ADR gates, and the
+  planned-but-unauthorized-and-unexecuted normal revert of
+  `991929beb6026511e07b6cb7954e1c9e400b9cb5`.
 - Added an Operational Workspace model in
   `apps.jebediah_executive.governed_provider` with persistent workspace and
   organization selection across `demonstration`, `development`, and
@@ -210,6 +224,15 @@ development. Changes not assigned to a published version remain under
 
 ### Changed
 
+- Canonicalized current status after the Chief Architect classified pull
+  request #60 as strategically aligned but architecturally nonconforming and
+  not accepted. The Phase 3B Completion Directive is Superseded, the prior
+  Milestone 1 authorization is Historical, the operational-workspace and
+  deployment authority is invalidated, and no code is retroactively approved.
+- Replaced the former broad Phase 3B implementation interpretation with B0
+  canonical recovery; B1-B3 intake, inspection, lifecycle, and recovery; C0-C2
+  identity, promotion, memory, and Qdrant; D1-D2 read-model and workspace; and
+  O1 deployment gates. Every future milestone remains unauthorized.
 - Updated the default Executive Shell provider in
   `apps.jebediah_executive.app` to use the operational workspace runtime
   boundary and added workspace selection/reset POST workflows.

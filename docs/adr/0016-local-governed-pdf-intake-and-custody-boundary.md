@@ -13,11 +13,14 @@ Architect final decision
 
 **Adopted architecture head:** `bfa18ab35ae1bcd0cf6a91090dba62ab9220076a`
 
-**Chief Architect decision:** Adopted on 2026-08-05 in pull request #58;
-status activation only
+**Chief Architect decision:** Adopted on 2026-08-05 and merged through pull
+request #58 at `9d4aab6777c01b6d0ffebac620fe4a222a6b0ae8`
 
-**Authority boundary:** Implementation, architecture merge, deployment, and real
-organizational document use remain unauthorized
+**Architecture status:** Accepted and binding within this ADR's existing scope
+
+**Implementation authority:** None under
+[CA-2026-08-06-P3B-RECONCILIATION](../governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md);
+deployment and real organizational document use remain unauthorized
 
 ## Decision summary
 
@@ -217,6 +220,9 @@ The Phase 3B Validation Requirements are binding. Implementation requires one
 independently reviewed exact head and separate Chief Architect merge approval.
 Real information requires the later exact source decision after canonical
 implementation closeout.
+
+The reconciliation decision creates no implementation head or real-source
+gate. Pull request #60 is not accepted as conformance evidence for this ADR.
 
 ## Rollback
 

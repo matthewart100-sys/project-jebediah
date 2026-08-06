@@ -8,7 +8,7 @@
 
 **Relevant accepted decision:** ADR 0016
 
-**Decision status:** `IMPLEMENTATION AUTHORIZED - BOUNDED MILESTONE ONLY (HISTORICAL BASELINE)`
+**Decision status:** `HISTORICAL - NO ACTIVE IMPLEMENTATION AUTHORITY`
 
 **Real-document use:** `NOT AUTHORIZED`
 
@@ -20,22 +20,28 @@
 
 ## Purpose
 
-> Branch note: ongoing completion implementation now references
-> [Phase 3B Completion Directive](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_COMPLETION_DIRECTIVE.md).
-> This document remains the historical Milestone 1 scope and stop-condition
-> baseline.
+This document preserves the prior Milestone 1 scope and stop conditions as
+historical evidence. The
+[Chief Architect Phase 3B reconciliation](CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+withdraws its current implementation effect. It must not be used to begin,
+resume, merge, deploy, or expand implementation.
 
 This milestone exists only to answer:
 
 > Can Project Jebediah safely receive, classify, hold, reject, expire, and
 > delete a synthetic document without promoting it into knowledge or memory?
 
-This authorization is narrower than full Phase 3B implementation authority. It
-does not activate the complete 59-file implementation manifest in the
+The historical authorization was narrower than full Phase 3B implementation
+authority. It did not activate the complete 59-file implementation manifest in
+the
 [Phase 3B Governed Intake Plan](../ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md).
-That future manifest remains unchanged and separately gated.
+That historical manifest remains preserved as audit and salvage evidence; it is
+not an active or pre-authorized future implementation manifest.
 
-## Authorized scope
+## Historical authorized scope
+
+The following list records what the historical authorization attempted to
+bound. Nothing in this section is currently authorized.
 
 - generated synthetic PDF fixtures only;
 - loopback-only local operator access;
@@ -57,9 +63,10 @@ That future manifest remains unchanged and separately gated.
 - deterministic synthetic tests; and
 - directly required operator and validation documentation.
 
-Implementation must use the smallest exact changed-file manifest that answers the
-milestone question. Appearance in the full Phase 3B 59-file manifest does not by
-itself authorize a file or behavior for Milestone 1.
+The historical implementation was required to use the smallest exact
+changed-file manifest that answered the milestone question. Appearance in the
+full Phase 3B 59-file manifest did not by itself authorize a file or behavior
+for Milestone 1.
 
 ## Prohibited scope
 
@@ -87,7 +94,10 @@ No milestone result may be described as factual verification, knowledge,
 memory, production readiness, operational readiness, or authorization to begin
 VBA onboarding.
 
-## Required workflow
+## Historical required workflow
+
+This workflow is retained as historical evidence and is not an active execution
+path. The earlier workflow required:
 
 1. Preserve a dedicated implementation branch and isolated worktree created from
    the canonical authorization baseline.
@@ -102,9 +112,10 @@ VBA onboarding.
 8. Do not merge without a separate Chief Architect decision naming the exact
    pull request and head commit.
 
-## Stop conditions
+## Historical stop conditions
 
-Stop implementation and return to the Chief Architect if the milestone requires:
+The historical authorization required a stop and return to the Chief Architect
+if the milestone required:
 
 - any real or existing document;
 - a filesystem discovery or source-location path;
@@ -112,13 +123,13 @@ Stop implementation and return to the Chief Architect if the milestone requires:
   capability;
 - non-loopback, multi-user, deployed, or externally connected operation;
 - a change to ADR 0016, the Phase 3B threat model, lifecycle/recovery
-  architecture, validation architecture, dependency architecture, or accepted
-  59-file future manifest; or
+  architecture, validation architecture, dependency architecture, or the
+  historical 59-file design and salvage manifest; or
 - behavior beyond the bounded milestone question.
 
 ## Remaining gates
 
-Implementation authorization is not merge, deployment, real-source, Phase 3C,
-or Phase 3D authority. The implementation pull request must stop after
-independent Work Mode review for a separate Chief Architect exact-head merge
-decision.
+No implementation authority remains active. The revised B0-B3, C0-C2, D1-D2,
+and O1 sequence in the reconciliation record replaces this document as the
+current milestone structure. Pull request #59 remains audit and salvage
+evidence and must not be merged or deployed.

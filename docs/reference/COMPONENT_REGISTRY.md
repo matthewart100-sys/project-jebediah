@@ -56,11 +56,10 @@ person or agent implements first.
 | Qdrant | Data-product adapter candidate | Implemented | Temporarily own acknowledged Memory Service payload records and their derived semantic vectors; no source-truth authority | Maintainer accountable for repository candidate; reported operator unverified | Sanitized collection, recovery, and deployment review |
 | Ollama | Model-product adapter candidate | Implemented | Produce 768-value embeddings with the pinned `nomic-embed-text:v1.5` artifact behind the canonical adapter | Maintainer accountable for repository candidate; reported operator unverified | Pinned-artifact and deployment verification |
 | JCS | Named deferred subsystem | Named | C1 outcome is **DEFER JCS**; Collector and memory candidates have no dependency | Unassigned pending reconsideration | Evidence-gated C1 reconsideration |
-| Collector Engine | Controlled ingestion component | Implemented | Validate and normalize bounded text records, derive identity, preserve provenance, and coordinate storage; ADR 0013 and the accepted Phase 2 activation bound a disconnected synthetic document-admission repository package; Proposed ADR 0016 specifies but does not authorize a local PDF-only durable intake and review refinement | Maintainer accountable | Work Mode and Chief Architect adoption before Phase 3B implementation; later exact real-source and deployment decisions |
+| Collector Engine | Controlled ingestion component | Implemented | Validate and normalize bounded text records, derive identity, preserve provenance, and coordinate storage; ADR 0013 and the accepted Phase 2 activation bound a disconnected synthetic document-admission repository package; Accepted ADR 0016 defines but does not authorize a local PDF-only durable intake and review refinement | Maintainer accountable | B0 canonical recovery, then separately authorized B1-B3 milestones; later exact real-source and deployment decisions |
 | Jebediah Memory Service | Semantic memory component | Implemented | Govern memory candidates through one canonical package, persist one acknowledged Qdrant point, and retrieve semantic-only context | Maintainer accountable | Isolated integration and deployment decision |
-| Jebediah Interaction Gateway | Governed interaction service | Implemented | Coordinate native PDF admission into encrypted pending-candidate custody, explicit human promotion through the Memory Service, Qdrant-filtered organization/workspace evidence retrieval, grounded generation, and existing chat compatibility routes without owning source truth or Qdrant persistence | Maintainer accountable | Deployment validation, recovery exercise, and reviewed merge |
 | Knowledge Vault | Governed knowledge repository boundary | Named | ADR 0011 defines derived-repository authority; the bounded ADR 0014 metadata-only registry library is implemented without content, memory integration, durable storage, runtime use, or source authority | Unassigned pending component specification | Separately approve information domains, component and operational ownership, real producers and consumers, durable interfaces, security, operations, and recovery |
-| Executive Product Shell | Human-experience component | Implemented | Present and navigate one immutable evidence-bearing executive briefing over compiled fabricated fixtures in a loopback-only local preview; Proposed Phase 3B would add a Human Review Workspace interface without source truth or downstream knowledge authority | Maintainer accountable | Work Mode and Chief Architect adoption before Phase 3B implementation; later real-source, Phase 3C, and deployment decisions |
+| Executive Product Shell | Human-experience component | Implemented | Present and navigate one immutable evidence-bearing executive briefing over compiled fabricated fixtures in a loopback-only local preview; Accepted Phase 3B architecture defines a future Human Review Workspace interface without source truth or downstream knowledge authority | Maintainer accountable | B0 canonical recovery, then separately authorized B2 and later consumer milestones; real-source and deployment decisions remain separate |
 | Knowledge Graph | Named future subsystem | Named | Future representation of traceable entities and relationships | Unassigned pending specification | Stable collector and knowledge contracts |
 | Digital Twin | Named future concept | Named | Future bounded, time-aware, provenance-rich representation of selected relevant state; conceptual position only | Unassigned pending specification | Bounded use case and component specification under the Digital Twin position |
 | Automation | Named future capability | Named | Future controlled actions from trusted state and policy | Unassigned pending specification | State, authority, and action-boundary approval |
@@ -119,10 +118,15 @@ loopback local preview on canonical `main`; it has no live information, service,
 deployment, or operational evidence. Pull request #56 merged the exact reviewed
 implementation as `95b9e06ae2edc4585d659efc825ca4553ce452d9`, and its
 terminal closeout preserves every later capability gate.
-Proposed ADR 0016 and its Phase 3B package specify a PDF-only, single-operator,
-encrypted local custody and Human Review Workspace refinement. The proposal does
-not change either component's current maturity and grants no code, real-source,
-Phase 3C, Phase 3D, or deployment authority.
+Accepted ADR 0016 and its Phase 3B package define a PDF-only, single-operator,
+encrypted local custody and Human Review Workspace architecture. Acceptance
+does not change either component's current maturity and grants no code,
+real-source, Phase 3C, Phase 3D, or deployment authority.
+Pull request #60 added an Interaction Gateway and broader runtime artifacts, but
+the reconciliation decision classifies them as architecturally nonconforming
+and not accepted. The gateway is therefore not a registered component. Its
+repository path is audit and salvage evidence pending the selected future
+normal revert, which remains unauthorized.
 VBA demonstration artifacts exist only on an unmerged proposal branch; their
 evidence validation is pending, and no live organizational pilot is authorized.
 The Digital Twin has an approved conceptual position but no bounded

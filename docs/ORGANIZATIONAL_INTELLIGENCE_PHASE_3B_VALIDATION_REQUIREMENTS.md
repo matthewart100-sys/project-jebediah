@@ -1,6 +1,11 @@
 # Phase 3B Governed Intake Validation Requirements
 
-**Status:** Proposed; applies to the exact bounded implementation only
+**Status:** Accepted future validation contract; inactive because no
+implementation is authorized
+
+**Reconciliation:** Pull request #60's `documentation-quality` result does not
+satisfy this contract. Future validation is milestone-specific under
+[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md).
 
 ## Evidence principles
 
