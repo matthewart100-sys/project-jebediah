@@ -3,6 +3,7 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 import json
+import urllib.error
 
 import pytest
 
@@ -177,4 +178,156 @@ def test_governed_provider_canonical_runtime_mode_uses_external_services(
     assert grounded.source_references
     assert any(
         record.record_id.startswith("demo-runtime-") for record in briefing.workspace_records
+    )
+
+
+def test_governed_provider_canonical_admission_failure_is_recorded(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class _FakeResponse:
+        def __init__(self, payload: dict[str, object]) -> None:
+            self._bytes = json.dumps(payload).encode("utf-8")
+
+        def read(self) -> bytes:
+            return self._bytes
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    def _fake_urlopen(request, timeout=0):
+        del timeout
+        url = request.full_url
+        method = request.get_method()
+        if url.endswith("/admission/submit") and method == "POST":
+            raise urllib.error.URLError("synthetic transport failure")
+        if url.endswith("/health") or url.endswith("/healthz") or url.endswith("/api/tags"):
+            return _FakeResponse({"status": "online"})
+        raise AssertionError(f"unexpected request: {method} {url}")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        Path(tempfile.mkdtemp(prefix="gov-provider-canonical-failure-test-")),
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+
+    provider.admit_submission(
+        payload=b"Board packet upload content.",
+        source_record_id="source-record-017",
+        file_name="board-packet.pdf",
+        media_type="application/pdf",
+    )
+
+    briefing = provider.briefing()
+    assert any(
+        record.state is WorkspaceState.PROCESSING_FAILED
+        and "runtime_request_failed" in " ".join(record.limitations)
+        for record in briefing.workspace_records
+    )
+
+
+def test_governed_provider_canonical_runtime_health_handles_non_json(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class _FakeResponse:
+        def __init__(self, body: bytes) -> None:
+            self._body = body
+
+        def read(self) -> bytes:
+            return self._body
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    def _fake_urlopen(request, timeout=0):
+        del timeout
+        url = request.full_url
+        method = request.get_method()
+        if method != "GET":
+            raise AssertionError(f"unexpected request: {method} {url}")
+        if url.endswith("/healthz"):
+            return _FakeResponse(b"healthz check passed")
+        if url.endswith("/api/tags"):
+            return _FakeResponse(b"{\"models\":[]}")
+        if url.endswith("/health"):
+            return _FakeResponse(b"{\"status\":\"online\"}")
+        raise AssertionError(f"unexpected request: {method} {url}")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        Path(tempfile.mkdtemp(prefix="gov-provider-canonical-health-test-")),
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+    briefing = provider.briefing()
+    runtime_records = [
+        record for record in briefing.workspace_records if record.record_id.startswith("demo-runtime-")
+    ]
+    qdrant_records = [record for record in runtime_records if "qdrant" in record.title.lower()]
+    assert qdrant_records
+    assert all(record.state is WorkspaceState.READY for record in qdrant_records)
+
+
+def test_governed_provider_canonical_admission_allows_non_json_success(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class _FakeResponse:
+        def __init__(self, body: bytes) -> None:
+            self._body = body
+
+        def read(self) -> bytes:
+            return self._body
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    def _fake_urlopen(request, timeout=0):
+        del timeout
+        url = request.full_url
+        method = request.get_method()
+        if url.endswith("/admission/submit") and method == "POST":
+            return _FakeResponse(b"accepted")
+        if url.endswith("/health") or url.endswith("/healthz") or url.endswith("/api/tags"):
+            return _FakeResponse(b"{\"status\":\"online\"}")
+        raise AssertionError(f"unexpected request: {method} {url}")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        Path(tempfile.mkdtemp(prefix="gov-provider-canonical-nonjson-test-")),
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+
+    provider.admit_submission(
+        payload=b"Board packet upload content.",
+        source_record_id="source-record-018",
+        file_name="board-packet.pdf",
+        media_type="application/pdf",
+    )
+
+    briefing = provider.briefing()
+    assert any(
+        record.state is WorkspaceState.REVIEW_PENDING
+        for record in briefing.workspace_records
     )

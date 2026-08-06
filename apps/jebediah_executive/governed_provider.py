@@ -194,6 +194,7 @@ class _CanonicalRuntimeClient:
         method: str,
         url: str,
         payload: dict[str, Any] | None = None,
+        allow_non_json: bool = False,
     ) -> dict[str, Any]:
         data: bytes | None = None
         headers: dict[str, str] = {"Accept": "application/json"}
@@ -216,10 +217,26 @@ class _CanonicalRuntimeClient:
         try:
             decoded = json.loads(body.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as error:
+            if allow_non_json:
+                return {}
             raise RuntimeError(f"runtime_response_invalid_json: {url}") from error
         if not isinstance(decoded, dict):
+            if allow_non_json:
+                return {}
             raise RuntimeError(f"runtime_response_invalid_shape: {url}")
         return decoded
+
+    def _request_available(self, *, url: str) -> bool:
+        request = urllib.request.Request(
+            url=url,
+            headers={"Accept": "*/*"},
+            method="GET",
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=self._timeout_seconds):
+                return True
+        except (urllib.error.URLError, TimeoutError, ValueError):
+            return False
 
     def runtime_health(self) -> tuple[_RuntimeServiceStatus, ...]:
         checks: list[tuple[str, str]] = [
@@ -243,14 +260,24 @@ class _CanonicalRuntimeClient:
                     )
                 )
             except RuntimeError:
-                statuses.append(
-                    _RuntimeServiceStatus(
-                        service=service_name,
-                        state="unavailable",
-                        detail="connection_failed",
-                        observed_at=observed,
+                if self._request_available(url=url):
+                    statuses.append(
+                        _RuntimeServiceStatus(
+                            service=service_name,
+                            state="ready",
+                            detail="online",
+                            observed_at=observed,
+                        )
                     )
-                )
+                else:
+                    statuses.append(
+                        _RuntimeServiceStatus(
+                            service=service_name,
+                            state="unavailable",
+                            detail="connection_failed",
+                            observed_at=observed,
+                        )
+                    )
         return tuple(statuses)
 
     def submit_admission(
@@ -281,6 +308,7 @@ class _CanonicalRuntimeClient:
                 "workspace_mode": workspace_mode,
                 "organization_id": organization_id,
             },
+            allow_non_json=True,
         )
 
     def ask_question(
@@ -648,16 +676,30 @@ class GovernedRuntimeBriefingProvider:
                     organization_id=self._organization_id,
                 )
             except RuntimeError as error:
+                failure_reason = str(error)
+                self._staged_submissions.append(
+                    _StagedSubmission(
+                        submission_id=submission_id,
+                        source_record_id=normalized_source_id,
+                        file_name=normalized_file_name,
+                        media_type=normalized_media_type,
+                        byte_count=len(payload),
+                        digest_hex=digest_hex,
+                        admitted_at=now,
+                        governance_state="failed",
+                        reason=failure_reason,
+                    )
+                )
                 self._record_governance_event(
                     subject_id=submission_id,
                     action="admission.failed",
                     before_state="submitted",
                     after_state="failed",
-                    reason=str(error),
+                    reason=failure_reason,
                     actor="executive-shell",
                     occurred_at=now,
                 )
-                raise
+                return
             runtime_state = str(response.get("state", "review_pending")).strip().lower()
             state_mapping = {
                 "review_pending": "review_pending",
@@ -1175,6 +1217,7 @@ class GovernedRuntimeBriefingProvider:
             "approved": WorkspaceState.ELIGIBLE,
             "rejected": WorkspaceState.REVIEW_REJECTED,
             "needs_evidence": WorkspaceState.HELD,
+            "failed": WorkspaceState.PROCESSING_FAILED,
         }
         return mapping.get(submission.governance_state, WorkspaceState.RECEIVED)
 
