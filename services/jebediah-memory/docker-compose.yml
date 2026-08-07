@@ -3,6 +3,7 @@ services:
     build:
       context: ../..
       dockerfile: services/jebediah-memory/Dockerfile
+
     container_name: jebediah-memory
 
     restart: unless-stopped
