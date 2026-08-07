@@ -774,7 +774,6 @@ def _handle_post(
             message="A runtime workflow error occurred while processing the request.",
         )
 
-
 def _safe_briefing(provider: BriefingProvider) -> ExecutiveBriefing | None:
     """Return the provider briefing, or ``None`` if it cannot be produced."""
     try:
