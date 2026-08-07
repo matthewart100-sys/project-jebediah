@@ -191,6 +191,11 @@ development. Changes not assigned to a published version remain under
 
 ### Fixed
 
+- Fixed Executive Shell governed-question completion by normalizing multiline
+  model responses at the presentation boundary and reusing the interaction
+  gateway's governed citations instead of issuing a redundant post-answer
+  memory retrieval. Grounded answers now satisfy the existing shell view-model
+  contract without changing the interaction API or governance filters.
 - Added the missing canonical interaction admission, promotion, and governed
   question routes after deployed validation proved the configured endpoints
   returned HTTP 404. Human promotion now writes organization/workspace-scoped

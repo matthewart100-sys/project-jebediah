@@ -200,6 +200,80 @@ def test_governed_provider_canonical_runtime_mode_uses_external_services(
     )
 
 
+def test_canonical_grounded_answer_does_not_repeat_memory_retrieval(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    class _FakeResponse:
+        def __init__(self, payload: dict[str, object]) -> None:
+            self._bytes = json.dumps(payload).encode("utf-8")
+
+        def read(self) -> bytes:
+            return self._bytes
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    requests: list[str] = []
+
+    def _fake_urlopen(request, timeout=0):
+        del timeout
+        requests.append(request.full_url)
+        if request.full_url.endswith("/questions/ask"):
+            return _FakeResponse(
+                {
+                    "state": "grounded",
+                    "statement": (
+                        "The uploaded document contains the board packet.\n\n"
+                        "It includes governed organizational evidence.\t"
+                    ),
+                    "trace_id": "trace-single-question-call",
+                    "citations": [
+                        {
+                            "source_record_id": "source-uploaded-pdf",
+                            "candidate_id": "candidate-uploaded-pdf",
+                            "organization_id": "virginia-b-andes",
+                            "workspace_mode": "production",
+                        }
+                    ],
+                }
+            )
+        raise AssertionError(f"unexpected request: {request.full_url}")
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.runtime_health",
+        lambda self: (),
+    )
+    provider = GovernedRuntimeBriefingProvider(
+        tmp_path,
+        canonical_runtime=True,
+        organization_id="virginia-b-andes",
+        workspace_mode=WorkspaceMode.PRODUCTION,
+    )
+
+    provider.ask_question("What is contained in the uploaded document?")
+
+    assert requests == ["http://jebediah-interaction:8001/questions/ask"]
+    answer = provider.briefing().ask_response("grounded-priorities")
+    assert answer.state is AskState.GROUNDED
+    assert answer.statement is not None
+    assert answer.statement.startswith(
+        "The uploaded document contains the board packet. It includes governed "
+        "organizational evidence."
+    )
+    assert all(ord(character) >= 32 for character in answer.statement)
+    assert tuple(reference.source_id for reference in answer.source_references) == (
+        "demo-src-source-uploaded-pdf",
+    )
+
+
 def test_canonical_pending_submission_survives_provider_restart(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -422,21 +496,14 @@ def test_governed_provider_excludes_other_workspace_runtime_evidence(
                     "state": "grounded",
                     "statement": "Production-only statement.",
                     "trace_id": "trace-isolation",
-                }
-            )
-        if url.endswith("/memory/context"):
-            return _FakeResponse(
-                {
-                    "memories": [
+                    "citations": [
                         {
-                            "metadata": {
-                                "source_record_id": "source-production",
-                                "organization_id": "virginia-b-andes",
-                                "workspace_mode": "production",
-                                "governance_state": "approved",
-                            }
+                            "source_record_id": "source-production",
+                            "candidate_id": "candidate-production",
+                            "organization_id": "virginia-b-andes",
+                            "workspace_mode": "production",
                         }
-                    ]
+                    ],
                 }
             )
         if url.endswith("/health") or url.endswith("/healthz") or url.endswith("/api/tags"):
