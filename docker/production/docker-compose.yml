@@ -91,6 +91,17 @@ services:
           cpus: "0.10"
           memory: 64M
 
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: bonsaai-cloudflared
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      reverse-proxy:
+        condition: service_healthy
+    networks:
+      - jebediah_external
+
 networks:
   jebediah_external:
     external: true

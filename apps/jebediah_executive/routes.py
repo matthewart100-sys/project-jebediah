@@ -42,6 +42,7 @@ ALLOWLISTED_PRESET_IDS: tuple[str, ...] = (
 ALLOWLISTED_STATE_IDS: tuple[str, ...] = tuple(STATE_ROUTE_TO_ENUM.keys())
 
 STATIC_STYLESHEET_PATH = "/static/styles.css"
+STATIC_UPLOAD_SCRIPT_PATH = "/static/upload.js"
 
 PRODUCT_ROUTES: tuple[str, ...] = (
     "/",
@@ -60,6 +61,7 @@ PRODUCT_ROUTES: tuple[str, ...] = (
     "/board",
     "/states",
     STATIC_STYLESHEET_PATH,
+    STATIC_UPLOAD_SCRIPT_PATH,
 )
 
 Renderer = Callable[[ExecutiveBriefing], str]
@@ -124,6 +126,8 @@ def resolve(path: str) -> RouteResolution | None:
 
     if path == STATIC_STYLESHEET_PATH:
         return RouteResolution(route_id="styles", is_static=True, render=None)
+    if path == STATIC_UPLOAD_SCRIPT_PATH:
+        return RouteResolution(route_id="upload-script", is_static=True, render=None)
 
     if path.startswith(_ASK_PREFIX):
         preset = path[len(_ASK_PREFIX):]

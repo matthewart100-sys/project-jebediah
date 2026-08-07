@@ -13,12 +13,14 @@ HTML-escaped.
 from __future__ import annotations
 
 import re
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 
 from apps.jebediah_executive import rendering as r
 from apps.jebediah_executive.fixtures import build_briefing
+from apps.jebediah_executive.models import WorkspaceMode
 from apps.jebediah_executive.rendering import (
     DISCONNECTED_STATEMENT,
     NO_ACTION_STATEMENT,
@@ -45,6 +47,13 @@ from apps.jebediah_executive.rendering import (
 )
 
 BRIEFING = build_briefing()
+DEVELOPMENT_BRIEFING = replace(
+    BRIEFING,
+    workspace_context=replace(
+        BRIEFING.workspace_context,
+        mode=WorkspaceMode.DEVELOPMENT,
+    ),
+)
 
 
 def _core_pages() -> list[tuple[str, str]]:
@@ -135,6 +144,26 @@ def test_no_external_resources_or_scripts(name: str, html: str) -> None:
     assert "<script" not in html, name
     assert "<img" not in html, name
     assert "onerror=" not in html and "onclick=" not in html, name
+
+
+def test_knowledge_manager_exposes_governed_multi_file_dropzone() -> None:
+    html = render_knowledge_manager(DEVELOPMENT_BRIEFING)
+    for marker in (
+        'id="governed-upload-form"',
+        'data-max-file-size="1000000"',
+        'id="upload-dropzone"',
+        'id="upload-errors" role="alert"',
+        'id="upload-queue"',
+        'aria-live="polite"',
+        "Drop PDF, DOCX, or TXT files here",
+        "Images and ZIP archives are not accepted",
+        "Awaiting approval",
+    ):
+        assert marker in html
+    assert 'accept=".pdf,.docx,.txt,' in html
+    assert " multiple required" in html
+    assert html.count("<script") == 1
+    assert '<script src="/static/upload.js" defer></script>' in html
 
 
 @pytest.mark.parametrize("name,html", _ALL_PAGES, ids=_ALL_PAGE_IDS)

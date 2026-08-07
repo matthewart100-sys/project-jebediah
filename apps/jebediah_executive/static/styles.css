@@ -295,6 +295,172 @@ a {
   filter: brightness(0.9);
 }
 
+/* Governed document intake ------------------------------------------------ */
+.field-label {
+  margin-block-end: var(--space-1);
+  font-weight: 600;
+}
+
+.field-help {
+  display: inline-block;
+  margin-block-start: var(--space-1);
+  color: var(--color-muted);
+  font-size: 0.92rem;
+}
+
+.upload-control {
+  margin-block: var(--space-3);
+}
+
+.upload-enhanced input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.workflow-form .upload-dropzone {
+  display: grid;
+  place-items: center;
+  gap: var(--space-1);
+  width: 100%;
+  min-height: 11rem;
+  padding: var(--space-4);
+  border: 2px dashed var(--color-accent);
+  background-color: #eef4f4;
+  color: var(--color-text);
+  text-align: center;
+  cursor: pointer;
+}
+
+.workflow-form .upload-dropzone:hover,
+.workflow-form .upload-dropzone:focus-visible,
+.workflow-form .upload-dropzone.is-dragover {
+  border-style: solid;
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+  background-color: #dceeee;
+  filter: none;
+}
+
+.upload-symbol {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.upload-errors {
+  margin-block: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-failure);
+  border-left: 5px solid var(--color-failure);
+  border-radius: var(--radius);
+  background-color: #fff4f4;
+  color: var(--color-failure);
+}
+
+.upload-errors-heading {
+  font-weight: 700;
+}
+
+.upload-errors ul {
+  margin-block-end: 0;
+}
+
+.upload-queue {
+  display: grid;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.upload-item {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-left: 5px solid var(--color-muted);
+  border-radius: var(--radius);
+  background-color: var(--color-surface);
+}
+
+.upload-item.is-complete {
+  border-left-color: var(--color-accent);
+  background-color: #eef8f3;
+}
+
+.upload-item.is-failed {
+  border-left-color: var(--color-failure);
+  background-color: #fff4f4;
+}
+
+.upload-item-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.upload-item-header h4 {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.workflow-form .upload-remove {
+  flex: 0 0 auto;
+  min-height: var(--target-min);
+  padding: var(--space-1) var(--space-2);
+  border-color: var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-accent);
+}
+
+.upload-status,
+.upload-summary {
+  margin-block: var(--space-2);
+  font-weight: 700;
+}
+
+.upload-item.is-failed .upload-status {
+  color: var(--color-failure);
+}
+
+.upload-metadata {
+  grid-template-columns: max-content minmax(0, 1fr);
+  margin-block-start: var(--space-2);
+}
+
+.upload-hash {
+  overflow-wrap: anywhere;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85rem;
+}
+
+.upload-item progress {
+  width: 100%;
+  height: 0.8rem;
+  accent-color: var(--color-accent);
+}
+
+.upload-form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+[hidden] {
+  display: none !important;
+}
+
 .card .statement {
   font-weight: 600;
 }
@@ -482,6 +648,20 @@ summary:focus {
 
   .primary-nav ul {
     flex-direction: column;
+  }
+
+  .workflow-form .upload-dropzone {
+    min-height: 9rem;
+    padding: var(--space-3);
+  }
+
+  .upload-item-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .upload-metadata {
+    grid-template-columns: 1fr;
   }
 
   /* Responsive workspace table: collapse the six-plus column grid into

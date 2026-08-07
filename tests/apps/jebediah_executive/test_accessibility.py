@@ -13,24 +13,35 @@ print rule that retains evidence, limitations, and the synthetic label.
 from __future__ import annotations
 
 import re
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 
 from apps.jebediah_executive import rendering as r
 from apps.jebediah_executive.fixtures import build_briefing
+from apps.jebediah_executive.models import WorkspaceMode
 from apps.jebediah_executive.rendering import (
     STATE_ROUTE_TO_ENUM,
     render_ask_response,
     render_attention,
     render_board,
     render_knowledge,
+    render_knowledge_manager,
     render_overview,
     render_state_detail,
 )
 
 BRIEFING = build_briefing()
+DEVELOPMENT_BRIEFING = replace(
+    BRIEFING,
+    workspace_context=replace(
+        BRIEFING.workspace_context,
+        mode=WorkspaceMode.DEVELOPMENT,
+    ),
+)
 CSS = (Path(r.__file__).with_name("static") / "styles.css").read_text(encoding="utf-8")
+UPLOAD_JS = (Path(r.__file__).with_name("static") / "upload.js").read_text(encoding="utf-8")
 
 
 def _tokens() -> dict[str, str]:
@@ -97,6 +108,17 @@ def test_status_and_error_text_independent_of_color() -> None:
         assert state.value in detail
 
 
+def test_upload_is_keyboard_named_and_announces_status() -> None:
+    html = render_knowledge_manager(DEVELOPMENT_BRIEFING)
+    assert 'type="button"' in html and 'id="upload-dropzone"' in html
+    assert 'aria-describedby="upload-help"' in html
+    assert 'role="alert"' in html
+    assert 'aria-live="assertive"' in html
+    assert 'aria-live="polite"' in html
+    assert "dropzone.addEventListener(\"click\"" in UPLOAD_JS
+    assert "fileInput.click()" in UPLOAD_JS
+
+
 # ---------------------------------------------------------------------------
 # Design tokens and contrast
 # ---------------------------------------------------------------------------
@@ -150,6 +172,8 @@ def test_targets_are_at_least_44px() -> None:
         CSS,
         re.DOTALL,
     )
+    assert ".upload-dropzone" in CSS
+    assert ".upload-remove" in CSS
 
 
 def test_zoom_friendly_text_sizing() -> None:

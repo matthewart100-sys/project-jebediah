@@ -2,7 +2,7 @@
 	email {$ACME_EMAIL:admin@example.invalid}
 }
 
-{$BONSAAI_PUBLIC_HOSTS:bonsaai.local} {
+http://www.bonsaai.io, http://bonsaai.io {
 	encode zstd gzip
 
 	@proxy_health path /healthz

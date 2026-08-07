@@ -9,24 +9,25 @@ logging, executive workflow rendering, and bounded governed POST workflows.
 from __future__ import annotations
 
 import io
+import json
 import logging
-from pathlib import Path
 import re
 import socket
 import tempfile
 import threading
+from pathlib import Path
 from wsgiref.simple_server import make_server
 
 import pytest
 
 from apps.jebediah_executive import app as executive_app
+from apps.jebediah_executive.governed_provider import OperationalWorkspaceProvider
 from apps.jebediah_executive.app import (
     LOOPBACK_HOST,
     SanitizedRequestHandler,
     create_app,
     validate_port,
 )
-from apps.jebediah_executive.governed_provider import OperationalWorkspaceProvider
 from apps.jebediah_executive.fixtures import (
     SyntheticBriefingProvider,
     build_briefing,
@@ -164,6 +165,7 @@ def test_security_headers_present_on_pages(client: Client) -> None:
     csp = headers["Content-Security-Policy"]
     assert "default-src 'none'" in csp
     assert "style-src 'self'" in csp
+    assert "script-src 'self'" in csp
     assert "base-uri 'none'" in csp
     assert "form-action 'self'" in csp
     assert "frame-ancestors 'none'" in csp
@@ -217,6 +219,29 @@ def test_stylesheet_has_fixed_content_type(client: Client) -> None:
     assert b":focus-visible" in body
 
 
+def test_upload_script_has_fixed_content_type(client: Client) -> None:
+    status, headers, body = client.request("GET", "/static/upload.js")
+    assert status == "200 OK"
+    assert headers["Content-Type"] == "text/javascript; charset=utf-8"
+    assert headers["X-Content-Type-Options"] == "nosniff"
+    assert b"XMLHttpRequest" in body
+    assert b"window.crypto.subtle.digest" in body
+    assert b"innerHTML" not in body
+    for marker in (
+        b"Uploading...",
+        b"Validating...",
+        b"Submitting...",
+        b"Admission complete",
+        b"Awaiting approval",
+        b"Upload failed",
+        b"duplicate file",
+        b"pdf",
+        b"docx",
+        b"txt",
+    ):
+        assert marker in body
+
+
 def test_stylesheet_cannot_select_another_file(client: Client) -> None:
     status, _, _ = client.request("GET", "/static/other.css")
     assert status == "404 Not Found"
@@ -236,7 +261,7 @@ def test_get_returns_expected_content(client: Client) -> None:
 
 
 def test_head_mirrors_get(client: Client) -> None:
-    for path in ("/", "/board", "/static/styles.css", "/states/ready"):
+    for path in ("/", "/board", "/static/styles.css", "/static/upload.js", "/states/ready"):
         gstatus, gheaders, gbody = client.request("GET", path)
         hstatus, hheaders, hbody = client.request("HEAD", path)
         assert hstatus == gstatus, path
@@ -537,6 +562,67 @@ def test_workflow_admission_promotion_and_question_post_round_trip(client: Clien
     assert b"Evidence citation" in grounded
 
 
+def test_enhanced_upload_returns_safe_admission_metadata() -> None:
+    provider = OperationalWorkspaceProvider(
+        Path(tempfile.mkdtemp(prefix="enhanced-upload-test-"))
+    )
+    provider.select_workspace("development")
+    client = Client(create_app(provider))
+    boundary = "----bonsaai-enhanced-boundary"
+    payload = b"Synthetic governed TXT evidence."
+    body = (
+        f"--{boundary}\r\n"
+        "Content-Disposition: form-data; name=\"source_record_id\"\r\n\r\n"
+        "source-record-enhanced\r\n"
+        f"--{boundary}\r\n"
+        "Content-Disposition: form-data; name=\"document_file\"; filename=\"evidence.txt\"\r\n"
+        "Content-Type: text/plain\r\n\r\n"
+    ).encode("utf-8") + payload + f"\r\n--{boundary}--\r\n".encode("utf-8")
+
+    status, headers, response_body = client.request(
+        "POST",
+        "/knowledge-manager/admit",
+        body=body,
+        content_type=f"multipart/form-data; boundary={boundary}",
+        HTTP_ACCEPT="application/json",
+    )
+
+    assert status == "200 OK"
+    assert headers["Content-Type"] == "application/json; charset=utf-8"
+    response = json.loads(response_body)
+    assert response["ok"] is True
+    assert response["file_name"] == "evidence.txt"
+    assert response["byte_count"] == len(payload)
+    assert response["admission_state"] == "review_pending"
+    assert len(response["sha256"]) == 64
+    assert response["submitted_at"]
+
+
+def test_enhanced_upload_rejects_oversized_request_before_body_processing(
+    client: Client,
+) -> None:
+    captured: dict[str, object] = {}
+
+    def start_response(status: str, headers):
+        captured["status"] = status
+        captured["headers"] = dict(headers)
+
+    environ = {
+        "REQUEST_METHOD": "POST",
+        "PATH_INFO": "/knowledge-manager/admit",
+        "QUERY_STRING": "",
+        "CONTENT_TYPE": "multipart/form-data; boundary=oversized",
+        "CONTENT_LENGTH": str(executive_app.MAX_MULTIPART_BYTES + 1),
+        "HTTP_ACCEPT": "application/json",
+        "wsgi.input": _ExplodingInput(),
+        "SERVER_NAME": "127.0.0.1",
+        "SERVER_PORT": "8765",
+    }
+    response_body = b"".join(client.app(environ, start_response))
+    assert captured["status"] == "400 Bad Request"
+    assert b"exceeds the 1 MB admission limit" in response_body
+
+
 def test_workflow_board_preparation(client: Client) -> None:
     _, _, board = client.request("GET", "/board")
     for marker in (b"Priorities", b"Risks", b"Opportunities", b"decisions", b"Coverage"):
@@ -614,6 +700,55 @@ def test_canonical_admission_failure_renders_without_http_500(
     assert b"processing_failed" in page
     assert b"runtime_request_failed: interaction_admission" in page
     assert b"http://jebediah-interaction" not in page
+
+
+def test_enhanced_canonical_admission_failure_returns_safe_json(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def _fail_submission(self, **kwargs):
+        del self, kwargs
+        raise RuntimeError("runtime_request_failed: interaction_admission")
+
+    monkeypatch.setenv("BONSAAI_CANONICAL_RUNTIME", "1")
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.submit_admission",
+        _fail_submission,
+    )
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.runtime_health",
+        lambda self: (),
+    )
+    provider = OperationalWorkspaceProvider(
+        Path(tempfile.mkdtemp(prefix="enhanced-admission-failure-test-"))
+    )
+    provider.select_workspace("production")
+    client = Client(create_app(provider))
+    boundary = "----bonsaai-enhanced-failure-boundary"
+    body = (
+        f"--{boundary}\r\n"
+        "Content-Disposition: form-data; name=\"source_record_id\"\r\n\r\n"
+        "source-record-failed\r\n"
+        f"--{boundary}\r\n"
+        "Content-Disposition: form-data; name=\"document_file\"; filename=\"failed.pdf\"\r\n"
+        "Content-Type: application/pdf\r\n\r\n"
+        "%PDF-1.4 synthetic\r\n"
+        f"--{boundary}--\r\n"
+    ).encode("utf-8")
+
+    status, headers, response_body = client.request(
+        "POST",
+        "/knowledge-manager/admit",
+        body=body,
+        content_type=f"multipart/form-data; boundary={boundary}",
+        HTTP_ACCEPT="application/json",
+    )
+
+    assert status == "502 Bad Gateway"
+    assert headers["Content-Type"] == "application/json; charset=utf-8"
+    response = json.loads(response_body)
+    assert response["ok"] is False
+    assert response["admission_state"] == "failed"
+    assert "http://" not in response_body.decode("utf-8")
 
 
 def test_workflow_failure_awareness(client: Client) -> None:

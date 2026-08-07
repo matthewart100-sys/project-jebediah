@@ -793,6 +793,20 @@ class GovernedRuntimeBriefingProvider:
             )
         )
 
+    @staticmethod
+    def _admission_result(submission: _StagedSubmission) -> dict[str, object]:
+        """Return safe presentation metadata for one governed admission attempt."""
+        return {
+            "submission_id": submission.submission_id,
+            "source_record_id": submission.source_record_id,
+            "file_name": submission.file_name,
+            "byte_count": submission.byte_count,
+            "sha256": submission.digest_hex,
+            "admission_state": submission.governance_state,
+            "reason": submission.reason,
+            "submitted_at": submission.admitted_at.isoformat(),
+        }
+
     def admit_submission(
         self,
         *,
@@ -800,7 +814,7 @@ class GovernedRuntimeBriefingProvider:
         source_record_id: str,
         file_name: str,
         media_type: str,
-    ) -> None:
+    ) -> dict[str, object]:
         if not isinstance(payload, bytes) or not payload:
             raise ValueError("payload cannot be empty")
         if len(payload) > 1_000_000:
@@ -838,19 +852,18 @@ class GovernedRuntimeBriefingProvider:
                 )
             except RuntimeError as error:
                 failure_reason = str(error)
-                self._staged_submissions.append(
-                    _StagedSubmission(
-                        submission_id=submission_id,
-                        source_record_id=normalized_source_id,
-                        file_name=normalized_file_name,
-                        media_type=normalized_media_type,
-                        byte_count=len(payload),
-                        digest_hex=digest_hex,
-                        admitted_at=now,
-                        governance_state="failed",
-                        reason=failure_reason,
-                    )
+                staged = _StagedSubmission(
+                    submission_id=submission_id,
+                    source_record_id=normalized_source_id,
+                    file_name=normalized_file_name,
+                    media_type=normalized_media_type,
+                    byte_count=len(payload),
+                    digest_hex=digest_hex,
+                    admitted_at=now,
+                    governance_state="failed",
+                    reason=failure_reason,
                 )
+                self._staged_submissions.append(staged)
                 self._persist_canonical_submissions()
                 self._record_governance_event(
                     subject_id=submission_id,
@@ -861,7 +874,7 @@ class GovernedRuntimeBriefingProvider:
                     actor="executive-shell",
                     occurred_at=now,
                 )
-                return
+                return self._admission_result(staged)
             runtime_state = str(response.get("state", "review_pending")).strip().lower()
             state_mapping = {
                 "review_pending": "review_pending",
@@ -879,20 +892,19 @@ class GovernedRuntimeBriefingProvider:
                 str(response.get("reason", "")).strip()
                 or "canonical_runtime_submission_recorded"
             )
-            self._staged_submissions.append(
-                _StagedSubmission(
-                    submission_id=submission_id,
-                    source_record_id=normalized_source_id,
-                    file_name=normalized_file_name,
-                    media_type=normalized_media_type,
-                    byte_count=len(payload),
-                    digest_hex=digest_hex,
-                    admitted_at=now,
-                    governance_state=governance_state,
-                    reason=runtime_reason,
-                    candidate_id=candidate_id,
-                )
+            staged = _StagedSubmission(
+                submission_id=submission_id,
+                source_record_id=normalized_source_id,
+                file_name=normalized_file_name,
+                media_type=normalized_media_type,
+                byte_count=len(payload),
+                digest_hex=digest_hex,
+                admitted_at=now,
+                governance_state=governance_state,
+                reason=runtime_reason,
+                candidate_id=candidate_id,
             )
+            self._staged_submissions.append(staged)
             self._seen_content_digests.add(digest_hex)
             self._persist_canonical_submissions()
             self._record_governance_event(
@@ -904,7 +916,7 @@ class GovernedRuntimeBriefingProvider:
                 actor="canonical-runtime",
                 occurred_at=now,
             )
-            return
+            return self._admission_result(staged)
 
         self._sequence += 1
         submission_id = f"submission-{self._sequence}"
@@ -958,19 +970,18 @@ class GovernedRuntimeBriefingProvider:
         )
 
         if document_format is None:
-            self._staged_submissions.append(
-                _StagedSubmission(
-                    submission_id=submission_id,
-                    source_record_id=normalized_source_id,
-                    file_name=normalized_file_name,
-                    media_type=normalized_media_type,
-                    byte_count=len(payload),
-                    digest_hex=digest_hex,
-                    admitted_at=now,
-                    governance_state="needs_evidence",
-                    reason="ocr_boundary_not_enabled",
-                )
+            staged = _StagedSubmission(
+                submission_id=submission_id,
+                source_record_id=normalized_source_id,
+                file_name=normalized_file_name,
+                media_type=normalized_media_type,
+                byte_count=len(payload),
+                digest_hex=digest_hex,
+                admitted_at=now,
+                governance_state="needs_evidence",
+                reason="ocr_boundary_not_enabled",
             )
+            self._staged_submissions.append(staged)
             self._seen_content_digests.add(digest_hex)
             self._record_governance_event(
                 subject_id=submission_id,
@@ -981,7 +992,7 @@ class GovernedRuntimeBriefingProvider:
                 actor="governance-runtime",
                 occurred_at=now,
             )
-            return
+            return self._admission_result(staged)
 
         attempt_id = f"attempt-{self._sequence}"
         object_id = f"object-{self._sequence}"
@@ -1013,20 +1024,19 @@ class GovernedRuntimeBriefingProvider:
             admitted_at=now,
             document_format=document_format,
         )
-        self._staged_submissions.append(
-            _StagedSubmission(
-                submission_id=submission_id,
-                source_record_id=normalized_source_id,
-                file_name=normalized_file_name,
-                media_type=normalized_media_type,
-                byte_count=len(payload),
-                digest_hex=digest_hex,
-                admitted_at=now,
-                governance_state="review_pending",
-                reason="admission_completed",
-                candidate_id=candidate.candidate_id,
-            )
+        staged = _StagedSubmission(
+            submission_id=submission_id,
+            source_record_id=normalized_source_id,
+            file_name=normalized_file_name,
+            media_type=normalized_media_type,
+            byte_count=len(payload),
+            digest_hex=digest_hex,
+            admitted_at=now,
+            governance_state="review_pending",
+            reason="admission_completed",
+            candidate_id=candidate.candidate_id,
         )
+        self._staged_submissions.append(staged)
         self._seen_content_digests.add(digest_hex)
         self._record_governance_event(
             subject_id=submission_id,
@@ -1037,6 +1047,7 @@ class GovernedRuntimeBriefingProvider:
             actor="governance-runtime",
             occurred_at=now,
         )
+        return self._admission_result(staged)
 
     def admit_document(self, document_text: str, source_record_id: str) -> None:
         text = (document_text or "").strip()
@@ -2404,13 +2415,13 @@ class OperationalWorkspaceProvider:
         source_record_id: str,
         file_name: str,
         media_type: str,
-    ) -> None:
+    ) -> dict[str, object]:
         self._require_governed_workspace()
         provider = self._governed_provider(
             organization_id=self._organization_id,
             mode=self._workspace_mode,
         )
-        provider.admit_submission(
+        return provider.admit_submission(
             payload=payload,
             source_record_id=source_record_id,
             file_name=file_name,

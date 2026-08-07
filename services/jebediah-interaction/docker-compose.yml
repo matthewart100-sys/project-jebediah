@@ -5,6 +5,7 @@ services:
       dockerfile: services/jebediah-interaction/Dockerfile
 
     container_name: jebediah-interaction
+    restart: unless-stopped
 
     ports:
       - "8001:8001"

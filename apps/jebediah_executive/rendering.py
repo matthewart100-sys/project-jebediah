@@ -812,15 +812,45 @@ def render_knowledge_manager(briefing: ExecutiveBriefing) -> str:
     )
     admission_form = (
         "<form method=\"post\" action=\"/knowledge-manager/admit\" "
-        "enctype=\"multipart/form-data\" class=\"workflow-form\">"
+        "enctype=\"multipart/form-data\" class=\"workflow-form upload-form\" "
+        "id=\"governed-upload-form\" data-upload-form "
+        "data-max-file-size=\"1000000\">"
         + _csrf_input(briefing)
         + "<p><label for=\"source_record_id\">Source record ID</label><br>"
         + "<input id=\"source_record_id\" name=\"source_record_id\" type=\"text\" "
-        + "value=\"source-record-001\" required></p>"
-        + "<p><label for=\"document_file\">Document file</label><br>"
+        + "value=\"source-record-001\" maxlength=\"200\" "
+        + "aria-describedby=\"source-record-help\" required>"
+        + "<br><span class=\"field-help\" id=\"source-record-help\">"
+        + "This governed source identity is applied to every file in this batch."
+        + "</span></p>"
+        + "<div class=\"upload-control\"><p class=\"field-label\" "
+        + "id=\"document-file-label\">Documents</p>"
         + "<input id=\"document_file\" name=\"document_file\" type=\"file\" "
-        + "accept=\".pdf,application/pdf\" required></p>"
-        + "<p><button type=\"submit\">Upload and admit document</button></p>"
+        + "accept=\".pdf,.docx,.txt,application/pdf,"
+        + "application/vnd.openxmlformats-officedocument.wordprocessingml.document,"
+        + "text/plain\" aria-labelledby=\"document-file-label\" "
+        + "aria-describedby=\"upload-help upload-errors\" multiple required>"
+        + "<button class=\"upload-dropzone\" id=\"upload-dropzone\" type=\"button\" "
+        + "aria-describedby=\"upload-help\" hidden>"
+        + "<span class=\"upload-symbol\" aria-hidden=\"true\">↑</span>"
+        + "<strong>Drop PDF, DOCX, or TXT files here</strong>"
+        + "<span>or choose files from this device</span></button>"
+        + "<p class=\"field-help\" id=\"upload-help\">Multiple files are supported. "
+        + "Maximum 1 MB per file. Images and ZIP archives are not accepted.</p></div>"
+        + "<p class=\"field-help\">Status stages: Validating..., Uploading..., "
+        + "Submitting..., Admission complete, Awaiting approval, or Upload failed.</p>"
+        + "<div class=\"upload-errors\" id=\"upload-errors\" role=\"alert\" "
+        + "aria-live=\"assertive\" tabindex=\"-1\" hidden></div>"
+        + "<ul class=\"upload-queue\" id=\"upload-queue\" "
+        + "aria-label=\"Files selected for governed admission\" "
+        + "aria-live=\"polite\"></ul>"
+        + "<p class=\"upload-summary\" id=\"upload-summary\" "
+        + "aria-live=\"polite\">No files queued.</p>"
+        + "<p><button id=\"upload-submit\" type=\"submit\">"
+        + "Submit documents for admission</button></p>"
+        + "<noscript><p class=\"boundary\">Choose one file and submit it. "
+        + "Drag-and-drop, batch progress, and inline results require JavaScript.</p>"
+        + "</noscript>"
         + "</form>"
         if not is_demo
         else "<p class=\"boundary\">Demonstration workspace uses fixed synthetic records. Switch to development or production workspace for live admission.</p>"
@@ -831,7 +861,7 @@ def render_knowledge_manager(briefing: ExecutiveBriefing) -> str:
         "Start here, admit records, and confirm governance before promotion.</p>"
         "<div class=\"journey-step\">"
         "<h3>Step 1 (first action): Upload governed document</h3>"
-        "<p>Submit one governed document through the canonical admission front door, "
+        "<p>Submit one or more governed documents through the canonical admission front door, "
         "then verify processing and governance state before moving forward.</p>"
         + admission_form +
         "</div>"
@@ -856,7 +886,9 @@ def render_knowledge_manager(briefing: ExecutiveBriefing) -> str:
         "<a href=\"/states/insufficient-evidence\">View insufficient-evidence state</a>"
         "</p></section>"
     )
-    main = guide + _workspace_main(briefing)
+    main = guide + _workspace_main(briefing) + (
+        "<script src=\"/static/upload.js\" defer></script>" if not is_demo else ""
+    )
     return _document(
         title="Knowledge Manager",
         nav_current="knowledge-manager",

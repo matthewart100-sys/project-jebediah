@@ -8,29 +8,33 @@ stylesheet, and logs only a sanitized method, route identity, status, and durati
 
 from __future__ import annotations
 
+import json
 import logging
+import os
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass, replace
 from email.parser import BytesParser
 from email.policy import default as email_policy
 from importlib.resources import files
-import os
 from pathlib import Path
 from time import perf_counter
-from urllib.parse import parse_qs
 from typing import Protocol, runtime_checkable
+from urllib.parse import parse_qs
 from wsgiref.simple_server import WSGIRequestHandler, WSGIServer, make_server
 
 from .auth import AuthRuntime, AuthSession
 from .fixtures import SyntheticBriefingProvider
 from .models import ExecutiveBriefing
 from .rendering import render_error
-from .routes import RouteResolution, resolve
+from .routes import STATIC_UPLOAD_SCRIPT_PATH, RouteResolution, resolve
 
 LOOPBACK_HOST = "127.0.0.1"
 MIN_PORT = 1024
 MAX_PORT = 65535
 _STYLESHEET_RESOURCE = "styles.css"
+_UPLOAD_SCRIPT_RESOURCE = "upload.js"
+MAX_ADMISSION_BYTES = 1_000_000
+MAX_MULTIPART_BYTES = MAX_ADMISSION_BYTES + 64_000
 _SUPPORTED_METHODS = frozenset({"GET", "HEAD"})
 _SESSION_COOKIE_NAME = "bonsaai_session"
 _AUTH_PUBLIC_GET_ROUTES = frozenset(
@@ -45,8 +49,10 @@ logger = logging.getLogger("apps.jebediah_executive")
 _SECURITY_HEADERS: tuple[tuple[str, str], ...] = (
     (
         "Content-Security-Policy",
-        "default-src 'none'; style-src 'self'; base-uri 'none'; "
-        "form-action 'self'; frame-ancestors 'none'",
+        (
+            "default-src 'none'; style-src 'self'; script-src 'self'; "
+            "base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+        ),
     ),
     ("Referrer-Policy", "no-referrer"),
     ("X-Content-Type-Options", "nosniff"),
@@ -73,7 +79,7 @@ class InteractiveProvider(BriefingProvider, Protocol):
         source_record_id: str,
         file_name: str,
         media_type: str,
-    ) -> None:
+    ) -> dict[str, object] | None:
         """Admit one uploaded submission through governed runtime boundaries."""
 
     def admit_document(self, document_text: str, source_record_id: str) -> None:
@@ -104,6 +110,12 @@ def _load_stylesheet() -> bytes:
     return resource.read_bytes()
 
 
+def _load_upload_script() -> bytes:
+    """Read the reviewed, self-hosted upload enhancement a single time."""
+    resource = files(__package__).joinpath("static").joinpath(_UPLOAD_SCRIPT_RESOURCE)
+    return resource.read_bytes()
+
+
 def _headers_for_html(body: bytes) -> list[tuple[str, str]]:
     headers = [("Content-Type", "text/html; charset=utf-8")]
     headers.extend(_SECURITY_HEADERS)
@@ -113,6 +125,13 @@ def _headers_for_html(body: bytes) -> list[tuple[str, str]]:
 
 def _headers_for_css(body: bytes) -> list[tuple[str, str]]:
     headers = [("Content-Type", "text/css; charset=utf-8")]
+    headers.extend(_SECURITY_HEADERS)
+    headers.append(("Content-Length", str(len(body))))
+    return headers
+
+
+def _headers_for_javascript(body: bytes) -> list[tuple[str, str]]:
+    headers = [("Content-Type", "text/javascript; charset=utf-8")]
     headers.extend(_SECURITY_HEADERS)
     headers.append(("Content-Length", str(len(body))))
     return headers
@@ -288,6 +307,7 @@ def create_app(
     """Return a WSGI application over a briefing provider."""
     active_provider = provider if provider is not None else _default_provider()
     stylesheet = _load_stylesheet()
+    upload_script = _load_upload_script()
     auth_runtime = AuthRuntime(runtime_root=_runtime_root())
     auth_required = _is_auth_required()
     demo_anonymous_allowed = _allow_demo_anonymous()
@@ -418,6 +438,12 @@ def create_app(
                 method=method,
             )
         if resolution is not None and resolution.is_static:
+            if path == STATIC_UPLOAD_SCRIPT_PATH:
+                return _serve_javascript(
+                    logged_start_response,
+                    method,
+                    upload_script,
+                )
             return _serve_css(logged_start_response, method, stylesheet)
         if (
             auth_required
@@ -472,6 +498,41 @@ def _redirect(
     return [body]
 
 
+def _wants_json(environ: WSGIEnviron) -> bool:
+    return "application/json" in str(environ.get("HTTP_ACCEPT", "")).lower()
+
+
+def _json_response(
+    start_response: StartResponse,
+    *,
+    status: str,
+    payload: dict[str, object],
+) -> Iterable[bytes]:
+    body = json.dumps(payload, ensure_ascii=True, separators=(",", ":")).encode("utf-8")
+    headers = [("Content-Type", "application/json; charset=utf-8")]
+    headers.extend(_SECURITY_HEADERS)
+    headers.append(("Content-Length", str(len(body))))
+    start_response(status, headers)
+    return [body]
+
+
+_UPLOAD_ERROR_MESSAGES = {
+    "request_body_too_large": "The selected file exceeds the 1 MB admission limit.",
+    "payload_exceeds_admission_limit": "The selected file exceeds the 1 MB admission limit.",
+    "missing_uploaded_file": "Choose at least one PDF, DOCX, or TXT file.",
+    "unsupported_document_format": "Only PDF, DOCX, and TXT files are supported.",
+    "duplicate_content_hash": "This document duplicates content already queued for admission.",
+    "invalid_multipart_payload": "The upload could not be read. Choose the file and try again.",
+}
+
+
+def _safe_upload_error(error: ValueError) -> str:
+    return _UPLOAD_ERROR_MESSAGES.get(
+        str(error),
+        "The document could not be validated for governed admission.",
+    )
+
+
 @dataclass(frozen=True)
 class _UploadedFile:
     file_name: str
@@ -488,10 +549,14 @@ def _read_request_body(environ: WSGIEnviron) -> tuple[str, bytes]:
         raise ValueError("invalid_content_length") from error
     if content_length < 0:
         raise ValueError("invalid_content_length")
+    if content_length > MAX_MULTIPART_BYTES:
+        raise ValueError("request_body_too_large")
     payload = environ.get("wsgi.input")
     if payload is None:
         raise ValueError("missing_request_body")
     body = payload.read(content_length)
+    if len(body) != content_length:
+        raise ValueError("incomplete_request_body")
     return content_type, body
 
 
@@ -559,6 +624,8 @@ def _handle_post(
     session: AuthSession | None,
     auth_required: bool,
 ) -> Iterable[bytes]:
+    json_requested = _wants_json(environ)
+
     def _assert_csrf(form: dict[str, str]) -> None:
         if session is None:
             raise ValueError("missing_session")
@@ -669,12 +736,29 @@ def _handle_post(
                 form, uploaded = _read_multipart(environ)
                 if auth_required and session is not None:
                     _assert_csrf(form)
-                provider.admit_submission(
+                result = provider.admit_submission(
                     payload=uploaded.payload,
                     source_record_id=form.get("source_record_id", "source-record"),
                     file_name=uploaded.file_name,
                     media_type=uploaded.media_type,
                 )
+                if json_requested:
+                    if not isinstance(result, dict):
+                        result = {
+                            "file_name": uploaded.file_name,
+                            "byte_count": len(uploaded.payload),
+                            "admission_state": "review_pending",
+                            "reason": "awaiting_human_governance_review",
+                        }
+                    admission_state = str(
+                        result.get("admission_state", "review_pending")
+                    )
+                    accepted = admission_state != "failed"
+                    return _json_response(
+                        start_response,
+                        status="200 OK" if accepted else "502 Bad Gateway",
+                        payload={"ok": accepted, **result},
+                    )
             else:
                 form = _read_urlencoded(environ)
                 if auth_required and session is not None:
@@ -755,8 +839,14 @@ def _handle_post(
             status="404 Not Found",
             message="The requested route is not part of this platform workflow.",
         )
-    except ValueError:
+    except ValueError as error:
         logger.error("runtime post operation rejected invalid input")
+        if json_requested and path == "/knowledge-manager/admit":
+            return _json_response(
+                start_response,
+                status="400 Bad Request",
+                payload={"ok": False, "error": _safe_upload_error(error)},
+            )
         return _error_page(
             start_response,
             method="POST",
@@ -766,6 +856,18 @@ def _handle_post(
         )
     except RuntimeError as error:
         logger.exception("runtime post operation failed: %s", error)
+        if json_requested and path == "/knowledge-manager/admit":
+            return _json_response(
+                start_response,
+                status="502 Bad Gateway",
+                payload={
+                    "ok": False,
+                    "error": (
+                        "The governed admission service is unavailable. "
+                        "The file was not approved or promoted."
+                    ),
+                },
+            )
         return _error_page(
             start_response,
             method="POST",
@@ -886,6 +988,20 @@ def _serve_css(
         status="200 OK",
         headers=_headers_for_css(stylesheet),
         body=stylesheet,
+        method=method,
+    )
+
+
+def _serve_javascript(
+    start_response: StartResponse,
+    method: str,
+    script: bytes,
+) -> Iterable[bytes]:
+    return _emit(
+        start_response,
+        status="200 OK",
+        headers=_headers_for_javascript(script),
+        body=script,
         method=method,
     )
 

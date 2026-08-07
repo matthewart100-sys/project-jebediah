@@ -46,10 +46,17 @@ def test_fixed_pages_resolve(path: str, route_id: str) -> None:
     assert resolution.render is not None
 
 
-def test_stylesheet_resolves_as_static() -> None:
-    resolution = resolve("/static/styles.css")
+@pytest.mark.parametrize(
+    ("path", "route_id"),
+    [
+        ("/static/styles.css", "styles"),
+        ("/static/upload.js", "upload-script"),
+    ],
+)
+def test_reviewed_static_resources_resolve(path: str, route_id: str) -> None:
+    resolution = resolve(path)
     assert resolution is not None
-    assert resolution.route_id == "styles"
+    assert resolution.route_id == route_id
     assert resolution.is_static is True
     assert resolution.render is None
 
@@ -72,6 +79,7 @@ def test_product_routes_manifest_is_exact() -> None:
         "/board",
         "/states",
         "/static/styles.css",
+        "/static/upload.js",
     )
 
 
@@ -135,6 +143,7 @@ def test_state_subroutes_resolve(state_id: str) -> None:
         "/attention\\x",
         "/next\x00",  # null byte
         "/static/styles.css/",  # trailing slash on static
+        "/static/upload.js/",  # trailing slash on static
         "/static/other.css",  # other file
         "/static/../models.py",  # traversal to source
     ],

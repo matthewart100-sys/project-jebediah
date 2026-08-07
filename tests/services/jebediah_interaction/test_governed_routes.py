@@ -2,13 +2,15 @@ from __future__ import annotations
 
 import asyncio
 import base64
+import zipfile
+from io import BytesIO
 from pathlib import Path
 
-from cryptography.fernet import Fernet
 import httpx
 import pytest
 
 from app import candidate_store, main, memory_client
+from cryptography.fernet import Fernet
 
 
 @pytest.fixture(autouse=True)
@@ -83,6 +85,28 @@ def test_promoted_memory_uses_candidate_derived_idempotency_key(
 PDF = _pdf_bytes(
     "SYNTHETIC RELEASE EVIDENCE: Board approved the reserve reconciliation plan."
 )
+
+
+def _docx_bytes(text: str) -> bytes:
+    output = BytesIO()
+    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr(
+            "[Content_Types].xml",
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'
+            '<Default Extension="xml" ContentType="application/xml"/>'
+            '<Override PartName="/word/document.xml" '
+            'ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'
+            '</Types>',
+        )
+        archive.writestr(
+            "word/document.xml",
+            '<?xml version="1.0" encoding="UTF-8"?>'
+            '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">'
+            f'<w:body><w:p><w:r><w:t>{text}</w:t></w:r></w:p></w:body>'
+            '</w:document>',
+        )
+    return output.getvalue()
 
 
 @pytest.fixture(autouse=True)
@@ -274,6 +298,108 @@ def test_admission_rejects_invalid_pdf() -> None:
             )
             assert response.status_code == 422
             assert response.json()["detail"] == "invalid_pdf_structure"
+
+    asyncio.run(exercise())
+
+
+@pytest.mark.parametrize(
+    ("file_name", "media_type", "payload", "expected_text"),
+    [
+        (
+            "governed-evidence.txt",
+            "text/plain",
+            b"Governance committee approved the synthetic plan.",
+            "Governance committee approved the synthetic plan.",
+        ),
+        (
+            "governed-evidence.docx",
+            main.DOCX_MEDIA_TYPE,
+            _docx_bytes("Board approved the synthetic DOCX evidence."),
+            "Board approved the synthetic DOCX evidence.",
+        ),
+    ],
+)
+def test_txt_and_docx_enter_the_existing_governed_candidate_store(
+    file_name: str,
+    media_type: str,
+    payload: bytes,
+    expected_text: str,
+) -> None:
+    async def exercise() -> None:
+        transport = httpx.ASGITransport(app=main.app)
+        async with httpx.AsyncClient(
+            transport=transport,
+            base_url="http://synthetic.test",
+            headers=AUTH_HEADERS,
+        ) as client:
+            response = await client.post(
+                "/admission/submit",
+                json=_admission_payload(
+                    file_name=file_name,
+                    media_type=media_type,
+                    payload_base64=base64.b64encode(payload).decode("ascii"),
+                    byte_count=len(payload),
+                ),
+            )
+            assert response.status_code == 200
+            result = response.json()
+            assert result["state"] == "review_pending"
+            candidate = candidate_store.get_candidate_store().get(result["candidate_id"])
+            assert candidate is not None
+            assert expected_text in candidate.content
+
+    asyncio.run(exercise())
+
+
+@pytest.mark.parametrize(
+    ("file_name", "media_type"),
+    [
+        ("archive.zip", "application/zip"),
+        ("image.png", "image/png"),
+        ("mismatch.pdf", "text/plain"),
+    ],
+)
+def test_unsupported_and_mismatched_document_types_are_rejected(
+    file_name: str,
+    media_type: str,
+) -> None:
+    payload = b"unsupported synthetic payload"
+
+    async def exercise() -> None:
+        transport = httpx.ASGITransport(app=main.app)
+        async with httpx.AsyncClient(
+            transport=transport,
+            base_url="http://synthetic.test",
+            headers=AUTH_HEADERS,
+        ) as client:
+            response = await client.post(
+                "/admission/submit",
+                json=_admission_payload(
+                    file_name=file_name,
+                    media_type=media_type,
+                    payload_base64=base64.b64encode(payload).decode("ascii"),
+                    byte_count=len(payload),
+                ),
+            )
+            assert response.status_code == 415
+            assert response.json()["detail"] == "unsupported_document_type"
+
+    asyncio.run(exercise())
+
+
+def test_duplicate_submission_is_idempotently_governed() -> None:
+    async def exercise() -> None:
+        transport = httpx.ASGITransport(app=main.app)
+        async with httpx.AsyncClient(
+            transport=transport,
+            base_url="http://synthetic.test",
+            headers=AUTH_HEADERS,
+        ) as client:
+            first = await client.post("/admission/submit", json=_admission_payload())
+            duplicate = await client.post("/admission/submit", json=_admission_payload())
+            assert first.status_code == duplicate.status_code == 200
+            assert first.json()["candidate_id"] == duplicate.json()["candidate_id"]
+            assert duplicate.json()["state"] == "review_pending"
 
     asyncio.run(exercise())
 

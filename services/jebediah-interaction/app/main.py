@@ -4,14 +4,17 @@ from __future__ import annotations
 
 import base64
 import binascii
-from io import BytesIO
 import hashlib
 import os
 import re
 import secrets
 import time
 import uuid
+import zipfile
+from io import BytesIO
+from pathlib import PurePosixPath
 from typing import Annotated, Any
+from xml.etree import ElementTree
 
 from fastapi import Depends, FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,13 +22,22 @@ from pydantic import BaseModel, ConfigDict, Field
 from pypdf import PdfReader
 from pypdf.errors import PdfReadError
 
-from .candidate_store import AdmissionCandidate, CandidateStoreError, get_candidate_store
+from .candidate_store import (
+    AdmissionCandidate,
+    CandidateStoreError,
+    get_candidate_store,
+)
 from .context_builder import build_messages
 from .memory_client import retrieve_context, store_promoted_memory
 from .ollama_client import generate
 
 
 MAX_ADMISSION_BYTES = 1_000_000
+MAX_DOCX_ENTRIES = 256
+MAX_DOCX_UNCOMPRESSED_BYTES = 10_000_000
+DOCX_MEDIA_TYPE = (
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+)
 
 
 _allowed_origins = tuple(
@@ -123,6 +135,106 @@ def _extract_pdf_text(payload: bytes) -> str:
     return normalized.strip()
 
 
+def _extract_txt_text(payload: bytes) -> str:
+    try:
+        content = payload.decode("utf-8-sig")
+    except UnicodeDecodeError as error:
+        raise HTTPException(status_code=422, detail="txt_must_be_utf8") from error
+    if "\x00" in content:
+        raise HTTPException(status_code=422, detail="txt_contains_binary_content")
+    normalized = " ".join(content.split())
+    if not normalized:
+        raise HTTPException(status_code=422, detail="document_contains_no_extractable_text")
+    return normalized
+
+
+def _safe_docx_entries(archive: zipfile.ZipFile) -> dict[str, zipfile.ZipInfo]:
+    entries = archive.infolist()
+    if len(entries) > MAX_DOCX_ENTRIES:
+        raise HTTPException(status_code=422, detail="docx_resource_limit_exceeded")
+    if sum(entry.file_size for entry in entries) > MAX_DOCX_UNCOMPRESSED_BYTES:
+        raise HTTPException(status_code=422, detail="docx_resource_limit_exceeded")
+    safe_entries: dict[str, zipfile.ZipInfo] = {}
+    for entry in entries:
+        path = PurePosixPath(entry.filename)
+        if path.is_absolute() or ".." in path.parts or entry.flag_bits & 0x1:
+            raise HTTPException(status_code=422, detail="invalid_docx_structure")
+        safe_entries[entry.filename] = entry
+    return safe_entries
+
+
+def _extract_docx_text(payload: bytes) -> str:
+    if not payload.startswith(b"PK"):
+        raise HTTPException(status_code=422, detail="invalid_docx_structure")
+    try:
+        with zipfile.ZipFile(BytesIO(payload)) as archive:
+            entries = _safe_docx_entries(archive)
+            required = {"[Content_Types].xml", "word/document.xml"}
+            if not required.issubset(entries):
+                raise HTTPException(status_code=422, detail="invalid_docx_structure")
+            lowered_names = {name.lower() for name in entries}
+            active_markers = ("vbaproject.bin", "word/activex/", "word/embeddings/")
+            if any(
+                marker in name
+                for name in lowered_names
+                for marker in active_markers
+            ):
+                raise HTTPException(
+                    status_code=422,
+                    detail="docx_active_content_not_supported",
+                )
+            for name in entries:
+                if name.endswith(".rels"):
+                    relationships = archive.read(name)
+                    if b'TargetMode="External"' in relationships or b"TargetMode='External'" in relationships:
+                        raise HTTPException(
+                            status_code=422,
+                            detail="docx_external_relationship_not_supported",
+                        )
+            document_xml = archive.read("word/document.xml")
+    except HTTPException:
+        raise
+    except (KeyError, OSError, zipfile.BadZipFile, zipfile.LargeZipFile) as error:
+        raise HTTPException(status_code=422, detail="invalid_docx_structure") from error
+    if b"<!DOCTYPE" in document_xml or b"<!ENTITY" in document_xml:
+        raise HTTPException(status_code=422, detail="invalid_docx_structure")
+    try:
+        root = ElementTree.fromstring(document_xml)
+    except ElementTree.ParseError as error:
+        raise HTTPException(status_code=422, detail="invalid_docx_structure") from error
+    namespace = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}t"
+    content = " ".join(
+        node.text.strip()
+        for node in root.iter(namespace)
+        if node.text and node.text.strip()
+    )
+    if not content:
+        raise HTTPException(status_code=422, detail="document_contains_no_extractable_text")
+    return content
+
+
+def _admission_format(request: AdmissionRequest) -> str:
+    suffix = PurePosixPath(request.file_name).suffix.lower()
+    media_type = request.media_type.lower().split(";", 1)[0].strip()
+    allowed_media_types = {
+        ".pdf": {"application/pdf", "application/octet-stream"},
+        ".docx": {DOCX_MEDIA_TYPE, "application/octet-stream"},
+        ".txt": {"text/plain", "application/octet-stream"},
+    }
+    if suffix not in allowed_media_types or media_type not in allowed_media_types[suffix]:
+        raise HTTPException(status_code=415, detail="unsupported_document_type")
+    return suffix
+
+
+def _extract_admission_text(request: AdmissionRequest, payload: bytes) -> str:
+    document_format = _admission_format(request)
+    if document_format == ".pdf":
+        return _extract_pdf_text(payload)
+    if document_format == ".docx":
+        return _extract_docx_text(payload)
+    return _extract_txt_text(payload)
+
+
 def _workspace_memories(
     context: dict[str, Any],
     *,
@@ -163,15 +275,13 @@ async def submit_admission(
     request: AdmissionRequest,
     _authorized: None = Depends(_require_governed_auth),
 ) -> dict[str, Any]:
-    if request.media_type != "application/pdf":
-        raise HTTPException(status_code=415, detail="only_pdf_admission_is_supported")
     try:
         payload = base64.b64decode(request.payload_base64, validate=True)
     except (binascii.Error, ValueError) as error:
         raise HTTPException(status_code=422, detail="payload_base64_invalid") from error
     if len(payload) != request.byte_count:
         raise HTTPException(status_code=422, detail="byte_count_mismatch")
-    content = _extract_pdf_text(payload)
+    content = _extract_admission_text(request, payload)
     candidate_id = _candidate_id(request, payload)
     try:
         get_candidate_store().store(
