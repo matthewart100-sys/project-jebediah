@@ -196,7 +196,9 @@ class _CanonicalRuntimeClient:
             or os.getenv("BONSAAI_OLLAMA_URL", "").strip()
             or "http://ollama:11434"
         ).rstrip("/")
-        self._timeout_seconds = 10
+        self._timeout_seconds = int(
+            os.getenv("BONSAAI_RUNTIME_TIMEOUT_SECONDS", "300")
+        )
 
     def _url(self, base: str, path_env: str, default_path: str) -> str:
         raw = os.getenv(path_env, "").strip()
@@ -1241,59 +1243,73 @@ class GovernedRuntimeBriefingProvider:
             candidate_count = len(memories) if isinstance(memories, list) else 0
             selected_count = 0
             source_ids: list[str] = []
-            if isinstance(memories, list):
-                for memory_entry in memories:
-                    if not isinstance(memory_entry, dict):
-                        continue
-                    metadata = memory_entry.get("metadata")
-                    if not isinstance(metadata, dict):
-                        continue
-                    if metadata.get("organization_id") != self._organization_id:
-                        continue
-                    if metadata.get("workspace_mode") != self._workspace_mode.value:
-                        continue
-                    if metadata.get("governance_state") != "approved":
-                        continue
-                    source_record_id = metadata.get("source_record_id")
-                    if not isinstance(source_record_id, str) or not source_record_id.strip():
-                        source_record_id = "runtime-source"
-                    source_ids.append(source_record_id)
+
+        # Prefer governed citations returned directly by canonical interaction.
+        citations = response.get("citations")
+        if isinstance(citations, list):
+            for citation in citations:
+                if not isinstance(citation, dict):
+                    continue
+                source_record_id = citation.get("source_record_id")
+                if isinstance(source_record_id, str) and source_record_id.strip():
+                    source_ids.append(source_record_id.strip())
                     selected_count += 1
-            answer_state = str(response.get("state", "insufficient")).strip().lower()
-            statement = str(response.get("statement", "")).strip()
-            if answer_state == "grounded" and statement:
-                self._last_answer = _ExternalAskAnswer(
-                    state=AnswerState.GROUNDED,
-                    statement=statement,
-                )
-            else:
-                self._last_answer = _ExternalAskAnswer(
-                    state=AnswerState.INSUFFICIENT,
-                    statement=None,
-                )
-            self._last_semantic_candidates = ()
-            self._last_question_result = _QuestionRuntimeResult(
-                trace_id=str(response.get("trace_id", "")).strip() or trace_id,
-                asked_at=asked_at,
-                candidate_count=candidate_count,
-                selected_count=selected_count,
-                stale_count=0,
-                conflicting_sources=tuple(sorted(set(source_ids))),
-                recommendation=(
-                    str(response.get("recommended_decision", "")).strip()
-                    or self._recommended_decision(
-                        selected_count=selected_count,
-                        stale_count=0,
-                    )
-                ),
-                insufficient_reason=(
-                    None
-                    if answer_state == "grounded"
-                    else str(response.get("reason", "")).strip()
-                    or "No governed answer returned from canonical interaction runtime."
-                ),
+
+        # Fall back to memory context when canonical citations are unavailable.
+        if selected_count == 0 and isinstance(memories, list):
+            for memory_entry in memories:
+                if not isinstance(memory_entry, dict):
+                    continue
+                metadata = memory_entry.get("metadata")
+                if not isinstance(metadata, dict):
+                    continue
+                if metadata.get("organization_id") != self._organization_id:
+                    continue
+                if metadata.get("workspace_mode") != self._workspace_mode.value:
+                    continue
+                if metadata.get("governance_state") != "approved":
+                    continue
+                source_record_id = metadata.get("source_record_id")
+                if not isinstance(source_record_id, str) or not source_record_id.strip():
+                    source_record_id = "runtime-source"
+                source_ids.append(source_record_id)
+                selected_count += 1
+
+        answer_state = str(response.get("state", "insufficient")).strip().lower()
+        statement = str(response.get("statement", "")).strip()
+        if answer_state == "grounded" and statement:
+            self._last_answer = _ExternalAskAnswer(
+                state=AnswerState.GROUNDED,
+                statement=statement,
             )
-            return
+        else:
+            self._last_answer = _ExternalAskAnswer(
+                state=AnswerState.INSUFFICIENT_EVIDENCE,
+                statement=None,
+            )
+        self._last_semantic_candidates = ()
+        self._last_question_result = _QuestionRuntimeResult(
+            trace_id=str(response.get("trace_id", "")).strip() or trace_id,
+            asked_at=asked_at,
+            candidate_count=candidate_count,
+            selected_count=selected_count,
+            stale_count=0,
+            conflicting_sources=tuple(sorted(set(source_ids))),
+            recommendation=(
+                str(response.get("recommended_decision", "")).strip()
+                or self._recommended_decision(
+                    selected_count=selected_count,
+                    stale_count=0,
+                )
+            ),
+            insufficient_reason=(
+                None
+                if answer_state == "grounded"
+                else str(response.get("reason", "")).strip()
+                or "No governed answer returned from canonical interaction runtime."
+            ),
+        )
+        return
         self._sequence += 1
         asked_at = _now()
         trace_id = f"corr-ask-{self._sequence}"

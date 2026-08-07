@@ -41,6 +41,7 @@ services:
       start_period: 45s
     networks:
       - jebediah_internal
+      - jebediah-interaction_default
     deploy:
       resources:
         limits:
@@ -97,6 +98,10 @@ networks:
   jebediah_internal:
     external: true
     name: jebediah_internal
+
+  jebediah-interaction_default:
+    external: true
+    name: jebediah-interaction_default
 
 volumes:
   bonsaai_caddy_data:

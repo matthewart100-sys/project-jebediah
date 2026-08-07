@@ -764,8 +764,8 @@ def _handle_post(
             status="400 Bad Request",
             message="The platform could not process the submitted workflow input.",
         )
-    except RuntimeError:
-        logger.error("runtime post operation failed")
+    except RuntimeError as error:
+        logger.exception("runtime post operation failed: %s", error)
         return _error_page(
             start_response,
             method="POST",
