@@ -1,9 +1,8 @@
 """Governed OCR bootstrap for the interaction service.
 
-This module keeps the existing admission API intact while extending PDF extraction
-with a bounded, local-only OCR fallback for image-only/scanned PDFs. Native PDF
-text remains preferred. OCR output follows the same review_pending custody and
-human-promotion boundary as every other extracted document.
+Extends the existing admission API with bounded local OCR for scanned PDFs.
+Native PDF text is always preferred. OCR output enters the exact same encrypted
+review_pending custody and human-promotion boundary as native extraction.
 """
 
 from __future__ import annotations
@@ -54,13 +53,16 @@ def _run(command: list[str], *, timeout: int) -> subprocess.CompletedProcess[str
 
 
 def extract_pdf_text(payload: bytes) -> str:
-    """Extract native text, falling back to bounded Tesseract OCR when necessary."""
+    """Extract native text, falling back to Tesseract for image-only PDFs."""
     if not payload.startswith(b"%PDF-") or b"%%EOF" not in payload[-2048:]:
         raise HTTPException(status_code=422, detail="invalid_pdf_structure")
 
     try:
         reader = PdfReader(BytesIO(payload), strict=True)
-        if len(reader.pages) > OCR_MAX_PAGES:
+        page_count = len(reader.pages)
+        if page_count == 0:
+            raise HTTPException(status_code=422, detail="invalid_pdf_structure")
+        if page_count > OCR_MAX_PAGES:
             raise HTTPException(status_code=422, detail="pdf_page_limit_exceeded")
         native = _normalize("\n".join(page.extract_text() or "" for page in reader.pages))
     except HTTPException:
@@ -68,8 +70,6 @@ def extract_pdf_text(payload: bytes) -> str:
     except (PdfReadError, ValueError, TypeError) as error:
         raise HTTPException(status_code=422, detail="invalid_pdf_structure") from error
 
-    # Prefer deterministic native extraction. OCR is only a fallback when the
-    # document contains no meaningful machine-readable text layer.
     if len(native) >= OCR_MIN_CHARACTERS:
         return native
 
@@ -79,40 +79,35 @@ def extract_pdf_text(payload: bytes) -> str:
         page_prefix = root / "page"
         source.write_bytes(payload)
 
-        _run(
-            [
-                "pdftoppm",
-                "-f", "1",
-                "-l", str(OCR_MAX_PAGES),
-                "-r", str(OCR_DPI),
-                "-png",
-                "-singlefile" if len(reader.pages) == 1 else "-png",
-                str(source),
-                str(page_prefix),
-            ],
-            timeout=OCR_TIMEOUT_SECONDS,
-        )
+        raster_command = [
+            "pdftoppm",
+            "-f", "1",
+            "-l", str(page_count),
+            "-r", str(OCR_DPI),
+            "-png",
+        ]
+        if page_count == 1:
+            raster_command.append("-singlefile")
+        raster_command.extend([str(source), str(page_prefix)])
+        _run(raster_command, timeout=OCR_TIMEOUT_SECONDS)
 
         images = sorted(root.glob("page*.png"))
         if not images:
             raise HTTPException(status_code=422, detail="ocr_render_failed")
 
         extracted: list[str] = []
-        remaining = OCR_TIMEOUT_SECONDS
+        per_page_timeout = max(10, OCR_TIMEOUT_SECONDS // max(1, len(images)))
         for image in images[:OCR_MAX_PAGES]:
             result = _run(
                 [
-                    "tesseract",
-                    str(image),
-                    "stdout",
+                    "tesseract", str(image), "stdout",
                     "-l", OCR_LANGUAGE,
                     "--oem", "1",
                     "--psm", "3",
                 ],
-                timeout=max(5, remaining),
+                timeout=per_page_timeout,
             )
             extracted.append(result.stdout)
-            remaining = max(5, remaining - 5)
 
     normalized = _normalize("\n".join(extracted))
     if len(normalized) < OCR_MIN_CHARACTERS:
@@ -120,9 +115,9 @@ def extract_pdf_text(payload: bytes) -> str:
     return normalized
 
 
-# The existing route calls main._extract_pdf_text. Rebind only that extraction
-# boundary; admission authorization, encrypted candidate custody, review_pending,
-# promotion, workspace isolation, and provenance remain unchanged.
+# Rebind only the extraction boundary. Authentication, encrypted candidate
+# custody, review_pending state, workspace isolation, human approval, promotion,
+# and grounded retrieval remain controlled by the existing canonical routes.
 main._extract_pdf_text = extract_pdf_text
 
 
