@@ -2,10 +2,8 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Scanned PDFs are first-class organizational evidence.  Keep OCR local to the
-# governed interaction container so document contents never leave the homelab.
-# Poppler rasterizes PDF pages and Tesseract performs OCR.  --no-install-recommends
-# keeps the production image bounded.
+# Scanned PDFs are first-class organizational evidence. OCR remains entirely
+# local to the governed interaction container.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         poppler-utils \
@@ -20,4 +18,4 @@ COPY services/jebediah-interaction/app ./app
 
 EXPOSE 8001
 
-CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+CMD ["python", "-m", "app.ocr_server"]
