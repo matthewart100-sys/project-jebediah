@@ -47,6 +47,9 @@ VALID_TXT = b"SYNTHETIC-TXT\nbounded generated text\n"
 VALID_MARKDOWN = b"# SYNTHETIC-MARKDOWN\n[inert](synthetic-reference)\n"
 VALID_PDF_MARKER = b"%PDF-SYNTHETIC-INERT\n"
 VALID_DOCX_MARKER = b"PK\x03\x04SYNTHETIC-DOCX-INERT"
+VALID_XLSX_MARKER = b"PK\x03\x04SYNTHETIC-XLSX-INERT"
+VALID_PPTX_MARKER = b"PK\x03\x04SYNTHETIC-PPTX-INERT"
+VALID_CSV = b"SYNTHETIC-CSV,status\nbounded,approved\n"
 UNSUPPORTED = b"SYNTHETIC-UNSUPPORTED"
 TRUNCATED = b"%P"
 AMBIGUOUS = b"SYNTHETIC-AMBIGUOUS"
@@ -325,6 +328,24 @@ class ScriptedFormatDetector(FormatDetector):
                 DocumentFormat.DOCX,
                 ".docx",
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            ),
+            (
+                VALID_XLSX_MARKER,
+                DocumentFormat.XLSX,
+                ".xlsx",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ),
+            (
+                VALID_PPTX_MARKER,
+                DocumentFormat.PPTX,
+                ".pptx",
+                "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            ),
+            (
+                VALID_CSV,
+                DocumentFormat.CSV,
+                ".csv",
+                "text/csv",
             ),
             (
                 ACTIVE_CONTENT,

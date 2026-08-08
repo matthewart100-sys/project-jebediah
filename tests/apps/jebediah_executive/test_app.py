@@ -227,6 +227,8 @@ def test_upload_script_has_fixed_content_type(client: Client) -> None:
     assert b"XMLHttpRequest" in body
     assert b"window.crypto.subtle.digest" in body
     assert b"innerHTML" not in body
+    assert b"console." not in body
+    assert b"debugger" not in body
     for marker in (
         b"Uploading...",
         b"Validating...",
@@ -237,7 +239,14 @@ def test_upload_script_has_fixed_content_type(client: Client) -> None:
         b"duplicate file",
         b"pdf",
         b"docx",
+        b"xlsx",
+        b"pptx",
+        b"csv",
         b"txt",
+        b"markdown",
+        b"data-question-form",
+        b"aria-busy",
+        b"Reviewing approved evidence",
     ):
         assert marker in body
 
@@ -419,7 +428,7 @@ def test_internal_render_failure_is_sanitized_500() -> None:
     # A sanitized page is returned with the synthetic, no-action boundary and
     # no reflected internals.
     assert b"no organizational action is taken" in body
-    assert b"Governed runtime" in body
+    assert b"Governed organizational intelligence" in body
     for landmark in (b"class=\"skip-link\"", b"<header", b"<nav", b"<footer"):
         assert landmark in body
 
@@ -473,13 +482,15 @@ def test_port_in_range_accepted(port: int) -> None:
 
 def test_workflow_executive_orientation(client: Client) -> None:
     _, _, overview = client.request("GET", "/")
-    assert b"Runtime status" in overview
+    assert b"Turn approved knowledge into decisions you can defend" in overview
+    assert b"How Jebediah learns" in overview
+    assert b"Why trust the answer?" in overview
     assert b"Material limitations" in overview
     _, _, attention = client.request("GET", "/attention")
     # An attention item shows its separately linked next-item kind.
     assert b"Related next step" in attention
-    # Its evidence reference is available as a local disclosure.
-    assert b"Source reference" in attention
+    # Its governed source evidence is available through disclosure.
+    assert b"Evidence used" in attention
 
 
 def test_workflow_decision_preparation(client: Client) -> None:
@@ -506,7 +517,7 @@ def test_workflow_ask_boundary(client: Client) -> None:
     _, _, index = client.request("GET", "/organizational-intelligence")
     assert b"preset synthetic questions" in index
     _, _, grounded = client.request("GET", "/ask/grounded-priorities")
-    assert b"State:" in grounded
+    assert b"Governance state:" in grounded
     _, _, insufficient = client.request("GET", "/ask/insufficient-program-outcomes")
     assert b"No answer is fabricated" in insufficient
     _, _, failed = client.request("GET", "/ask/failed-source-review")
@@ -555,11 +566,62 @@ def test_workflow_admission_promotion_and_question_post_round_trip(client: Clien
         body=ask_body,
     )
     assert status == "303 See Other"
-    assert headers["Location"] == "/organizational-intelligence"
+    assert headers["Location"] == "/ask/grounded-priorities"
 
-    _, _, grounded = client.request("GET", "/ask/grounded-priorities")
-    assert b"Grounded" in grounded
+    _, _, grounded = client.request("GET", headers["Location"])
+    assert b"Evidence-backed" in grounded
     assert b"Evidence citation" in grounded
+
+
+def test_canonical_question_answer_and_citations_survive_redirect(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def _answer_question(self, **kwargs):
+        del self, kwargs
+        return {
+            "state": "grounded",
+            "statement": "The approved report contains the reserve reconciliation plan.",
+            "trace_id": "trace-visible-answer",
+            "citations": [
+                {
+                    "source_record_id": "approved-report-001",
+                    "candidate_id": "candidate-approved-001",
+                    "organization_id": "virginia-b-andes",
+                    "workspace_mode": "production",
+                }
+            ],
+        }
+
+    monkeypatch.setenv("BONSAAI_CANONICAL_RUNTIME", "1")
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.ask_question",
+        _answer_question,
+    )
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.runtime_health",
+        lambda self: (),
+    )
+    provider = OperationalWorkspaceProvider(
+        Path(tempfile.mkdtemp(prefix="canonical-visible-answer-test-"))
+    )
+    provider.select_workspace("production")
+    provider.select_organization("virginia-b-andes")
+    client = Client(create_app(provider))
+
+    status, headers, _ = client.request(
+        "POST",
+        "/organizational-intelligence/ask",
+        body=b"question=What+is+contained+in+the+uploaded+document%3F",
+    )
+    assert status == "303 See Other"
+    assert headers["Location"] == "/ask/grounded-priorities"
+
+    status, _, page = client.request("GET", headers["Location"])
+    assert status == "200 OK"
+    assert b"The approved report contains the reserve reconciliation plan." in page
+    assert b"Evidence citation approved-report-001" in page
+    assert b"Governance state: Evidence-backed" in page
+    assert b"Jebediah's response" in page
 
 
 def test_enhanced_upload_returns_safe_admission_metadata() -> None:
@@ -634,12 +696,12 @@ def test_workflow_board_preparation(client: Client) -> None:
 def test_primary_navigation_exposes_unified_platform_sections(client: Client) -> None:
     _, _, home = client.request("GET", "/")
     for label in (
-        b"Executive Dashboard",
+        b"Dashboard",
         b"Knowledge Manager",
-        b"Organizational Intelligence",
-        b"Organizational Memory",
+        b"Ask Jebediah",
+        b"Approved Knowledge",
         b"Governance",
-        b"Audit",
+        b"Audit Trail",
         b"Administration",
     ):
         assert label in home
@@ -648,8 +710,8 @@ def test_primary_navigation_exposes_unified_platform_sections(client: Client) ->
 def test_demonstration_mode_walkthrough_is_available(client: Client) -> None:
     status, _, body = client.request("GET", "/demo")
     assert status == "200 OK"
-    assert b"Guided executive walkthrough" in body
-    assert b"Document admission" in body
+    assert b"Bonsaai in five minutes" in body
+    assert b"Show how Jebediah learns" in body
     assert b"evidence-backed answer" in body.lower()
 
 
@@ -700,6 +762,40 @@ def test_canonical_admission_failure_renders_without_http_500(
     assert b"processing_failed" in page
     assert b"runtime_request_failed: interaction_admission" in page
     assert b"http://jebediah-interaction" not in page
+
+
+def test_canonical_question_timeout_fails_safely(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    def _timeout_question(self, **kwargs):
+        del self, kwargs
+        raise RuntimeError("runtime_request_failed: interaction_question")
+
+    monkeypatch.setenv("BONSAAI_CANONICAL_RUNTIME", "1")
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.ask_question",
+        _timeout_question,
+    )
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider._CanonicalRuntimeClient.runtime_health",
+        lambda self: (),
+    )
+    provider = OperationalWorkspaceProvider(
+        Path(tempfile.mkdtemp(prefix="canonical-question-timeout-test-"))
+    )
+    provider.select_workspace("production")
+    client = Client(create_app(provider))
+
+    status, _, body = client.request(
+        "POST",
+        "/organizational-intelligence/ask",
+        body=b"question=What+is+contained+in+the+uploaded+document%3F",
+    )
+
+    assert status == "503 Service Unavailable"
+    assert b"could not be completed in the safe request window" in body
+    assert b"No answer was fabricated" in body
+    assert b"runtime_request_failed" not in body
 
 
 def test_enhanced_canonical_admission_failure_returns_safe_json(
@@ -769,7 +865,7 @@ def test_workflow_failure_awareness(client: Client) -> None:
         status, _, detail = client.request("GET", f"/states/{state_id}")
         assert status == "200 OK", state_id
         assert b"no organizational action" in detail
-        assert b"Governed runtime" in detail
+        assert b"Governed intelligence" in detail
 
 
 def test_workspace_switch_and_organization_switch_round_trip() -> None:
@@ -820,6 +916,23 @@ def test_auth_required_redirects_to_login(
     status, headers, _ = client.request("GET", "/")
     assert status == "303 See Other"
     assert headers["Location"] == "/login"
+
+
+def test_auth_required_without_administrator_fails_closed(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("BONSAAI_REQUIRE_AUTH", "1")
+    monkeypatch.delenv("BONSAAI_BOOTSTRAP_ADMIN_EMAIL", raising=False)
+    monkeypatch.delenv("BONSAAI_BOOTSTRAP_ADMIN_PASSWORD", raising=False)
+    monkeypatch.setenv(
+        "JEBEDIAH_RUNTIME_ROOT", tempfile.mkdtemp(prefix="auth-missing-admin-")
+    )
+
+    with pytest.raises(
+        RuntimeError,
+        match="authentication_required_but_no_users_configured",
+    ):
+        create_app()
 
 
 def test_login_sets_cookie_and_can_reach_dashboard(

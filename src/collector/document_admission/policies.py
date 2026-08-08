@@ -18,6 +18,9 @@ from .models import (
 SYNTHETIC_FORMATS = (
     DocumentFormat.PDF,
     DocumentFormat.DOCX,
+    DocumentFormat.XLSX,
+    DocumentFormat.PPTX,
+    DocumentFormat.CSV,
     DocumentFormat.TXT,
     DocumentFormat.MARKDOWN,
 )

@@ -1,15 +1,19 @@
 from __future__ import annotations
 
 import tempfile
+from io import BytesIO
 from pathlib import Path
 import json
 import urllib.error
 
 import pytest
 
+from collector.document_admission import DocumentFormat
+
 from apps.jebediah_executive.governed_provider import (
     GovernedRuntimeBriefingProvider,
     OperationalWorkspaceProvider,
+    _CanonicalRuntimeClient,
 )
 from apps.jebediah_executive.models import (
     AskState,
@@ -29,6 +33,44 @@ def test_governed_provider_starts_with_synthetic_defaults() -> None:
     briefing = provider.briefing()
     assert briefing.scenario_id == "synthetic-nonprofit-demo-v1"
     assert any("governed runtime records" in item for item in briefing.limitations)
+
+
+@pytest.mark.parametrize(
+    ("file_name", "media_type", "expected"),
+    [
+        ("evidence.pdf", "application/pdf", DocumentFormat.PDF),
+        (
+            "evidence.docx",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            DocumentFormat.DOCX,
+        ),
+        (
+            "evidence.xlsx",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            DocumentFormat.XLSX,
+        ),
+        (
+            "evidence.pptx",
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            DocumentFormat.PPTX,
+        ),
+        ("evidence.csv", "text/csv", DocumentFormat.CSV),
+        ("evidence.txt", "text/plain", DocumentFormat.TXT),
+        ("evidence.md", "text/markdown", DocumentFormat.MARKDOWN),
+        ("evidence.markdown", "text/plain", DocumentFormat.MARKDOWN),
+    ],
+)
+def test_governed_provider_resolves_approved_document_formats(
+    file_name: str,
+    media_type: str,
+    expected: DocumentFormat,
+) -> None:
+    assert _provider()._resolve_document_format(file_name, media_type) is expected
+
+
+def test_governed_provider_rejects_extension_media_type_mismatch() -> None:
+    with pytest.raises(ValueError, match="unsupported_document_format"):
+        _provider()._resolve_document_format("evidence.xlsx", "application/pdf")
 
 
 def test_governed_provider_admission_promotion_and_grounded_ask() -> None:
@@ -272,6 +314,105 @@ def test_canonical_grounded_answer_does_not_repeat_memory_retrieval(
     assert tuple(reference.source_id for reference in answer.source_references) == (
         "demo-src-source-uploaded-pdf",
     )
+
+
+def test_canonical_question_timeout_uses_bounded_safe_window(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    observed: dict[str, object] = {}
+
+    def _timeout(request, timeout=0):
+        observed["url"] = request.full_url
+        observed["timeout"] = timeout
+        raise TimeoutError("synthetic bounded timeout")
+
+    monkeypatch.setenv("BONSAAI_QUESTION_TIMEOUT_SECONDS", "85")
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _timeout,
+    )
+    client = _CanonicalRuntimeClient()
+
+    with pytest.raises(RuntimeError, match="runtime_request_failed: interaction_question"):
+        client.ask_question(
+            question="What is contained in the uploaded document?",
+            workspace_mode="production",
+            organization_id="virginia-b-andes",
+        )
+
+    assert observed == {
+        "url": "http://jebediah-interaction:8001/questions/ask",
+        "timeout": 85,
+    }
+
+
+def test_canonical_http_error_does_not_expose_upstream_body(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    confidential_marker = "CONFIDENTIAL SYNTHETIC UPSTREAM DETAIL"
+
+    def _http_error(_request, timeout=0):
+        del timeout
+        raise urllib.error.HTTPError(
+            url="http://jebediah-interaction:8001/questions/ask",
+            code=422,
+            msg="synthetic error",
+            hdrs=None,
+            fp=BytesIO(confidential_marker.encode("utf-8")),
+        )
+
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _http_error,
+    )
+    client = _CanonicalRuntimeClient()
+
+    with pytest.raises(RuntimeError) as raised:
+        client.ask_question(
+            question="What is contained in the uploaded document?",
+            workspace_mode="production",
+            organization_id="virginia-b-andes",
+        )
+
+    captured = capsys.readouterr()
+    assert str(raised.value) == (
+        "runtime_request_failed: interaction_question: http_status_422"
+    )
+    assert confidential_marker not in str(raised.value)
+    assert confidential_marker not in captured.out
+    assert confidential_marker not in captured.err
+
+
+def test_canonical_health_probes_use_short_rendering_timeout(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class _FakeResponse:
+        def read(self) -> bytes:
+            return b'{"status":"online"}'
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+    timeouts: list[int] = []
+
+    def _fake_urlopen(_request, timeout=0):
+        timeouts.append(timeout)
+        return _FakeResponse()
+
+    monkeypatch.setenv("BONSAAI_HEALTH_TIMEOUT_SECONDS", "2")
+    monkeypatch.setattr(
+        "apps.jebediah_executive.governed_provider.urllib.request.urlopen",
+        _fake_urlopen,
+    )
+
+    statuses = _CanonicalRuntimeClient().runtime_health()
+
+    assert len(statuses) == 4
+    assert timeouts == [2, 2, 2, 2]
 
 
 def test_canonical_pending_submission_survives_provider_restart(

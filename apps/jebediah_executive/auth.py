@@ -162,10 +162,24 @@ class AuthRuntime:
 
     def _load_or_bootstrap_users(self) -> dict[str, PlatformUser]:
         if self._users_path.exists():
-            return self._load_users()
+            raw = self._read_user_store()
+            users = self._load_users(raw)
+            if users or not self._has_valid_empty_user_store(raw):
+                return users
         users = self._bootstrap_users_from_env()
         self._save_users(users)
         return users
+
+    def _read_user_store(self) -> object | None:
+        try:
+            return json.loads(self._users_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+            return None
+
+    @staticmethod
+    def _has_valid_empty_user_store(raw: object) -> bool:
+        """Return whether the persisted store is valid and explicitly empty."""
+        return isinstance(raw, dict) and raw.get("users") == []
 
     def _bootstrap_users_from_env(self) -> dict[str, PlatformUser]:
         email = os.getenv("BONSAAI_BOOTSTRAP_ADMIN_EMAIL", "").strip().lower()
@@ -197,10 +211,8 @@ class AuthRuntime:
         )
         return {user.user_id: user}
 
-    def _load_users(self) -> dict[str, PlatformUser]:
-        try:
-            raw = json.loads(self._users_path.read_text(encoding="utf-8"))
-        except (OSError, ValueError, TypeError, json.JSONDecodeError):
+    def _load_users(self, raw: object) -> dict[str, PlatformUser]:
+        if not isinstance(raw, dict):
             return {}
         users: dict[str, PlatformUser] = {}
         for payload in raw.get("users", []):
@@ -473,4 +485,3 @@ class AuthRuntime:
         self._reset_tokens.pop(token, None)
         self._record_audit("auth.password_reset_completed", user.user_id, "password_changed")
         return True
-

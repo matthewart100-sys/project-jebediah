@@ -100,7 +100,7 @@ def test_links_and_disclosures_have_descriptive_names() -> None:
 def test_status_and_error_text_independent_of_color() -> None:
     # Ask response state is conveyed by a text label and enum value, not color.
     grounded = render_ask_response(BRIEFING, BRIEFING.ask_response("grounded-priorities"))
-    assert "State: Grounded" in grounded
+    assert "Governance state: Evidence-backed" in grounded
     assert "grounded" in grounded
     # Each briefing state detail names the state textually.
     for route_id, state in STATE_ROUTE_TO_ENUM.items():

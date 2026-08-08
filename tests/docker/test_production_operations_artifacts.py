@@ -3,6 +3,10 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PRODUCTION_COMPOSE = PROJECT_ROOT / "docker" / "production" / "docker-compose.yml"
+PRODUCTION_ENV_EXAMPLE = PROJECT_ROOT / "docker" / "production" / ".env.example"
+INTERACTION_COMPOSE = (
+    PROJECT_ROOT / "services" / "jebediah-interaction" / "docker-compose.yml"
+)
 BACKUP_SCRIPT = PROJECT_ROOT / "scripts" / "operations" / "backup_bonsaai.sh"
 RESTORE_SCRIPT = PROJECT_ROOT / "scripts" / "operations" / "restore_bonsaai.sh"
 UPGRADE_SCRIPT = PROJECT_ROOT / "scripts" / "operations" / "upgrade_bonsaai.sh"
@@ -19,6 +23,44 @@ def test_production_overlay_compose_contains_only_overlay_services() -> None:
     assert "\n  memory-runtime:" not in compose
     assert "\n  ollama:" not in compose
     assert "\n  qdrant:" not in compose
+
+
+def test_production_overlay_requires_authenticated_access() -> None:
+    compose = PRODUCTION_COMPOSE.read_text(encoding="utf-8")
+
+    assert 'BONSAAI_REQUIRE_AUTH: "1"' in compose
+    assert 'BONSAAI_ALLOW_DEMO_ANONYMOUS: "0"' in compose
+    assert "BONSAAI_BOOTSTRAP_ADMIN_EMAIL:" in compose
+    assert "BONSAAI_BOOTSTRAP_ADMIN_PASSWORD:" in compose
+
+
+def test_production_environment_example_contains_only_safe_placeholders() -> None:
+    values = {}
+    for line in PRODUCTION_ENV_EXAMPLE.read_text(encoding="utf-8").splitlines():
+        if line and not line.startswith("#") and "=" in line:
+            key, value = line.split("=", 1)
+            values[key] = value
+
+    assert values["BONSAAI_INTERACTION_SERVICE_TOKEN"] == (
+        "replace-with-private-service-token"
+    )
+    assert values["INTERACTION_SERVICE_TOKEN"] == (
+        "replace-with-private-service-token"
+    )
+    assert values["INTERACTION_STATE_KEY"] == "replace-with-generated-fernet-key"
+    assert values["BONSAAI_BOOTSTRAP_ADMIN_EMAIL"] == ""
+    assert values["BONSAAI_BOOTSTRAP_ADMIN_PASSWORD"] == ""
+
+
+def test_interaction_gateway_is_private_persistent_and_health_checked() -> None:
+    compose = INTERACTION_COMPOSE.read_text(encoding="utf-8")
+
+    assert "\n    ports:" not in compose
+    assert '      - "8001"' in compose
+    assert "jebediah_interaction_state:/var/lib/jebediah-interaction" in compose
+    assert "http://127.0.0.1:8001/health" in compose
+    assert "${INTERACTION_SERVICE_TOKEN:?set INTERACTION_SERVICE_TOKEN}" in compose
+    assert "${INTERACTION_STATE_KEY:?set INTERACTION_STATE_KEY}" in compose
 
 
 def test_backup_and_restore_scripts_track_only_overlay_volumes() -> None:

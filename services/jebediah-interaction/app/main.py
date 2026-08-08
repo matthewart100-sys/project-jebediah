@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import base64
 import binascii
+import csv
 import hashlib
 import os
 import re
@@ -11,7 +12,7 @@ import secrets
 import time
 import uuid
 import zipfile
-from io import BytesIO
+from io import BytesIO, StringIO
 from pathlib import PurePosixPath
 from typing import Annotated, Any
 from xml.etree import ElementTree
@@ -33,11 +34,19 @@ from .ollama_client import generate
 
 
 MAX_ADMISSION_BYTES = 1_000_000
-MAX_DOCX_ENTRIES = 256
-MAX_DOCX_UNCOMPRESSED_BYTES = 10_000_000
+MAX_OOXML_ENTRIES = 512
+MAX_OOXML_UNCOMPRESSED_BYTES = 10_000_000
+MAX_TABULAR_CELLS = 100_000
 DOCX_MEDIA_TYPE = (
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 )
+XLSX_MEDIA_TYPE = (
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
+PPTX_MEDIA_TYPE = (
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+)
+GOVERNED_ANSWER_MAX_TOKENS = 32
 
 
 _allowed_origins = tuple(
@@ -124,56 +133,79 @@ def _candidate_id(request: AdmissionRequest, payload: bytes) -> str:
 def _extract_pdf_text(payload: bytes) -> str:
     if not payload.startswith(b"%PDF-") or b"%%EOF" not in payload[-2048:]:
         raise HTTPException(status_code=422, detail="invalid_pdf_structure")
-    try:
-        reader = PdfReader(BytesIO(payload), strict=True)
-        content = "\n".join(page.extract_text() or "" for page in reader.pages)
-    except (PdfReadError, ValueError) as error:
-        raise HTTPException(status_code=422, detail="invalid_pdf_structure") from error
-    normalized = " ".join(re.findall(r"[A-Za-z0-9][A-Za-z0-9 .,;:()'/-]*", content))
+
+    reader = PdfReader(BytesIO(payload), strict=True)
+    content = "\n".join(page.extract_text() or "" for page in reader.pages)
+
+    normalized = " ".join(
+        re.findall(
+            r"[A-Za-z0-9][A-Za-z0-9 .,;:()'/-]*",
+            content,
+        )
+    )
+
     if not normalized.strip():
-        raise HTTPException(status_code=422, detail="pdf_contains_no_extractable_text")
+        raise HTTPException(
+            status_code=422,
+            detail="pdf_contains_no_extractable_text",
+        )
+
     return normalized.strip()
 
-
-def _extract_txt_text(payload: bytes) -> str:
+def _extract_plain_text(payload: bytes, *, format_name: str) -> str:
     try:
         content = payload.decode("utf-8-sig")
     except UnicodeDecodeError as error:
-        raise HTTPException(status_code=422, detail="txt_must_be_utf8") from error
+        raise HTTPException(
+            status_code=422,
+            detail=f"{format_name}_must_be_utf8",
+        ) from error
     if "\x00" in content:
-        raise HTTPException(status_code=422, detail="txt_contains_binary_content")
+        raise HTTPException(
+            status_code=422,
+            detail=f"{format_name}_contains_binary_content",
+        )
     normalized = " ".join(content.split())
     if not normalized:
         raise HTTPException(status_code=422, detail="document_contains_no_extractable_text")
     return normalized
 
 
-def _safe_docx_entries(archive: zipfile.ZipFile) -> dict[str, zipfile.ZipInfo]:
-    entries = archive.infolist()
-    if len(entries) > MAX_DOCX_ENTRIES:
-        raise HTTPException(status_code=422, detail="docx_resource_limit_exceeded")
-    if sum(entry.file_size for entry in entries) > MAX_DOCX_UNCOMPRESSED_BYTES:
-        raise HTTPException(status_code=422, detail="docx_resource_limit_exceeded")
-    safe_entries: dict[str, zipfile.ZipInfo] = {}
-    for entry in entries:
-        path = PurePosixPath(entry.filename)
-        if path.is_absolute() or ".." in path.parts or entry.flag_bits & 0x1:
-            raise HTTPException(status_code=422, detail="invalid_docx_structure")
-        safe_entries[entry.filename] = entry
-    return safe_entries
-
-
-def _extract_docx_text(payload: bytes) -> str:
+def _safe_ooxml_parts(
+    payload: bytes,
+    *,
+    format_name: str,
+    required_parts: frozenset[str],
+) -> dict[str, bytes]:
+    invalid_detail = f"invalid_{format_name}_structure"
     if not payload.startswith(b"PK"):
-        raise HTTPException(status_code=422, detail="invalid_docx_structure")
+        raise HTTPException(status_code=422, detail=invalid_detail)
     try:
         with zipfile.ZipFile(BytesIO(payload)) as archive:
-            entries = _safe_docx_entries(archive)
-            required = {"[Content_Types].xml", "word/document.xml"}
-            if not required.issubset(entries):
-                raise HTTPException(status_code=422, detail="invalid_docx_structure")
-            lowered_names = {name.lower() for name in entries}
-            active_markers = ("vbaproject.bin", "word/activex/", "word/embeddings/")
+            entries = archive.infolist()
+            if len(entries) > MAX_OOXML_ENTRIES:
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"{format_name}_resource_limit_exceeded",
+                )
+            if sum(entry.file_size for entry in entries) > MAX_OOXML_UNCOMPRESSED_BYTES:
+                raise HTTPException(
+                    status_code=422,
+                    detail=f"{format_name}_resource_limit_exceeded",
+                )
+            entry_names = {entry.filename for entry in entries}
+            if not required_parts.issubset(entry_names):
+                raise HTTPException(status_code=422, detail=invalid_detail)
+            lowered_names = {name.lower() for name in entry_names}
+            active_markers = (
+                "vbaproject.bin",
+                "/activex/",
+                "/embeddings/",
+                "/oleobjects/",
+                "externallinks/",
+                "connections.xml",
+                "querytables/",
+            )
             if any(
                 marker in name
                 for name in lowered_names
@@ -181,27 +213,71 @@ def _extract_docx_text(payload: bytes) -> str:
             ):
                 raise HTTPException(
                     status_code=422,
-                    detail="docx_active_content_not_supported",
+                    detail=f"{format_name}_active_content_not_supported",
                 )
-            for name in entries:
-                if name.endswith(".rels"):
-                    relationships = archive.read(name)
-                    if b'TargetMode="External"' in relationships or b"TargetMode='External'" in relationships:
-                        raise HTTPException(
-                            status_code=422,
-                            detail="docx_external_relationship_not_supported",
-                        )
-            document_xml = archive.read("word/document.xml")
+            parts: dict[str, bytes] = {}
+            for entry in entries:
+                path = PurePosixPath(entry.filename)
+                if (
+                    path.is_absolute()
+                    or ".." in path.parts
+                    or "\\" in entry.filename
+                    or entry.flag_bits & 0x1
+                ):
+                    raise HTTPException(status_code=422, detail=invalid_detail)
+                if entry.is_dir():
+                    continue
+                part = archive.read(entry)
+                lowered_part = part.lower()
+                if entry.filename.lower().endswith((".xml", ".rels")) and (
+                    b"<!doctype" in lowered_part or b"<!entity" in lowered_part
+                ):
+                    raise HTTPException(status_code=422, detail=invalid_detail)
+                if entry.filename.lower().endswith(".rels") and (
+                    b'targetmode="external"' in lowered_part
+                    or b"targetmode='external'" in lowered_part
+                ):
+                    raise HTTPException(
+                        status_code=422,
+                        detail=f"{format_name}_external_relationship_not_supported",
+                    )
+                parts[entry.filename] = part
+            return parts
     except HTTPException:
         raise
-    except (KeyError, OSError, zipfile.BadZipFile, zipfile.LargeZipFile) as error:
-        raise HTTPException(status_code=422, detail="invalid_docx_structure") from error
-    if b"<!DOCTYPE" in document_xml or b"<!ENTITY" in document_xml:
-        raise HTTPException(status_code=422, detail="invalid_docx_structure")
+    except (
+        KeyError,
+        NotImplementedError,
+        OSError,
+        RuntimeError,
+        zipfile.BadZipFile,
+        zipfile.LargeZipFile,
+    ) as error:
+        raise HTTPException(status_code=422, detail=invalid_detail) from error
+
+
+def _xml_root(payload: bytes, *, format_name: str) -> ElementTree.Element:
     try:
-        root = ElementTree.fromstring(document_xml)
+        return ElementTree.fromstring(payload)
     except ElementTree.ParseError as error:
-        raise HTTPException(status_code=422, detail="invalid_docx_structure") from error
+        raise HTTPException(
+            status_code=422,
+            detail=f"invalid_{format_name}_structure",
+        ) from error
+
+
+def _numbered_part_order(name: str) -> tuple[int, str]:
+    match = re.search(r"(\d+)(?=\.xml$)", name)
+    return (int(match.group(1)) if match else 0, name)
+
+
+def _extract_docx_text(payload: bytes) -> str:
+    parts = _safe_ooxml_parts(
+        payload,
+        format_name="docx",
+        required_parts=frozenset({"[Content_Types].xml", "word/document.xml"}),
+    )
+    root = _xml_root(parts["word/document.xml"], format_name="docx")
     namespace = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}t"
     content = " ".join(
         node.text.strip()
@@ -213,13 +289,173 @@ def _extract_docx_text(payload: bytes) -> str:
     return content
 
 
+def _extract_xlsx_text(payload: bytes) -> str:
+    parts = _safe_ooxml_parts(
+        payload,
+        format_name="xlsx",
+        required_parts=frozenset({"[Content_Types].xml", "xl/workbook.xml"}),
+    )
+    worksheet_names = sorted(
+        (
+            name
+            for name in parts
+            if name.startswith("xl/worksheets/sheet") and name.endswith(".xml")
+        ),
+        key=_numbered_part_order,
+    )
+    if not worksheet_names:
+        raise HTTPException(status_code=422, detail="invalid_xlsx_structure")
+
+    spreadsheet_namespace = (
+        "{http://schemas.openxmlformats.org/spreadsheetml/2006/main}"
+    )
+    shared_strings: list[str] = []
+    if "xl/sharedStrings.xml" in parts:
+        shared_root = _xml_root(parts["xl/sharedStrings.xml"], format_name="xlsx")
+        for item in shared_root.iter(f"{spreadsheet_namespace}si"):
+            shared_strings.append(
+                " ".join(
+                    node.text.strip()
+                    for node in item.iter(f"{spreadsheet_namespace}t")
+                    if node.text and node.text.strip()
+                )
+            )
+
+    extracted: list[str] = []
+    cell_count = 0
+    for worksheet_name in worksheet_names:
+        root = _xml_root(parts[worksheet_name], format_name="xlsx")
+        for cell in root.iter(f"{spreadsheet_namespace}c"):
+            cell_count += 1
+            if cell_count > MAX_TABULAR_CELLS:
+                raise HTTPException(
+                    status_code=422,
+                    detail="xlsx_resource_limit_exceeded",
+                )
+            cell_type = cell.attrib.get("t", "")
+            value = ""
+            if cell_type == "inlineStr":
+                value = " ".join(
+                    node.text.strip()
+                    for node in cell.iter(f"{spreadsheet_namespace}t")
+                    if node.text and node.text.strip()
+                )
+            else:
+                value_node = cell.find(f"{spreadsheet_namespace}v")
+                raw_value = (
+                    value_node.text.strip()
+                    if value_node is not None and value_node.text
+                    else ""
+                )
+                if cell_type == "s" and raw_value:
+                    try:
+                        value = shared_strings[int(raw_value)]
+                    except (IndexError, ValueError) as error:
+                        raise HTTPException(
+                            status_code=422,
+                            detail="invalid_xlsx_structure",
+                        ) from error
+                elif cell_type == "b" and raw_value:
+                    value = "true" if raw_value == "1" else "false"
+                else:
+                    value = raw_value
+            normalized = " ".join(value.split())
+            if normalized:
+                extracted.append(normalized)
+    content = " ".join(extracted)
+    if not content:
+        raise HTTPException(status_code=422, detail="document_contains_no_extractable_text")
+    return content
+
+
+def _extract_pptx_text(payload: bytes) -> str:
+    parts = _safe_ooxml_parts(
+        payload,
+        format_name="pptx",
+        required_parts=frozenset(
+            {"[Content_Types].xml", "ppt/presentation.xml"}
+        ),
+    )
+    slide_names = sorted(
+        (
+            name
+            for name in parts
+            if name.startswith("ppt/slides/slide") and name.endswith(".xml")
+        ),
+        key=_numbered_part_order,
+    )
+    if not slide_names:
+        raise HTTPException(status_code=422, detail="invalid_pptx_structure")
+    text_namespace = "{http://schemas.openxmlformats.org/drawingml/2006/main}t"
+    extracted: list[str] = []
+    for slide_name in slide_names:
+        root = _xml_root(parts[slide_name], format_name="pptx")
+        extracted.extend(
+            node.text.strip()
+            for node in root.iter(text_namespace)
+            if node.text and node.text.strip()
+        )
+    content = " ".join(extracted)
+    if not content:
+        raise HTTPException(status_code=422, detail="document_contains_no_extractable_text")
+    return content
+
+
+def _extract_csv_text(payload: bytes) -> str:
+    try:
+        content = payload.decode("utf-8-sig")
+    except UnicodeDecodeError as error:
+        raise HTTPException(status_code=422, detail="csv_must_be_utf8") from error
+    if "\x00" in content:
+        raise HTTPException(status_code=422, detail="csv_contains_binary_content")
+    extracted: list[str] = []
+    cell_count = 0
+    try:
+        for row in csv.reader(StringIO(content, newline=""), strict=True):
+            normalized_row: list[str] = []
+            for cell in row:
+                cell_count += 1
+                if cell_count > MAX_TABULAR_CELLS:
+                    raise HTTPException(
+                        status_code=422,
+                        detail="csv_resource_limit_exceeded",
+                    )
+                normalized = " ".join(cell.split())
+                if normalized:
+                    normalized_row.append(normalized)
+            if normalized_row:
+                extracted.append(" | ".join(normalized_row))
+    except csv.Error as error:
+        raise HTTPException(status_code=422, detail="invalid_csv_structure") from error
+    result = " ".join(extracted)
+    if not result:
+        raise HTTPException(status_code=422, detail="document_contains_no_extractable_text")
+    return result
+
+
 def _admission_format(request: AdmissionRequest) -> str:
     suffix = PurePosixPath(request.file_name).suffix.lower()
     media_type = request.media_type.lower().split(";", 1)[0].strip()
     allowed_media_types = {
         ".pdf": {"application/pdf", "application/octet-stream"},
         ".docx": {DOCX_MEDIA_TYPE, "application/octet-stream"},
+        ".xlsx": {XLSX_MEDIA_TYPE, "application/octet-stream"},
+        ".pptx": {PPTX_MEDIA_TYPE, "application/octet-stream"},
+        ".csv": {
+            "text/csv",
+            "application/csv",
+            "application/vnd.ms-excel",
+            "text/plain",
+            "application/octet-stream",
+        },
         ".txt": {"text/plain", "application/octet-stream"},
+        ".md": {"text/markdown", "text/x-markdown", "text/plain", "application/octet-stream"},
+        ".markdown": {
+            "text/markdown",
+            "text/x-markdown",
+            "text/plain",
+            "application/octet-stream",
+        },
     }
     if suffix not in allowed_media_types or media_type not in allowed_media_types[suffix]:
         raise HTTPException(status_code=415, detail="unsupported_document_type")
@@ -232,7 +468,15 @@ def _extract_admission_text(request: AdmissionRequest, payload: bytes) -> str:
         return _extract_pdf_text(payload)
     if document_format == ".docx":
         return _extract_docx_text(payload)
-    return _extract_txt_text(payload)
+    if document_format == ".xlsx":
+        return _extract_xlsx_text(payload)
+    if document_format == ".pptx":
+        return _extract_pptx_text(payload)
+    if document_format == ".csv":
+        return _extract_csv_text(payload)
+    if document_format in {".md", ".markdown"}:
+        return _extract_plain_text(payload, format_name="markdown")
+    return _extract_plain_text(payload, format_name="txt")
 
 
 def _workspace_memories(
@@ -276,13 +520,25 @@ async def submit_admission(
     _authorized: None = Depends(_require_governed_auth),
 ) -> dict[str, Any]:
     try:
-        payload = base64.b64decode(request.payload_base64, validate=True)
+        payload = base64.b64decode(
+            request.payload_base64,
+            validate=True,
+        )
     except (binascii.Error, ValueError) as error:
-        raise HTTPException(status_code=422, detail="payload_base64_invalid") from error
+        raise HTTPException(
+            status_code=422,
+            detail="payload_base64_invalid",
+        ) from error
+
     if len(payload) != request.byte_count:
-        raise HTTPException(status_code=422, detail="byte_count_mismatch")
+        raise HTTPException(
+            status_code=422,
+            detail="byte_count_mismatch",
+        )
+
     content = _extract_admission_text(request, payload)
     candidate_id = _candidate_id(request, payload)
+
     try:
         get_candidate_store().store(
             AdmissionCandidate(
@@ -294,14 +550,18 @@ async def submit_admission(
                 content=content,
             )
         )
+
     except CandidateStoreError as error:
-        raise HTTPException(status_code=503, detail=str(error)) from error
+        raise HTTPException(
+            status_code=503,
+            detail=str(error),
+        ) from error
+
     return {
         "candidate_id": candidate_id,
         "state": "review_pending",
         "reason": "awaiting_human_governance_review",
     }
-
 
 @app.post("/admission/promote")
 async def promote_admission(
@@ -403,7 +663,12 @@ async def ask_governed_question(
             "citations": [],
         }
     governed_context = {"query": request.question, "memories": memories}
-    statement = await generate(build_messages(request.question, governed_context))
+    messages = build_messages(request.question, governed_context)
+    messages[0]["content"] += " Reply with one brief, complete sentence."
+    statement = await generate(
+        messages,
+        max_output_tokens=GOVERNED_ANSWER_MAX_TOKENS,
+    )
     citations = []
     for memory in memories:
         metadata = memory["metadata"]

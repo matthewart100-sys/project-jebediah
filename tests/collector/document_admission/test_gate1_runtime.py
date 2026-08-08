@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta, timezone
+from io import BytesIO
 from pathlib import Path
+from zipfile import ZIP_DEFLATED, ZipFile
 
 import pytest
 
@@ -7,6 +9,7 @@ from collector.document_admission import (
     DocumentAdmissionConflict,
     DocumentAdmissionValidationError,
     DocumentCustodyRuntime,
+    DocumentFormat,
     Ed25519ReceiptVerifier,
     SqliteDurableRepository,
     derive_audit_key,
@@ -73,6 +76,14 @@ def _build_receipt(
     )
 
 
+def _ooxml_payload(required_part: str) -> bytes:
+    payload = BytesIO()
+    with ZipFile(payload, "w", ZIP_DEFLATED) as archive:
+        archive.writestr("[Content_Types].xml", "<Types />")
+        archive.writestr(required_part, "<document />")
+    return payload.getvalue()
+
+
 def test_runtime_admit_stores_verified_pdf_payload(tmp_path: Path):
     now = _now()
     runtime, signer_id, signer_key = _build_runtime(tmp_path)
@@ -93,6 +104,44 @@ def test_runtime_admit_stores_verified_pdf_payload(tmp_path: Path):
 
     assert result.record.object_id == "object-1"
     assert result.record.receipt_id == "receipt-1"
+
+
+@pytest.mark.parametrize(
+    ("document_format", "payload"),
+    [
+        (DocumentFormat.DOCX, _ooxml_payload("word/document.xml")),
+        (DocumentFormat.XLSX, _ooxml_payload("xl/workbook.xml")),
+        (DocumentFormat.PPTX, _ooxml_payload("ppt/presentation.xml")),
+        (DocumentFormat.CSV, b"topic,status\ngovernance,approved\n"),
+        (DocumentFormat.TXT, b"Approved organizational evidence\n"),
+        (DocumentFormat.MARKDOWN, b"# Approved evidence\n"),
+    ],
+)
+def test_runtime_admits_each_supported_non_pdf_format(
+    tmp_path: Path,
+    document_format: DocumentFormat,
+    payload: bytes,
+):
+    now = _now()
+    runtime, signer_id, signer_key = _build_runtime(tmp_path)
+    receipt = _build_receipt(
+        signer_id=signer_id,
+        signer_key=signer_key,
+        now=now,
+        receipt_id=f"receipt-{document_format.value}",
+    )
+
+    result = runtime.admit(
+        receipt=receipt,
+        payload=payload,
+        admission_attempt_id=f"attempt-{document_format.value}",
+        object_id=f"object-{document_format.value}",
+        now=now,
+        document_format=document_format,
+    )
+
+    assert result.record.object_id == f"object-{document_format.value}"
+    assert result.record.receipt_id == f"receipt-{document_format.value}"
 
 
 def test_runtime_reserves_receipt_before_payload_validation(tmp_path: Path):

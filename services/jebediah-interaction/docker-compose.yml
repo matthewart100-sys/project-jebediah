@@ -7,8 +7,8 @@ services:
     container_name: jebediah-interaction
     restart: unless-stopped
 
-    ports:
-      - "8001:8001"
+    expose:
+      - "8001"
 
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -17,7 +17,28 @@ services:
       MEMORY_URL: "http://jebediah-memory:8000"
       OLLAMA_URL: "http://host.docker.internal:11434"
       GENERATION_MODEL: "qwen3:8b"
-      INTERACTION_SERVICE_TOKEN: "1a935048072548f9c0c491392f2374ac4a692998ad82909981f3784358df071c"
+
+      INTERACTION_SERVICE_TOKEN: "${INTERACTION_SERVICE_TOKEN:?set INTERACTION_SERVICE_TOKEN}"
+
+      INTERACTION_STATE_KEY: "${INTERACTION_STATE_KEY:?set INTERACTION_STATE_KEY}"
+
+      INTERACTION_STATE_PATH: "/var/lib/jebediah-interaction/state.sqlite3"
+
+    volumes:
+      - jebediah_interaction_state:/var/lib/jebediah-interaction
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=5).read()",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
     networks:
       - default
@@ -26,3 +47,6 @@ services:
 networks:
   jebediah-memory-network:
     external: true
+
+volumes:
+  jebediah_interaction_state:

@@ -39,11 +39,12 @@ EXPECTED_APP_FILES = {
     "rendering.py",
     "routes.py",
 }
-EXPECTED_STATIC_FILES = {"styles.css"}
+EXPECTED_STATIC_FILES = {"styles.css", "upload.js"}
 EXPECTED_TEST_FILES = {
     "__init__.py",
     "test_accessibility.py",
     "test_app.py",
+    "test_auth.py",
     "test_fixtures.py",
     "test_governed_provider.py",
     "test_models.py",
@@ -219,7 +220,8 @@ def test_single_bounded_resource_read(path: Path) -> None:
     """Only bounded local resource reads are permitted in the app package."""
     source = path.read_text(encoding="utf-8")
     if path.name == "app.py":
-        assert source.count(".read_bytes(") <= 1
+        # One bounded package resource read for CSS and one for upload JavaScript.
+        assert source.count(".read_bytes(") <= 2
         assert ".read_text(" not in source or "styles.css" in source
     elif path.name == "governed_provider.py":
         # Workspace mode persistence reads one local workspace-state JSON file.

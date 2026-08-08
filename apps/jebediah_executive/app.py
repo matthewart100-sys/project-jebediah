@@ -50,8 +50,14 @@ _SECURITY_HEADERS: tuple[tuple[str, str], ...] = (
     (
         "Content-Security-Policy",
         (
-            "default-src 'none'; style-src 'self'; script-src 'self'; "
-            "base-uri 'none'; form-action 'self'; frame-ancestors 'none'"
+            "default-src 'none'; "
+            "style-src 'self'; "
+            "script-src 'self'; "
+            "connect-src 'self'; "
+            "img-src 'self'; "
+            "base-uri 'none'; "
+            "form-action 'self'; "
+            "frame-ancestors 'none'"
         ),
     ),
     ("Referrer-Policy", "no-referrer"),
@@ -221,11 +227,19 @@ def _render_login_page(
     html = (
         "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-        "<title>Login — Bonsaai Platform Shell</title>"
-        "<link rel=\"stylesheet\" href=\"/static/styles.css\"></head><body>"
-        "<main id=\"main-content\"><h1>Bonsaai Login</h1>"
+        "<title>Sign in — Bonsaai</title>"
+        "<link rel=\"stylesheet\" href=\"/static/styles.css\"></head>"
+        "<body class=\"login-page\"><header class=\"site-header\">"
+        "<div class=\"header-primary\"><div class=\"brand\">"
+        "<span class=\"brand-mark\" aria-hidden=\"true\">B</span>"
+        "<span class=\"brand-copy\"><span class=\"product-title\">Bonsaai</span>"
+        "<span class=\"product-subtitle\">Governed organizational intelligence</span>"
+        "</span></div></div></header>"
+        "<main id=\"main-content\" class=\"login-shell\">"
+        "<p class=\"eyebrow\">Secure workspace access</p><h1>Welcome back</h1>"
+        "<p>Sign in to manage approved knowledge and ask evidence-backed questions.</p>"
         + notice
-        + "<section><h2>Sign in</h2>"
+        + "<section class=\"login-card\"><h2>Sign in</h2>"
         "<form method=\"post\" action=\"/login\" class=\"workflow-form\">"
         + csrf_field
         + "<p><label for=\"email\">Email</label><br>"
@@ -233,8 +247,9 @@ def _render_login_page(
         "<p><label for=\"password\">Password</label><br>"
         "<input id=\"password\" name=\"password\" type=\"password\" autocomplete=\"current-password\" required></p>"
         "<p><label><input name=\"remember_device\" type=\"checkbox\" value=\"yes\"> Remember device</label></p>"
-        "<p><button type=\"submit\">Login</button></p></form></section>"
-        "<section><h2>Password reset</h2>"
+        "<p><button type=\"submit\">Sign in to Bonsaai</button></p></form></section>"
+        "<details class=\"progressive-disclosure\"><summary>Reset your password</summary>"
+        "<section><h2>Request a reset</h2>"
         "<form method=\"post\" action=\"/password-reset\" class=\"workflow-form\">"
         + csrf_field
         + "<p><label for=\"reset_email\">Email</label><br>"
@@ -248,7 +263,7 @@ def _render_login_page(
         + "<p><label for=\"new_password\">New password</label><br>"
         "<input id=\"new_password\" name=\"new_password\" type=\"password\" autocomplete=\"new-password\" required></p>"
         "<p><button type=\"submit\">Complete password reset</button></p>"
-        "</form></section>"
+        "</form></section></details>"
         "</main></body></html>"
     )
     return html.encode("utf-8")
@@ -308,8 +323,10 @@ def create_app(
     active_provider = provider if provider is not None else _default_provider()
     stylesheet = _load_stylesheet()
     upload_script = _load_upload_script()
-    auth_runtime = AuthRuntime(runtime_root=_runtime_root())
     auth_required = _is_auth_required()
+    auth_runtime = AuthRuntime(runtime_root=_runtime_root())
+    if auth_required and not auth_runtime.users:
+        raise RuntimeError("authentication_required_but_no_users_configured")
     demo_anonymous_allowed = _allow_demo_anonymous()
 
     def application(
@@ -519,8 +536,10 @@ def _json_response(
 _UPLOAD_ERROR_MESSAGES = {
     "request_body_too_large": "The selected file exceeds the 1 MB admission limit.",
     "payload_exceeds_admission_limit": "The selected file exceeds the 1 MB admission limit.",
-    "missing_uploaded_file": "Choose at least one PDF, DOCX, or TXT file.",
-    "unsupported_document_format": "Only PDF, DOCX, and TXT files are supported.",
+    "missing_uploaded_file": "Choose at least one supported business document.",
+    "unsupported_document_format": (
+        "Supported formats are PDF, DOCX, XLSX, PPTX, CSV, TXT, and Markdown."
+    ),
     "duplicate_content_hash": "This document duplicates content already queued for admission.",
     "invalid_multipart_payload": "The upload could not be read. Choose the file and try again.",
 }
@@ -787,7 +806,7 @@ def _handle_post(
             if auth_required and session is not None:
                 _assert_csrf(form)
             provider.ask_question(form.get("question", ""))
-            return _redirect(start_response, location="/organizational-intelligence")
+            return _redirect(start_response, location="/ask/grounded-priorities")
         if path == "/workspace/select":
             form = _read_urlencoded(environ)
             if auth_required and session is None:
@@ -868,6 +887,17 @@ def _handle_post(
                     ),
                 },
             )
+        if path == "/organizational-intelligence/ask":
+            return _error_page(
+                start_response,
+                method="POST",
+                briefing=briefing,
+                status="503 Service Unavailable",
+                message=(
+                    "The governed question could not be completed in the safe request "
+                    "window. No answer was fabricated. Please retry the question."
+                ),
+            )
         return _error_page(
             start_response,
             method="POST",
@@ -905,30 +935,30 @@ def _safe_error_html(
 _FALLBACK_ERROR_HTML = (
     "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf-8\">"
     "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-    "<title>Request problem \u2014 Bonsaai Platform Shell</title>"
+    "<title>Request problem \u2014 Bonsaai</title>"
     "<link rel=\"stylesheet\" href=\"/static/styles.css\"></head><body>"
     "<a class=\"skip-link\" href=\"#main-content\">Skip to main content</a>"
     "<header class=\"site-header\"><div class=\"brand\">"
-    "<span class=\"product-title\">Bonsaai Platform Shell</span>"
-    "<span class=\"badge synthetic\">Governed runtime</span></div>"
-    "<p class=\"disconnected\">Local runtime scope only \u2014 governed state "
-    "is limited to this runtime instance.</p></header>"
+    "<span class=\"brand-mark\" aria-hidden=\"true\">B</span>"
+    "<span class=\"brand-copy\"><span class=\"product-title\">Bonsaai</span>"
+    "<span class=\"product-subtitle\">Governed organizational intelligence</span>"
+    "</span></div></header>"
     "<nav class=\"primary-nav\" aria-label=\"Primary\"><ul>"
-    "<li><a href=\"/\">Executive Dashboard</a></li>"
+    "<li><a href=\"/\">Dashboard</a></li>"
     "<li><a href=\"/knowledge-manager\">Knowledge Manager</a></li>"
-    "<li><a href=\"/organizational-intelligence\">Organizational Intelligence</a></li>"
-    "<li><a href=\"/organizational-memory\">Organizational Memory</a></li>"
+    "<li><a href=\"/organizational-intelligence\">Ask Jebediah</a></li>"
+    "<li><a href=\"/organizational-memory\">Approved Knowledge</a></li>"
     "<li><a href=\"/governance\">Governance</a></li>"
-    "<li><a href=\"/audit\">Audit</a></li>"
+    "<li><a href=\"/audit\">Audit Trail</a></li>"
     "<li><a href=\"/administration\">Administration</a></li>"
     "<li><a href=\"/demo\">Demonstration Mode</a></li></ul></nav>"
     "<main id=\"main-content\"><h1>Request problem</h1>"
     "<p>This governed runtime view could not serve the request. No request content "
     "is echoed and no organizational action is taken.</p>"
-    "<p>Governed runtime boundary remains active.</p></main>"
-    "<footer class=\"site-footer\"><p class=\"no-action\">This preview takes no "
-    "organizational action and records no decision. It is non-operational and "
-    "is not a deployment.</p><div class=\"footer-limitations\">"
+    "<p>The governance boundary remains active.</p></main>"
+    "<footer class=\"site-footer\"><p class=\"no-action\">No answer is fabricated, "
+    "no organizational action is taken, and no decision is recorded.</p>"
+    "<div class=\"footer-limitations\">"
     "<h2>Material limitations</h2><ul><li>No live information or service is "
     "available.</li></ul></div></footer></body></html>"
 )

@@ -1,6 +1,23 @@
 (function () {
   "use strict";
 
+  var questionForm = document.querySelector("[data-question-form]");
+  if (questionForm) {
+    var questionButton = questionForm.querySelector(".question-submit");
+    var questionStatus = questionForm.querySelector(".question-processing-status");
+    questionForm.addEventListener("submit", function () {
+      questionForm.classList.add("is-submitting");
+      questionForm.setAttribute("aria-busy", "true");
+      questionButton.disabled = true;
+      questionStatus.textContent = "Reviewing approved evidence and preparing a cited answer…";
+    });
+    window.addEventListener("pageshow", function () {
+      questionForm.classList.remove("is-submitting");
+      questionForm.removeAttribute("aria-busy");
+      questionButton.disabled = false;
+    });
+  }
+
   var form = document.querySelector("[data-upload-form]");
   if (!form) {
     return;
@@ -14,14 +31,35 @@
   var submitButton = document.getElementById("upload-submit");
   var sourceRecordInput = document.getElementById("source_record_id");
   var maxFileSize = Number(form.dataset.maxFileSize || "1000000");
-  var allowedExtensions = new Set(["pdf", "docx", "txt"]);
-  var allowedTypes = new Set([
-    "application/pdf",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "text/plain",
-    "application/octet-stream",
-    "",
-  ]);
+  var allowedTypes = {
+    pdf: new Set(["application/pdf", "application/octet-stream", ""]),
+    docx: new Set([
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/octet-stream",
+      "",
+    ]),
+    xlsx: new Set([
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/octet-stream",
+      "",
+    ]),
+    pptx: new Set([
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "application/octet-stream",
+      "",
+    ]),
+    csv: new Set([
+      "text/csv",
+      "application/csv",
+      "application/vnd.ms-excel",
+      "text/plain",
+      "application/octet-stream",
+      "",
+    ]),
+    txt: new Set(["text/plain", "application/octet-stream", ""]),
+    md: new Set(["text/markdown", "text/x-markdown", "text/plain", "application/octet-stream", ""]),
+    markdown: new Set(["text/markdown", "text/x-markdown", "text/plain", "application/octet-stream", ""]),
+  };
   var items = [];
   var hashes = new Map();
   var nextId = 1;
@@ -53,16 +91,28 @@
     if (extension === "docx") {
       return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
     }
+    if (extension === "xlsx") {
+      return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    }
+    if (extension === "pptx") {
+      return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+    }
+    if (extension === "csv") {
+      return "text/csv";
+    }
     if (extension === "txt") {
       return "text/plain";
+    }
+    if (["md", "markdown"].includes(extension)) {
+      return "text/markdown";
     }
     return file.type || "application/octet-stream";
   }
 
   function validateFile(file) {
     var extension = extensionOf(file.name);
-    if (!allowedExtensions.has(extension) || !allowedTypes.has(file.type || "")) {
-      return "Unsupported file type. Choose a PDF, DOCX, or TXT file.";
+    if (!allowedTypes[extension] || !allowedTypes[extension].has(file.type || "")) {
+      return "Unsupported file type. Choose PDF, DOCX, XLSX, PPTX, CSV, TXT, or Markdown.";
     }
     if (file.size === 0) {
       return "The file is empty and cannot enter governed admission.";
@@ -312,7 +362,7 @@
       return;
     }
     if (!pending.length) {
-      showErrors(["Choose at least one valid PDF, DOCX, or TXT file."]);
+      showErrors(["Choose at least one supported business document."]);
       dropzone.focus();
       return;
     }

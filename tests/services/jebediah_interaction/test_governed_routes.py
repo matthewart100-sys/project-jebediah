@@ -9,7 +9,7 @@ from pathlib import Path
 import httpx
 import pytest
 
-from app import candidate_store, main, memory_client
+from app import candidate_store, main, memory_client, ollama_client
 from cryptography.fernet import Fernet
 
 
@@ -87,7 +87,11 @@ PDF = _pdf_bytes(
 )
 
 
-def _docx_bytes(text: str) -> bytes:
+def _docx_bytes(
+    text: str,
+    *,
+    extra_entries: dict[str, bytes] | None = None,
+) -> bytes:
     output = BytesIO()
     with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         archive.writestr(
@@ -106,7 +110,99 @@ def _docx_bytes(text: str) -> bytes:
             f'<w:body><w:p><w:r><w:t>{text}</w:t></w:r></w:p></w:body>'
             '</w:document>',
         )
+        for name, content in (extra_entries or {}).items():
+            archive.writestr(name, content)
     return output.getvalue()
+
+
+def _xlsx_bytes(*, extra_entries: dict[str, bytes] | None = None) -> bytes:
+    output = BytesIO()
+    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr(
+            "[Content_Types].xml",
+            '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"/>',
+        )
+        archive.writestr(
+            "xl/workbook.xml",
+            '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"/>',
+        )
+        archive.writestr(
+            "xl/sharedStrings.xml",
+            '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+            '<si><t>Board approved reserve plan</t></si></sst>',
+        )
+        archive.writestr(
+            "xl/worksheets/sheet1.xml",
+            '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+            '<sheetData><row><c t="s"><v>0</v></c>'
+            '<c><f>SUM(SECRET_FORMULA)</f><v>42</v></c>'
+            '<c t="inlineStr"><is><t>Complete</t></is></c>'
+            '</row></sheetData></worksheet>',
+        )
+        for name, content in (extra_entries or {}).items():
+            archive.writestr(name, content)
+    return output.getvalue()
+
+
+def _pptx_bytes() -> bytes:
+    output = BytesIO()
+    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr(
+            "[Content_Types].xml",
+            '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"/>',
+        )
+        archive.writestr(
+            "ppt/presentation.xml",
+            '<p:presentation xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"/>',
+        )
+        archive.writestr(
+            "ppt/slides/slide1.xml",
+            '<p:sld xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" '
+            'xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">'
+            '<p:cSld><a:t>Leadership approved the operating plan.</a:t></p:cSld></p:sld>',
+        )
+    return output.getvalue()
+
+
+SUPPORTED_DOCUMENTS = (
+    ("evidence.pdf", "application/pdf", PDF, "reserve reconciliation plan"),
+    (
+        "evidence.docx",
+        main.DOCX_MEDIA_TYPE,
+        _docx_bytes("Board approved the synthetic DOCX evidence."),
+        "synthetic DOCX evidence",
+    ),
+    (
+        "evidence.xlsx",
+        main.XLSX_MEDIA_TYPE,
+        _xlsx_bytes(),
+        "Board approved reserve plan 42 Complete",
+    ),
+    (
+        "evidence.pptx",
+        main.PPTX_MEDIA_TYPE,
+        _pptx_bytes(),
+        "Leadership approved the operating plan",
+    ),
+    (
+        "evidence.csv",
+        "text/csv",
+        b"decision,status\nReserve plan,Approved\n",
+        "decision | status Reserve plan | Approved",
+    ),
+    (
+        "evidence.txt",
+        "text/plain",
+        b"Governance committee approved the synthetic plan.",
+        "Governance committee approved the synthetic plan.",
+    ),
+    (
+        "evidence.md",
+        "text/markdown",
+        b"# Decision\n\nBoard approved the governed Markdown plan.",
+        "Board approved the governed Markdown plan.",
+    ),
+)
 
 
 @pytest.fixture(autouse=True)
@@ -139,6 +235,7 @@ def test_admission_promotion_and_grounded_question_preserve_workspace(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     stored_payloads: list[dict[str, object]] = []
+    generation_calls: list[list[dict[str, str]]] = []
 
     async def fake_store(**payload):
         stored_payloads.append(payload)
@@ -172,7 +269,9 @@ def test_admission_promotion_and_grounded_question_preserve_workspace(
             ]
         }
 
-    async def fake_generate(_messages):
+    async def fake_generate(messages, *, max_output_tokens=None):
+        generation_calls.append(messages)
+        assert max_output_tokens == main.GOVERNED_ANSWER_MAX_TOKENS
         return "Leadership should execute the approved reserve reconciliation plan."
 
     monkeypatch.setattr(main, "store_promoted_memory", fake_store)
@@ -229,6 +328,94 @@ def test_admission_promotion_and_grounded_question_preserve_workspace(
     asyncio.run(exercise())
     assert stored_payloads[0]["organization_id"] == "virginia-b-andes"
     assert stored_payloads[0]["workspace_mode"] == "development"
+    assert len(generation_calls) == 1
+    assert generation_calls[0][0]["content"].endswith(
+        "Reply with one brief, complete sentence."
+    )
+
+
+def test_ollama_generation_disables_thinking_and_uses_bounded_timeout(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    observed: dict[str, object] = {}
+
+    class _FakeResponse:
+        def raise_for_status(self) -> None:
+            return None
+
+        def json(self) -> dict[str, object]:
+            return {"message": {"content": "Governed answer."}}
+
+    class _FakeAsyncClient:
+        def __init__(self, *, timeout: float) -> None:
+            observed["timeout"] = timeout
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+        async def post(self, url: str, *, json: dict[str, object]):
+            observed["url"] = url
+            observed["payload"] = json
+            return _FakeResponse()
+
+    monkeypatch.setattr(ollama_client, "GENERATION_TIMEOUT_SECONDS", 75.0)
+    monkeypatch.setattr(ollama_client, "GENERATION_KEEP_ALIVE", "30m")
+    monkeypatch.setattr(ollama_client.httpx, "AsyncClient", _FakeAsyncClient)
+
+    result = asyncio.run(
+        ollama_client.generate(
+            [{"role": "user", "content": "Question"}],
+            max_output_tokens=32,
+        )
+    )
+
+    assert result == "Governed answer."
+    assert observed["timeout"] == 75.0
+    assert observed["payload"] == {
+        "model": ollama_client.MODEL_NAME,
+        "stream": False,
+        "think": False,
+        "keep_alive": "30m",
+        "messages": [{"role": "user", "content": "Question"}],
+        "options": {"num_predict": 32},
+    }
+
+
+def test_ollama_generation_timeout_fails_closed(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    class _TimeoutAsyncClient:
+        def __init__(self, *, timeout: float) -> None:
+            assert timeout == 75.0
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, exc_type, exc, tb) -> bool:
+            return False
+
+        async def post(self, url: str, *, json: dict[str, object]):
+            del json
+            raise httpx.ReadTimeout(
+                "synthetic generation timeout",
+                request=httpx.Request("POST", url),
+            )
+
+    monkeypatch.setattr(ollama_client, "GENERATION_TIMEOUT_SECONDS", 75.0)
+    monkeypatch.setattr(ollama_client.httpx, "AsyncClient", _TimeoutAsyncClient)
+
+    with pytest.raises(main.HTTPException) as raised:
+        asyncio.run(
+            ollama_client.generate(
+                [{"role": "user", "content": "Question"}]
+            )
+        )
+
+    assert raised.value.status_code == 503
+    assert raised.value.detail == "generation model timed out"
 
 
 def test_question_excludes_other_workspace_evidence(
@@ -302,24 +489,39 @@ def test_admission_rejects_invalid_pdf() -> None:
     asyncio.run(exercise())
 
 
+def test_admission_does_not_write_document_content_to_process_streams(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    confidential_marker = "CONFIDENTIAL SYNTHETIC BOARD DISCUSSION"
+    payload = _pdf_bytes(confidential_marker)
+
+    async def exercise() -> None:
+        transport = httpx.ASGITransport(app=main.app)
+        async with httpx.AsyncClient(
+            transport=transport,
+            base_url="http://synthetic.test",
+            headers=AUTH_HEADERS,
+        ) as client:
+            response = await client.post(
+                "/admission/submit",
+                json=_admission_payload(
+                    payload_base64=base64.b64encode(payload).decode("ascii"),
+                    byte_count=len(payload),
+                ),
+            )
+            assert response.status_code == 200
+
+    asyncio.run(exercise())
+    captured = capsys.readouterr()
+    assert confidential_marker not in captured.out
+    assert confidential_marker not in captured.err
+
+
 @pytest.mark.parametrize(
     ("file_name", "media_type", "payload", "expected_text"),
-    [
-        (
-            "governed-evidence.txt",
-            "text/plain",
-            b"Governance committee approved the synthetic plan.",
-            "Governance committee approved the synthetic plan.",
-        ),
-        (
-            "governed-evidence.docx",
-            main.DOCX_MEDIA_TYPE,
-            _docx_bytes("Board approved the synthetic DOCX evidence."),
-            "Board approved the synthetic DOCX evidence.",
-        ),
-    ],
+    SUPPORTED_DOCUMENTS,
 )
-def test_txt_and_docx_enter_the_existing_governed_candidate_store(
+def test_supported_formats_enter_the_existing_governed_candidate_store(
     file_name: str,
     media_type: str,
     payload: bytes,
@@ -347,6 +549,206 @@ def test_txt_and_docx_enter_the_existing_governed_candidate_store(
             candidate = candidate_store.get_candidate_store().get(result["candidate_id"])
             assert candidate is not None
             assert expected_text in candidate.content
+            if file_name.endswith(".xlsx"):
+                assert "SECRET_FORMULA" not in candidate.content
+
+    asyncio.run(exercise())
+
+
+@pytest.mark.parametrize(
+    ("file_name", "media_type", "payload", "expected_text"),
+    SUPPORTED_DOCUMENTS,
+)
+def test_supported_formats_preserve_approval_provenance_and_citations(
+    monkeypatch: pytest.MonkeyPatch,
+    file_name: str,
+    media_type: str,
+    payload: bytes,
+    expected_text: str,
+) -> None:
+    promoted: list[dict[str, object]] = []
+    generation_calls: list[list[dict[str, str]]] = []
+
+    async def fake_store(**stored):
+        promoted.append(stored)
+        return {"status": "stored", "memory_id": "memory-format-001"}
+
+    async def fake_context(_query: str, **filters):
+        if not promoted:
+            return {"memories": []}
+        stored = promoted[0]
+        return {
+            "memories": [
+                {
+                    "score": 0.94,
+                    "content": stored["content"],
+                    "metadata": {
+                        "candidate_id": stored["candidate_id"],
+                        "source_record_id": stored["source_record_id"],
+                        "organization_id": filters["organization_id"],
+                        "workspace_mode": filters["workspace_mode"],
+                        "governance_state": "approved",
+                    },
+                }
+            ]
+        }
+
+    async def fake_generate(messages, *, max_output_tokens=None):
+        generation_calls.append(messages)
+        assert max_output_tokens == main.GOVERNED_ANSWER_MAX_TOKENS
+        return "Leadership should review the approved document evidence."
+
+    monkeypatch.setattr(main, "store_promoted_memory", fake_store)
+    monkeypatch.setattr(main, "retrieve_context", fake_context)
+    monkeypatch.setattr(main, "generate", fake_generate)
+
+    async def exercise() -> None:
+        transport = httpx.ASGITransport(app=main.app)
+        async with httpx.AsyncClient(
+            transport=transport,
+            base_url="http://synthetic.test",
+            headers=AUTH_HEADERS,
+        ) as client:
+            admission = await client.post(
+                "/admission/submit",
+                json=_admission_payload(
+                    file_name=file_name,
+                    media_type=media_type,
+                    payload_base64=base64.b64encode(payload).decode("ascii"),
+                    byte_count=len(payload),
+                ),
+            )
+            assert admission.status_code == 200
+            candidate_id = admission.json()["candidate_id"]
+            assert admission.json()["state"] == "review_pending"
+            assert promoted == []
+
+            before_approval = await client.post(
+                "/questions/ask",
+                json={
+                    "question": "What does the document contain?",
+                    "workspace_mode": "development",
+                    "organization_id": "virginia-b-andes",
+                },
+            )
+            assert before_approval.json()["state"] == "insufficient"
+            assert generation_calls == []
+
+            promotion = await client.post(
+                "/admission/promote",
+                json={
+                    "candidate_id": candidate_id,
+                    "workspace_mode": "development",
+                    "organization_id": "virginia-b-andes",
+                },
+            )
+            assert promotion.status_code == 200
+            assert promotion.json()["state"] == "promoted"
+            assert expected_text in str(promoted[0]["content"])
+
+            answer = await client.post(
+                "/questions/ask",
+                json={
+                    "question": "What does the document contain?",
+                    "workspace_mode": "development",
+                    "organization_id": "virginia-b-andes",
+                },
+            )
+            assert answer.status_code == 200
+            assert answer.json()["state"] == "grounded"
+            assert answer.json()["citations"] == [
+                {
+                    "candidate_id": candidate_id,
+                    "source_record_id": "source-release-001",
+                    "organization_id": "virginia-b-andes",
+                    "workspace_mode": "development",
+                }
+            ]
+
+    asyncio.run(exercise())
+
+
+@pytest.mark.parametrize(
+    ("file_name", "media_type", "payload", "expected_detail"),
+    [
+        (
+            "macro.docx",
+            main.DOCX_MEDIA_TYPE,
+            _docx_bytes(
+                "Visible text",
+                extra_entries={"word/vbaProject.bin": b"synthetic macro"},
+            ),
+            "docx_active_content_not_supported",
+        ),
+        (
+            "external.docx",
+            main.DOCX_MEDIA_TYPE,
+            _docx_bytes(
+                "Visible text",
+                extra_entries={
+                    "word/_rels/document.xml.rels": (
+                        b'<Relationships><Relationship TargetMode="External" '
+                        b'Target="https://example.invalid"/></Relationships>'
+                    )
+                },
+            ),
+            "docx_external_relationship_not_supported",
+        ),
+        (
+            "traversal.xlsx",
+            main.XLSX_MEDIA_TYPE,
+            _xlsx_bytes(extra_entries={"../escape.xml": b"synthetic traversal"}),
+            "invalid_xlsx_structure",
+        ),
+        (
+            "invalid.csv",
+            "text/csv",
+            b'heading\n"unterminated',
+            "invalid_csv_structure",
+        ),
+        (
+            "invalid.md",
+            "text/markdown",
+            b"\xff\xfe",
+            "markdown_must_be_utf8",
+        ),
+        (
+            "oversized-package.xlsx",
+            main.XLSX_MEDIA_TYPE,
+            _xlsx_bytes(
+                extra_entries={
+                    f"xl/media/item-{index}.bin": b""
+                    for index in range(main.MAX_OOXML_ENTRIES)
+                }
+            ),
+            "xlsx_resource_limit_exceeded",
+        ),
+    ],
+)
+def test_unsafe_or_malformed_supported_documents_fail_closed(
+    file_name: str,
+    media_type: str,
+    payload: bytes,
+    expected_detail: str,
+) -> None:
+    async def exercise() -> None:
+        transport = httpx.ASGITransport(app=main.app)
+        async with httpx.AsyncClient(
+            transport=transport,
+            base_url="http://synthetic.test",
+            headers=AUTH_HEADERS,
+        ) as client:
+            response = await client.post(
+                "/admission/submit",
+                json=_admission_payload(
+                    file_name=file_name,
+                    media_type=media_type,
+                    payload_base64=base64.b64encode(payload).decode("ascii"),
+                    byte_count=len(payload),
+                ),
+            )
+            assert response.status_code == 422
+            assert response.json()["detail"] == expected_detail
 
     asyncio.run(exercise())
 
@@ -357,6 +759,10 @@ def test_txt_and_docx_enter_the_existing_governed_candidate_store(
         ("archive.zip", "application/zip"),
         ("image.png", "image/png"),
         ("mismatch.pdf", "text/plain"),
+        ("mismatch.xlsx", "application/pdf"),
+        ("mismatch.csv", "application/pdf"),
+        ("macro.xlsm", "application/vnd.ms-excel.sheet.macroenabled.12"),
+        ("macro.pptm", "application/vnd.ms-powerpoint.presentation.macroenabled.12"),
     ],
 )
 def test_unsupported_and_mismatched_document_types_are_rejected(

@@ -209,6 +209,12 @@ class _CanonicalRuntimeClient:
         self._timeout_seconds = int(
             os.getenv("BONSAAI_RUNTIME_TIMEOUT_SECONDS", "300")
         )
+        self._health_timeout_seconds = int(
+            os.getenv("BONSAAI_HEALTH_TIMEOUT_SECONDS", "2")
+        )
+        self._question_timeout_seconds = int(
+            os.getenv("BONSAAI_QUESTION_TIMEOUT_SECONDS", "85")
+        )
 
     def _url(self, base: str, path_env: str, default_path: str) -> str:
         raw = os.getenv(path_env, "").strip()
@@ -226,6 +232,7 @@ class _CanonicalRuntimeClient:
         payload: dict[str, Any] | None = None,
         allow_non_json: bool = False,
         bearer_token: str | None = None,
+        timeout_seconds: int | None = None,
     ) -> dict[str, Any]:
         data: bytes | None = None
         headers: dict[str, str] = {"Accept": "application/json"}
@@ -240,9 +247,18 @@ class _CanonicalRuntimeClient:
             headers=headers,
             method=method,
         )
+        effective_timeout = (
+            self._timeout_seconds if timeout_seconds is None else timeout_seconds
+        )
         try:
-            with urllib.request.urlopen(request, timeout=self._timeout_seconds) as response:
+            with urllib.request.urlopen(request, timeout=effective_timeout) as response:
                 body = response.read()
+
+        except urllib.error.HTTPError as error:
+            raise RuntimeError(
+                f"runtime_request_failed: {operation}: http_status_{error.code}"
+            ) from error
+
         except (urllib.error.URLError, TimeoutError, ValueError, OSError) as error:
             raise RuntimeError(f"runtime_request_failed: {operation}") from error
         if not body:
@@ -259,14 +275,14 @@ class _CanonicalRuntimeClient:
             raise RuntimeError(f"runtime_response_invalid_shape: {operation}")
         return decoded
 
-    def _request_available(self, *, url: str) -> bool:
+    def _request_available(self, *, url: str, timeout_seconds: int) -> bool:
         request = urllib.request.Request(
             url=url,
             headers={"Accept": "*/*"},
             method="GET",
         )
         try:
-            with urllib.request.urlopen(request, timeout=self._timeout_seconds):
+            with urllib.request.urlopen(request, timeout=timeout_seconds):
                 return True
         except (urllib.error.URLError, TimeoutError, ValueError, OSError):
             return False
@@ -286,6 +302,7 @@ class _CanonicalRuntimeClient:
                     method="GET",
                     url=url,
                     operation=f"{service_name}_health",
+                    timeout_seconds=self._health_timeout_seconds,
                 )
                 detail = str(payload.get("status", "online")).strip() or "online"
                 statuses.append(
@@ -297,7 +314,10 @@ class _CanonicalRuntimeClient:
                     )
                 )
             except RuntimeError:
-                if self._request_available(url=url):
+                if self._request_available(
+                    url=url,
+                    timeout_seconds=self._health_timeout_seconds,
+                ):
                     statuses.append(
                         _RuntimeServiceStatus(
                             service=service_name,
@@ -372,6 +392,7 @@ class _CanonicalRuntimeClient:
                 "organization_id": organization_id,
             },
             bearer_token=self._interaction_service_token,
+            timeout_seconds=self._question_timeout_seconds,
         )
 
     def promote_admission(
@@ -766,19 +787,85 @@ class GovernedRuntimeBriefingProvider:
         file_name: str,
         media_type: str,
     ) -> DocumentFormat | None:
-        lowered_name = file_name.lower()
-        lowered_type = media_type.lower()
-        if lowered_name.endswith(".pdf") or "pdf" in lowered_type:
-            return DocumentFormat.PDF
-        if lowered_name.endswith(".docx") or "wordprocessingml" in lowered_type:
-            return DocumentFormat.DOCX
-        if lowered_name.endswith(".txt") or lowered_type.startswith("text/plain"):
-            return DocumentFormat.TXT
-        if lowered_name.endswith(".md") or lowered_name.endswith(".markdown"):
-            return DocumentFormat.MARKDOWN
-        if lowered_type.startswith("image/"):
+        suffix = Path(file_name).suffix.lower()
+        normalized_type = media_type.lower().split(";", 1)[0].strip()
+        if normalized_type.startswith("image/"):
             return None
-        raise ValueError("unsupported_document_format")
+        allowed: dict[str, tuple[DocumentFormat, frozenset[str]]] = {
+            ".pdf": (
+                DocumentFormat.PDF,
+                frozenset({"application/pdf", "application/octet-stream"}),
+            ),
+            ".docx": (
+                DocumentFormat.DOCX,
+                frozenset(
+                    {
+                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                        "application/octet-stream",
+                    }
+                ),
+            ),
+            ".xlsx": (
+                DocumentFormat.XLSX,
+                frozenset(
+                    {
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "application/octet-stream",
+                    }
+                ),
+            ),
+            ".pptx": (
+                DocumentFormat.PPTX,
+                frozenset(
+                    {
+                        "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                        "application/octet-stream",
+                    }
+                ),
+            ),
+            ".csv": (
+                DocumentFormat.CSV,
+                frozenset(
+                    {
+                        "text/csv",
+                        "application/csv",
+                        "application/vnd.ms-excel",
+                        "text/plain",
+                        "application/octet-stream",
+                    }
+                ),
+            ),
+            ".txt": (
+                DocumentFormat.TXT,
+                frozenset({"text/plain", "application/octet-stream"}),
+            ),
+            ".md": (
+                DocumentFormat.MARKDOWN,
+                frozenset(
+                    {
+                        "text/markdown",
+                        "text/x-markdown",
+                        "text/plain",
+                        "application/octet-stream",
+                    }
+                ),
+            ),
+            ".markdown": (
+                DocumentFormat.MARKDOWN,
+                frozenset(
+                    {
+                        "text/markdown",
+                        "text/x-markdown",
+                        "text/plain",
+                        "application/octet-stream",
+                    }
+                ),
+            ),
+        }
+        selection = allowed.get(suffix)
+        if selection is None or normalized_type not in selection[1]:
+            raise ValueError("unsupported_document_format")
+        return selection[0]
 
     def _record_governance_event(
         self,

@@ -34,7 +34,7 @@ from .models import (
     WorkspaceState,
 )
 
-SYNTHETIC_BADGE = "Governed runtime"
+SYNTHETIC_BADGE = "Governed intelligence"
 NO_ACTION_STATEMENT = (
     "Human governance approval remains required for organizational decisions."
 )
@@ -43,16 +43,16 @@ DISCONNECTED_STATEMENT = (
 )
 
 _NAV = (
-    ("executive-dashboard", "/", "Executive Dashboard"),
+    ("executive-dashboard", "/", "Dashboard"),
     ("knowledge-manager", "/knowledge-manager", "Knowledge Manager"),
     (
         "organizational-intelligence",
         "/organizational-intelligence",
-        "Organizational Intelligence",
+        "Ask Jebediah",
     ),
-    ("organizational-memory", "/organizational-memory", "Organizational Memory"),
+    ("organizational-memory", "/organizational-memory", "Approved Knowledge"),
     ("governance", "/governance", "Governance"),
-    ("audit", "/audit", "Audit"),
+    ("audit", "/audit", "Audit Trail"),
     ("administration", "/administration", "Administration"),
 )
 
@@ -122,7 +122,7 @@ _LIFECYCLE_LABELS = {
 }
 
 _ASK_STATE_LABELS = {
-    AskState.GROUNDED: "Grounded",
+    AskState.GROUNDED: "Evidence-backed",
     AskState.INSUFFICIENT: "Insufficient evidence",
     AskState.FAILED: "Failed",
 }
@@ -237,16 +237,16 @@ def _references_block(references: tuple[SourceReference, ...]) -> str:
     if not references:
         return (
             "<p class=\"no-evidence\">No source reference is claimed; this is not a "
-            "grounded statement.</p>"
+            "supported statement.</p>"
         )
     rows = []
     for reference in references:
         observed = _fmt(reference.observed_at)
         rows.append(
             "<details class=\"reference\">"
-            f"<summary>Source reference: {escape(reference.label)}</summary>"
+            f"<summary>{escape(reference.label)}</summary>"
             "<dl>"
-            f"<dt>Synthetic identity</dt><dd>{escape(reference.source_id)}</dd>"
+            f"<dt>Source ID</dt><dd>{escape(reference.source_id)}</dd>"
             "<dt>Evidence classification</dt><dd>"
             + _enum_label(
                 _EVIDENCE_LABELS[reference.evidence_classification],
@@ -258,7 +258,7 @@ def _references_block(references: tuple[SourceReference, ...]) -> str:
             "</dl></details>"
         )
     return (
-        "<div class=\"references\"><h3>Source references (local disclosure)</h3>"
+        "<div class=\"references\"><h3>Evidence used</h3>"
         + "".join(rows)
         + "</div>"
     )
@@ -444,25 +444,25 @@ def _document(
     context = briefing.workspace_context
     banner_class = f"workspace-banner tone-{context.banner_tone.value}"
     org_name = context.profile.name
+    is_demo = context.mode is WorkspaceMode.DEMONSTRATION
     auth_status = (
-        "<section class=\"auth-banner\" aria-label=\"Authentication status\">"
-        f"<p>Signed in as {escape(context.authenticated_user_display)} "
-        f"({escape(context.authenticated_user_role)}).</p>"
+        "<div class=\"account-context\" aria-label=\"Authentication status\">"
+        f"<span>Signed in as {escape(context.authenticated_user_display)}</span>"
         "<form method=\"post\" action=\"/logout\" class=\"workflow-form inline-form\">"
         + _csrf_input(briefing)
-        + "<p><button type=\"submit\">Logout</button></p></form>"
-        "</section>"
+        + "<button type=\"submit\" class=\"button-quiet\">Sign out</button></form>"
+        "</div>"
         if context.authenticated
-        else "<section class=\"auth-banner\" aria-label=\"Authentication status\">"
-        "<p>Not signed in.</p><p><a href=\"/login\">Go to login</a></p></section>"
+        else "<div class=\"account-context\" aria-label=\"Authentication status\">"
+        "<span>Guest access</span><a href=\"/login\">Sign in</a></div>"
     )
     demo_callout = (
-        "<section class=\"demo-guide-callout\" aria-label=\"Guided demonstration\">"
-        "<p><strong>Demonstration mode:</strong> follow the guided synthetic walkthrough "
-        "from admission to explainable answer. "
-        "<a href=\"/demo\">Start guided walkthrough</a>.</p>"
-        "</section>"
-        if context.mode is WorkspaceMode.DEMONSTRATION
+        "<aside class=\"demo-guide-callout\" aria-label=\"Guided demonstration\">"
+        "<p><strong>Demonstration workspace</strong> · Follow the complete governed "
+        "journey from document to evidence-backed answer. "
+        "<a href=\"/demo\">Start guided walkthrough</a></p>"
+        "</aside>"
+        if is_demo
         else ""
     )
     nav_links = []
@@ -477,6 +477,22 @@ def _document(
     footer_limits = "".join(
         f"<li>{escape(entry)}</li>" for entry in briefing.limitations
     )
+    time_label = "Demonstration data captured" if is_demo else "Knowledge view updated"
+    workspace_detail = (
+        "<details class=\"context-disclosure\"><summary>Workspace details</summary>"
+        "<dl>"
+        f"<dt>Organization</dt><dd>{escape(org_name)}</dd>"
+        f"<dt>Workspace</dt><dd>{escape(context.mode.value.title())}</dd>"
+        f"<dt>Runtime</dt><dd>{escape(context.runtime_name)}</dd>"
+        f"<dt>Knowledge view</dt><dd>{escape(_fmt(briefing.assembled_at))}</dd>"
+        f"<dt>Coverage</dt><dd>{escape(briefing.coverage.scope_statement)}</dd>"
+        "</dl></details>"
+    )
+    footer_status = (
+        "This demonstration uses fabricated records and performs no organizational action."
+        if is_demo
+        else "Bonsaai presents approved evidence for human decisions and performs no autonomous organizational action."
+    )
     body_attr = f" class=\"{escape(body_class)}\"" if body_class else ""
     return (
         "<!DOCTYPE html>"
@@ -484,44 +500,40 @@ def _document(
         "<head>"
         "<meta charset=\"utf-8\">"
         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
-        f"<title>{escape(title)} \u2014 Bonsaai Platform Shell</title>"
+        f"<title>{escape(title)} \u2014 Bonsaai</title>"
         "<link rel=\"stylesheet\" href=\"/static/styles.css\">"
         "</head>"
         f"<body{body_attr}>"
         "<a class=\"skip-link\" href=\"#main-content\">Skip to main content</a>"
-        f"<section class=\"{escape(banner_class)}\" aria-label=\"Workspace banner\">"
-        f"<p><strong>{escape(context.banner_label)}</strong> "
-        f"\u00b7 Organization: {escape(org_name)} "
-        f"\u00b7 Runtime: {escape(context.runtime_name)}</p></section>"
         "<header class=\"site-header\">"
-        "<div class=\"brand\">"
-        "<span class=\"product-title\">Bonsaai Platform Shell</span>"
-        f"<span class=\"badge synthetic\">{escape(SYNTHETIC_BADGE)}</span>"
+        "<div class=\"header-primary\"><div class=\"brand\">"
+        "<span class=\"brand-mark\" aria-hidden=\"true\">B</span>"
+        "<span class=\"brand-copy\"><span class=\"product-title\">Bonsaai</span>"
+        "<span class=\"product-subtitle\">Governed organizational intelligence</span>"
+        "</span>"
         "</div>"
-        f"<p class=\"disconnected\">{escape(DISCONNECTED_STATEMENT)}</p>"
-        f"<p class=\"clock\">Fixed synthetic clock: {escape(_fmt(briefing.assembled_at))}"
-        "</p>"
-        f"<p class=\"scenario\">{escape(briefing.scenario_label)}</p>"
-        f"<p class=\"scenario\">Organization: {escape(context.profile.name)} "
-        f"({escape(context.profile.theme)})</p>"
-        f"<p class=\"scope-scope\">Coverage scope: "
-        f"{escape(briefing.coverage.scope_statement)}</p>"
         f"{auth_status}"
+        "</div>"
         "</header>"
         "<nav class=\"primary-nav\" aria-label=\"Primary\">"
         f"<ul>{''.join(nav_links)}</ul>"
         "</nav>"
+        f"<aside class=\"{escape(banner_class)}\" aria-label=\"Workspace banner\">"
+        f"<div><strong>{escape(context.banner_label)}</strong> "
+        f"<span>{escape(org_name)}</span></div>"
+        f"<span class=\"badge synthetic\">{escape(SYNTHETIC_BADGE)}</span></aside>"
+        "<div class=\"product-context\">"
+        f"<p><strong>{escape(time_label)}:</strong> {escape(_fmt(briefing.assembled_at))}</p>"
+        f"{workspace_detail}</div>"
         f"{demo_callout}"
         "<main id=\"main-content\">"
         f"<h1>{escape(heading)}</h1>"
         f"{main_html}"
         "</main>"
         "<footer class=\"site-footer\">"
-        f"<p class=\"no-action\">{escape(NO_ACTION_STATEMENT)} It is non-operational "
-        "and is not a deployment.</p>"
-        f"<p class=\"badge synthetic\">{escape(SYNTHETIC_BADGE)}</p>"
-        "<div class=\"footer-limitations\"><h2>Material limitations</h2>"
-        f"<ul>{footer_limits}</ul></div>"
+        f"<p class=\"no-action\">{escape(NO_ACTION_STATEMENT)} {escape(footer_status)}</p>"
+        "<details class=\"footer-limitations\"><summary>Material limitations</summary>"
+        f"<ul>{footer_limits}</ul></details>"
         "</footer>"
         "</body></html>"
     )
@@ -573,70 +585,137 @@ def _workspace_selector_section(briefing: ExecutiveBriefing) -> str:
     )
 
 
+def _executive_preview(
+    briefing: ExecutiveBriefing,
+    section: BriefingSection,
+    *,
+    href: str,
+    link_label: str,
+) -> str:
+    items = briefing.items_in_section(section)
+    cards = []
+    for item in items[:2]:
+        source_count = len(item.source_references)
+        cards.append(
+            "<article class=\"overview-card\">"
+            f"<h3>{escape(item.title)}</h3>"
+            f"<p>{escape(item.statement)}</p>"
+            "<p class=\"evidence-summary\">"
+            f"{escape(_EVIDENCE_LABELS[item.evidence_classification])} \u00b7 "
+            f"{source_count} {('source' if source_count == 1 else 'sources')} \u00b7 "
+            f"{escape(_FRESHNESS_LABELS[item.freshness])}</p>"
+            "</article>"
+        )
+    empty = (
+        "<p class=\"empty\">No eligible items are available in this covered scope.</p>"
+        if not cards
+        else ""
+    )
+    return (
+        "<section class=\"overview-section\" "
+        f"aria-label=\"{escape(_SECTION_LABELS[section])}\">"
+        f"<div class=\"section-heading\"><h2>{escape(_SECTION_LABELS[section])}</h2>"
+        f"<a href=\"{escape(href)}\">{escape(link_label)}</a></div>"
+        f"<div class=\"overview-grid\">{''.join(cards)}</div>{empty}</section>"
+    )
+
+
 def render_overview(briefing: ExecutiveBriefing) -> str:
     counts = briefing.summary_counts
     context = briefing.workspace_context
-    welcome = (
-        "<section aria-label=\"Welcome\">"
-        "<h2>Welcome to Bonsaai</h2>"
-        "<p class=\"welcome-oneliner\">Bonsaai helps leaders make decisions from "
-        "governed organizational intelligence with visible evidence, provenance, and audit."
-        "</p>"
-        f"<p><strong>Organization:</strong> {escape(context.profile.name)} "
-        f"\u00b7 <strong>Description:</strong> {escape(context.profile.description)}</p>"
-        "<p><a href=\"/knowledge-manager\">Start in Knowledge Manager</a> \u2192 "
-        "<a href=\"/organizational-intelligence\">Ask an executive question</a> \u2192 "
-        "<a href=\"/audit\">Review audit history</a></p>"
+    hero = (
+        "<section class=\"product-hero\" aria-label=\"Bonsaai introduction\">"
+        "<p class=\"eyebrow\">Governed organizational intelligence</p>"
+        "<h2>Turn approved knowledge into decisions you can defend.</h2>"
+        "<p class=\"hero-copy\">Bonsaai helps leadership understand what is "
+        "happening, what needs attention, and what to do next. Jebediah answers "
+        "only from knowledge your organization has reviewed and approved.</p>"
+        "<div class=\"hero-actions\"><a class=\"button-link primary\" "
+        "href=\"/knowledge-manager\">Add organizational knowledge</a>"
+        "<a class=\"button-link secondary\" href=\"/organizational-intelligence\">"
+        "Ask Jebediah</a></div>"
+        "<ul class=\"trust-points\"><li>Human-approved knowledge</li>"
+        "<li>Evidence on every supported answer</li>"
+        "<li>Workspace-isolated by design</li></ul></section>"
+    )
+    learning = (
+        "<section aria-label=\"How Jebediah learns\"><div class=\"section-heading\">"
+        "<div><p class=\"eyebrow\">A governed learning loop</p>"
+        "<h2>How Jebediah learns</h2></div>"
+        "<a href=\"/knowledge-manager\">Open Knowledge Manager</a></div>"
+        "<ol class=\"learning-steps\"><li><strong>1. Add knowledge</strong>"
+        "<span>Upload a supported business document for validation and extraction.</span></li>"
+        "<li><strong>2. A human approves it</strong>"
+        "<span>Review the candidate before it becomes available knowledge.</span></li>"
+        "<li><strong>3. Ask with evidence</strong>"
+        "<span>Jebediah answers from approved knowledge and shows its sources.</span></li>"
+        "</ol></section>"
+    )
+    trust = (
+        "<section class=\"trust-panel\" aria-label=\"Why trust Bonsaai\">"
+        "<div><p class=\"eyebrow\">Trust is visible</p><h2>Why trust the answer?</h2>"
+        "<p>Every supported answer carries citations, source identity, freshness, "
+        "uncertainty, and limitations. If approved evidence is missing, Jebediah "
+        "says so instead of filling the gap.</p></div>"
+        "<a class=\"button-link secondary\" href=\"/governance\">See governance controls</a>"
         "</section>"
     )
     summary = (
-        "<section aria-label=\"Executive summary\"><h2>Executive summary</h2>"
-        "<p class=\"status-banner\"><span aria-hidden=\"true\">\u25c9</span> "
-        "Runtime status: governed organizational intelligence is active.</p>"
-        "<dl class=\"summary-counts\">"
-        f"<dt>Priorities needing attention</dt><dd>{counts.priority_count}</dd>"
-        f"<dt>Unresolved decisions</dt><dd>{counts.unresolved_decision_count}</dd>"
-        f"<dt>Organizational gates</dt><dd>{counts.organizational_gate_count}</dd>"
-        f"<dt>Upcoming governance deadlines (30 days)</dt>"
-        f"<dd>{counts.upcoming_deadline_count}</dd>"
-        f"<dt>Recent runtime evidence updates (30 days)</dt>"
-        f"<dd>{counts.recent_evidence_update_count}</dd>"
-        f"<dt>Eligible governed sources</dt><dd>{counts.eligible_source_count}</dd>"
-        f"<dt>Current runtime</dt><dd>{escape(context.runtime_name)}</dd>"
-        f"<dt>Current model</dt><dd>{escape(context.model_name)}</dd>"
-        f"<dt>Knowledge root</dt><dd>{escape(context.profile.knowledge_root)}</dd>"
+        "<section aria-label=\"Executive summary\"><div class=\"section-heading\">"
+        "<div><p class=\"eyebrow\">Current briefing</p><h2>At a glance</h2></div>"
+        "<span class=\"status-chip status-ready\">Ready</span></div>"
+        "<dl class=\"metric-grid\">"
+        f"<div><dt>Needs attention</dt><dd>{counts.priority_count}</dd></div>"
+        f"<div><dt>Decisions open</dt><dd>{counts.unresolved_decision_count}</dd></div>"
+        f"<div><dt>Governance gates</dt><dd>{counts.organizational_gate_count}</dd></div>"
+        f"<div><dt>Approved sources</dt><dd>{counts.eligible_source_count}</dd></div>"
+        "</dl><p class=\"derived-note\">Counts reflect eligible records in the "
+        "active workspace.</p></section>"
+    )
+    operational_details = (
+        "<details class=\"progressive-disclosure\"><summary>Workspace and system settings</summary>"
+        + _workspace_selector_section(briefing)
+        + "<section aria-label=\"System safeguards\"><h2>System safeguards</h2>"
+        "<dl class=\"summary-counts\"><dt>Runtime</dt>"
+        f"<dd>{escape(context.runtime_name)}</dd><dt>Model</dt>"
+        f"<dd>{escape(context.model_name)}</dd><dt>Diagnostics</dt>"
+        f"<dd>{'Enabled' if context.diagnostics_enabled else 'Off'}</dd>"
         f"<dt>Governance policy</dt><dd>{escape(context.profile.governance_policy)}</dd>"
-        "</dl>"
-        "<p class=\"derived-note\">Every count is derived from governed runtime "
-        "records.</p></section>"
-    )
-    health = (
-        "<section aria-label=\"System health\">"
-        "<h2>System health and safeguards</h2>"
-        "<dl class=\"summary-counts\">"
-        "<dt>Runtime health</dt><dd>online</dd>"
-        f"<dt>Workspace mode</dt><dd>{escape(context.mode.value)}</dd>"
-        f"<dt>Diagnostics enabled</dt><dd>{'yes' if context.diagnostics_enabled else 'no'}</dd>"
-        f"<dt>Demo reset available</dt><dd>{'yes' if context.demo_reset_available else 'no'}</dd>"
-        "</dl>"
-        "</section>"
-    )
-    questions = "".join(
-        _section_block(briefing, section)
-        for section in (
-            BriefingSection.HAPPENING,
-            BriefingSection.ATTENTION,
-            BriefingSection.KNOW,
-            BriefingSection.NEXT,
-        )
+        "</dl></section></details>"
     )
     main = (
-        _workspace_selector_section(briefing)
-        + welcome
-        + health
+        hero
+        + learning
         + summary
-        + questions
+        + _executive_preview(
+            briefing,
+            BriefingSection.HAPPENING,
+            href="/organizational-memory",
+            link_label="View current context",
+        )
+        + _executive_preview(
+            briefing,
+            BriefingSection.ATTENTION,
+            href="/attention",
+            link_label="View all attention items",
+        )
+        + _executive_preview(
+            briefing,
+            BriefingSection.KNOW,
+            href="/knowledge",
+            link_label="Explore approved knowledge",
+        )
+        + _executive_preview(
+            briefing,
+            BriefingSection.NEXT,
+            href="/next",
+            link_label="Review next decisions",
+        )
+        + trust
+        + "<details class=\"progressive-disclosure\"><summary>Coverage and evidence limits</summary>"
         + _coverage_block(briefing.coverage)
+        + "</details>"
+        + operational_details
     )
     return _document(
         title="Executive Dashboard",
@@ -764,17 +843,17 @@ def _ask_index_main(briefing: ExecutiveBriefing) -> str:
     links = []
     for response in briefing.ask_responses:
         links.append(
-            "<li>"
+            "<li class=\"question-card\">"
             f"<a href=\"/ask/{escape(response.question_id)}\">"
-            f"{escape(response.question)}</a> "
-            f"<span class=\"badge\">Preset {escape(response.question_id)}</span>"
+            f"{escape(response.question)}</a>"
+            f"<span>{escape(_ASK_STATE_LABELS[response.state])} example</span>"
             "</li>"
         )
     return (
-        "<section aria-label=\"Ask presets\"><h2>Governed question presets</h2>"
-        "<p>This surface offers governed question links and preserves bounded "
-        "runtime behavior.</p>"
-        f"<ul class=\"ask-list\">{''.join(links)}</ul></section>"
+        "<section aria-label=\"Prepared questions\"><h2>Prepared questions</h2>"
+        "<p>Use these examples to see how Bonsaai responds when evidence is "
+        "sufficient, incomplete, or unavailable.</p>"
+        f"<ul class=\"ask-list question-grid\">{''.join(links)}</ul></section>"
     )
 
 
@@ -791,24 +870,62 @@ def render_ask_index(briefing: ExecutiveBriefing) -> str:
 
 def render_knowledge_manager(briefing: ExecutiveBriefing) -> str:
     is_demo = briefing.workspace_context.mode is WorkspaceMode.DEMONSTRATION
-    has_pending_review = any(
-        record.kind is WorkspaceKind.REVIEW and record.state is WorkspaceState.REVIEW_PENDING
+    pending_review = next(
+        (
+            record
+            for record in briefing.workspace_records
+            if record.kind is WorkspaceKind.REVIEW
+            and record.state is WorkspaceState.REVIEW_PENDING
+        ),
+        None,
+    )
+    has_pending_review = pending_review is not None
+    available_knowledge = sum(
+        1
         for record in briefing.workspace_records
+        if record.kind is WorkspaceKind.KNOWLEDGE_OBJECT
+        and record.state is WorkspaceState.ELIGIBLE
+    )
+    active_stage = 5 if has_pending_review else (7 if available_knowledge else 1)
+    flow_labels = (
+        ("Upload", "Choose a supported business document."),
+        ("Validation", "Format, size, and safety checks run first."),
+        ("Processing", "Text is extracted into a review candidate."),
+        ("Review pending", "Candidate evidence waits outside approved knowledge."),
+        ("Human approval", "An authorized person approves or rejects it."),
+        ("Available knowledge", "Approved content becomes eligible for retrieval."),
+        ("Ask Jebediah", "Answers use only eligible knowledge and show evidence."),
+    )
+    flow_items = "".join(
+        "<li class=\"flow-step "
+        + ("is-complete" if index < active_stage else "")
+        + (" is-current" if index == active_stage else "")
+        + "\">"
+        f"<span class=\"flow-number\">{index}</span><div><strong>{escape(label)}</strong>"
+        f"<span>{escape(description)}</span></div></li>"
+        for index, (label, description) in enumerate(flow_labels, start=1)
     )
     promote_form = (
-        "<form method=\"post\" action=\"/knowledge-manager/promote-latest\" class=\"workflow-form\">"
+        "<div class=\"approval-grid\"><form method=\"post\" "
+        "action=\"/knowledge-manager/promote-latest\" class=\"workflow-form approval-card\">"
         + _csrf_input(briefing)
-        + "<p><button type=\"submit\">Approve latest pending knowledge candidate</button></p>"
-        + "</form>"
-        + "<form method=\"post\" action=\"/knowledge-manager/reject-latest\" class=\"workflow-form\">"
+        + "<h3>Approve candidate</h3><p>Make the reviewed extraction eligible "
+        + "for governed retrieval in this workspace.</p>"
+        + "<button type=\"submit\">Approve for Jebediah</button></form>"
+        + "<form method=\"post\" action=\"/knowledge-manager/reject-latest\" "
+        + "class=\"workflow-form approval-card rejection-card\">"
         + _csrf_input(briefing)
-        + "<p><label for=\"rejection_reason\">Rejection reason</label><br>"
+        + "<h3>Reject candidate</h3><p>Keep this extraction out of approved "
+        + "knowledge and record why.</p>"
+        + "<p><label for=\"rejection_reason\">Reason for rejection</label><br>"
         + "<input id=\"rejection_reason\" name=\"reason\" type=\"text\" "
-        + "value=\"evidence_insufficient_for_promotion\" required></p>"
-        + "<p><button type=\"submit\">Reject latest pending knowledge candidate</button></p>"
-        + "</form>"
-        if has_pending_review
-        else "<p class=\"boundary\">No pending review candidate is currently available.</p>"
+        + "value=\"Evidence is not sufficient for approved knowledge\" required></p>"
+        + "<button type=\"submit\" class=\"button-danger\">Reject candidate</button>"
+        + "</form></div>"
+        if pending_review is not None
+        else "<div class=\"empty-state\"><h3>No document is waiting for approval</h3>"
+        "<p>Upload a document to create a review candidate, or ask Jebediah "
+        "from knowledge that is already approved.</p></div>"
     )
     admission_form = (
         "<form method=\"post\" action=\"/knowledge-manager/admit\" "
@@ -816,29 +933,33 @@ def render_knowledge_manager(briefing: ExecutiveBriefing) -> str:
         "id=\"governed-upload-form\" data-upload-form "
         "data-max-file-size=\"1000000\">"
         + _csrf_input(briefing)
-        + "<p><label for=\"source_record_id\">Source record ID</label><br>"
+        + "<p><label for=\"source_record_id\">Source reference</label><br>"
         + "<input id=\"source_record_id\" name=\"source_record_id\" type=\"text\" "
         + "value=\"source-record-001\" maxlength=\"200\" "
         + "aria-describedby=\"source-record-help\" required>"
         + "<br><span class=\"field-help\" id=\"source-record-help\">"
-        + "This governed source identity is applied to every file in this batch."
+        + "Use a stable internal reference for the source. It is applied to "
+        + "every file in this batch and appears with later evidence."
         + "</span></p>"
         + "<div class=\"upload-control\"><p class=\"field-label\" "
         + "id=\"document-file-label\">Documents</p>"
         + "<input id=\"document_file\" name=\"document_file\" type=\"file\" "
-        + "accept=\".pdf,.docx,.txt,application/pdf,"
+        + "accept=\".pdf,.docx,.xlsx,.pptx,.csv,.txt,.md,.markdown,application/pdf,"
         + "application/vnd.openxmlformats-officedocument.wordprocessingml.document,"
-        + "text/plain\" aria-labelledby=\"document-file-label\" "
+        + "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,"
+        + "application/vnd.openxmlformats-officedocument.presentationml.presentation,"
+        + "text/csv,text/plain,text/markdown\" aria-labelledby=\"document-file-label\" "
         + "aria-describedby=\"upload-help upload-errors\" multiple required>"
         + "<button class=\"upload-dropzone\" id=\"upload-dropzone\" type=\"button\" "
         + "aria-describedby=\"upload-help\" hidden>"
         + "<span class=\"upload-symbol\" aria-hidden=\"true\">↑</span>"
-        + "<strong>Drop PDF, DOCX, or TXT files here</strong>"
+        + "<strong>Drop supported business documents here</strong>"
         + "<span>or choose files from this device</span></button>"
-        + "<p class=\"field-help\" id=\"upload-help\">Multiple files are supported. "
-        + "Maximum 1 MB per file. Images and ZIP archives are not accepted.</p></div>"
-        + "<p class=\"field-help\">Status stages: Validating..., Uploading..., "
-        + "Submitting..., Admission complete, Awaiting approval, or Upload failed.</p>"
+        + "<p class=\"field-help\" id=\"upload-help\">PDF, DOCX, XLSX, PPTX, "
+        + "CSV, TXT, and Markdown are supported. Maximum 1 MB per file. "
+        + "Macro-enabled files, images, and ZIP archives are not accepted.</p></div>"
+        + "<p class=\"field-help\">Each file shows validation, upload, admission, "
+        + "and review status. A successful upload still requires human approval.</p>"
         + "<div class=\"upload-errors\" id=\"upload-errors\" role=\"alert\" "
         + "aria-live=\"assertive\" tabindex=\"-1\" hidden></div>"
         + "<ul class=\"upload-queue\" id=\"upload-queue\" "
@@ -847,7 +968,7 @@ def render_knowledge_manager(briefing: ExecutiveBriefing) -> str:
         + "<p class=\"upload-summary\" id=\"upload-summary\" "
         + "aria-live=\"polite\">No files queued.</p>"
         + "<p><button id=\"upload-submit\" type=\"submit\">"
-        + "Submit documents for admission</button></p>"
+        + "Validate and submit documents</button></p>"
         + "<noscript><p class=\"boundary\">Choose one file and submit it. "
         + "Drag-and-drop, batch progress, and inline results require JavaScript.</p>"
         + "</noscript>"
@@ -856,37 +977,60 @@ def render_knowledge_manager(briefing: ExecutiveBriefing) -> str:
         else "<p class=\"boundary\">Demonstration workspace uses fixed synthetic records. Switch to development or production workspace for live admission.</p>"
     )
     guide = (
-        "<section aria-label=\"Knowledge Manager\"><h2>Document admission workspace</h2>"
-        "<p>This is the primary Knowledge Manager interface for governed admission. "
-        "Start here, admit records, and confirm governance before promotion.</p>"
-        "<div class=\"journey-step\">"
-        "<h3>Step 1 (first action): Upload governed document</h3>"
-        "<p>Submit one or more governed documents through the canonical admission front door, "
-        "then verify processing and governance state before moving forward.</p>"
-        + admission_form +
-        "</div>"
-        "<div class=\"journey-step\">"
-        "<h3>Processing and governance checkpoints</h3>"
-        "<ul>"
-        "<li>Processing state: <a href=\"/states/loading\">loading</a>, "
-        "<a href=\"/states/ready\">ready</a>, <a href=\"/states/failed\">failed</a>.</li>"
-        "<li>Governance state: <a href=\"/states/held\">held</a>, "
-        "<a href=\"/states/insufficient-evidence\">insufficient evidence</a>, "
-        "<a href=\"/states/unauthorized\">unauthorized</a>.</li>"
-        "</ul></div>"
-        "<ol>"
-        "<li>Admit document metadata into the workspace.</li>"
-        "<li>Review governance and lifecycle state.</li>"
-        "<li>Confirm custody and traceability before promotion.</li>"
-        "</ol>"
-        "<h3>Step 2: Promote approved knowledge candidate</h3>"
-        + (promote_form if not is_demo else "<p class=\"boundary\">Promotion controls are disabled in demonstration workspace.</p>") +
-        "<p><a href=\"/states/ready\">View lifecycle-ready state</a> \u00b7 "
-        "<a href=\"/states/held\">View held state</a> \u00b7 "
-        "<a href=\"/states/insufficient-evidence\">View insufficient-evidence state</a>"
-        "</p></section>"
+        "<section class=\"knowledge-intro\" aria-label=\"Knowledge Manager introduction\">"
+        "<p class=\"eyebrow\">Governed knowledge lifecycle</p>"
+        "<h2>Teach Jebediah without giving up control.</h2>"
+        "<p>Documents enter a protected review workflow. Extraction never becomes "
+        "available knowledge until an authorized person approves it.</p>"
+        "<ol class=\"knowledge-flow\">"
+        + flow_items
+        + "</ol></section>"
+        "<section aria-label=\"Supported document formats\"><div class=\"section-heading\">"
+        "<div><p class=\"eyebrow\">Step 1</p><h2>Upload documents</h2></div>"
+        "<span class=\"status-chip\">1 MB per file</span></div>"
+        "<p>Use ordinary business documents. Bonsaai validates the format and "
+        "extracts text without executing macros, formulas, links, or embedded content.</p>"
+        "<ul class=\"format-list\"><li>PDF</li><li>DOCX</li><li>XLSX</li>"
+        "<li>PPTX</li><li>CSV</li><li>TXT</li><li>Markdown</li></ul>"
+        + admission_form
+        + "</section>"
+        "<section aria-label=\"Human knowledge approval\"><div class=\"section-heading\">"
+        "<div><p class=\"eyebrow\">Step 2</p><h2>Human review and approval</h2></div>"
+        + (
+            "<span class=\"status-chip status-pending\">Decision required</span>"
+            if has_pending_review
+            else "<span class=\"status-chip\">No pending review</span>"
+        )
+        + "</div><p>Approval means the reviewed extraction may support answers in "
+        "this workspace. It does not verify every fact in the source or authorize an action.</p>"
+        + (
+            f"<p class=\"candidate-summary\"><strong>Candidate:</strong> "
+            f"{escape(pending_review.title)}</p>"
+            if pending_review is not None
+            else ""
+        )
+        + (
+            promote_form
+            if not is_demo
+            else "<div class=\"empty-state\"><h3>Controls are protected in the demonstration</h3>"
+            "<p>Use the guided walkthrough to see the fixed review states, or switch "
+            "to an authorized development or production workspace.</p></div>"
+        )
+        + "</section>"
+        "<section class=\"knowledge-ready\" aria-label=\"Available knowledge\">"
+        "<div><p class=\"eyebrow\">Step 3</p><h2>Available knowledge</h2>"
+        f"<p><strong>{available_knowledge}</strong> approved knowledge "
+        f"{('record is' if available_knowledge == 1 else 'records are')} eligible "
+        "in this workspace.</p></div>"
+        "<a class=\"button-link primary\" href=\"/organizational-intelligence\">"
+        "Ask Jebediah</a></section>"
     )
-    main = guide + _workspace_main(briefing) + (
+    main = guide + (
+        "<details class=\"progressive-disclosure inventory-disclosure\">"
+        "<summary>View knowledge inventory and audit activity</summary>"
+        + _workspace_main(briefing)
+        + "</details>"
+    ) + (
         "<script src=\"/static/upload.js\" defer></script>" if not is_demo else ""
     )
     return _document(
@@ -901,35 +1045,42 @@ def render_knowledge_manager(briefing: ExecutiveBriefing) -> str:
 def render_organizational_intelligence(briefing: ExecutiveBriefing) -> str:
     is_demo = briefing.workspace_context.mode is WorkspaceMode.DEMONSTRATION
     ask_form = (
-        "<form method=\"post\" action=\"/organizational-intelligence/ask\" class=\"workflow-form\">"
+        "<form method=\"post\" action=\"/organizational-intelligence/ask\" "
+        "class=\"workflow-form governed-question-form\" data-question-form>"
         + _csrf_input(briefing)
-        + "<p><label for=\"question\">Executive question</label><br>"
+        + "<p><label for=\"question\">What would you like to understand?</label><br>"
         + "<textarea id=\"question\" name=\"question\" rows=\"4\" cols=\"70\" required>"
         + "What should leadership decide next based on the currently approved governance evidence?"
         + "</textarea></p>"
-        + "<p><button type=\"submit\">Run governed question</button></p>"
+        + "<p><button type=\"submit\" class=\"question-submit\">"
+        + "<span class=\"question-submit-ready\">Run governed question</span>"
+        + "<span class=\"question-submit-processing\">Processing approved evidence…</span>"
+        + "</button><span class=\"question-processing-status\" role=\"status\">"
+        + "Retrieving approved evidence and preparing a governed answer…</span></p>"
         + "</form>"
         if not is_demo
         else "<p class=\"boundary\">Demonstration workspace uses preset synthetic questions. Switch to development or production for live governed questions.</p>"
     )
     lead = (
-        "<section aria-label=\"Organizational Intelligence\"><h2>Executive question "
-        "interface</h2><p>This is the primary executive question interface. "
-        "Questions are bounded by governance and approved evidence so every response "
-        "remains evidence-backed, provenance-visible, and governance-safe.</p>"
+        "<section class=\"ask-hero\" aria-label=\"Ask Jebediah\">"
+        "<p class=\"eyebrow\">Executive intelligence</p><h2>Ask your organization. "
+        "See the evidence.</h2><p>Jebediah searches only approved knowledge in the "
+        "active workspace. Every supported answer names the evidence it used and "
+        "keeps human decision authority visible.</p>"
+        "<ul class=\"trust-points\"><li>Approved knowledge only</li>"
+        "<li>Citations included</li><li>No answer when evidence is insufficient</li></ul>"
         "<div class=\"question-focus\">"
-        "<h3>Ask an executive question</h3>"
-        "<p class=\"question-focus-prompt\">What should leadership decide next based "
-        "on governed evidence?</p>"
+        "<h3>Ask Jebediah</h3>"
         + ask_form +
-        "<p>Select a prepared executive question below:</p>"
         "</div></section>"
     )
-    main = lead + _ask_index_main(briefing)
+    main = lead + _ask_index_main(briefing) + (
+        "<script src=\"/static/upload.js\" defer></script>" if not is_demo else ""
+    )
     return _document(
-        title="Organizational Intelligence",
+        title="Ask Jebediah",
         nav_current="organizational-intelligence",
-        heading="Organizational Intelligence",
+        heading="Ask Jebediah",
         main_html=main,
         briefing=briefing,
     )
@@ -958,7 +1109,7 @@ def render_governance(briefing: ExecutiveBriefing) -> str:
         "boundaries</h2><p>Every governed claim is bounded by evidence "
         "classification, freshness, uncertainty, lifecycle, and disclosure limits."
         "</p><ul><li>No governance-pass, no eligible evidence.</li><li>No eligible "
-        "evidence, no grounded answer.</li><li>Held or unauthorized subjects remain "
+        "evidence, no evidence-backed answer.</li><li>Held or unauthorized subjects remain "
         "excluded from ordinary claims.</li></ul></section>"
         + _coverage_block(briefing.coverage)
     )
@@ -1048,20 +1199,34 @@ def render_demo_walkthrough(briefing: ExecutiveBriefing) -> str:
         else ""
     )
     main = (
-        "<section aria-label=\"Demonstration walkthrough\"><h2>Guided executive walkthrough</h2>"
-        "<p>Use this sequence for a first-time executive demonstration. Each step is "
-        "linked to the corresponding platform surface.</p>"
+        "<section class=\"product-hero\" aria-label=\"Demonstration walkthrough\">"
+        "<p class=\"eyebrow\">Repeatable executive demonstration</p>"
+        "<h2>Bonsaai in five minutes</h2>"
+        "<p class=\"hero-copy\">Show how a document becomes approved knowledge, "
+        "how Jebediah answers from that knowledge, and how leadership verifies "
+        "the evidence behind the answer.</p>"
         "<ol class=\"demo-steps\">"
-        "<li><strong>Document admission</strong> \u2014 <a href=\"/knowledge-manager\">Knowledge Manager</a></li>"
-        "<li><strong>Governance and lifecycle check</strong> \u2014 <a href=\"/governance\">Governance</a></li>"
-        "<li><strong>Knowledge promotion readiness</strong> \u2014 <a href=\"/organizational-memory\">Organizational Memory</a></li>"
-        "<li><strong>Executive question</strong> \u2014 <a href=\"/organizational-intelligence\">Organizational Intelligence</a></li>"
-        "<li><strong>Evidence-backed answer with citations and provenance</strong> \u2014 "
-        "<a href=\"/ask/grounded-priorities\">Open grounded answer</a></li>"
-        "<li><strong>Audit history review</strong> \u2014 <a href=\"/audit\">Audit</a></li>"
+        "<li><strong>1. Start with the outcome</strong><span> "
+        "<a href=\"/\">Open the Dashboard</a> and explain what Bonsaai is.</span></li>"
+        "<li><strong>2. Show how Jebediah learns</strong><span> "
+        "<a href=\"/knowledge-manager\">Open Knowledge Manager</a> and follow the "
+        "governed document lifecycle.</span></li>"
+        "<li><strong>3. Confirm the human gate</strong><span> "
+        "<a href=\"/governance\">Open Governance</a> and show that approval never "
+        "verifies source truth or authorizes action.</span></li>"
+        "<li><strong>4. Ask the organization</strong><span> "
+        "<a href=\"/organizational-intelligence\">Ask Jebediah</a> using a prepared "
+        "executive question.</span></li>"
+        "<li><strong>5. Verify the answer</strong><span> "
+        "<a href=\"/ask/grounded-priorities\">Open an evidence-backed answer</a> and "
+        "inspect its citations, uncertainty, and limits.</span></li>"
+        "<li><strong>6. Close with accountability</strong><span> "
+        "<a href=\"/audit\">Open the Audit Trail</a> and show the governed history.</span></li>"
         "</ol>"
         + reset +
-        "<p class=\"boundary\">All steps remain governed, bounded, and human-authorized.</p>"
+        "<p class=\"boundary\">This workspace uses fixed fabricated records. Live "
+        "upload and approval controls remain available only in an authorized "
+        "development or production workspace.</p>"
         "</section>"
         + _coverage_block(briefing.coverage)
     )
@@ -1133,12 +1298,13 @@ def render_ask_response(briefing: ExecutiveBriefing, response: AskResponse) -> s
     symbol = _ASK_STATE_SYMBOLS[response.state]
     label = _ASK_STATE_LABELS[response.state]
     body = [
-        "<section aria-label=\"Ask response\">",
-        "<p class=\"badge synthetic\">Governed response</p>",
+        "<section class=\"answer-hero\" aria-label=\"Governed answer\">",
+        "<p class=\"eyebrow\">Your question</p>",
         f"<h2>{escape(response.question)}</h2>",
         f"<p class=\"ask-state\"><span aria-hidden=\"true\">{symbol}</span> "
-        f"State: {escape(label)} "
-        f"<code class=\"enum-value\">{escape(response.state.value)}</code></p>",
+        f"Governance state: {escape(label)}</p>",
+        "<section class=\"answer-panel\" aria-label=\"Jebediah response\">"
+        "<p class=\"eyebrow\">Jebediah's response</p><h3>Answer</h3>",
     ]
     if response.state is AskState.GROUNDED and response.statement:
         body.append(f"<p class=\"statement\">{escape(response.statement)}</p>")
@@ -1147,25 +1313,28 @@ def render_ask_response(briefing: ExecutiveBriefing, response: AskResponse) -> s
             "<p class=\"no-answer\">No answer is fabricated for this state. The "
             "preset reports its evidence position honestly.</p>"
         )
-    body.append(f"<p class=\"coverage\">{escape(response.coverage_statement)}</p>")
+    body.append("</section>")
+    body.append(
+        "<section class=\"coverage-statement\" aria-label=\"Answer coverage\">"
+        "<h3>What this answer covers</h3>"
+        f"<p>{escape(response.coverage_statement)}</p></section>"
+    )
     posture = {
-        UncertaintyState.BOUNDED: "High",
-        UncertaintyState.INCOMPLETE: "Limited",
-        UncertaintyState.CONFLICTING: "Contested",
-        UncertaintyState.UNKNOWN: "Unknown",
+        UncertaintyState.BOUNDED: "Supported within cited coverage",
+        UncertaintyState.INCOMPLETE: "Limited by missing evidence",
+        UncertaintyState.CONFLICTING: "Conflicting evidence",
+        UncertaintyState.UNKNOWN: "Evidence posture unknown",
         UncertaintyState.NOT_APPLICABLE: "Not applicable",
     }[response.uncertainty]
     body.append(
-        "<section class=\"evidence-dossier\" aria-label=\"Evidence dossier\">"
-        "<h3>Evidence dossier</h3>"
-        f"<p><strong>Answer:</strong> {escape(response.statement) if response.statement else 'No grounded answer returned.'}</p>"
-        f"<p><strong>Confidence posture:</strong> {escape(posture)} "
-        f"<code class=\"enum-value\">{escape(response.uncertainty.value)}</code></p>"
-        "<p><strong>Citations:</strong> listed below from eligible governed references.</p>"
-        "<p><strong>Provenance:</strong> source identity, authority scope, and observed time "
-        "are disclosed with each citation.</p>"
-        "<p><strong>Audit:</strong> <a href=\"/audit\">Open the audit timeline</a> to review "
-        "governance-relevant runtime events.</p>"
+        "<section class=\"evidence-dossier\" aria-label=\"Evidence and governance\">"
+        "<h3>Evidence and governance</h3>"
+        "<dl class=\"answer-facts\">"
+        f"<dt>Evidence posture</dt><dd>{escape(posture)}</dd>"
+        f"<dt>Citations</dt><dd>{len(response.source_references)}</dd>"
+        "<dt>Knowledge eligibility</dt><dd>Approved records only</dd>"
+        "<dt>Decision authority</dt><dd>Remains with an authorized human</dd>"
+        "</dl><p><a href=\"/audit\">Review this workspace's audit trail</a></p>"
         "</section>"
     )
     body.append(
@@ -1175,14 +1344,25 @@ def render_ask_response(briefing: ExecutiveBriefing, response: AskResponse) -> s
         )
         + f" \u2014 {escape(response.uncertainty_explanation)}</p>"
     )
-    body.append(_references_block(response.source_references))
+    body.append(
+        "<section class=\"citation-panel\" aria-label=\"Citations\"><h3>Citations</h3>"
+        "<p>Open each source to inspect its identity, evidence classification, "
+        "authority scope, and observation time.</p>"
+        + _references_block(response.source_references)
+        + "</section>"
+    )
     body.append(_limitation_list(response.limitations, "Limitations"))
     if response.state is AskState.GROUNDED:
         body.append(
-            "<p class=\"grounded-note\">Grounded means cited eligible governed records "
-            "support this answer in the active runtime. It is not automatic authority "
+            "<p class=\"grounded-note\">Evidence-backed means cited approved records "
+            "support this answer in the active workspace. It is not automatic authority "
             "for organizational action.</p>"
         )
+    body.append(
+        "<p class=\"answer-actions\"><a class=\"button-link secondary\" "
+        "href=\"/organizational-intelligence\">Ask another question</a> "
+        "<a href=\"/knowledge-manager\">Manage approved knowledge</a></p>"
+    )
     body.append("</section>")
     return _document(
         title=f"Ask: {response.question_id}",
@@ -1441,18 +1621,33 @@ def render_state_detail(briefing: ExecutiveBriefing, route_id: str) -> str:
 def render_error(
     briefing: ExecutiveBriefing, *, status_label: str, message: str
 ) -> str:
+    if status_label.startswith("404"):
+        title = "We could not find that page"
+        guidance = "Check the address or return to the dashboard."
+    elif status_label.startswith("503"):
+        title = "Bonsaai is temporarily unavailable"
+        guidance = "Your governed state is unchanged. Wait a moment and try again."
+    elif status_label.startswith("401") or status_label.startswith("403"):
+        title = "Access is required"
+        guidance = "Sign in with an authorized account or return to the dashboard."
+    else:
+        title = "We could not complete that request"
+        guidance = "Review the information shown below and try the request again."
     main = (
-        "<section aria-label=\"Request problem\"><h2>Request could not be served</h2>"
-        f"<p class=\"error-status\">{escape(status_label)}</p>"
+        "<section class=\"error-panel\" aria-label=\"Request problem\">"
+        f"<p class=\"error-status\">{escape(status_label)}</p><h2>What happened</h2>"
         f"<p class=\"error-message\">{escape(message)}</p>"
-        "<p class=\"boundary\">No request content is echoed. This synthetic preview "
-        "takes no action.</p>"
-        "<p><a href=\"/\">Return to the synthetic overview</a></p></section>"
+        f"<p>{escape(guidance)}</p>"
+        "<p class=\"boundary\">No request content is echoed, no answer is fabricated, "
+        "and no organizational action is taken.</p>"
+        "<p class=\"hero-actions\"><a class=\"button-link primary\" href=\"/\">"
+        "Return to dashboard</a><a class=\"button-link secondary\" "
+        "href=\"/organizational-intelligence\">Ask Jebediah</a></p></section>"
     )
     return _document(
         title=status_label,
         nav_current=None,
-        heading="Request problem",
+        heading=title,
         main_html=main,
         briefing=briefing,
     )

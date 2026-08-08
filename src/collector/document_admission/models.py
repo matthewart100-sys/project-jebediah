@@ -106,6 +106,9 @@ class TransformationState(str, Enum):
 class DocumentFormat(str, Enum):
     PDF = "pdf"
     DOCX = "docx"
+    XLSX = "xlsx"
+    PPTX = "pptx"
+    CSV = "csv"
     TXT = "txt"
     MARKDOWN = "markdown"
 

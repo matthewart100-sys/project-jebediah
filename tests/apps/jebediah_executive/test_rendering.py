@@ -5,7 +5,7 @@ page: one level-one heading, ordered headings, language, charset, viewport,
 skip link, header, navigation, main landmark, and footer; that the synthetic,
 no-action, fixed-clock, coverage, limitations, and disconnected boundaries are
 visible on every page; that evidence, freshness, uncertainty, and authority are
-shown; that source references are local disclosures; that no score, percentage,
+shown; that source references expose governed evidence; that no score, percentage,
 or unsupported verification label appears; and that all dynamic values are
 HTML-escaped.
 """
@@ -22,7 +22,6 @@ from apps.jebediah_executive import rendering as r
 from apps.jebediah_executive.fixtures import build_briefing
 from apps.jebediah_executive.models import WorkspaceMode
 from apps.jebediah_executive.rendering import (
-    DISCONNECTED_STATEMENT,
     NO_ACTION_STATEMENT,
     STATE_ROUTE_TO_ENUM,
     SYNTHETIC_BADGE,
@@ -122,10 +121,13 @@ def test_exactly_one_h1_and_ordered_headings(name: str, html: str) -> None:
 def test_boundary_labels_on_every_page(name: str, html: str) -> None:
     assert SYNTHETIC_BADGE in html, name
     assert NO_ACTION_STATEMENT in html, name
-    assert DISCONNECTED_STATEMENT in html, name
-    # Fixed synthetic clock and coverage scope from the header.
-    assert "Fixed synthetic clock:" in html, name
-    assert "Coverage scope:" in html, name
+    assert "Bonsaai" in html, name
+    assert "Governed organizational intelligence" in html, name
+    # Demonstration capture time and governed coverage remain available without
+    # dominating the product header.
+    assert "Demonstration data captured:" in html, name
+    assert "Workspace details" in html, name
+    assert "Coverage" in html, name
     assert "Start guided walkthrough" in html, name
     # Footer material limitations list.
     assert "Material limitations" in html, name
@@ -155,12 +157,18 @@ def test_knowledge_manager_exposes_governed_multi_file_dropzone() -> None:
         'id="upload-errors" role="alert"',
         'id="upload-queue"',
         'aria-live="polite"',
-        "Drop PDF, DOCX, or TXT files here",
-        "Images and ZIP archives are not accepted",
-        "Awaiting approval",
+        "Drop supported business documents here",
+        "Macro-enabled files, images, and ZIP archives are not accepted",
+        "Upload",
+        "Validation",
+        "Processing",
+        "Review pending",
+        "Human approval",
+        "Available knowledge",
+        "Ask Jebediah",
     ):
         assert marker in html
-    assert 'accept=".pdf,.docx,.txt,' in html
+    assert 'accept=".pdf,.docx,.xlsx,.pptx,.csv,.txt,.md,.markdown,' in html
     assert " multiple required" in html
     assert html.count("<script") == 1
     assert '<script src="/static/upload.js" defer></script>' in html
@@ -174,11 +182,18 @@ def test_no_score_or_percentage(name: str, html: str) -> None:
 
 
 def test_organizational_intelligence_emphasizes_question_focus_and_dossier() -> None:
-    intelligence = render_organizational_intelligence(BRIEFING)
-    assert "Ask an executive question" in intelligence
+    intelligence = render_organizational_intelligence(DEVELOPMENT_BRIEFING)
+    assert "Ask your organization. See the evidence." in intelligence
+    assert "What would you like to understand?" in intelligence
+    assert "Processing approved evidence" in intelligence
+    assert 'role="status"' in intelligence
     grounded = render_ask_response(BRIEFING, BRIEFING.ask_response("grounded-priorities"))
-    assert "Confidence posture" in grounded
-    assert "Evidence dossier" in grounded
+    assert "Jebediah's response" in grounded
+    assert "Evidence posture" in grounded
+    assert "Evidence and governance" in grounded
+    assert "Governance state: Evidence-backed" in grounded
+    assert "<h3>Answer</h3>" in grounded
+    assert "<h3>Citations</h3>" in grounded
     assert "/audit" in grounded
 
 
@@ -195,6 +210,52 @@ def test_overview_shows_derived_counts() -> None:
     assert f"<dd>{counts.eligible_source_count}</dd>" in html
     assert "Switch workspace" in html
     assert "Switch organization" in html
+
+
+def test_overview_leads_with_product_learning_and_trust_before_settings() -> None:
+    html = render_overview(BRIEFING)
+    for marker in (
+        "Turn approved knowledge into decisions you can defend",
+        "How Jebediah learns",
+        "Human-approved knowledge",
+        "Why trust the answer?",
+        "Evidence on every supported answer",
+        "Add organizational knowledge",
+        "Ask Jebediah",
+    ):
+        assert marker in html
+    assert html.index("Turn approved knowledge") < html.index("Workspace and system settings")
+    assert "Bonsaai Platform Shell" not in html
+
+
+def test_knowledge_manager_shows_complete_governed_learning_lifecycle() -> None:
+    html = render_knowledge_manager(DEVELOPMENT_BRIEFING)
+    flow = html[html.index('class="knowledge-flow"') :]
+    markers = (
+        "Upload",
+        "Validation",
+        "Processing",
+        "Review pending",
+        "Human approval",
+        "Available knowledge",
+        "Ask Jebediah",
+    )
+    positions = [flow.index(marker) for marker in markers]
+    assert positions == sorted(positions)
+    assert "/knowledge-manager/promote-latest" in html
+    assert "/knowledge-manager/reject-latest" in html
+    assert "Approval means" in html
+    assert "does not verify every fact" in html
+
+
+def test_answer_hierarchy_places_question_answer_and_evidence_in_order() -> None:
+    html = render_ask_response(BRIEFING, BRIEFING.ask_response("grounded-priorities"))
+    markers = ("Your question", "Jebediah's response", "Evidence and governance", "Citations")
+    positions = [html.index(marker) for marker in markers]
+    assert positions == sorted(positions)
+    assert "Approved records only" in html
+    assert "Remains with an authorized human" in html
+    assert "Ask another question" in html
 
 
 def test_items_show_evidence_freshness_and_uncertainty() -> None:
@@ -277,8 +338,8 @@ def test_ask_index_has_no_free_form_input() -> None:
 
 def test_ask_response_states_and_boundaries() -> None:
     grounded = render_ask_response(BRIEFING, BRIEFING.ask_response("grounded-priorities"))
-    assert "Grounded" in grounded
-    assert "Grounded means" in grounded  # limited to cited fabricated records
+    assert "Evidence-backed" in grounded
+    assert "Evidence-backed means" in grounded  # limited to cited fabricated records
     assert "Uncertainty" in grounded
     assert SYNTHETIC_BADGE in grounded
 
@@ -399,7 +460,7 @@ def test_dynamic_values_are_escaped() -> None:
 def test_error_page_reflects_no_request_content() -> None:
     html = render_error(BRIEFING, status_label="404 Not Found", message="Not here")
     assert "No request content is echoed" in html
-    assert "takes no action" in html
+    assert "no organizational action is taken" in html
 
 
 def test_stylesheet_is_local_and_has_required_rules() -> None:
