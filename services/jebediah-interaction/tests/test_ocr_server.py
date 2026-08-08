@@ -30,6 +30,12 @@ class _MixedReader:
         ]
 
 
+def test_grounded_answer_budget_allows_complete_concise_response():
+    assert 64 <= ocr_server.GOVERNED_ANSWER_MAX_TOKENS <= 512
+    assert ocr_server.main.GOVERNED_ANSWER_MAX_TOKENS == ocr_server.GOVERNED_ANSWER_MAX_TOKENS
+    assert ocr_server.GOVERNED_ANSWER_MAX_TOKENS > 32
+
+
 def test_native_pdf_text_does_not_invoke_ocr(monkeypatch):
     monkeypatch.setattr(ocr_server, "PdfReader", _Reader)
     monkeypatch.setattr(
