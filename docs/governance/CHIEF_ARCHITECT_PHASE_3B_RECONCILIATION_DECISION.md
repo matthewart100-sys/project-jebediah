@@ -35,6 +35,23 @@ exact-PR and exact-head merge decision, and pull request #62 is merged. The
 branch operation changed no runtime, deployment, server, information-use, or
 B1 state and grants no such authority.
 
+### Later B1 activation status
+
+Pull request #62 later made B0 recovery canonical at
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. Chief Architect decision
+[`CA-2026-08-06-B1-ACTIVATION`](CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md)
+then selected B1's generated-synthetic custody subset, effective only after its
+activation package in pull request #63 completes every review, exact-head
+decision, CI, and merge gate.
+
+That later decision supersedes this record only where its original present-
+tense tables say B1 has no authority or is wholly future. It does not change
+this record's rejection of pull requests #59 and #60 as implementation
+authority, and it authorizes no real information, extraction/OCR, human review,
+downstream consumer, model, memory/Qdrant, retrieval, deployment, public
+exposure, domain/GPU work, B2, or later milestone. The original body below is
+retained unchanged as decision-time evidence.
+
 ## 2. Executive decision
 
 - The strategic direction toward governed organizational intelligence is

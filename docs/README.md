@@ -65,14 +65,24 @@ searchable, linkable, and version controlled.
 - [Project Coordination Protocol](governance/JEBEDIAH_PROJECT_COORDINATION_PROTOCOL.md)
   defines permanent role authority, mandatory engineering gates, handoff
   packets, and coordination evidence labels.
+- [ADR 0017: Project Coordination and Independent Review Authority](adr/0017-project-coordination-and-independent-review-authority.md)
+  is the proposed Foundational successor to ADR 0005. ADR 0005 remains
+  controlling until the successor is independently reviewed, accepted by the
+  Chief Architect, and merged.
 - [Master Execution Framework](governance/JEBEDIAH_MASTER_EXECUTION_FRAMEWORK.md)
   defines the reusable milestone workflow, stop conditions, and role
   boundaries without authorizing any milestone.
+- [Chief Architect B1 Activation Decision](governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md)
+  records `CA-2026-08-06-B1-ACTIVATION`, the bounded synthetic custody scope,
+  proposed routine independent normal-chat review policy, exclusions, and
+  activation gate. The review-policy change depends on ADR 0017 acceptance.
 - [Chief Architect Phase 3B Reconciliation Decision](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
-  records `CA-2026-08-06-P3B-RECONCILIATION`, the inactive implementation
-  authority, revised milestone sequence, pull-request preservation, ADR impact,
-  original historical pre-execution revert plan, and later B0 branch execution
-  status. The recovery is not canonical before exact-head approval and merge.
+  records `CA-2026-08-06-P3B-RECONCILIATION`, the original inactive
+  implementation authority, revised milestone sequence, pull-request
+  preservation, ADR impact, historical pre-execution revert plan, and later B0
+  branch execution status. B0 subsequently merged through pull request #62;
+  the B1 activation decision supersedes only its B1-none/future disposition
+  after pull request #63 merges.
 - [Documentation Lead Protocol](governance/JEBEDIAH_DOCUMENTATION_LEAD_PROTOCOL.md)
   defines the Documentation Suite's post-merge closeout responsibilities and
   limits.
@@ -131,25 +141,28 @@ searchable, linkable, and version controlled.
 - [Phase 3B Governed Intake Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md)
   is the accepted PDF-only, one-operator architecture. Its former broad-package
   manifest is historical design and salvage evidence, not active implementation
-  authority.
+  authority. The B1 activation decision separately selects only generated-
+  synthetic custody after pull request #63 merges.
 - [Phase 3B Lifecycle and Recovery Specification](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_LIFECYCLE_AND_RECOVERY.md)
-  defines accepted future architecture constraints for encryption, retention,
-  deletion, hold, reconciliation, backup, restore, and rotation without
-  authorizing implementation or custody.
+  defines accepted milestone constraints for encryption, retention, deletion,
+  hold, reconciliation, backup, restore, and rotation. Only its generated-
+  synthetic core-custody subset applies to B1; legal hold, backup/restore,
+  rotation, and operational recovery remain B3 or later.
 - [Phase 3B Threat Model](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_THREAT_MODEL.md),
   [Dependency Assessment](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_DEPENDENCY_ASSESSMENT.md),
   and [Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_VALIDATION_REQUIREMENTS.md)
-  define accepted future security, supply-chain, isolation, test, browser, and
-  negative-capability constraints. No dependency, implementation, runtime, or
-  live-use authority is active.
+  define accepted milestone-specific security, supply-chain, isolation, test,
+  browser, and negative-capability constraints. Only their explicit B1 custody
+  subsets become active after pull request #63 merges; live use, workers,
+  browser review, deployment, and later capabilities remain unauthorized.
 - [ADR 0016: Local Governed PDF Intake and Custody Boundary](adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
   is the Accepted System decision for the local governed PDF intake and custody
   boundary; it grants no real-source or deployment authority.
 - [Phase 3B Implementation Activation](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_IMPLEMENTATION_ACTIVATION.md)
-  is a historical architecture-activation record with no active implementation
-  authority.
+  is a historical architecture-activation record that grants no authority by
+  itself; current B1 authority is owned by the B1 activation decision.
 - [Phase 3B Implementation Milestone 1 Authorization](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_MILESTONE_1_AUTHORIZATION.md)
-  is a Historical scope record that grants no current implementation authority.
+  is a Historical scope record that grants no current authority by itself.
 - [Phase 3B Completion Directive](governance/ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_COMPLETION_DIRECTIVE.md)
   is Superseded as implementation authority and retained for audit context.
 - [Knowledge Manager 1.0 Phase 1 Implementation Plan](KNOWLEDGE_MANAGER_1_PHASE_1_IMPLEMENTATION_PLAN.md)
@@ -235,7 +248,8 @@ owner.
 ## Historical pull request #60 audit and salvage artifacts
 
 The following Markdown files were introduced by pull request #60 and removed
-from the proposed B0 repository tree. They remain preserved only through pull
+from canonical `main` by the B0 recovery at
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. They remain preserved only through pull
 request #60, its source head `70db20613e6275d391b2221d04e6ab4314d0a7b5`,
 its squash commit `991929beb6026511e07b6cb7954e1c9e400b9cb5`, and Git
 history. They are audit and salvage evidence, not current repository guidance,

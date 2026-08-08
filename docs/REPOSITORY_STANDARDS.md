@@ -111,12 +111,12 @@ may be refined when a language and source layout are approved.
 `services/jebediah-memory/` contains the memory-service runtime candidate.
 Pull request #60 introduced an architecturally nonconforming Interaction
 Gateway candidate at `services/jebediah-interaction/`. A later, separately
-authorized normal revert removed that path from the proposed pull request #62
-tree. It survives only through pull request #60, its source head, its squash
-commit, and Git history. That historical evidence is not a current-tree or
-executable copy, does not assign component responsibility, and grants no
-service, promotion, retrieval, model, workspace, deployment, or operational
-authority. The recovery is not canonical before exact-head approval and merge.
+authorized normal revert removed that path from canonical `main` through pull
+request #62 at `37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. It survives only
+through pull request #60, its source head, its squash commit, and Git history.
+That historical evidence is not a current-tree or executable copy, does not
+assign component responsibility, and grants no service, promotion, retrieval,
+model, workspace, deployment, or operational authority.
 `apps/` is reserved for independently runnable, user-facing applications whose
 component, language, entry point, dependency, test, security, operations, and
 ownership boundaries are approved. Accepted ADR 0015 assigns

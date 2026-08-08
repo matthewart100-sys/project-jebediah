@@ -66,8 +66,10 @@ not:
   loopback local preview on canonical `main` and is not Operational.
 - ADR 0016 and the Phase 3B governed-intake package are Accepted architecture.
   They define a local, single-operator, PDF-only durable admission and Human
-  Review Workspace refinement but authorize no implementation or real
-  information.
+  Review Workspace refinement. The B1 activation decision separately
+  authorizes only generated-synthetic custody after pull request #63 merges;
+  inspection, OCR, human review, real information, downstream consumers, and
+  deployment remain unauthorized.
 - Pull request #60 introduced implementation, Phase 3C, model, retrieval,
   workspace, and deployment artifacts. Chief Architect decision
   `CA-2026-08-06-P3B-RECONCILIATION` classifies that implementation as
@@ -346,11 +348,11 @@ Pull request #60 placed an Interaction Gateway, promotion, Memory Service,
 Qdrant, model, retrieval, grounded-answer, workspace, and deployment
 implementation on canonical `main`. A later, separately authorized normal
 revert removed those additions from the proposed pull request #62 tree. The
-recovery is not canonical before exact-head approval and merge. The removed
-artifacts survive only through pull request #60, its source head, its squash
-commit, and Git history; that historical evidence is not current architecture
-or operational guidance and must not be run, deployed, exposed, or supplied
-real information.
+recovery became canonical through pull request #62 at
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. The removed artifacts survive only
+through pull request #60, its source head, its squash commit, and Git history;
+that historical evidence is not current architecture or operational guidance
+and must not be run, deployed, exposed, or supplied real information.
 
 The accepted architecture still has no approved promotion contract,
 interaction/read-model boundary, identity/workspace boundary, or deployment
@@ -417,18 +419,27 @@ flowchart LR
 
 The accepted future design receives no filesystem source path, serves literal
 loopback only, and assigns no source-truth authority to custody, extraction,
-OCR, or review. SQLite holds opaque state and audit metadata; content-bearing
-objects remain encrypted outside Git. Scanner, native PDF, and OCR workers are
-separate offline rootless OCI executions. Future B2 review cannot write the
-Knowledge Registry, create Knowledge Objects, invoke memory/Qdrant/models, or
-change an Ask answer.
+OCR, or review. After pull request #63 merges, B1 authorizes only the
+Source-to-Admission generated-synthetic custody subset: bounded fail-closed PDF
+signature/structure/MIME/size validation, SHA-256 identity, opaque metadata,
+encrypted quarantine/staging, audit, duplicates, expiry, deletion, reset, and
+restart reconciliation. SQLite may hold opaque state and audit metadata, and
+content-bearing synthetic objects remain encrypted outside Git.
+
+Scanner/native-parser/OCR workers, active-content inspection, extracted
+evidence, Human Review Workspace, legal hold, backup/restore, operational
+recovery, real information, and every downstream edge remain B2, B3, or later.
+Future review cannot write the Knowledge Registry, create Knowledge Objects,
+invoke memory/Qdrant/models, or change an Ask answer.
 
 The complete architecture, limits, lifecycle, dependencies, validation, exact file
 scope, and later real-source gate are owned by the
 [Phase 3B Governed Intake Plan](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_GOVERNED_INTAKE_PLAN.md).
-Architecture acceptance does not activate implementation. No conforming Phase
-3B implementation is accepted, and pull request #60 does not satisfy the
-required future milestone, review, or authority gates.
+Architecture acceptance alone does not activate implementation. The separate
+B1 activation decision authorizes only its generated-synthetic custody subset
+after pull request #63 merges. No conforming full Phase 3B implementation is
+accepted, and pull request #60 does not satisfy any future milestone, review,
+or authority gate.
 
 ## Architectural boundaries
 

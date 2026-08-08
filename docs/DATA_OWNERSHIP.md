@@ -87,13 +87,34 @@ The accepted Phase 3B architecture models one bounded future domain:
 | Hold authority | Separately signed designated information-owner or legal/privacy role |
 | Custodian | One later-authorized local operator; role holder not yet assigned |
 
-This design-time assignment does not authorize a source, producer, consumer,
-operator, document, collection, retention, transformation, display, model use,
-or deployment. The historical Milestone 1 record has no active implementation
-effect, and pull request #60 does not create information-use authority. A later
-real-source decision could be considered only after the revised milestone
-sequence and must name the actual role holders, exact bytes, environment, and
-private legal/privacy approval.
+This design-time assignment does not authorize a real source, real producer or
+consumer, operator, organizational document, live collection, real-data
+retention, transformation, display, model use, or deployment. The historical
+Milestone 1 record has no active implementation effect, and pull request #60
+does not create information-use authority. A later real-source decision could
+be considered only after the revised milestone sequence and must name the
+actual role holders, exact bytes, environment, and private legal/privacy
+approval.
+
+### B1 generated-synthetic custody assignment
+
+After pull request #63 merges, B1 owns only this non-authoritative information
+boundary:
+
+| Item | B1 assignment |
+| --- | --- |
+| Information | Generated synthetic PDF fixtures, encrypted synthetic custody objects, opaque metadata, and audit/lifecycle state |
+| Category and authority | Temporary test and custody information; no external source facts or unique business value |
+| Producer | Deterministic fixture/test generation inside the authorized B1 implementation |
+| Component and custodian | Collector Engine repository candidate; maintainer accountable for the local generated-synthetic test boundary |
+| Consumers | B1 custody logic and deterministic tests only |
+| Permitted use | Signature/structure/MIME/size validation, identity, encrypted quarantine/staging, audit, duplicate/expiry/delete/reset, and restart reconciliation |
+| Retention and deletion | Bounded test policy with deterministic expiry, deletion, and reset; no legal hold or backup |
+| Recovery | Restart/interruption reconciliation or regeneration from fixtures; no backup/restore or recovery-authority ledger |
+| Explicit exclusions | Real documents, extraction/OCR, human review, promotion, memory/Qdrant, retrieval/models, display/dashboard, deployment, and B2+ |
+
+Generated fixtures contain no personal or organizational information and never
+become source authority, evidence, knowledge, memory, or an operational record.
 
 ### Open questions
 
@@ -478,6 +499,7 @@ unauthorized information. Reconciliation after restore is part of recovery.
 | Embeddings, vector indexes, confidence, and retrieval signals | Derived information | Jebediah Memory Service repository candidate | Model identity is explicit; source authority and live compatibility remain separate |
 | Knowledge Vault boundary | ADR 0011 defines governed derived representations only | Unassigned pending component specification | **Named**, not implemented or operational; no source, external-use, or action authority |
 | Knowledge Registry Phase 1 record | Derived governance metadata under accepted ADR 0014 | Maintainer accountable for the repository candidate; Knowledge Vault component owner remains unassigned | Authorized synthetic foundation only; no content, external information, durable storage, memory integration, retrieval, runtime consumer, or action authority |
+| B1 generated-synthetic custody state after pull request #63 merges | Temporary, non-authoritative test/custody information | Collector Engine repository candidate; maintainer accountable | Encrypted synthetic objects, opaque metadata, and audit/lifecycle state only; no real information, extraction/OCR, legal hold, backup/restore, downstream consumer, or deployment |
 | Future organizational document submission and read-model items | Cached, operational, or derived as defined by the approved domain and transformation | Unassigned pending component and domain approval | Accepted architecture only; no live information, implementation, retention, retrieval, display, or action authority |
 | Other future runtime records, caches, indexes, embeddings, and inferences | Unassigned | Unassigned pending specification | No authority follows from the implemented memory candidate |
 

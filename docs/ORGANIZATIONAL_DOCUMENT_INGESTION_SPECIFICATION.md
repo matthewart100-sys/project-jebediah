@@ -2,8 +2,10 @@
 
 **Status:** Accepted architecture specification
 
-**Maturity:** Architecture contract only; no implementation, source use, or
-deployment authorized
+**Maturity:** Architecture contract only; it does not itself authorize broad
+implementation, source use, or deployment. The B1 activation decision
+separately selects only generated-synthetic PDF custody after pull request #63
+merges.
 
 ## Purpose
 
@@ -12,6 +14,12 @@ and Markdown submissions and producing traceable derived knowledge inputs. It
 extends the Collector responsibility conceptually without authorizing code,
 parser dependencies, persistence, live organizational documents, or ordinary
 retrieval.
+
+The separate B1 decision is a narrow overlay, not full implementation of this
+specification. It permits generated-synthetic PDF identity, encrypted opaque
+custody, audit, bounded lifecycle, and restart reconciliation only. It permits
+no extraction, OCR, human review, real source, downstream knowledge, model,
+retrieval, or deployment.
 
 Original sources retain their domain authority. A submitted copy, extracted
 text, chunk, summary, embedding, index entry, or knowledge record is not made
@@ -343,7 +351,8 @@ read-model items and never calls a document parser directly.
 
 ## Dependencies and authorization gates
 
-Implementation waits for:
+Implementation outside the separately authorized B1 generated-synthetic
+custody subset waits for:
 
 1. Approval of one bounded information domain, original authority, producer,
    submitter, consumer, intended use, classification, retention, and deletion
@@ -371,7 +380,9 @@ The accepted specification satisfies its architecture criteria because:
   requirements are explicit.
 - Derived knowledge cannot silently become authoritative or ordinary
   retrieval content.
-- No parser, persistence technology, live source, or deployment is authorized.
+- This specification by itself authorizes no parser, persistence technology,
+  live source, or deployment. The separate B1 decision may authorize only its
+  exact generated-synthetic custody boundary after the activation merge.
 
 ## Open questions
 
@@ -384,8 +395,9 @@ The accepted specification satisfies its architecture criteria because:
 | How are corrections, deletion, and legal holds propagated? | Information-owner and retention policy |
 | Which transformation outputs are needed by the first consumer? | Accepted consumer and component specifications |
 
-These questions block affected implementation and live use but do not
-invalidate the accepted admission and authority boundaries.
+These questions block affected later implementation and live use but do not
+invalidate the accepted admission and authority boundaries or the separately
+bounded B1 generated-synthetic custody decision.
 
 ## Related documents
 

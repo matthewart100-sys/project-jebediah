@@ -1,12 +1,26 @@
 # Phase 3B Lifecycle and Recovery Specification
 
-**Status:** Accepted architecture specification; no implementation, custody,
-live information, backup, restore, deployment, or runtime mutation authorized
+**Status:** Accepted architecture specification; B1 may implement only the
+generated-synthetic core custody lifecycle after pull request #63 merges; live
+information, backup, restore, deployment, and operational runtime remain
+unauthorized
 
 **Reconciliation:** These lifecycle and recovery requirements remain binding
-future constraints under
-[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md).
+milestone-specific constraints under
+[CA-2026-08-06-P3B-RECONCILIATION](governance/CHIEF_ARCHITECT_PHASE_3B_RECONCILIATION_DECISION.md)
+and
+[CA-2026-08-06-B1-ACTIVATION](governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md).
 Pull request #60 does not establish conformance or operational readiness.
+
+## B1 applicability
+
+B1 selects encrypted generated-synthetic quarantine and staging custody,
+opaque metadata, atomic lifecycle and audit events, duplicates, expiration,
+deletion, reset, interruption-safe persistence, and deterministic restart
+reconciliation of its own custody state. Legal hold, backup creation, backup
+restore, recovery-authority ledgers and attestations, key or trust rotation,
+operational recovery readiness, and real-data retention profiles remain B3 or
+later. Requirements below apply only when their owning milestone is activated.
 
 ## Purpose
 

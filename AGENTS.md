@@ -16,6 +16,10 @@ Do not rely on chat history, bootstrap archives, model memory, or assumptions
 when the repository should contain the answer. Promote accepted information
 into the correct canonical document before depending on it later.
 
+ADR 0017's Independent Reviewer policy becomes effective only after that ADR is
+accepted and merged. Until then, accepted ADR 0005 controls ADR 0017's own
+transition and requires incumbent Work Mode exact-head review.
+
 ## Mandatory orientation
 
 Before substantive work, read:
@@ -105,8 +109,11 @@ Codex must also read `CODEX_BOOTSTRAP.md`.
 - Provide reviewers with the actual diff, patch, or changed files.
 - Use `docs/reviews/ARCHITECT_REVIEW_TEMPLATE.md` when triggered.
 - Do not treat a summary-only approval as evidence-based review.
-- Route architecture and implementation review through Work Mode before the
-  applicable Chief Architect decision.
+- Route architecture and implementation artifacts through an independent
+  reviewer before the applicable Chief Architect decision. Routine review uses
+  a fresh, read-only normal ChatGPT conversation. Work Mode is optional only
+  when the Chief Architect explicitly requests unusually high-risk,
+  cross-cutting, or adversarial review.
 - Address blocking revisions before merge.
 
 ### Handoff
@@ -124,10 +131,13 @@ The
 owns role authority. The Chief Architect is the final decision maker for
 strategy, architecture, scope, ADR acceptance, sprint authorization, merge
 approval, and roadmap direction. Codex and other implementing agents act only
-within approved scope. Work Mode may block but may not issue final
-architecture approval. The Documentation Suite may document merged reality
-but may not invent behavior or priority. The future Jebediah Runtime is a
-consumer, not an engineering authority.
+within approved scope. An independent reviewer may block but may not issue
+final architecture or merge approval; Codex may self-audit but may not satisfy
+the independent-review gate or execute the merge for its own work. A non-author
+Merge Operator executes an exact Chief Architect-approved merge without gaining
+decision authority. The Documentation Suite may document merged reality but
+may not invent behavior or priority. The future Jebediah Runtime is a consumer,
+not an engineering authority.
 
 The human maintainer retains repository custody, access, licensing, and legal
 control. A person or tool holding multiple roles must state which authority is

@@ -48,15 +48,18 @@ A project-wide decision that changes enduring principles, major platform
 direction, roadmap ordering, authority, or a constraint inherited by several
 systems.
 
-Foundational ADRs require Work Mode architecture review and final Chief
-Architect acceptance. Dependent implementation waits for acceptance.
+Foundational ADRs require independent architecture review of the actual
+artifacts and final Chief Architect acceptance. The routine reviewer is a
+fresh, read-only normal ChatGPT conversation. Work Mode is optional only when
+the Chief Architect explicitly requests unusually high-risk, cross-cutting, or
+adversarial review. Dependent implementation waits for acceptance.
 
 ### System
 
 A decision defining a subsystem's responsibility, major boundary, data
 authority, public interface, deployment model, or critical technology.
 
-System ADRs require Work Mode architecture review and final Chief Architect
+System ADRs require independent architecture review and final Chief Architect
 acceptance. Dependent components wait for acceptance.
 
 ### Implementation
@@ -65,9 +68,9 @@ A lasting lower-level choice within approved architecture, such as a
 compatibility strategy, persistence pattern, or significant dependency whose
 consequences outlive one code change.
 
-Implementation ADRs use normal technical review plus Work Mode review and
-final Chief Architect acceptance. Review depth remains proportional to the
-choice's boundary and risk.
+Implementation ADRs use normal technical review plus a distinct independent
+reviewer and final Chief Architect acceptance. Review depth remains
+proportional to the choice's boundary and risk.
 
 Decision level reflects scope and consequence, not the number of changed
 files.
@@ -119,15 +122,22 @@ replaces an earlier one.
 8. **Update current documents.** Change architecture, glossary, component
    registry, data ownership, standards, status, and roadmap where the accepted
    decision changes their meaning.
-9. **Review actual artifacts.** Obtain Work Mode architecture review and use the
+9. **Review actual artifacts.** Obtain review from a distinct Independent
+   Reviewer and use the
    [Chief Architect Review Template](../reviews/ARCHITECT_REVIEW_TEMPLATE.md)
-   for the final Chief Architect decision when required.
+   for the final Chief Architect decision when required. Routine review uses a
+   fresh, read-only normal ChatGPT conversation.
 10. **Record the result.** Set the ADR status only after the Chief Architect
     decision, record review evidence in the pull request, and merge through the
     [Git Workflow](../GIT_WORKFLOW.md).
 11. **Implement afterward.** Foundational and System implementation begins
     only after acceptance. A bounded Implementation ADR may accompany its
     first implementation when reviewers can evaluate both safely.
+
+Until
+[ADR 0017](0017-project-coordination-and-independent-review-authority.md) is
+accepted and merged, ADR 0005's incumbent Work Mode review gate controls the
+ADR 0017 transition. The successor policy cannot authorize its own adoption.
 
 ## Evidence requirements
 
@@ -199,8 +209,9 @@ decision.
   is accepted and pins the embedding provider, model artifact, geometry, and
   compatibility contract.
 - [ADR 0005: Project Coordination and Role Authority](0005-project-coordination-and-role-authority.md)
-  is accepted and defines the permanent multi-role authority, workflow,
-  reviewer-independence, blocker-disposition, and handoff decision.
+  is accepted and defines the incumbent multi-role authority, workflow,
+  reviewer-independence, blocker-disposition, and handoff decision until its
+  proposed successor is accepted and merged.
 - [ADR 0011: Knowledge Vault Authority and Boundary Model](0011-knowledge-vault-authority-and-boundary-model.md)
   is accepted and defines a derived governed knowledge repository boundary
   without implementation, external information use, or source authority.
@@ -221,8 +232,13 @@ decision.
 - [ADR 0016: Local Governed PDF Intake and Custody Boundary](0016-local-governed-pdf-intake-and-custody-boundary.md)
   is accepted and defines a local single-operator PDF admission, encrypted
   custody, isolated inspection/OCR, and human-review architecture without
-  active implementation, real-source, downstream-consumer, or deployment
-  authority.
+  itself granting implementation, real-source, downstream-consumer, or
+  deployment authority. The B1 activation decision separately selects only a
+  generated-synthetic custody subset after its activation package merges.
+- [ADR 0017: Project Coordination and Independent Review Authority](0017-project-coordination-and-independent-review-authority.md)
+  is proposed as the Foundational successor to ADR 0005. It replaces mandatory
+  routine Work Mode review with a fresh, read-only normal-chat Independent
+  Reviewer while preserving exact-head review and Chief Architect authority.
 - [ADR 0000](0000-template.md) remains the maintained template and is not a
   decision.
 

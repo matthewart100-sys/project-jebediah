@@ -56,7 +56,7 @@ person or agent implements first.
 | Qdrant | Data-product adapter candidate | Implemented | Temporarily own acknowledged Memory Service payload records and their derived semantic vectors; no source-truth authority | Maintainer accountable for repository candidate; reported operator unverified | Sanitized collection, recovery, and deployment review |
 | Ollama | Model-product adapter candidate | Implemented | Produce 768-value embeddings with the pinned `nomic-embed-text:v1.5` artifact behind the canonical adapter | Maintainer accountable for repository candidate; reported operator unverified | Pinned-artifact and deployment verification |
 | JCS | Named deferred subsystem | Named | C1 outcome is **DEFER JCS**; Collector and memory candidates have no dependency | Unassigned pending reconsideration | Evidence-gated C1 reconsideration |
-| Collector Engine | Controlled ingestion component | Implemented | Validate and normalize bounded text records, derive identity, preserve provenance, and coordinate storage; ADR 0013 and the accepted Phase 2 activation bound a disconnected synthetic document-admission repository package; Accepted ADR 0016 defines but does not authorize a local PDF-only durable intake and review refinement | Maintainer accountable | B0 canonical recovery, then separately authorized B1-B3 milestones; later exact real-source and deployment decisions |
+| Collector Engine | Controlled ingestion component | Implemented | Validate and normalize bounded text records, derive identity, preserve provenance, and coordinate storage; ADR 0013 and the accepted Phase 2 activation bound a disconnected synthetic document-admission repository package; after pull request #63 merges, B1 separately authorizes only generated-synthetic PDF custody under the accepted ADR 0016 boundary | Maintainer accountable | B1 implementation after activation merge; B2/B3, exact real-source, and deployment decisions remain separate |
 | Jebediah Memory Service | Semantic memory component | Implemented | Govern memory candidates through one canonical package, persist one acknowledged Qdrant point, and retrieve semantic-only context | Maintainer accountable | Isolated integration and deployment decision |
 | Knowledge Vault | Governed knowledge repository boundary | Named | ADR 0011 defines derived-repository authority; the bounded ADR 0014 metadata-only registry library is implemented without content, memory integration, durable storage, runtime use, or source authority | Unassigned pending component specification | Separately approve information domains, component and operational ownership, real producers and consumers, durable interfaces, security, operations, and recovery |
 | Executive Product Shell | Human-experience component | Implemented | Present and navigate one immutable evidence-bearing executive briefing over compiled fabricated fixtures in a loopback-only local preview; Accepted Phase 3B architecture defines a future Human Review Workspace interface without source truth or downstream knowledge authority | Maintainer accountable | B0 canonical recovery, then separately authorized B2 and later consumer milestones; real-source and deployment decisions remain separate |
@@ -120,16 +120,18 @@ implementation as `95b9e06ae2edc4585d659efc825ca4553ce452d9`, and its
 terminal closeout preserves every later capability gate.
 Accepted ADR 0016 and its Phase 3B package define a PDF-only, single-operator,
 encrypted local custody and Human Review Workspace architecture. Acceptance
-does not change either component's current maturity and grants no code,
-real-source, Phase 3C, Phase 3D, or deployment authority.
+alone does not change either component's current maturity or grant code. The B1
+activation decision separately authorizes only generated-synthetic custody
+after pull request #63 merges; Human Review Workspace, real-source, Phase 3C,
+Phase 3D, and deployment authority remain absent.
 Pull request #60 added an Interaction Gateway and broader runtime artifacts, but
 the reconciliation decision classifies them as architecturally nonconforming
 and not accepted. The gateway is therefore not a registered component. A
-later, separately authorized normal revert removed its path from the proposed
-pull request #62 tree. The gateway survives only in pull request #60, its
-source head, its squash commit, and Git history as non-executable audit and
-salvage evidence. The recovery is not canonical before exact-head approval and
-merge.
+later, separately authorized normal revert removed its path from canonical
+`main` through pull request #62 at
+`37dd437617ed731340e9fd3da6cab0b1c49f7b4a`. The gateway survives only in pull
+request #60, its source head, its squash commit, and Git history as
+non-executable audit and salvage evidence.
 VBA demonstration artifacts exist only on an unmerged proposal branch; their
 evidence validation is pending, and no live organizational pilot is authorized.
 The Digital Twin has an approved conceptual position but no bounded

@@ -2,8 +2,10 @@
 
 **Status:** Accepted architecture validation requirements
 
-**Implementation state:** No implementation, live source, deployment, or
-operational validation is authorized
+**Implementation state:** These broad requirements do not themselves authorize
+implementation, live sources, deployment, or operational use. The B1 activation
+decision separately selects only generated-synthetic custody validation after
+pull request #63 merges.
 
 ## Purpose
 
@@ -19,11 +21,17 @@ that those prerequisites or any implementation plan have been accepted.
 - [ADR 0011: Knowledge Vault Authority and Boundary Model](adr/0011-knowledge-vault-authority-and-boundary-model.md)
 - [ADR 0012](adr/0012-executive-organizational-intelligence-interface-boundary.md)
 - [ADR 0013](adr/0013-governed-organizational-document-admission-boundary.md)
+- [ADR 0016](adr/0016-local-governed-pdf-intake-and-custody-boundary.md)
+- [B1 Activation Decision](governance/CHIEF_ARCHITECT_B1_ACTIVATION_DECISION.md)
 - [Data Ownership](DATA_OWNERSHIP.md)
 - [Security Policy](../SECURITY.md)
 
-These accepted documents are architecture contracts, not implementation,
-deployment, live-information-use, or operational authorization.
+The architecture documents do not themselves grant implementation,
+deployment, live-information-use, or operational authority. The B1 activation
+decision separately authorizes only its generated-synthetic custody subset
+after the activation package merges; the
+[Phase 3B Validation Requirements](ORGANIZATIONAL_INTELLIGENCE_PHASE_3B_VALIDATION_REQUIREMENTS.md)
+own that subset's exact applicability matrix.
 
 ## Objective traceability
 
@@ -92,7 +100,9 @@ sensitive-value checks until tracked by Git.
 4. The Chief Architect separately authorizes a bounded implementation sprint.
 5. Codex implements only that scope with synthetic information unless live use
    is separately approved.
-6. Work Mode reviews the exact implementation artifacts.
+6. After ADR 0017 becomes effective, a distinct reviewer inspects the exact
+   implementation artifacts read-only; routine review uses a fresh normal
+   ChatGPT conversation.
 7. The Chief Architect decides whether the implementation may merge.
 
 Architecture acceptance does not authorize live source use, deployment, or an
@@ -319,7 +329,7 @@ decisions.
 Stop dependent work when:
 
 - Any required ADR is Proposed, rejected, superseded, or missing.
-- No implementation sprint is explicitly authorized.
+- No applicable implementation milestone is explicitly authorized.
 - Information ownership, intended use, classification, retention, deletion,
   or consumer authorization is unresolved for the proposed live scope.
 - A source, parser, transformation, or model boundary would be invented to fill

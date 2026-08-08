@@ -5,6 +5,11 @@
 Sprints turn the roadmap into bounded, reviewable outcomes without converting
 uncertain architecture into artificial deadlines.
 
+The Independent Reviewer and optional Work Mode provisions below are successor
+policy proposed by ADR 0017. They become effective only after that ADR is
+accepted and merged. Until then, ADR 0005 controls and requires incumbent Work
+Mode exact-head review of the successor package.
+
 The default sprint length is two weeks. Outcome quality and explicit carryover
 matter more than claiming that every planned item finished on schedule.
 
@@ -33,12 +38,16 @@ sprint:
 - Accepts or rejects architecture and ADR decisions.
 - Grants final merge approval for exact reviewed artifacts.
 
-### Work Mode
+### Independent Reviewer
 
-- Independently reviews sprint plans and implementation artifacts.
+- Independently and read-only reviews sprint plans and implementation
+  artifacts.
 - Challenges assumptions and requires evidence.
 - May block implementation or merge.
 - Does not replace the Chief Architect's final decision.
+- Uses a fresh normal ChatGPT conversation for routine review. Work Mode is
+  optional only when explicitly requested for unusually high-risk,
+  cross-cutting, or adversarial review.
 
 ### Codex — Implementation Engineer
 
@@ -73,8 +82,9 @@ Write the sprint goal first. Then define:
 - Risks and responses
 
 Do not commit work merely because it is interesting or technically adjacent.
-Work Mode reviews architecture before the Chief Architect authorizes
-implementation.
+An Independent Reviewer always examines architecture- or security-significant
+work before the Chief Architect authorizes implementation. The Chief Architect
+may require that pre-implementation review for other work based on risk.
 
 ### 3. Execute
 
@@ -96,8 +106,9 @@ At each logical checkpoint:
 - Assess ADR impact.
 - Obtain the required explicit decision.
 
-Work Mode validates the exact implementation first. The Chief Architect then
-grants or withholds merge approval for the exact reviewed head.
+An Independent Reviewer validates the exact implementation first in a fresh,
+read-only normal ChatGPT conversation. The Chief Architect then grants or
+withholds merge approval for the exact reviewed head.
 
 Rejected or revision-required work remains open; it is not declared complete.
 
@@ -112,8 +123,11 @@ At sprint end:
 - Identify newly resolved or newly discovered risks.
 - Define the next sprint before beginning unrelated work.
 
-Codex performs the controlled merge. The Documentation Suite begins closeout
-only after clean synchronized `main` and the final merge commit are confirmed.
+A non-author Merge Operator performs the controlled merge for the exact head
+approved by the Chief Architect. Codex verifies the resulting canonical state
+but may not merge its own implementation. The Documentation Suite begins
+closeout only after clean synchronized `main` and the final merge commit are
+confirmed.
 
 ## Scope changes
 
