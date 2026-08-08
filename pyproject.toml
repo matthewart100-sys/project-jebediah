@@ -28,6 +28,7 @@ service = [
 [tool.pytest.ini_options]
 testpaths = [
     "tests",
+    "services/jebediah-interaction/tests",
 ]
 
 [tool.hatch.build.targets.wheel]
