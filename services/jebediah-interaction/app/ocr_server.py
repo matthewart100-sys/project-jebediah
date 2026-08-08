@@ -29,6 +29,9 @@ OCR_TIMEOUT_SECONDS = int(os.getenv("JEBEDIAH_OCR_TIMEOUT_SECONDS", "90"))
 OCR_LANGUAGE = os.getenv("JEBEDIAH_OCR_LANGUAGE", "eng")
 OCR_MIN_CHARACTERS = int(os.getenv("JEBEDIAH_OCR_MIN_CHARACTERS", "8"))
 OCR_SCRATCH_ROOT = os.getenv("JEBEDIAH_OCR_SCRATCH_ROOT", "/dev/shm")
+GOVERNED_ANSWER_MAX_TOKENS = int(os.getenv("JEBEDIAH_GOVERNED_ANSWER_MAX_TOKENS", "192"))
+if not 64 <= GOVERNED_ANSWER_MAX_TOKENS <= 512:
+    raise RuntimeError("JEBEDIAH_GOVERNED_ANSWER_MAX_TOKENS must be between 64 and 512")
 
 
 def _normalize(content: str) -> str:
@@ -143,9 +146,12 @@ def extract_pdf_text(payload: bytes) -> str:
     return normalized
 
 
-# Rebind only the extraction boundary. Authentication, encrypted candidate
-# custody, review_pending state, workspace isolation, human approval, promotion,
-# and grounded retrieval remain controlled by the existing canonical routes.
+# Rebind only bounded runtime configuration and the extraction boundary.
+# Authentication, encrypted candidate custody, review_pending state, workspace
+# isolation, human approval, promotion, and grounded retrieval remain controlled
+# by the existing canonical routes. The previous 32-token answer cap could cut a
+# grounded answer off mid-sentence; keep the answer concise but allow completion.
+main.GOVERNED_ANSWER_MAX_TOKENS = GOVERNED_ANSWER_MAX_TOKENS
 main._extract_pdf_text = extract_pdf_text
 
 
