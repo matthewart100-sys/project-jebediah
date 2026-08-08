@@ -66,6 +66,10 @@
   var submitting = false;
 
   form.classList.add("upload-enhanced");
+  // The enhanced uploader owns file validation and submission from its in-memory queue.
+  // Keep the native required constraint only for the no-JavaScript fallback; otherwise
+  // clearing the picker after queueing a file prevents the submit event from firing.
+  fileInput.removeAttribute("required");
   dropzone.hidden = false;
 
   function extensionOf(fileName) {
