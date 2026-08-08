@@ -1,0 +1,4 @@
+Implementation base: ca9aa0afa07f0819b0af9c9a3f5569930a7b2af6
+Acceptance fixture: Scanned Image 1.pdf
+Required state after admission: review_pending
+Required governance: no retrieval before human promotion
